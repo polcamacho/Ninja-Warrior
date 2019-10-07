@@ -9,10 +9,12 @@
   <terrain name="Nuevo Terreno" tile="0"/>
   <terrain name="grass" tile="103"/>
   <terrain name="Rock" tile="0"/>
+  <terrain name="Platform2" tile="0"/>
+  <terrain name="Ramp" tile="0"/>
  </terraintypes>
  <tile id="54" terrain=",5,,5"/>
  <tile id="55" terrain=",,5,"/>
- <tile id="57" terrain="5,5,5,5"/>
+ <tile id="57" terrain="1,1,1,1"/>
  <tile id="63" terrain=",0,,"/>
  <tile id="64" terrain="0,0,,"/>
  <tile id="65" terrain="0,,,"/>
@@ -37,16 +39,23 @@
  <tile id="139" terrain="0,0,0,0"/>
  <tile id="140" terrain="4,,4,"/>
  <tile id="152" terrain=",5,,"/>
+ <tile id="159" terrain=",6,,6"/>
+ <tile id="160" terrain="6,6,6,6"/>
+ <tile id="161" terrain="6,,6,"/>
  <tile id="163" terrain=",4,,"/>
- <tile id="164" terrain="5,5,,"/>
+ <tile id="164" terrain="4,4,,"/>
  <tile id="165" terrain="4,,,"/>
- <tile id="208" terrain=",1,1,1"/>
+ <tile id="203" terrain="7,7,,"/>
+ <tile id="208" terrain=",7,7,7"/>
  <tile id="209" terrain="1,1,1,1"/>
- <tile id="210" terrain="1,,1,1"/>
+ <tile id="210" terrain="7,,7,7"/>
  <tile id="258" terrain=",2,,"/>
  <tile id="259" terrain="2,2,,"/>
  <tile id="260" terrain="2,,,"/>
  <tile id="287" terrain=",,,1"/>
  <tile id="288" terrain=",,1,1"/>
  <tile id="289" terrain=",,1,"/>
+ <tile id="337" terrain=",6,,"/>
+ <tile id="338" terrain="6,6,,"/>
+ <tile id="339" terrain="6,,,"/>
 </tileset>
