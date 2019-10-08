@@ -23,6 +23,8 @@ bool j1Map::Awake(pugi::xml_node& config)
 
 	folder.create(config.child("folder").child_value());
 	
+	Id = config.child("id").attribute("value").as_int();
+
 	return ret;
 }
 
@@ -30,50 +32,67 @@ void j1Map::Draw()
 {
 	if(map_loaded == false)
 		return;
+	int iter = 0;
 
 	// TODO 5: Prepare the loop to iterate all the tiles in a layer
+	p2List_item<TileSet*>* item = App->map->data.tilesets.start;
 	p2List_item<MapLayer*>* item_layer = data.layers.start;
-	uint id_tileset;
-
-	while (item_layer != NULL)
-	{
-			MapLayer* l = item_layer->data;
-			item_layer = item_layer->next;
-
-			for (int x = 0; x < l->width; x++) {
-
-				for (int y = 0; y < l->height; y++) {
-
-					id_tileset = l->tilegid[l->Get(x, y)];
-
-					if (id_tileset != 0) {
-						
-						
-						SDL_Texture* texture = data.tilesets.start->data->texture;
-						iPoint position = GetWorldPos(x,y);
-						SDL_Rect* seccion=&data.tilesets.start->data->tile_id(id_tileset);
-
-						//texture = App->tex->Load("tmw_desert_spacing.png");
-						App->render->Blit(texture, position.x, position.y, seccion);
-
-									
-					}
-				}
-			}
-		
-	}
+	TileSet* t = item->data;
+	
+	iPoint coord;
 
 	// TODO 9: Complete the draw function
 
+	while (item_layer != NULL)
+	{
+			
+			
+			iter++;
+			if (iter == Id){
+				
+				MapLayer* l = item_layer->data;
+
+				for (int x = 0; x < l->width; x++) {
+
+					for (int y = 0; y < l->height; y++) {
+
+						if (l->tilegid[l->Get(x, y)] != 0) {
+
+							SDL_Rect rect;
+							rect = t->tile_id(l->tilegid[l->Get(x, y)] != 0);
+							coord = GetWorldPos(x, y, rect.w);
+							App->render->Blit(texture, coord.x, coord.y, &rect);
+
+							/*SDL_Texture* texture = data.tilesets.start->data->texture;
+							SDL_Rect seccion = t->tile_id(l->tilegid[l->Get(x, y)]);
+							iPoint position = GetWorldPos(x, y, seccion.w);
+														
+							App->render->Blit(texture, position.x, position.y, &seccion);*/
+						
+
+						}
+
+					}
+				
+				}
+			
+			}
+
+			item_layer = item_layer->next;
+
+	}
+
+	
+
 }
 
-iPoint j1Map::GetWorldPos(int x, int y) const
+iPoint j1Map::GetWorldPos(int x, int y, int map) const
 {
 
 	iPoint ret;
 
-	ret.x = x * data.tile_width;
-	ret.y = y * data.tile_height;
+	ret.x = x * map;
+	ret.y = y * map;
 
 	return ret;
 }
@@ -134,6 +153,7 @@ bool j1Map::Load(const char* file_name)
 {
 	bool ret = true;
 	p2SString tmp("%s%s", folder.GetString(), file_name);
+	texture = App->tex->Load("maps/assets 2 duplicate.png");
 	pugi::xml_parse_result result = map_file.load_file(tmp.GetString());
 
 	if(result == NULL)

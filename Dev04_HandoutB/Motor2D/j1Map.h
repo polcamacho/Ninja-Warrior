@@ -110,7 +110,7 @@ public:
 	
 
 	// TODO 8: Create a method that translates x,y coordinates from map positions to world positions
-	iPoint GetWorldPos(int x, int y) const; //Gets the position in the world
+	iPoint GetWorldPos(int x, int y, int map) const; //Gets the position in the world
 
 private:
 
@@ -127,7 +127,7 @@ private:
 public:
 
 	MapData data;
-
+	int Id = 0;
 
 private:
 
@@ -135,7 +135,7 @@ private:
 	p2SString			folder;
 	bool				map_loaded;
 	uint idtile = 0;
-
+	SDL_Texture* texture;
 	
 	
 	
