@@ -23,9 +23,19 @@ j1Scene::~j1Scene()
 {}
 
 // Called before render is available
-bool j1Scene::Awake()
+bool j1Scene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
+
+	for (pugi::xml_node map = config.child("mn"); map; map = map.next_sibling("mn"))
+	{
+		p2SString* data = new p2SString;
+
+		data->create(map.attribute("name").as_string());
+		
+		mn.add(data);
+	}
+
 	bool ret = true;
 
 	return ret;
@@ -34,7 +44,9 @@ bool j1Scene::Awake()
 // Called before the first frame
 bool j1Scene::Start()
 {
-	App->map->Load("Map2.tmx");
+	
+	bool ret = App->map->Load(mn.start->data->GetString());
+	LOG("Map: %s", mn.start->data->GetString());
 	return true;
 }
 
@@ -67,20 +79,20 @@ bool j1Scene::Update(float dt)
 
 	//App->render->Blit(img, 0, 0);
 	
-	int x = 0;
-	int y = 0;
+	//int x = 0;
+	//int y = 0;
 
 	App->map->Draw();
-
-	App->input->GetMousePosition(x, y);
+	//Draw Player
+	/*App->input->GetMousePosition(x, y);
 	p2Point<uint> TilePos = App->map->data.GetTilePos(x, y);
 	
 	p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d Tile:%dx%d ",
 		App->map->data.width, App->map->data.height,
 		App->map->data.tile_width, App->map->data.tile_height,
 		App->map->data.tilesets.count(),
-		TilePos.x, TilePos.y);
-
+		TilePos.x, TilePos.y);*/
+	p2SString title("2D PLATFORMER");
 	App->win->SetTitle(title.GetString());
 
 	return true;
@@ -90,6 +102,7 @@ bool j1Scene::Update(float dt)
 bool j1Scene::PostUpdate()
 {
 	bool ret = true;
+
 
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;

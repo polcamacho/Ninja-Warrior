@@ -13,12 +13,15 @@ struct MapLayer {
 	p2SString name;
 	uint width;
 	uint height;
-	uint* tilegid;
+	uint tilegid;
+	float parallax;
+	uint* data = nullptr;
 	inline uint Get(uint x, uint y) const {
 
-		return y * width + x;
+		return (y * width) + x;
 	
 	}
+	~MapLayer();
 
 };
 	// TODO 6: Short function to get the value of x,y
@@ -44,7 +47,7 @@ struct TileSet
 	int					offset_x;
 	int					offset_y;
 
-	SDL_Rect tile_id(int) const;
+	SDL_Rect tile_id(int id) const;
 
 };
 

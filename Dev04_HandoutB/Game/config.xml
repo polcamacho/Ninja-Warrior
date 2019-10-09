@@ -25,5 +25,11 @@
   <map>
     <folder>maps/</folder>
   </map>
+  
+  <scene>
+  
+    <mn name="Map5.tmx"></mn>
+      
+  </scene>
 
 </config>

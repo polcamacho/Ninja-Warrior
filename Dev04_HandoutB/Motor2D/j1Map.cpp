@@ -3,6 +3,7 @@
 #include "j1App.h"
 #include "j1Render.h"
 #include "j1Textures.h"
+#include "j1Scene.h"
 #include "j1Map.h"
 #include <math.h>
 
@@ -23,8 +24,6 @@ bool j1Map::Awake(pugi::xml_node& config)
 
 	folder.create(config.child("folder").child_value());
 	
-
-
 	return ret;
 }
 
@@ -33,36 +32,21 @@ void j1Map::Draw()
 	if (map_loaded == false)
 		return;
 
-	// TODO 5: Prepare the loop to iterate all the tiles in a layer
-	p2List_item<MapLayer*>* item_layer = data.layers.start;
-	uint id_tileset;
+	for (uint y = 0; y < data.layers.count(); y++) {
 
-	while (item_layer != NULL)
-	{
-		MapLayer* l = item_layer->data;
-		item_layer = item_layer->next;
+		for (uint x = 0; x < data.tilesets.count(); x++) {
 
-		for (int x = 0; x < l->width; x++) {
+			for (uint i = 0; i < data.height; i++) {
 
-			for (int y = 0; y < l->height; y++) {
+				for (uint j = 0; j < data.width; j++) {
 
-				id_tileset = l->tilegid[l->Get(x, y)];
-
-				if (id_tileset != 0) {
-
-
-					SDL_Texture* texture = data.tilesets.start->data->texture;
-					iPoint position = GetWorldPos(x, y);
-					SDL_Rect* seccion = &data.tilesets.start->data->tile_id(id_tileset);
-
-					//texture = App->tex->Load("tmw_desert_spacing.png");
-					App->render->Blit(texture, position.x, position.y, seccion);
-
-
-				}
+					App->render->Blit(data.tilesets[x]->texture, j*data.tile_width, i*data.tile_height, &data.tilesets[x]->tile_id(data.layers[y]->data[data.layers[y]->Get(j, i)]), SDL_FLIP_NONE, -data.layers[y]->parallax); //
+				
+				}																						
+			
 			}
+		
 		}
-
 	}
 
 	// TODO 9: Complete the draw function
@@ -178,14 +162,14 @@ bool j1Map::Load(const char* file_name)
 	pugi::xml_node layernode;
 	for (layernode = map_file.child("map").child("layer"); layernode && ret; layernode = layernode.next_sibling("layer"))
 	{
-		MapLayer* layer = new MapLayer();
+		MapLayer* set = new MapLayer();
 
 		if (ret == true)
 		{
-			ret = LoadLayer(layernode, layer);
+			ret = LoadLayer(layernode, set);
 		}
 
-		data.layers.add(layer);
+		data.layers.add(set);
 	}
 
 
@@ -362,26 +346,32 @@ bool j1Map::LoadLayer(pugi::xml_node& layernode, MapLayer* layer)
 	layer->name.create(layernode.attribute("name").as_string());
 	layer->width = layernode.attribute("width").as_uint();
 	layer->height = layernode.attribute("height").as_uint();
-	
-	layer->tilegid = new uint[layer->width * layer->height];
+	layer->tilegid =layer->width * layer->height;
+	layer->data = new uint[layer->tilegid];
+	layer->parallax = layernode.child("properties").child("property").attribute("value").as_float(0.0f);
+	memset(layer->data, 0, sizeof(uint)*layer->tilegid);
 
-	memset(layer->tilegid, 0, layer->width * layer->height);
+	pugi::xml_node layernode1;
 
-	pugi::xml_node tilegid;
+	for (layernode1 = layernode.child("data").child("tile"); layernode1; layernode1 = layernode1.next_sibling("tile")) {
 
-	for (tilegid = layernode.child("data").child("tile"); tilegid && ret; tilegid = tilegid.next_sibling("tile")) {
-
-		layer->tilegid[i] = tilegid.attribute("gid").as_uint();
-		i++;
+		layer->data[i++] = layernode1.attribute("gid").as_uint(0);
+		
 	}
 
 	/*for (int i = 0; i <= layer->width * layer->height; i++) {				//Comprovate that all layers id are loaded
 
-		LOG("TileGid= %d", layer->tilegid[i]);
+		LOG("TileGid= %d", layer->data[i]);
 	}*/
 	
 	return ret;
 	   	 
+}
+
+
+MapLayer::~MapLayer()
+{
+	delete[] data;
 }
 
 
