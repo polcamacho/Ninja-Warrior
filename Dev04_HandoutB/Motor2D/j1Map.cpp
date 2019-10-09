@@ -40,7 +40,7 @@ void j1Map::Draw()
 
 				for (uint j = 0; j < data.width; j++) {
 
-					App->render->Blit(data.tilesets[x]->texture, j*data.tile_width, i*data.tile_height, &data.tilesets[x]->tile_id(data.layers[y]->data[data.layers[y]->Get(j, i)]), SDL_FLIP_NONE, -data.layers[y]->parallax); //
+					App->render->Blit(data.tilesets[x]->texture, j*data.tile_width, i*data.tile_height, &data.tilesets[x]->tile_id(data.layers[y]->data[data.layers[y]->Get(j, i)])); //Parallax//, SDL_FLIP_NONE, -data.layers[y]->parallax); //
 				
 				}																						
 			
