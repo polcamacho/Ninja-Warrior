@@ -4,7 +4,10 @@
   <image source="Assets.png" width="1536" height="1536"/>
  </tileset>
  <layer id="1" name="Sky" width="250" height="100">
-  <data>
+   <properties>
+   <property name="parallax" type="float" value="0.2"/>
+  </properties>
+    <data>
    <tile gid="649"/>
    <tile gid="650"/>
    <tile gid="651"/>
@@ -25008,7 +25011,11 @@
   </data>
  </layer>
  <layer id="2" name="Trees3" width="250" height="100">
-  <data>
+   <properties>
+   <property name="parallax" type="float" value="0.4"/>
+  </properties>
+    
+    <data>
    <tile/>
    <tile/>
    <tile/>
@@ -50012,7 +50019,10 @@
   </data>
  </layer>
  <layer id="3" name="Trees2" width="250" height="100">
-  <data>
+   <properties>
+   <property name="parallax" type="float" value="0.8"/>
+  </properties>
+   <data>
    <tile/>
    <tile/>
    <tile/>
@@ -75016,7 +75026,10 @@
   </data>
  </layer>
  <layer id="4" name="Trees1" width="250" height="100">
-  <data>
+   <properties>
+     <property name="parallax" type="float" value="1.2"/>
+   </properties>
+   <data>
    <tile/>
    <tile/>
    <tile/>
@@ -100020,7 +100033,11 @@
   </data>
  </layer>
  <layer id="6" name="Decoracion" width="250" height="100">
-  <data>
+   <properties>
+     <property name="parallax" type="float" value="0"/>
+   </properties>
+
+   <data>
    <tile/>
    <tile/>
    <tile/>
@@ -125024,7 +125041,10 @@
   </data>
  </layer>
  <layer id="5" name="Game" width="250" height="100">
-  <data>
+   <properties>
+     <property name="parallax" type="float" value="0"/>
+   </properties>
+   <data>
    <tile/>
    <tile/>
    <tile/>

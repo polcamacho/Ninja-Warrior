@@ -13,6 +13,7 @@ struct MapLayer {
 	p2SString name;
 	uint width;
 	uint height;
+	uint *tilegid1;
 	uint tilegid;
 	float parallax;
 	uint* data = nullptr;
@@ -20,6 +21,12 @@ struct MapLayer {
 
 		return (y * width) + x;
 	
+	}
+
+	inline uint Get1(uint x, uint y) const {
+
+		return (y * width) + x;
+
 	}
 	~MapLayer();
 

@@ -31,16 +31,16 @@ void j1Map::Draw()
 {
 	if (map_loaded == false)
 		return;
+	
+	for (uint x = 0; x < data.tilesets.count(); x++) {		//Run the total tilesets
 
-	for (uint y = 0; y < data.layers.count(); y++) {
+		for (uint y = 0; y < data.layers.count(); y++) {	//Run total of the layers
 
-		for (uint x = 0; x < data.tilesets.count(); x++) {
+			for (uint i = 0; i < data.height; i++) {			//Run the MapData height
 
-			for (uint i = 0; i < data.height; i++) {
+				for (uint j = 0; j < data.width; j++) {			//Run the MapData width
 
-				for (uint j = 0; j < data.width; j++) {
-
-					App->render->Blit(data.tilesets[x]->texture, j*data.tile_width, i*data.tile_height, &data.tilesets[x]->tile_id(data.layers[y]->data[data.layers[y]->Get(j, i)])); //Parallax//, SDL_FLIP_NONE, -data.layers[y]->parallax); //
+					App->render->Blit(data.tilesets[x]->texture, j*data.tile_width, i*data.tile_height, &data.tilesets[x]->tile_id(data.layers[y]->data[data.layers[y]->Get(j, i)]), -data.layers[y]->parallax); //Parallax// -data.layers[y]->parallax); //	Blits the Map and call the parallax item to do it
 				
 				}																						
 			
@@ -49,7 +49,7 @@ void j1Map::Draw()
 		}
 	}
 
-	// TODO 9: Complete the draw function
+	
 
 }
 
