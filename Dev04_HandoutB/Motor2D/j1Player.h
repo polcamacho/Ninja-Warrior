@@ -21,6 +21,7 @@ struct PlayerData
 
 	p2SString		jumpFX;
 	p2SString		deathFX;
+	p2SString		walkFX;
 
 	iPoint position;	//Position of the player (x,y)
 	iPoint a;	//Acceleration (x,y)
@@ -33,6 +34,7 @@ struct PlayerData
 	float jump_time;	//Time of the jump
 
 	bool injump;	//Says that the player is jumping or not
+	bool player_flip;
 
 	void Pushbacks();	//Load the frame animations
 
@@ -72,13 +74,13 @@ public:
 	bool CleanUp();
 
 	//Called to start the player at initial pos
-	void Restart();
+	//void Restart();
 	
 	//Change the sound depending the animation
-	void SFX(int channel, int repeat);
+	//void SFX(int channel, int repeat);
 	
 	//Puts the camera on player and follows
-	bool Camera_Player();
+	//bool Camera_Player();
 
 private:
 

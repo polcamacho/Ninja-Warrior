@@ -26,6 +26,16 @@
     <folder>maps/</folder>
   </map>
   
+   <player>
+    <folder>textures/</folder>
+    <texture source="rogue_spritesheed.png"/>
+    <jumpFX source="Walk.wav"/>
+    <deathFX source="Death.wav"/>
+    <acceleration x="1" y="1"/>
+    <vj x="1" y="-5"/>
+   
+  </player>
+  
   <scene>
   
     <mn name="Map.tmx"></mn>

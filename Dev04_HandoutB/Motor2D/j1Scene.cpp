@@ -83,7 +83,10 @@ bool j1Scene::Update(float dt)
 	//int y = 0;
 
 	App->map->Draw();
+	
 	//Draw Player
+	//App->player->DrawPlayer();
+
 	/*App->input->GetMousePosition(x, y);
 	p2Point<uint> TilePos = App->map->data.GetTilePos(x, y);
 	
@@ -92,6 +95,7 @@ bool j1Scene::Update(float dt)
 		App->map->data.tile_width, App->map->data.tile_height,
 		App->map->data.tilesets.count(),
 		TilePos.x, TilePos.y);*/
+	
 	p2SString title("2D PLATFORMER");
 	App->win->SetTitle(title.GetString());
 

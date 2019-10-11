@@ -3,6 +3,7 @@
 #include "j1App.h"
 #include "j1Window.h"
 #include "j1Render.h"
+#include "j1Player.h"
 
 #define VSYNC true
 
@@ -244,4 +245,11 @@ bool j1Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, U
 	}
 
 	return ret;
+}
+
+void j1Render::CameraMove() {
+	
+	//App->render->camera.x = App->player->Start.data_player.position.x;
+	//App->render->camera.y = App->player->Start.data_player.position.y;
+	
 }

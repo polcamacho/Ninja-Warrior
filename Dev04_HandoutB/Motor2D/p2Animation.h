@@ -28,15 +28,10 @@ public:
 		assert(last_frame < MAX_FRAMES);
 	}
 
-	SDL_Rect& GetCurrentFrame(float dt)
+	SDL_Rect& GetCurrentFrame()
 	{
-		float tmp = speed;
-		current_frame += tmp*dt;
-
-		if (current_frame < 0)
-		{
-			current_frame = 0;
-		}
+		current_frame += speed;
+		
 
 		if (current_frame >= last_frame)
 		{
