@@ -62,7 +62,7 @@ bool j1Player::Start() {
 	
 	data_player.injump = false;
 	
-//	data_player.Pushbacks();
+	Pushbacks();
 	data_player.current_animation = &data_player.idle;
 	
 	data_player.v = { 1,0 };
@@ -166,6 +166,55 @@ bool j1Player::Save(pugi::xml_node& node) const {
 	node.child("velocity").attribute("y") = data_player.v.y;
 
 	return true;
+
+}
+
+void j1Player::Pushbacks() {
+
+	idle.PushBack({ 7,554,48,52 });
+	idle.PushBack({ 84,554,41,52 });
+	idle.PushBack({ 156,555,42,50 });
+	idle.PushBack({ 232,557,41,48 });
+	idle.PushBack({ 291,557,41,48 });
+	idle.PushBack({ 351,557,40,48 });
+	idle.PushBack({ 415,556,41,49 });
+	idle.PushBack({ 474,556,42,49 });
+	idle.PushBack({ 533,557,41,48 });
+	idle.PushBack({ 591,554,41,51 });
+	idle.PushBack({ 643,554,52,52 });
+	idle.PushBack({ 705,555,44,50 });
+	idle.PushBack({ 763,554,43,52 });
+	idle.PushBack({ 819,554,45,52 });
+	idle.PushBack({ 880,554,43,51 });
+	idle.PushBack({ 938,555,43,51 });
+	idle.PushBack({ 995,554,44,52 });
+
+	walk.PushBack({ 7,4,42,49 });
+	walk.PushBack({ 65,4,41,49 });
+	walk.PushBack({ 131,3,38,50 });
+	walk.PushBack({ 201,3,36,51 });
+	walk.PushBack({ 259,5,38,48 });
+	walk.PushBack({ 317,4,44,50 });
+
+	jump.PushBack({ 7,128,52,43 });
+	jump.PushBack({ 81,114,47,57 });
+	jump.PushBack({ 155,113,42,58 });
+	jump.PushBack({ 221,118,52,53 });
+	jump.PushBack({ 285,116,53,55 });
+	jump.PushBack({ 348,119,56,52 });
+	jump.PushBack({ 423,129,53,42 });
+
+	death.PushBack({ 8,464,48,55 });
+	death.PushBack({ 72,456,62,63 });
+	death.PushBack({ 150,454,69,65 });
+	death.PushBack({ 257,464,82,56 });
+	death.PushBack({ 367,447,83,72 });
+	death.PushBack({ 488,447,84,73 });
+	death.PushBack({ 609,457,94,62 });
+	death.PushBack({ 734,455,113,65 });
+	death.PushBack({ 894,445,127,74 });
+	death.PushBack({ 1054,433,116,87 });
+
 
 }
 

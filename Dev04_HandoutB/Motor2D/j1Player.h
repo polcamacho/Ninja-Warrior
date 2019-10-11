@@ -36,7 +36,7 @@ struct PlayerData
 	bool injump;	//Says that the player is jumping or not
 	bool player_flip;
 
-	void Pushbacks();	//Load the frame animations
+	//void Pushbacks();	//Load the frame animations
 
 };
 
@@ -82,6 +82,8 @@ public:
 	//Puts the camera on player and follows
 	//bool Camera_Player();
 
+	void Pushbacks();	//Load the frame animations
+
 private:
 
 	
@@ -93,6 +95,11 @@ private:
 	PlayerData	data_player;
 	p2SString			folder;
 	p2SString			texture;
+	Animation			idle;
+	Animation			jump;
+	Animation			walk;
+	Animation			death;
+
 
 };
 
