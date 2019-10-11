@@ -8,6 +8,35 @@
 #include "j1Module.h"
 #include "p2Animation.h"
 
+struct PlayerData
+{
+
+	Animation*		current_animation;
+	Animation		idle;
+	Animation		walk;
+	Animation		running;
+	Animation		jump;
+	Animation		fall;
+	Animation		dying;
+
+	p2SString		jumpFX;
+	p2SString		deathFX;
+
+	iPoint position;	//Position of the player (x,y)
+	iPoint a;	//Acceleration (x,y)
+	iPoint vj;	//Velocity of the jump (x,y)
+	iPoint v;	//Velocity of the player (x,y)
+
+	SDL_Rect		col;
+	SDL_Texture*	Tex_Player;
+
+	float jump_time;	//Time of the jump
+
+	bool injump;	//Says that the player is jumping or not
+
+	void Pushbacks();	//Load the frame animations
+
+};
 
 // ----------------------------------------------------
 class j1Player : public j1Module
@@ -28,7 +57,7 @@ public:
 
 	// Called before render is available
 	
-	//bool Awake(pugi::xml_node& conf);
+	bool Awake(pugi::xml_node& conf);
 
 	
 	// Called each loop iteration
@@ -65,34 +94,6 @@ private:
 
 };
 
-struct PlayerData
-{
 
-	Animation*		current_animation;
-	Animation		idle;
-	Animation		walk;
-	Animation		running;
-	Animation		jump;
-	Animation		fall;
-	Animation		dying;
-
-	p2SString		jumpFX;
-	p2SString		deathFX;
-	
-	iPoint position;	//Position of the player (x,y)
-	iPoint a;	//Acceleration (x,y)
-	iPoint vj;	//Velocity of the jump (x,y)
-	iPoint v;	//Velocity of the player (x,y)
-
-	SDL_Rect		col;
-	SDL_Texture*	Tex_Player;
-
-	float jump_time;	//Time of the jump
-	
-	bool injump;	//Says that the player is jumping or not
-	
-	void Pushbacks();
-
-};
 
 #endif // __j1PLAYER_H__

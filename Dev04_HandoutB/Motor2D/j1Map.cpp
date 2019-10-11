@@ -64,7 +64,6 @@ iPoint j1Map::GetWorldPos(int x, int y) const
 	return ret;
 }
 
-
 SDL_Rect TileSet::tile_id(int id) const
 {
 
@@ -367,7 +366,6 @@ bool j1Map::LoadLayer(pugi::xml_node& layernode, MapLayer* layer)
 	return ret;
 	   	 
 }
-
 
 MapLayer::~MapLayer()
 {
