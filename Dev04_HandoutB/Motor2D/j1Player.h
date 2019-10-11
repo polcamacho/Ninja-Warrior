@@ -10,14 +10,14 @@
 
 struct PlayerData
 {
-
+/*
 	Animation*		current_animation;
 	Animation		idle;
 	Animation		walk;
 	Animation		running;
 	Animation		jump;
 	Animation		fall;
-	Animation		dying;
+	Animation		dying;*/
 
 	p2SString		jumpFX;
 	p2SString		deathFX;
@@ -84,6 +84,7 @@ public:
 
 	void Pushbacks();	//Load the frame animations
 
+
 private:
 
 	
@@ -95,10 +96,14 @@ private:
 	PlayerData	data_player;
 	p2SString			folder;
 	p2SString			texture;
-	Animation			idle;
-	Animation			jump;
-	Animation			walk;
-	Animation			death;
+
+	Animation*		current_animation;
+	Animation		idle;
+	Animation		walk;
+	Animation		running;
+	Animation		jump;
+	Animation		fall;
+	Animation		death;
 
 
 };

@@ -62,7 +62,7 @@ bool j1Player::Start() {
 	
 	data_player.injump = false;
 	
-	Pushbacks();
+	data_player.Pushbacks();
 	data_player.current_animation = &data_player.idle;
 	
 	data_player.v = { 1,0 };
@@ -169,7 +169,7 @@ bool j1Player::Save(pugi::xml_node& node) const {
 
 }
 
-void j1Player::Pushbacks() {
+void PlayerData::Pushbacks() {
 
 	idle.PushBack({ 7,554,48,52 });
 	idle.PushBack({ 84,554,41,52 });
@@ -188,6 +188,8 @@ void j1Player::Pushbacks() {
 	idle.PushBack({ 880,554,43,51 });
 	idle.PushBack({ 938,555,43,51 });
 	idle.PushBack({ 995,554,44,52 });
+	idle.loop = true;
+	idle.speed = 10.1f;
 
 	walk.PushBack({ 7,4,42,49 });
 	walk.PushBack({ 65,4,41,49 });
@@ -195,6 +197,8 @@ void j1Player::Pushbacks() {
 	walk.PushBack({ 201,3,36,51 });
 	walk.PushBack({ 259,5,38,48 });
 	walk.PushBack({ 317,4,44,50 });
+	walk.loop = true;
+	walk.speed = 10.1f;
 
 	jump.PushBack({ 7,128,52,43 });
 	jump.PushBack({ 81,114,47,57 });
@@ -203,6 +207,8 @@ void j1Player::Pushbacks() {
 	jump.PushBack({ 285,116,53,55 });
 	jump.PushBack({ 348,119,56,52 });
 	jump.PushBack({ 423,129,53,42 });
+	jump.loop = true;
+	jump.speed = 10.1f;
 
 	death.PushBack({ 8,464,48,55 });
 	death.PushBack({ 72,456,62,63 });
@@ -214,6 +220,8 @@ void j1Player::Pushbacks() {
 	death.PushBack({ 734,455,113,65 });
 	death.PushBack({ 894,445,127,74 });
 	death.PushBack({ 1054,433,116,87 });
+	death.loop = true;
+	death.speed = 10.1f;
 
 
 }

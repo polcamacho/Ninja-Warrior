@@ -249,7 +249,7 @@ bool j1Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, U
 
 void j1Render::CameraMove() {
 	
-	//App->render->camera.x = App->player->Start.data_player.position.x;
-	//App->render->camera.y = App->player->Start.data_player.position.y;
+	App->render->camera.x = App->player->Start.data_player.position.x;
+	App->render->camera.y = App->player->Start.data_player.position.y;
 	
 }
