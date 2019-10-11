@@ -10,14 +10,14 @@
 
 struct PlayerData
 {
-/*
+
 	Animation*		current_animation;
 	Animation		idle;
 	Animation		walk;
 	Animation		running;
 	Animation		jump;
 	Animation		fall;
-	Animation		dying;*/
+	Animation		death;
 
 	p2SString		jumpFX;
 	p2SString		deathFX;
@@ -80,8 +80,9 @@ public:
 	//void SFX(int channel, int repeat);
 	
 	//Puts the camera on player and follows
-	//bool Camera_Player();
-
+	bool Camera_Player();
+	
+	void Animation();	//Load keys to change the animations
 	void Pushbacks();	//Load the frame animations
 
 
@@ -93,17 +94,11 @@ public:
 
 private:
 
-	PlayerData	data_player;
+	PlayerData			data_player;
 	p2SString			folder;
 	p2SString			texture;
 
-	Animation*		current_animation;
-	Animation		idle;
-	Animation		walk;
-	Animation		running;
-	Animation		jump;
-	Animation		fall;
-	Animation		death;
+
 
 
 };

@@ -8,6 +8,7 @@
 #include "j1Window.h"
 #include "j1Map.h"
 #include "j1Scene.h"
+#include "j1Player.h"
 
 #include <string>
 
@@ -85,7 +86,7 @@ bool j1Scene::Update(float dt)
 	App->map->Draw();
 	
 	//Draw Player
-	//App->player->DrawPlayer();
+	App->player->DrawPlayer();
 
 	/*App->input->GetMousePosition(x, y);
 	p2Point<uint> TilePos = App->map->data.GetTilePos(x, y);
