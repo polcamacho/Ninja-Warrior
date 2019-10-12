@@ -49,8 +49,6 @@ void j1Map::Draw()
 		}
 	}
 
-	
-
 }
 
 iPoint j1Map::GetWorldPos(int x, int y) const
