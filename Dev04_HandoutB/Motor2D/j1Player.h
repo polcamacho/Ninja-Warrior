@@ -8,7 +8,7 @@
 #include "j1Module.h"
 #include "p2Animation.h"
 
-struct ObjectsData;
+struct MapObject;
 
 struct PlayerData
 {
@@ -73,7 +73,7 @@ public:
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 
-	SDL_Rect CreateRect_FromObjData(ObjectsData* data);
+	SDL_Rect CreateRect_FromObjData(MapObject* data);
 
 	// Called before quitting
 	bool CleanUp();
@@ -89,8 +89,8 @@ public:
 	
 	void Animation();	//Load keys to change the animations
 	void Pushbacks();	//Load the frame animations
-	iPoint Collider_Overlay(iPoint originalvec);
-	iPoint AvoidCollision(iPoint newvec, const SDL_Rect result, p2List_item<ObjectsData*>* objdata);
+	iPoint Collider_Overlay(iPoint ivec);
+	iPoint AvoidCollision(iPoint nvec, const SDL_Rect result, p2List_item<MapObject*>* objdata);
 
 
 private:

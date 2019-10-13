@@ -106,6 +106,17 @@ bool j1Map::CleanUp()
 	}
 	data.layers.clear();
 
+	//Remove all object layers
+	p2List_item<OBJG*>* item3;
+	item3 = data.objects.start;
+
+	while (item3 != NULL)
+	{
+		RELEASE(item3->data);
+		item3 = item3->next;
+	}
+	data.objects.clear();
+
 	// Clean up the pugui tree
 	map_file.reset();
 
@@ -169,20 +180,18 @@ bool j1Map::Load(const char* file_name)
 		data.layers.add(set);
 	}
 
-	pugi::xml_node group;
-	for (group = map_file.child("map").child("objectgroup"); group && ret; group = group.next_sibling("objectgroup"))
+	pugi::xml_node groupnode;
+	for (groupnode = map_file.child("map").child("objectgroup"); groupnode && ret; groupnode = groupnode.next_sibling("objectgroup"))
 	{
-		ObjectsGroup* set = new ObjectsGroup();
+		OBJG* set = new OBJG();
 		
-		bool ret = true;
-
-		
+				
 		if (ret == true)
 		{
-			set->name = group.attribute("name").as_string();
-			for (pugi::xml_node& obj = group.child("object"); obj && ret; obj = obj.next_sibling("object"))
+			set->name = groupnode.attribute("name").as_string();
+			for (pugi::xml_node& obj = groupnode.child("object"); obj && ret; obj = obj.next_sibling("object"))
 			{
-				ObjectsData* data = new ObjectsData;
+				MapObject* data = new MapObject;
 
 				data->height = obj.attribute("height").as_uint();
 				data->width = obj.attribute("width").as_uint();
@@ -193,10 +202,8 @@ bool j1Map::Load(const char* file_name)
 				set->objects.add(data);
 			}
 		}
-		data.objLayers.add(set);
+		data.objects.add(set);
 	}
-
-
 
 	if(ret == true)
 	{
@@ -215,9 +222,6 @@ bool j1Map::Load(const char* file_name)
 			item = item->next;
 		}
 
-		// TODO 4: Add info here about your loaded layers
-		// Adapt this code with your own variables
-		
 		p2List_item<MapLayer*>* item_layers = data.layers.start;
 		while(item_layers != NULL)
 		{
@@ -226,6 +230,15 @@ bool j1Map::Load(const char* file_name)
 			LOG("name: %s", l->name.GetString());
 			LOG("tile width: %d tile height: %d", l->width, l->height);
 			item_layers = item_layers->next;
+		}
+
+		p2List_item<OBJG*>* obj_layer = data.objects.start;
+		while (item_layers != NULL)
+		{
+			OBJG* obj = obj_layer->data;
+			LOG("OBJ ----");
+			LOG("name: %s", obj->name.GetString());
+			obj_layer = obj_layer->next;
 		}
 	}
 
@@ -361,8 +374,6 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 	return ret;
 }
 
-// TODO 3: Create the definition for a function that loads a single layer
-
 bool j1Map::LoadLayer(pugi::xml_node& layernode, MapLayer* layer)
 {
 
@@ -393,11 +404,46 @@ bool j1Map::LoadLayer(pugi::xml_node& layernode, MapLayer* layer)
 	   	 
 }
 
+bool j1Map::LoadObject(pugi::xml_node& objectnode, OBJG* object)
+{
+
+	bool ret = true;
+
+	object->name = objectnode.attribute("name").as_string();
+
+	for (pugi::xml_node& obj = objectnode.child("object"); obj && ret; obj = obj.next_sibling("object"))
+	{
+		MapObject* set = new MapObject;
+
+		set->height = obj.attribute("height").as_uint();
+		set->width = obj.attribute("width").as_uint();
+		set->x = obj.attribute("x").as_uint();
+		set->y = obj.attribute("y").as_uint();
+		set->name = obj.attribute("name").as_string();
+
+		object->objects.add(set);
+	}
+
+	int i = 0;
+
+	/*for (int i = 0; i <= object->width * object->height; i++) {				//Comprovate that all layers of objects are loaded
+
+		LOG("TileGid= %d", object->set[i]);
+	}*/
+
+	return ret;
+
+}
+
 MapLayer::~MapLayer()
 {
 	delete[] data;
 }
 
+OBJG::~OBJG()
+{
+	objects.clear();
+}
 
 
 
