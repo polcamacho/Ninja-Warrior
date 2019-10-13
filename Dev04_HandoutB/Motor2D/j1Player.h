@@ -16,6 +16,7 @@ struct PlayerData
 	Animation*		current_animation;
 	Animation		idle;
 	Animation		walk;
+	Animation		walk2;
 	Animation		running;
 	Animation		jump;
 	Animation		fall;
@@ -35,10 +36,15 @@ struct PlayerData
 	iPoint			colOffset;
 	SDL_Texture*	Tex_Player;
 
-	float jump_time;	//Time of the jump
+	float jump_time=0.0f;	//Time of the jump
 
-	bool injump;	//Says that the player is jumping or not
+	bool injump=false;	//Says that the player is jumping or not
 	bool player_flip;
+	int jumpspeed=0;
+	int jumpspeedx=0;
+	int initialposy;
+
+
 
 	//void Pushbacks();	//Load the frame animations
 

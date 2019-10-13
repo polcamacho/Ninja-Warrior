@@ -345,7 +345,16 @@ void j1Player::Pushbacks() {
 	data_player.walk.PushBack({ 259,5,38,48 });
 	data_player.walk.PushBack({ 317,4,44,50 });
 	data_player.walk.loop = true;
-	data_player.walk.speed = 0.18f;
+	data_player.walk.speed = 0.3f;
+
+	data_player.walk2.PushBack({ 7,4,42,49 });
+	data_player.walk2.PushBack({ 65,4,41,49 });
+	data_player.walk2.PushBack({ 131,3,38,50 });
+	data_player.walk2.PushBack({ 201,3,36,51 });
+	data_player.walk2.PushBack({ 259,5,38,48 });
+	data_player.walk2.PushBack({ 317,4,44,50 });
+	data_player.walk2.loop = true;
+	data_player.walk2.speed = 0.6f;
 
 	data_player.jump.PushBack({ 7,128,52,43 });
 	data_player.jump.PushBack({ 81,114,47,57 });
@@ -355,7 +364,7 @@ void j1Player::Pushbacks() {
 	data_player.jump.PushBack({ 348,119,56,52 });
 	data_player.jump.PushBack({ 423,129,53,42 });
 	data_player.jump.loop = true;
-	data_player.jump.speed = 1.0f;
+	data_player.jump.speed = 0.5f;
 
 	data_player.death.PushBack({ 8,464,48,55 });
 	data_player.death.PushBack({ 72,456,62,63 });
@@ -384,9 +393,7 @@ void j1Player::Animation()
 		data_player.player_flip = false;
 		data_player.current_animation = &data_player.walk;
 		App->render->camera.x += 1;
-		data_player.position.x += 5;
-		
-		
+		data_player.position.x += 6;
 		
 	}
 	
@@ -395,7 +402,46 @@ void j1Player::Animation()
 		data_player.player_flip = true;
 		data_player.current_animation = &data_player.walk;
 		App->render->camera.x -= 1;
-		data_player.position.x -= 5;
+		data_player.position.x -= 6;
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT&& App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {		//if "A" and "SHIFT" are pressed animation walk backward actives flips to the Blit
+
+		data_player.player_flip = true;
+		data_player.current_animation = &data_player.walk2;
+		App->render->camera.x -= 1;
+		data_player.position.x -= 11;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {		
+
+		data_player.player_flip = false;
+		data_player.current_animation = &data_player.walk2;
+		App->render->camera.x += 1;
+		data_player.position.x += 11;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		//if "SPACE" is pressed 
+
+		data_player.injump= true;
+		data_player.player_flip = false;
+		data_player.current_animation = &data_player.jump;
+		data_player.initialposy = data_player.position.y;
+
+		data_player.position.y -= data_player.jumpspeed;
+		data_player.position.x += data_player.jumpspeedx;
+		if(data_player.position.y < data_player.position.y + 20)
+		
+		{
+			data_player.jumpspeed += 2;
+			if (data_player.jumpspeed < 0)
+			{
+				data_player.jumpspeed = -4;
+				data_player.jumpspeedx = 4;
+			}
+		}
+			//data_player.position.y = data_player.initialposy;
+	}
+	data_player.injump = false;
 
 }
