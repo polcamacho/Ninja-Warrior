@@ -33,7 +33,22 @@ struct MapLayer {
 };
 	// TODO 6: Short function to get the value of x,y
 
+struct ObjectsData
+{
+	p2SString	name;
+	int			x;
+	int			y;
+	uint		width;
+	uint		height;
 
+};
+
+struct ObjectsGroup
+{
+	p2SString				name;
+	p2List<ObjectsData*>	objects;
+	~ObjectsGroup();
+};
 
 // ----------------------------------------------------
 struct TileSet
@@ -77,6 +92,7 @@ struct MapData
 	
 	p2List<TileSet*>	tilesets;
 	p2List<MapLayer*>	layers;
+	p2List<ObjectsGroup*>	objLayers;
 
 	p2Point<uint> GetTilePos(uint wx, uint wy) const
 	{

@@ -8,6 +8,8 @@
 #include "j1Module.h"
 #include "p2Animation.h"
 
+struct ObjectsData;
+
 struct PlayerData
 {
 
@@ -22,6 +24,7 @@ struct PlayerData
 	p2SString		jumpFX;
 	p2SString		deathFX;
 	p2SString		walkFX;
+	bool			grounded;
 
 	iPoint position;	//Position of the player (x,y)
 	iPoint a;	//Acceleration (x,y)
@@ -29,6 +32,7 @@ struct PlayerData
 	iPoint v;	//Velocity of the player (x,y)
 
 	SDL_Rect		col;
+	iPoint			colOffset;
 	SDL_Texture*	Tex_Player;
 
 	float jump_time;	//Time of the jump
@@ -69,6 +73,7 @@ public:
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 
+	SDL_Rect CreateRect_FromObjData(ObjectsData* data);
 
 	// Called before quitting
 	bool CleanUp();
@@ -84,6 +89,8 @@ public:
 	
 	void Animation();	//Load keys to change the animations
 	void Pushbacks();	//Load the frame animations
+	iPoint Collider_Overlay(iPoint originalvec);
+	iPoint AvoidCollision(iPoint newvec, const SDL_Rect result, p2List_item<ObjectsData*>* objdata);
 
 
 private:

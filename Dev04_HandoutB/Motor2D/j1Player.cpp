@@ -168,6 +168,122 @@ bool j1Player::Save(pugi::xml_node& node) const {
 
 }
 
+
+iPoint j1Player::Collider_Overlay(iPoint originalvec)
+{
+	data_player.grounded = false;
+
+	SDL_Rect CastCollider;
+	CastCollider = data_player.col;
+	CastCollider.x += originalvec.x;
+	CastCollider.y += originalvec.y;
+
+	SDL_Rect result;
+
+	iPoint newvec = originalvec;
+	for (p2List_item<ObjectsGroup*>* obj = App->map->data.objLayers.start; obj; obj = obj->next)
+	{
+		if (obj->data->name == ("Colisions"))
+		{
+			for (p2List_item<ObjectsData*>* objdata = obj->data->objects.start; objdata; objdata = objdata->next)
+			{
+				if (objdata->data->name == ("floor"))
+				{
+					if (SDL_IntersectRect(&CastCollider, &CreateRect_FromObjData(objdata->data), &result))
+					{
+						newvec = AvoidCollision(newvec, result, objdata);
+					}
+				}
+				return newvec;
+			}
+		}
+	}
+}
+
+iPoint j1Player::AvoidCollision(iPoint newvec, const SDL_Rect result, p2List_item<ObjectsData*>* objdata)
+{
+	//Checks to determine the position of the player and the other collider. 
+	//The speed is adjousted using the resultant Rect from the collision
+	if (newvec.y > 0)
+	{
+		if (data_player.position.y + data_player.col.h + data_player.colOffset.y <= objdata->data->y)
+		{
+			if (newvec.x > 0)
+			{
+				if (result.h <= result.w || data_player.position.x + data_player.col.w + data_player.colOffset.x >= objdata->data->x)
+					newvec.y -= result.h;
+				else
+					newvec.x -= result.w;
+			}
+			else if (newvec.x < 0)
+			{
+				if (result.h <= result.w || data_player.position.x + data_player.colOffset.x >= objdata->data->x + objdata->data->width)
+					newvec.y -= result.h;
+				else
+					newvec.x += result.w;
+			}
+			
+		}
+		else
+		{
+			if (newvec.x > 0)
+				newvec.x -= result.w;
+			else
+				newvec.x += result.w;
+		}
+
+	}
+	else if (newvec.y < 0)
+	{
+		if (data_player.position.y + data_player.colOffset.y >= objdata->data->y + objdata->data->height)
+		{
+			if (newvec.x > 0)
+			{
+				if (result.h <= result.w || data_player.position.x + data_player.col.w + data_player.colOffset.x >= objdata->data->x)
+					newvec.y += result.h;
+				else
+					newvec.x -= result.w;
+			}
+			else if (newvec.x < 0)
+			{
+				if (result.h <= result.w || data_player.position.x + data_player.colOffset.x <= objdata->data->x + objdata->data->width)
+					newvec.y += result.h;
+				else
+					newvec.x += result.w;
+			}
+			else
+				newvec.y += result.h;
+		}
+		else
+		{
+			if (newvec.x > 0)
+				newvec.x -= result.w;
+			else if (newvec.x < 0)
+				newvec.x += result.w;
+			else
+				newvec.y += result.h;
+		}
+	}
+	else
+	{
+		if (newvec.x > 0)
+			newvec.x -= result.w;
+		else if (newvec.x < 0)
+			newvec.x += result.w;
+	}
+	return newvec;
+}
+
+SDL_Rect j1Player::CreateRect_FromObjData(ObjectsData* data)
+{
+	SDL_Rect ret;
+	ret.x = data->x;
+	ret.y = data->y;
+	ret.h = data->height;
+	ret.w = data->width;
+	return ret;
+}
+
 void j1Player::Pushbacks() {
 
 	data_player.idle.PushBack({ 7,554,48,52 });
