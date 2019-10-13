@@ -41,6 +41,9 @@ bool j1Player::Awake(pugi::xml_node& config) {
 	data_player.walkFX = config.child("walkFX").attribute("source").as_string();
 	data_player.deathFX = config.child("deathFX").attribute("source").as_string();
 
+	data_player.colOffset.x = config.child("colOffset").attribute("x").as_int();
+	data_player.colOffset.y = config.child("colOffset").attribute("y").as_int();
+
 	return ret;
 
 	
@@ -50,7 +53,7 @@ bool j1Player::Awake(pugi::xml_node& config) {
 void j1Player::DrawPlayer()
 {
 	
-	if (data_player.player_flip == true) {
+	if (data_player.player_flip) {
 		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL, -1.0);
 	}
 	else {
@@ -67,13 +70,39 @@ bool j1Player::Start() {
 	data_player.current_animation = &data_player.idle;
 	
 	data_player.v = { 1,0 };
-	data_player.position.x = 100;
-	data_player.position.y = 638;
+	//data_player.position.x = 100;
+	//data_player.position.y = 638;
 
 	App->audio->LoadFx(data_player.walkFX.GetString());
 	App->audio->LoadFx(data_player.deathFX.GetString());
 
 	data_player.Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));
+
+	//Sets the player in the start position
+	for (p2List_item<ObjectsGroup*>* obj = App->map->data.objLayers.start; obj; obj = obj->next)
+	{
+		if (obj->data->name == ("colisions"))
+		{
+			for (p2List_item<ObjectsData*>* objdata = obj->data->objects.start; objdata; objdata = objdata->next)
+			{
+				if (objdata->data->name == ("player"))
+				{
+					data_player.col.h = objdata->data->height;
+					data_player.col.w = objdata->data->width;
+					data_player.col.x = objdata->data->x;
+					data_player.col.y = objdata->data->y;
+				}
+				else if (objdata->data->name == ("startpoint"))
+				{
+					data_player.position = { objdata->data->x, objdata->data->y };
+					data_player.col.x = data_player.position.x + data_player.colOffset.x;
+					data_player.col.y = data_player.position.y + data_player.colOffset.y;
+				}
+			}
+		}
+	}
+	data_player.Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));
+	return true;
 
 	return	true;
 
