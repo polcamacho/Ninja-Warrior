@@ -150053,7 +150053,7 @@
   <object id="8" name="platform" x="640" y="587" width="96" height="53"/>
   <object id="9" name="platform" x="896" y="522" width="96" height="54"/>
   <object id="10" name="platform" x="1184.02" y="457.917" width="96" height="54.0909"/>
-  <object id="11" name="startpoint" x="256" y="640" width="32" height="43"/>
+  <object id="11" name="startpoint" x="288" y="640" width="32" height="43"/>
   <object id="12" name="floor" x="1792" y="1056" width="1152" height="352"/>
   <object id="14" name="floor" x="2432" y="709.5">
    <polygon points="0,0 223.002,222 224,347 0.498886,347"/>
@@ -150122,6 +150122,6 @@
    <polygon points="-413.818,-136.728 -413.818,299.999 33.5986,-140.645"/>
   </object>
   <object id="69" name="floor" x="480" y="640" width="32" height="43.0028"/>
-  <object id="70" name="player" x="320" y="640" width="32" height="43"/>
+  <object id="70" name="player" x="96" y="640" width="32" height="43"/>
  </objectgroup>
 </map>

@@ -143,14 +143,14 @@ bool j1Player::PostUpdate() {
 //}
 
 //Puts the camera on player and follows
-/*bool j1Player::Camera_Player() {
+bool j1Player::Camera_Player() {
 
 	
 	if (App->render->camera.x < 0)App->render->camera.x = 0;
 	App->render->camera.y = data_player.position.y - App->render->camera.h / 2;
 	if (App->render->camera.y + App->win->height > App->map->data.height*App->map->data.tile_height)App->render->camera.y = App->map->data.height*App->map->data.tile_height - App->win->height;
 	return true;
-}*/
+}
 
 
 // Called before quitting

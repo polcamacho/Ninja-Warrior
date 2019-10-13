@@ -169,6 +169,34 @@ bool j1Map::Load(const char* file_name)
 		data.layers.add(set);
 	}
 
+	pugi::xml_node group;
+	for (group = map_file.child("map").child("objectgroup"); group && ret; group = group.next_sibling("objectgroup"))
+	{
+		ObjectsGroup* set = new ObjectsGroup();
+		
+		bool ret = true;
+
+		
+		if (ret == true)
+		{
+			set->name = group.attribute("name").as_string();
+			for (pugi::xml_node& obj = group.child("object"); obj && ret; obj = obj.next_sibling("object"))
+			{
+				ObjectsData* data = new ObjectsData;
+
+				data->height = obj.attribute("height").as_uint();
+				data->width = obj.attribute("width").as_uint();
+				data->x = obj.attribute("x").as_uint();
+				data->y = obj.attribute("y").as_uint();
+				data->name = obj.attribute("name").as_string();
+
+				set->objects.add(data);
+			}
+		}
+		data.objLayers.add(set);
+	}
+
+
 
 	if(ret == true)
 	{
