@@ -91,7 +91,7 @@ public:
 	//void SFX(int channel, int repeat);
 	
 	//Puts the camera on player and follows
-	bool Camera_Player();
+	void Camera_Player();
 	
 	void Animation();	//Load keys to change the animations
 	void Pushbacks();	//Load the frame animations

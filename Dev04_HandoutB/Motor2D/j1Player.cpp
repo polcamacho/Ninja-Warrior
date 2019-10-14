@@ -123,8 +123,9 @@ bool j1Player::Update() {
 
 bool j1Player::PostUpdate() {
 
-	Camera_Player();
+	
 	Animation();
+	//Camera_Player();
 	return true;
 }
 
@@ -143,15 +144,8 @@ bool j1Player::PostUpdate() {
 //}
 
 //Puts the camera on player and follows
-bool j1Player::Camera_Player() {
 
-	
-	//if (App->render->camera.x < 0)App->render->camera.x = 0;
-//	App->render->camera.y = data_player.position.y - App->render->camera.h / 2;
-//	if (App->render->camera.y + App->win->height > App->map->data.height*App->map->data.tile_height)App->render->camera.y = App->map->data.height*App->map->data.tile_height - App->win->height;
-	return true;
 
-}
 
 
 // Called before quitting
@@ -163,6 +157,7 @@ bool j1Player::CleanUp()
 	
 	return true;
 }
+
 bool j1Player::Load(pugi::xml_node& node) {
 
 	data_player.position.x = node.child("position").attribute("x").as_int();
@@ -445,3 +440,9 @@ void j1Player::Animation()
 	data_player.injump = false;
 
 }
+
+/*void j1Player::Camera_Player() {
+
+	App->render->camera.x = data_player.position.x + App->win->width;
+	App->render->camera.y = -data_player.position.y + App->win->height/1.2;
+}*/
