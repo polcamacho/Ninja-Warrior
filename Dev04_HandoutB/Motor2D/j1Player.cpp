@@ -379,28 +379,28 @@ void j1Player::Pushbacks() {
 
 void j1Player::Animation()
 {
-	
+
 	data_player.current_animation = &data_player.idle;		//If any key pressed animation idle
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {		//if "D" is pressed animation walk forward 
-		
-		
+
+
 		data_player.player_flip = false;
 		data_player.current_animation = &data_player.walk;
 		App->render->camera.x += 1;
 		data_player.position.x += 6;
-		
+
 	}
-	
+
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {		//if "A" is pressed animation walk backward actives flips to the Blit
-		
+
 		data_player.player_flip = true;
 		data_player.current_animation = &data_player.walk;
 		App->render->camera.x -= 1;
 		data_player.position.x -= 6;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT&& App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {		//if "A" and "SHIFT" are pressed animation walk backward actives flips to the Blit
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {		//if "A" and "SHIFT" are pressed animation walk backward actives flips to the Blit
 
 		data_player.player_flip = true;
 		data_player.current_animation = &data_player.walk2;
@@ -408,7 +408,7 @@ void j1Player::Animation()
 		data_player.position.x -= 11;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {		
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
 
 		data_player.player_flip = false;
 		data_player.current_animation = &data_player.walk2;
@@ -416,9 +416,9 @@ void j1Player::Animation()
 		data_player.position.x += 11;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		//if "SPACE" is pressed 
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || (data_player.injump == true)) {		//if "SPACE" is pressed 
 
-		data_player.injump= true;
+		/*data_player.injump= true;
 		data_player.player_flip = false;
 		data_player.current_animation = &data_player.jump;
 		data_player.initialposy = data_player.position.y;
@@ -426,7 +426,7 @@ void j1Player::Animation()
 		data_player.position.y -= data_player.jumpspeed;
 		data_player.position.x += data_player.jumpspeedx;
 		if(data_player.position.y < data_player.position.y + 20)
-		
+
 		{
 			data_player.jumpspeed += 2;
 			if (data_player.jumpspeed < 0)
@@ -437,7 +437,33 @@ void j1Player::Animation()
 		}
 			//data_player.position.y = data_player.initialposy;
 	}
-	data_player.injump = false;
+	data_player.injump = false;*/
+	
+	/*if (SDL_GetTicks() - jumpf_timer > JUMPF_TIME && data_player.position.y == 220)
+	{
+		inputs.Push(IN_JUMPF_FINISH);
+		jumpf_timer = 0;
+
+		position.y = 220;
+		jumpspeed = 6;
+		animdone = true;
+	}*/
+
+
+		data_player.current_animation = &data_player.jump;
+		data_player.injump = true;
+		float jumpspeed = 6;
+		data_player.position.y -= jumpspeed;
+		jumpspeed -= 0.2;
+
+		if (jumpspeed < -7)
+		{
+			data_player.injump = false;
+			data_player.position.y = 220;
+			jumpspeed = 6;
+		}
+
+	}
 
 }
 
