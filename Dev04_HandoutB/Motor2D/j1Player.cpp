@@ -69,7 +69,9 @@ bool j1Player::Start() {
 	Pushbacks();
 	data_player.current_animation = &data_player.idle;
 	
-	data_player.v = { 1,0 };
+	data_player.position.y = -50;
+	data_player.position.x = 10;
+	data_player.v = { 5,0 };
 
 	App->audio->LoadFx(data_player.walkFX.GetString());
 	App->audio->LoadFx(data_player.deathFX.GetString());
@@ -456,7 +458,7 @@ void j1Player::Animation()
 		data_player.position.y -= jumpspeed;
 		jumpspeed -= 0.5;
 
-		if (jumpspeed <= -7)
+		if (jumpspeed < -7)
 		{
 			data_player.injump = false;
 			data_player.position.y = 220;
@@ -469,6 +471,7 @@ void j1Player::Animation()
 }
 
 iPoint j1Player::GetPosition() {
+
 	return data_player.position;
 }
 
