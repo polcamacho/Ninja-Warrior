@@ -97,6 +97,7 @@ public:
 	void Pushbacks();	//Load the frame animations
 	iPoint Collider_Overlay(iPoint ivec);
 	iPoint AvoidCollision(iPoint nvec, const SDL_Rect result, p2List_item<MapObject*>* objdata);
+	iPoint GetPosition();
 
 
 private:

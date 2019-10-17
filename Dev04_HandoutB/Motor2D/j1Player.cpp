@@ -387,7 +387,7 @@ void j1Player::Animation()
 
 		data_player.player_flip = false;
 		data_player.current_animation = &data_player.walk;
-		App->render->camera.x += 1;
+		//App->render->camera.x += 1;
 		data_player.position.x += 6;
 
 	}
@@ -396,7 +396,7 @@ void j1Player::Animation()
 
 		data_player.player_flip = true;
 		data_player.current_animation = &data_player.walk;
-		App->render->camera.x -= 1;
+		//App->render->camera.x -= 1;
 		data_player.position.x -= 6;
 	}
 
@@ -404,7 +404,7 @@ void j1Player::Animation()
 
 		data_player.player_flip = true;
 		data_player.current_animation = &data_player.walk2;
-		App->render->camera.x -= 1;
+		//App->render->camera.x -= 1;
 		data_player.position.x -= 11;
 	}
 
@@ -412,7 +412,7 @@ void j1Player::Animation()
 
 		data_player.player_flip = false;
 		data_player.current_animation = &data_player.walk2;
-		App->render->camera.x += 1;
+		//App->render->camera.x += 1;
 		data_player.position.x += 11;
 	}
 
@@ -452,20 +452,26 @@ void j1Player::Animation()
 
 		data_player.current_animation = &data_player.jump;
 		data_player.injump = true;
-		float jumpspeed = 6;
+		float jumpspeed = 6.0f;
 		data_player.position.y -= jumpspeed;
-		jumpspeed -= 0.2;
+		jumpspeed -= 0.5;
 
-		if (jumpspeed < -7)
+		if (jumpspeed <= -7)
 		{
 			data_player.injump = false;
 			data_player.position.y = 220;
 			jumpspeed = 6;
+			data_player.current_animation = &data_player.idle;
 		}
 
 	}
 
 }
+
+iPoint j1Player::GetPosition() {
+	return data_player.position;
+}
+
 
 /*void j1Player::Camera_Player() {
 

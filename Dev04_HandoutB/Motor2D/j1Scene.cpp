@@ -48,6 +48,9 @@ bool j1Scene::Start()
 	
 	bool ret = App->map->Load(mn.start->data->GetString());
 	LOG("Map: %s", mn.start->data->GetString());
+	App->render->camera.x = App->player->GetPosition().x;
+	App->render->camera.y = App->player->GetPosition().y;
+	//camvelocity = { 0.0f,0.0f };
 	return true;
 }
 
@@ -82,6 +85,9 @@ bool j1Scene::Update(float dt)
 	
 	//int x = 0;
 	//int y = 0;
+
+	App->render->camera.x = -((App->player->GetPosition().x * App->win->GetScale()) - (App->render->camera.w / 2)); //Debug Camera. Center on half width 1/3 height
+	App->render->camera.y = -((App->player->GetPosition().y * App->win->GetScale()) - (App->render->camera.w * 2 / 3));
 
 	App->map->Draw();
 	
