@@ -42,7 +42,7 @@
   
   <scene>
   
-    <mn name="Map.tmx"></mn>
+    <map name="Map.tmx"></map>
       
   </scene>
 
