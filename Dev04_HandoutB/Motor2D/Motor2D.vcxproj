@@ -76,7 +76,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="j1Entities.cpp" />
     <ClCompile Include="j1Collider.cpp" />
+    <ClCompile Include="j1Entity.cpp" />
     <ClCompile Include="j1Main.cpp" />
     <ClCompile Include="j1App.cpp" />
     <ClCompile Include="j1Audio.cpp" />
@@ -91,7 +93,9 @@
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="j1Entities.h" />
     <ClInclude Include="j1Collider.h" />
+    <ClInclude Include="j1Entity.h" />
     <ClInclude Include="j1Map.h" />
     <ClInclude Include="j1Player.h" />
     <ClInclude Include="j1Scene.h" />
