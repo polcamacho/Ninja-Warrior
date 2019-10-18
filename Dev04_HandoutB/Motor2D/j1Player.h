@@ -10,6 +10,15 @@
 
 struct MapObject;
 
+enum states_player {
+	IDLE,
+	WALK_FORWARD,
+	WALK_BACKWARD,
+	JUMP_UP,
+	JUMP_FALL,
+	DEATH
+};
+
 struct PlayerData
 {
 
@@ -91,7 +100,6 @@ public:
 	//void SFX(int channel, int repeat);
 	
 	//Puts the camera on player and follows
-	void Camera_Player();
 	
 	void Animation();	//Load keys to change the animations
 	void Pushbacks();	//Load the frame animations
@@ -109,6 +117,7 @@ public:
 private:
 
 	PlayerData			data_player;
+	states_player		current_state;
 	p2SString			folder;
 	p2SString			texture;
 

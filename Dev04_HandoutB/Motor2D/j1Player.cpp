@@ -474,10 +474,3 @@ iPoint j1Player::GetPosition() {
 
 	return data_player.position;
 }
-
-
-/*void j1Player::Camera_Player() {
-
-	App->render->camera.x = data_player.position.x + App->win->width;
-	App->render->camera.y = -data_player.position.y + App->win->height/1.2;
-}*/
