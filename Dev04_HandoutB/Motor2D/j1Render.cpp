@@ -28,7 +28,7 @@ bool j1Render::Awake(pugi::xml_node& config)
 	// load flags
 	Uint32 flags = SDL_RENDERER_ACCELERATED;
 
-	if(config.child("vsync").attribute("value").as_bool(true) == true)
+	if (config.child("vsync").attribute("value").as_bool(true) == true)
 	{
 		flags |= SDL_RENDERER_PRESENTVSYNC;
 		LOG("Using vsync");
@@ -36,7 +36,7 @@ bool j1Render::Awake(pugi::xml_node& config)
 
 	renderer = SDL_CreateRenderer(App->win->window, -1, flags);
 
-	if(renderer == NULL)
+	if (renderer == NULL)
 	{
 		LOG("Could not create the renderer! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
@@ -58,6 +58,8 @@ bool j1Render::Start()
 	LOG("render start");
 	// back background
 	SDL_RenderGetViewport(renderer, &viewport);
+	last_camera.x = -1030;
+	last_camera.y = -940;
 	return true;
 }
 
@@ -70,6 +72,10 @@ bool j1Render::PreUpdate()
 
 bool j1Render::Update(float dt)
 {
+	
+	camera.x = last_camera.x;
+	camera.y = last_camera.y;
+
 	return true;
 }
 
@@ -247,9 +253,13 @@ bool j1Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, U
 	return ret;
 }
 
-void j1Render::CameraMove() {
-	
-	//App->render->camera.x = App->player->Start.data_player.position.x;
-	//App->render->camera.y = App->player->Start.data_player.position.y;
-	
+iPoint j1Render::ScreenToWorld(int x, int y) const
+{
+	iPoint ret;
+	int scale = App->win->GetScale();
+
+	ret.x = (x - camera.x / scale);
+	ret.y = (y - camera.y / scale);
+
+	return ret;
 }
