@@ -76,16 +76,24 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x -= 100;
 
+	// Show player and map colliders
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+	{
+		if (App->player->data_player.showcolliders == false)
+		{
+			App->player->data_player.showcolliders = true;
+		}
+		else if (App->player->data_player.showcolliders == true)
+		{
+			App->player->data_player.showcolliders = false;
+		}
+	}
+
 	//int x = 0;
 	//int y = 0;
 
-	
-
 	App->map->Draw();
 	
-	//Draw Player
-	App->player->DrawPlayer();
-
 	/*App->input->GetMousePosition(x, y);
 	p2Point<uint> TilePos = App->map->data.GetTilePos(x, y);
 	

@@ -9,6 +9,7 @@
 #include "p2Animation.h"
 
 struct MapObject;
+struct Collider;
 
 enum states_player {
 	IDLE,
@@ -54,6 +55,9 @@ struct PlayerData
 	int initialposy;
 	float gravity;
 
+	Collider* colliders = nullptr;
+	Collider* colliders2 = nullptr;
+	bool showcolliders = false;
 
 	//void Pushbacks();	//Load the frame animations
 
@@ -73,8 +77,8 @@ public:
 	//Called at first
 	bool Start();
 	bool PreUpdate();
-	bool Update();
-	bool PostUpdate();
+	bool Update(float dt);
+	bool PostUpdate(float dt);
 
 	// Called before render is available
 	
@@ -106,7 +110,8 @@ public:
 	iPoint Collider_Overlay(iPoint ivec);
 	iPoint AvoidCollision(iPoint nvec, const SDL_Rect result, p2List_item<MapObject*>* objdata);
 	iPoint GetPosition();
-
+	// Collisions
+	void OnCollision(Collider* c1, Collider* c2);
 
 private:
 

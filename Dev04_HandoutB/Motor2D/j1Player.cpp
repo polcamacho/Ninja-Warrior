@@ -8,6 +8,7 @@
 #include "j1Window.h"
 #include "j1Map.h"
 #include "j1Input.h"
+#include "j1Collider.h"
 #include <math.h>
 
 j1Player::j1Player() : j1Module()
@@ -45,6 +46,7 @@ bool j1Player::Awake(pugi::xml_node& config) {
 	data_player.colOffset.y = config.child("colOffset").attribute("y").as_int();
 	data_player.gravity = config.child("gravity").attribute("grav").as_float();
 
+	
 	return ret;
 
 }
@@ -52,12 +54,6 @@ bool j1Player::Awake(pugi::xml_node& config) {
 void j1Player::DrawPlayer()
 {
 	
-	if (data_player.player_flip) {
-		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL, -1.0);
-	}
-	else {
-		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_NONE, -1.0);
-	}
 }
 
 bool j1Player::Start() {
@@ -73,6 +69,7 @@ bool j1Player::Start() {
 
 	data_player.Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));
 
+	data_player.colliders = App->collider->AddCollider({ data_player.position.x, data_player.position.y, 35,53 }, COLLIDER_PLAYER, this);	//Collider player
 	//Sets the player in the start position
 
 	/*for (p2List_item<OBJG*>* obj = App->map->data.objects.start; obj; obj = obj->next)
@@ -97,9 +94,9 @@ bool j1Player::Start() {
 				}
 			}
 		}
-	}*/
+	}
 
-	//data_player.Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));
+	//data_player.Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));*/
 	
 	return	true;
 
@@ -111,39 +108,30 @@ bool j1Player::PreUpdate() {
 
 }
 
-bool j1Player::Update() {
+bool j1Player::Update(float dt) {
 
-	
-	return true;
-
-}
-
-bool j1Player::PostUpdate() {
-
-	
 	Animation();
-	//Camera_Player();
-	return true;
-}
+	
+	//Player Collider Draw
+	data_player.colliders->SetPos(data_player.position.x, data_player.position.y);
 
-
-
-//Called to start the player at initial pos
-//void j1Player::Restart() {
-
-//}
-
-//Change the sound depending the animation
-//void j1Player::SFX(int channel, int repeat) {
+	//Player Draw
+	if (data_player.player_flip) {
+		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL, -1.0);
+	}
+	else {
+		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_NONE, -1.0);
+	}
 
 	
+	return true;
 
-//}
+}
 
-//Puts the camera on player and follows
+bool j1Player::PostUpdate(float dt) {
 
-
-
+	return true;
+}
 
 // Called before quitting
 bool j1Player::CleanUp()
@@ -190,124 +178,6 @@ bool j1Player::Save(pugi::xml_node& node) const {
 
 	return true;
 
-}
-
-
-iPoint j1Player::Collider_Overlay(iPoint ivec)
-{
-	//data_player.grounded = false;
-
-	SDL_Rect Collider;
-	Collider = data_player.col;
-	Collider.x += ivec.x;
-	Collider.y += ivec.y;
-
-	SDL_Rect result;
-
-	iPoint nvec = ivec;
-	for (p2List_item<OBJG*>* obj = App->map->data.objects.start; obj; obj = obj->next)
-	{
-		if (obj->data->name == ("Colisions"))
-		{
-			for (p2List_item<MapObject*>* objdata = obj->data->objects.start; objdata; objdata = objdata->next)
-			{
-				if (objdata->data->name == ("floor"))
-				{
-					if (SDL_IntersectRect(&Collider, &CreateRect_FromObjData(objdata->data), &result))
-					{
-						nvec = AvoidCollision(nvec, result, objdata);
-					}
-				}
-				
-			}
-		}
-	}
-
-	return nvec;
-}
-
-iPoint j1Player::AvoidCollision(iPoint nvec, const SDL_Rect result, p2List_item<MapObject*>* objdata)
-{
-	//Checks to determine the position of the player and the other collider. 
-	//The speed is adjousted using the resultant Rect from the collision
-	if (nvec.y > 0)
-	{
-		if (data_player.position.y + data_player.col.h + data_player.colOffset.y <= objdata->data->y)
-		{
-			if (nvec.x > 0)
-			{
-				if (result.h <= result.w || data_player.position.x + data_player.col.w + data_player.colOffset.x >= objdata->data->x)
-					nvec.y -= result.h;
-				else
-					nvec.x -= result.w;
-			}
-			else if (nvec.x < 0)
-			{
-				if (result.h <= result.w || data_player.position.x + data_player.colOffset.x >= objdata->data->x + objdata->data->width)
-					nvec.y -= result.h;
-				else
-					nvec.x += result.w;
-			}
-			
-		}
-		else
-		{
-			if (nvec.x > 0)
-				nvec.x -= result.w;
-			else
-				nvec.x += result.w;
-		}
-
-	}
-	else if (nvec.y < 0)
-	{
-		if (data_player.position.y + data_player.colOffset.y >= objdata->data->y + objdata->data->height)
-		{
-			if (nvec.x > 0)
-			{
-				if (result.h <= result.w || data_player.position.x + data_player.col.w + data_player.colOffset.x >= objdata->data->x)
-					nvec.y += result.h;
-				else
-					nvec.x -= result.w;
-			}
-			else if (nvec.x < 0)
-			{
-				if (result.h <= result.w || data_player.position.x + data_player.colOffset.x <= objdata->data->x + objdata->data->width)
-					nvec.y += result.h;
-				else
-					nvec.x += result.w;
-			}
-			else
-				nvec.y += result.h;
-		}
-		else
-		{
-			if (nvec.x > 0)
-				nvec.x -= result.w;
-			else if (nvec.x < 0)
-				nvec.x += result.w;
-			else
-				nvec.y += result.h;
-		}
-	}
-	else
-	{
-		if (nvec.x > 0)
-			nvec.x -= result.w;
-		else if (nvec.x < 0)
-			nvec.x += result.w;
-	}
-	return nvec;
-}
-
-SDL_Rect j1Player::CreateRect_FromObjData(MapObject* data)
-{
-	SDL_Rect ret;
-	ret.x = data->x;
-	ret.y = data->y;
-	ret.h = data->height;
-	ret.w = data->width;
-	return ret;
 }
 
 void j1Player::Pushbacks() {
@@ -470,4 +340,30 @@ void j1Player::Animation()
 iPoint j1Player::GetPosition() {
 
 	return data_player.position;
+}
+
+void j1Player::OnCollision(Collider* c1, Collider* c2) {
+	if (data_player.colliders == c1 && c2->type == COLLIDER_FLOOR)
+	{
+		data_player.injump = false;
+		LOG("COLLIDERS WOOOOOOOOOOOOOOOOOOOOOORKS");
+	}
+
+
+
+	switch (c2->type)
+	{
+	case COLLIDER_FLOOR: // what happens when colliders collide 
+
+
+		data_player.position.y = data_player.position.y - data_player.gravity;
+
+		
+		break;
+	case COLLIDER_DEAD:
+
+		break;
+	default:
+		break;
+	}
 }

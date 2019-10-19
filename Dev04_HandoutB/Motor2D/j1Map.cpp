@@ -5,6 +5,7 @@
 #include "j1Textures.h"
 #include "j1Scene.h"
 #include "j1Map.h"
+#include "j1Collider.h"
 #include <math.h>
 
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -176,16 +177,15 @@ bool j1Map::CleanUp()
 	}
 	data.layers.clear();
 
-	/*//Remove all object layers
-	p2List_item<OBJG*>* item3;
-	item3 = data.objects.start;
-
+	p2List_item<ObjectGroup*>* item3;
+	item3 = data.objectgroups.start;
 	while (item3 != NULL)
 	{
 		RELEASE(item3->data);
 		item3 = item3->next;
 	}
-	data.objects.clear();*/
+	data.objectgroups.clear();
+
 
 	// Clean up the pugui tree
 	map_file.reset();
@@ -250,30 +250,19 @@ bool j1Map::Load(const char* file_name)
 	}
 	
 	// Load Object info ----------------------------------------------
-	/*pugi::xml_node groupnode;
-	for (groupnode = map_file.child("map").child("objectgroup"); groupnode && ret; groupnode = groupnode.next_sibling("objectgroup"))
+	//Load objectgroup info -------------------------------------
+
+	pugi::xml_node objectgroup;
+	for (objectgroup = map_file.child("map").child("objectgroup"); objectgroup && ret; objectgroup = objectgroup.next_sibling("objectgroup"))
 	{
-		OBJG* set = new OBJG();
-		
-				
+		ObjectGroup* set = new ObjectGroup();
+
 		if (ret == true)
 		{
-			set->name = groupnode.attribute("name").as_string();
-			for (pugi::xml_node& obj = groupnode.child("object"); obj && ret; obj = obj.next_sibling("object"))
-			{
-				MapObject* data = new MapObject;
-
-				data->height = obj.attribute("height").as_uint();
-				data->width = obj.attribute("width").as_uint();
-				data->x = obj.attribute("x").as_uint();
-				data->y = obj.attribute("y").as_uint();
-				data->name = obj.attribute("name").as_string();
-
-				set->objects.add(data);
-			}
+			ret = LoadObjectGroup(objectgroup, set);
 		}
-		data.objects.add(set);
-	}*/
+		data.objectgroups.add(set);
+	}
 
 	if(ret == true)
 	{
@@ -302,14 +291,15 @@ bool j1Map::Load(const char* file_name)
 			item_layers = item_layers->next;
 		}
 
-		/*p2List_item<OBJG*>* obj_layer = data.objects.start;
-		while (item_layers != NULL)
+		p2List_item<ObjectGroup*>* item_object = data.objectgroups.start;
+
+		while (item_object != NULL)
 		{
-			OBJG* obj = obj_layer->data;
-			LOG("OBJ ----");
-			LOG("name: %s", obj->name.GetString());
-			obj_layer = obj_layer->next;
-		}*/
+			ObjectGroup* o = item_object->data;
+			LOG("ObjectGroup ----");
+			LOG("name: %s", o->name.GetString());
+			item_object = item_object->next;
+		}
 	}
 
 	map_loaded = ret;
@@ -452,10 +442,8 @@ bool j1Map::LoadLayer(pugi::xml_node& layernode, MapLayer* layer)
 	layer->name.create(layernode.attribute("name").as_string());
 	layer->width = layernode.attribute("width").as_int();
 	layer->height = layernode.attribute("height").as_int();
+	layer->speed = layernode.child("properties").child("property").attribute("value").as_float();
 	pugi::xml_node layer_data = layernode.child("data");
-	//layer->tilegid =layer->width * layer->height;
-	//layer->data = new uint[layer->tilegid];
-	layer->parallax = layernode.child("properties").child("property").attribute("value").as_float(0.0f);
 	
 	
 
@@ -487,66 +475,61 @@ bool j1Map::LoadLayer(pugi::xml_node& layernode, MapLayer* layer)
 	   	 
 }
 
-bool j1Map::LoadObject(pugi::xml_node& objectnode, OBJG* object)
-{
+bool j1Map::LoadObjectGroup(pugi::xml_node& node, ObjectGroup* objectgroup) {
 
 	bool ret = true;
+	pugi::xml_node object = node.child("object");
 
-	object->name = objectnode.attribute("name").as_string();
+	objectgroup->name = node.attribute("name").as_string();
+	uint i = 0u;
+	p2SString type;
 
-	for (pugi::xml_node& obj = objectnode.child("object"); obj && ret; obj = obj.next_sibling("object"))
+	if (object == NULL)
 	{
-		MapObject* set = new MapObject;
-
-		set->height = obj.attribute("height").as_uint();
-		set->width = obj.attribute("width").as_uint();
-		set->x = obj.attribute("x").as_uint();
-		set->y = obj.attribute("y").as_uint();
-		set->name = obj.attribute("name").as_string();
-
-		object->objects.add(set);
+		LOG("Error loading object group");
+		ret = false;
 	}
 
-	int i = 0;
-
-	/*for (int i = 0; i <= object->width * object->height; i++) {				//Comprovate that all layers of objects are loaded
-
-		LOG("TileGid= %d", object->set[i]);
-	}*/
-
-	return ret;
-
-}
-
-bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
-{
-	bool ret = false;
-
-	pugi::xml_node data = node.child("properties");
-
-	if (data != NULL)
+	else
 	{
-		pugi::xml_node prop;
+		objectgroup->object = new SDL_Rect[MAX_COLLIDERS];
 
-		for (prop = data.child("property"); prop; prop = prop.next_sibling("property"))
+		while (object != NULL)
 		{
-			Properties::Property* p = new Properties::Property();
+			objectgroup->object[i].x = object.attribute("x").as_int();
+			objectgroup->object[i].y = object.attribute("y").as_int();
+			objectgroup->object[i].w = object.attribute("width").as_int();
+			objectgroup->object[i].h = object.attribute("height").as_int();
 
-			p->name = prop.attribute("name").as_string();
-			p->value = prop.attribute("value").as_int();
-			LOG("%s", prop.attribute("name").as_string());
-			properties.list.add(p);
+			p2SString type(object.attribute("name").as_string());
+			LOG("this name %s", type);
+
+			if (type == "floor") {
+				App->collider->AddCollider(objectgroup->object[i], COLLIDER_FLOOR);
+			}
+
+			if (type == "feath") {
+				App->collider->AddCollider(objectgroup->object[i], COLLIDER_DEAD);
+			}
+
+			if (type == "plataform") {
+				App->collider->AddCollider(objectgroup->object[i], COLLIDER_PLATFORM);
+			}
+
+
+			object = object.next_sibling("object");
+
+			LOG("Collider %i", i);
+			LOG("Collider x: %i y: %i", objectgroup->object[i].x, objectgroup->object[i].y);
+			LOG("Collider w: %i h: %i", objectgroup->object[i].w, objectgroup->object[i].h);
+			i++;
 		}
 	}
 
 	return ret;
-
 }
 
-OBJG::~OBJG()
-{
-	objects.clear();
-}
+
 
 
 

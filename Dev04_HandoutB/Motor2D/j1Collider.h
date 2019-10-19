@@ -11,9 +11,10 @@
 enum ColliderType
 {
 	COLLIDER_NONE = -1,
-	COLLIDER_GROUND,
+	COLLIDER_FLOOR,
 	COLLIDER_DEAD,
 	COLLIDER_LVL_END,
+	COLLIDER_PLATFORM,
 	COLLIDER_PLAYER,
 
 	COLLIDER_MAX
@@ -39,6 +40,8 @@ struct Collider
 	}
 
 	bool CheckCollision(const SDL_Rect& r) const;
+
+	bool Enabled = true;
 };
 
 class j1Collider : public j1Module
@@ -67,7 +70,7 @@ public:
 	Collider* AddCollider(SDL_Rect rect, ColliderType type, j1Module* callback = nullptr);
 	void DebugDraw();
 
-	bool EraseCollider(Collider* collider);
+	
 
 private:
 
