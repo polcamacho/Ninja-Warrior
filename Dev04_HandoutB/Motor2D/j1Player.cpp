@@ -68,9 +68,9 @@ bool j1Player::Start() {
 	Pushbacks();
 	data_player.current_animation = &data_player.idle;
 	
-	data_player.position.y = 675;
-	data_player.position.x = 100;
-	data_player.v = { 5,0 };
+	data_player.position.y = App->render->camera.y;
+	data_player.position.x = App->render->camera.x;
+	//data_player.v = { 5,0 };
 
 	App->audio->LoadFx(data_player.walkFX.GetString());
 	App->audio->LoadFx(data_player.deathFX.GetString());
@@ -391,7 +391,7 @@ void j1Player::Animation()
 		data_player.player_flip = false;
 		data_player.current_animation = &data_player.walk;
 		//App->render->camera.x += 1;
-		data_player.position.x += 6;
+		data_player.position.x += App->render->velcamera;
 
 	}
 
@@ -400,7 +400,7 @@ void j1Player::Animation()
 		data_player.player_flip = true;
 		data_player.current_animation = &data_player.walk;
 		//App->render->camera.x -= 1;
-		data_player.position.x -= 6;
+		data_player.position.x -= App->render->velcamera;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {		//if "A" and "SHIFT" are pressed animation walk backward actives flips to the Blit
@@ -408,7 +408,7 @@ void j1Player::Animation()
 		data_player.player_flip = true;
 		data_player.current_animation = &data_player.walk2;
 		//App->render->camera.x -= 1;
-		data_player.position.x -= 11;
+		data_player.position.x -= App->render->velcamera;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
@@ -416,7 +416,7 @@ void j1Player::Animation()
 		data_player.player_flip = false;
 		data_player.current_animation = &data_player.walk2;
 		//App->render->camera.x += 1;
-		data_player.position.x += 11;
+		data_player.position.x += App->render->velcamera;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || (data_player.injump == true)) {		//if "SPACE" is pressed 

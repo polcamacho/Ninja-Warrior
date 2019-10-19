@@ -71,6 +71,8 @@ bool j1Render::PreUpdate()
 
 bool j1Render::Update(float dt)
 {
+	camera.x = 600;
+	velcamera = App->player->data_player.v.x;
 	camera.x = -(App->player->data_player.position.x-velcamera);
 	if (camera.x > 0) {
 		camera.x = 0;
