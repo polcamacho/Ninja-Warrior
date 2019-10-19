@@ -76,6 +76,7 @@ bool j1Render::Update(float dt)
 
 		if (camera.x > 0) {
 			camera.x = 0;
+			
 		}
 		velcamera = App->player->data_player.v.x;
 	
@@ -140,8 +141,8 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	uint scale = App->win->GetScale();
 
 	SDL_Rect rect;
-	rect.x = (int)(camera.x * speed) + x * scale;
-	rect.y = (int)(camera.y * speed) + y * scale;
+	rect.x = (int)(camera.x ) + x * scale;
+	rect.y = (int)(camera.y ) + y * scale;
 
 	if(section != NULL)
 	{
@@ -188,16 +189,16 @@ bool j1Render::BlitWithScale(SDL_Texture* texture, int x, int y, SDL_Rect* _sect
 	switch (pivot)
 	{
 	case TOP_RIGHT:
-		rect.x = (int)(camera.x * speed + velcamera1.x) + (x - section.w) * 1;
-		rect.y = (int)(camera.y * speed + velcamera1.y) + y * 1;
+		rect.x = (int)(camera.x + velcamera1.x) + (x - section.w) * 1;
+		rect.y = (int)(camera.y + velcamera1.y) + y * 1;
 		break;
 	case TOP_LEFT:
-		rect.x = (int)(camera.x * speed + velcamera1.x) + (x) * 1;
-		rect.y = (int)(camera.y * speed + velcamera1.y) + y * 1;
+		rect.x = (int)(camera.x + velcamera1.x) + (x) * 1;
+		rect.y = (int)(camera.y + velcamera1.y) + y * 1;
 		break;
 	case MIDDLE:
-		rect.x = (int)(camera.x * speed + velcamera1.x) + (x + w + section.x / 2) * 1;
-		rect.y = (int)(camera.y * speed + velcamera1.y) + (y + section.y / 2) * 1;
+		rect.x = (int)(camera.x + velcamera1.x) + (x + w + section.x / 2) * 1;
+		rect.y = (int)(camera.y + velcamera1.y) + (y + section.y / 2) * 1;
 		break;
 	}
 

@@ -58,6 +58,7 @@ void j1Player::DrawPlayer()
 	else {
 		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_NONE, -1.0);
 	}
+
 }
 
 bool j1Player::Start() {
@@ -67,7 +68,8 @@ bool j1Player::Start() {
 	
 	Pushbacks();
 	data_player.current_animation = &data_player.idle;
-	
+
+
 	App->audio->LoadFx(data_player.walkFX.GetString());
 	App->audio->LoadFx(data_player.deathFX.GetString());
 
@@ -113,7 +115,6 @@ bool j1Player::PreUpdate() {
 
 bool j1Player::Update() {
 
-	
 	return true;
 
 }
