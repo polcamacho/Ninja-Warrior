@@ -7,6 +7,13 @@
 
 struct PlayerData;
 
+enum RENDER_PIVOT
+{
+	TOP_RIGHT,
+	TOP_LEFT,
+	MIDDLE
+};
+
 class j1Render : public j1Module
 {
 public:
@@ -41,7 +48,8 @@ public:
 	bool DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool filled = true, bool use_camera = true) const;
 	bool DrawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool use_camera = true) const;
 	bool DrawCircle(int x1, int y1, int redius, Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255, bool use_camera = true) const;
-	void CameraMove();
+	
+	bool BlitWithScale(SDL_Texture* texture, int x, int y, SDL_Rect* section, float scale, float speed, float fillAmount, RENDER_PIVOT pivot);
 
 	// Set background color
 	void SetBackgroundColor(SDL_Color color);
@@ -49,6 +57,9 @@ public:
 public:
 
 	int				velcamera;
+	int				scale;
+	SDL_Point		velcamera1;
+
 	SDL_Renderer*	renderer;
 	SDL_Rect		camera;
 	SDL_Rect		viewport;

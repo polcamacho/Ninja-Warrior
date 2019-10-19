@@ -17,8 +17,6 @@ j1Scene::j1Scene() : j1Module()
 	name.create("scene");
 }
 
-
-//texture = App->tex->Load("maps/tmw_desert_spacing.png");
 // Destructor
 j1Scene::~j1Scene()
 {}
@@ -47,9 +45,7 @@ bool j1Scene::Start()
 {
 	App->map->Load("map.tmx");
 	LOG("LOADING MAP");
-	App->render->camera.x = App->player->GetPosition().x;
-	App->render->camera.y = App->player->GetPosition().y;
-	//camvelocity = { 0.0f,0.0f };
+	
 	return true;
 }
 
@@ -69,24 +65,21 @@ bool j1Scene::Update(float dt)
 		App->SaveGame();
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		App->render->camera.y += 1;
+		App->render->camera.y += 100;
 
 	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		App->render->camera.y -= 1;
+		App->render->camera.y -= 100;
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->render->camera.x += 1;
+		App->render->camera.x += 100;
 
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x -= 1;
+		App->render->camera.x -= 100;
 
-	//App->render->Blit(img, 0, 0);
-	
 	//int x = 0;
 	//int y = 0;
 
-	App->render->camera.x = ((App->player->GetPosition().x * App->win->GetScale()) - (App->render->camera.w / 2))*-1; 
-	App->render->camera.y = ((App->player->GetPosition().y * App->win->GetScale()) - (App->render->camera.w * 2 / 3))*-1;
+	
 
 	App->map->Draw();
 	

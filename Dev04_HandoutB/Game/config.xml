@@ -6,7 +6,7 @@
 	</app>
 	<renderer>
 		<vsync value="true" />
-		<cameravelocity camvel="6" />
+		<cameravelocity camvel="-6" />
 	</renderer>
 	<window>
 		<resolution width="1024" height="768" scale="1" />

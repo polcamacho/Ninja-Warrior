@@ -27,6 +27,7 @@ struct MapLayer {
 	Properties properties;
 	uint* tilegid;
 	//float speed1;
+	float		speed;
 	float parallax;
 
 	
