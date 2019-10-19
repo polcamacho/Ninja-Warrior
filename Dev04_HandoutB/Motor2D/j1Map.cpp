@@ -7,7 +7,6 @@
 #include "j1Map.h"
 #include "j1Collider.h"
 #include "j1Scene.h"
-#include "j1Entities.h"
 #include <math.h>
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
