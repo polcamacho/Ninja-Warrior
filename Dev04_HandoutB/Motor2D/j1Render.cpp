@@ -71,7 +71,7 @@ bool j1Render::PreUpdate()
 
 bool j1Render::Update(float dt)
 {
-	camera.x = -(data_player.position.x-velcamera);
+	camera.x = -(App->player->data_player.position.x-velcamera);
 	if (camera.x > 0) {
 		camera.x = 0;
 	}
@@ -252,9 +252,3 @@ bool j1Render::DrawCircle(int x, int y, int radius, Uint8 r, Uint8 g, Uint8 b, U
 	return ret;
 }
 
-void j1Render::CameraMove() {
-	
-	//App->render->camera.x = App->player->Start.data_player.position.x;
-	//App->render->camera.y = App->player->Start.data_player.position.y;
-	
-}

@@ -113,10 +113,11 @@ private:
 	
 public:
 
+	PlayerData			data_player;
 
 private:
 
-	PlayerData			data_player;
+	
 	states_player		current_state;
 	p2SString			folder;
 	p2SString			texture;
