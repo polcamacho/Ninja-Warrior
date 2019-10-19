@@ -44,6 +44,7 @@ bool j1Player::Awake(pugi::xml_node& config) {
 
 	data_player.colOffset.x = config.child("colOffset").attribute("x").as_int();
 	data_player.colOffset.y = config.child("colOffset").attribute("y").as_int();
+	
 	data_player.gravity = config.child("gravity").attribute("grav").as_float();
 
 	
@@ -68,7 +69,7 @@ void j1Player::DrawPlayer()
 bool j1Player::Start() {
 
 	
-	data_player.injump = false;
+	//data_player.injump = false;
 	
 	Pushbacks();
 	data_player.current_animation = &data_player.idle;
@@ -78,36 +79,11 @@ bool j1Player::Start() {
 	App->audio->LoadFx(data_player.deathFX.GetString());
 
 	data_player.Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));
-
-	data_player.colliders = App->collider->AddCollider({ data_player.position.x, data_player.position.y, 35,53 }, COLLIDER_PLAYER, this);	//Collider player
-	//Sets the player in the start position
-
-	/*for (p2List_item<OBJG*>* obj = App->map->data.objects.start; obj; obj = obj->next)
-	{
-		if (obj->data->name == ("colisions")){
-
-			for (p2List_item<MapObject*>* objdata = obj->data->objects.start; objdata; objdata = objdata->next){
-
-				if (objdata->data->name == ("player")){
-
-					data_player.col.h = objdata->data->height;
-					data_player.col.w = objdata->data->width;
-					data_player.col.x = objdata->data->x;
-					data_player.col.y = objdata->data->y;
-				}
-
-				else if (objdata->data->name == ("startpoint")){
-
-					data_player.position = { objdata->data->x, objdata->data->y };
-					data_player.col.x = data_player.position.x + data_player.colOffset.x;
-					data_player.col.y = data_player.position.y + data_player.colOffset.y;
-				}
-			}
-		}
-	}
-
-	//data_player.Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));*/
 	
+	data_player.colliders = App->collider->AddCollider({ data_player.position.x, data_player.position.y, 43,53 }, COLLIDER_PLAYER, this);	//Collider player
+	
+
+
 	return	true;
 
 }
@@ -187,6 +163,8 @@ bool j1Player::Save(pugi::xml_node& node) const {
 
 	node.append_child("velocity").append_attribute("x") = data_player.v.x;
 	node.child("velocity").attribute("y") = data_player.v.y;
+
+	node.child("gravity").attribute("grav") = data_player.gravity;
 
 	return true;
 
@@ -355,13 +333,12 @@ iPoint j1Player::GetPosition() {
 }
 
 void j1Player::OnCollision(Collider* c1, Collider* c2) {
+	
 	if (data_player.colliders == c1 && c2->type == COLLIDER_FLOOR)
 	{
 		data_player.injump = false;
 		LOG("COLLIDERS WOOOOOOOOOOOOOOOOOOOOOORKS");
 	}
-
-
 
 	switch (c2->type)
 	{
