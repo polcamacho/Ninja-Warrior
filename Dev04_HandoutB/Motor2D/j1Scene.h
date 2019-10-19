@@ -32,12 +32,10 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	p2SString spritesheetName;
+	p2List<p2SString*> mn;
 
 
 private:
-
-	void putPlayerToSpawn();
 };
 
 #endif // __j1SCENE_H__

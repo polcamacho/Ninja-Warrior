@@ -1,37 +1,49 @@
-<?xml version="1.0"?>
+<!-- Config file for the game -->
+
 <config>
-	<app>
-		<title>Game Development Testbed</title>
-		<organization>UPC</organization>
-	</app>
-	<renderer>
-		<vsync value="true" />
-	</renderer>
-	<window>
-		<resolution width="1024" height="768" scale="1" />
-		<fullscreen value="false" />
-		<borderless value="false" />
-		<resizable value="false" />
-		<fullscreen_window value="false" />
-	</window>
-	<file_system>
-		<path>data.zip</path>
-	</file_system>
-	<map>
-		<folder>maps/</folder>
-	</map>
-	<player>
-		<folder>textures/</folder>
-		<texture source="rogue_spritesheed.png" />
-		<position x="0" y="645" />
-		<jumpFX source="Walk.wav" />
-		<deathFX source="Death.wav" />
-		<acceleration x="1" y="1" />
-		<jump_velocity x="1" y="-5" />
-		<velocity x="1" y="-5" />
-		<colOffset x="11" y="8" />
-	</player>
-	<scene>
-		<map name="Map.tmx" />
-	</scene>
+  <app>
+    <title>Game Development Testbed</title>
+    <organization>UPC</organization>
+  </app>
+	
+  <renderer>
+    <vsync value="true"/>
+  </renderer>
+
+  <window>
+    <resolution width="1024" height="768" scale="1"/>
+    <fullscreen value="false"/>
+    <borderless value="false"/>
+    <resizable value="false"/>
+    <fullscreen_window value="false"/>
+  </window>
+
+  <file_system>
+    <path>data.zip</path>
+  </file_system>
+
+  <map>
+    <folder>maps/</folder>
+  </map>
+  
+   <player>
+    <folder>textures/</folder>
+    <texture source="rogue_spritesheed.png"/>
+    <position x="0" y="645"/>
+    <jumpFX source="Walk.wav"/>
+    <deathFX source="Death.wav"/>
+    <acceleration x="1" y="1"/>
+    <jump_velocity x="1" y="-5"/>
+    <velocity x="1" y="-5"/>
+
+    <colOffset x="11" y="8"/>
+   
+  </player>
+  
+  <scene>
+  
+    <map name="Map.tmx"></map>
+      
+  </scene>
+
 </config>

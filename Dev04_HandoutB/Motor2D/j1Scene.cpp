@@ -28,7 +28,14 @@ bool j1Scene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
 
-	
+	for (pugi::xml_node map = config.child("mn"); map; map = map.next_sibling("mn"))
+	{
+		p2SString* data = new p2SString;
+
+		data->create(map.attribute("name").as_string());
+		
+		mn.add(data);
+	}
 
 	bool ret = true;
 
@@ -38,9 +45,12 @@ bool j1Scene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	pugi::xml_document	config_file;
-	pugi::xml_node* node = &App->LoadConfig(config_file);
-	node = &node->child("map").child("scene");
+	
+	bool ret = App->map->Load(mn.start->data->GetString());
+	LOG("Map: %s", mn.start->data->GetString());
+	App->render->camera.x = App->player->GetPosition().x;
+	App->render->camera.y = App->player->GetPosition().y;
+	//camvelocity = { 0.0f,0.0f };
 	return true;
 }
 
@@ -71,30 +81,32 @@ bool j1Scene::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x -= 1;
 
+	//App->render->Blit(img, 0, 0);
+	
+	//int x = 0;
+	//int y = 0;
+
+	App->render->camera.x = -((App->player->GetPosition().x * App->win->GetScale()) - (App->render->camera.w / 2)); 
+	App->render->camera.y = -((App->player->GetPosition().y * App->win->GetScale()) - (App->render->camera.w * 2 / 3));
+
 	App->map->Draw();
 	
 	//Draw Player
 	App->player->DrawPlayer();
 
-	int m_x; int m_y;
-	App->input->GetMousePosition(m_x, m_y);
-	iPoint p = App->map->WorldToMap(m_x, m_y);
-
-	p2SString title("NINJA TREE - Map:%dx%d Tiles:%dx%d Tilesets:%d || Coords in Map: X->%i Y->%i || Coords in World: X->%i Y->%i",
+	/*App->input->GetMousePosition(x, y);
+	p2Point<uint> TilePos = App->map->data.GetTilePos(x, y);
+	
+	p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d Tile:%dx%d ",
 		App->map->data.width, App->map->data.height,
 		App->map->data.tile_width, App->map->data.tile_height,
-		App->map->data.tilesets.count(), p.x, p.y, m_x, m_y);
+		App->map->data.tilesets.count(),
+		TilePos.x, TilePos.y);*/
+	
+	p2SString title("2D PLATFORMER");
+	App->win->SetTitle(title.GetString());
 
 	return true;
-}
-
-void j1Scene::putPlayerToSpawn()
-{
-	//App->player->GetPosition()->position.x = App->map->spawn.x;
-	//App->player->GetPosition()->position.y = App->map->spawn.y;
-
-	App->map->spawn.x = 100;
-	App->map->spawn.x = 638;
 }
 
 // Called each loop iteration

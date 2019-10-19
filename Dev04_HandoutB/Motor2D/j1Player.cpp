@@ -53,12 +53,12 @@ bool j1Player::Awake(pugi::xml_node& config) {
 void j1Player::DrawPlayer()
 {
 	
-	/*if (data_player.player_flip) {
+	if (data_player.player_flip) {
 		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL, -1.0);
 	}
 	else {
 		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_NONE, -1.0);
-	}*/
+	}
 }
 
 bool j1Player::Start() {
@@ -78,7 +78,34 @@ bool j1Player::Start() {
 
 	data_player.Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));
 
-		
+	//Sets the player in the start position
+
+	for (p2List_item<OBJG*>* obj = App->map->data.objects.start; obj; obj = obj->next)
+	{
+		if (obj->data->name == ("colisions")){
+
+			for (p2List_item<MapObject*>* objdata = obj->data->objects.start; objdata; objdata = objdata->next){
+
+				if (objdata->data->name == ("player")){
+
+					data_player.col.h = objdata->data->height;
+					data_player.col.w = objdata->data->width;
+					data_player.col.x = objdata->data->x;
+					data_player.col.y = objdata->data->y;
+				}
+
+				else if (objdata->data->name == ("startpoint")){
+
+					data_player.position = { objdata->data->x, objdata->data->y };
+					data_player.col.x = data_player.position.x + data_player.colOffset.x;
+					data_player.col.y = data_player.position.y + data_player.colOffset.y;
+				}
+			}
+		}
+	}
+
+	data_player.Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));
+	
 	return	true;
 
 }
@@ -103,6 +130,22 @@ bool j1Player::PostUpdate() {
 	//Camera_Player();
 	return true;
 }
+
+
+
+//Called to start the player at initial pos
+//void j1Player::Restart() {
+
+//}
+
+//Change the sound depending the animation
+//void j1Player::SFX(int channel, int repeat) {
+
+	
+
+//}
+
+//Puts the camera on player and follows
 
 
 
@@ -153,8 +196,122 @@ bool j1Player::Save(pugi::xml_node& node) const {
 }
 
 
+iPoint j1Player::Collider_Overlay(iPoint ivec)
+{
+	//data_player.grounded = false;
 
+	SDL_Rect Collider;
+	Collider = data_player.col;
+	Collider.x += ivec.x;
+	Collider.y += ivec.y;
 
+	SDL_Rect result;
+
+	iPoint nvec = ivec;
+	for (p2List_item<OBJG*>* obj = App->map->data.objects.start; obj; obj = obj->next)
+	{
+		if (obj->data->name == ("Colisions"))
+		{
+			for (p2List_item<MapObject*>* objdata = obj->data->objects.start; objdata; objdata = objdata->next)
+			{
+				if (objdata->data->name == ("floor"))
+				{
+					if (SDL_IntersectRect(&Collider, &CreateRect_FromObjData(objdata->data), &result))
+					{
+						nvec = AvoidCollision(nvec, result, objdata);
+					}
+				}
+				
+			}
+		}
+	}
+
+	return nvec;
+}
+
+iPoint j1Player::AvoidCollision(iPoint nvec, const SDL_Rect result, p2List_item<MapObject*>* objdata)
+{
+	//Checks to determine the position of the player and the other collider. 
+	//The speed is adjousted using the resultant Rect from the collision
+	if (nvec.y > 0)
+	{
+		if (data_player.position.y + data_player.col.h + data_player.colOffset.y <= objdata->data->y)
+		{
+			if (nvec.x > 0)
+			{
+				if (result.h <= result.w || data_player.position.x + data_player.col.w + data_player.colOffset.x >= objdata->data->x)
+					nvec.y -= result.h;
+				else
+					nvec.x -= result.w;
+			}
+			else if (nvec.x < 0)
+			{
+				if (result.h <= result.w || data_player.position.x + data_player.colOffset.x >= objdata->data->x + objdata->data->width)
+					nvec.y -= result.h;
+				else
+					nvec.x += result.w;
+			}
+			
+		}
+		else
+		{
+			if (nvec.x > 0)
+				nvec.x -= result.w;
+			else
+				nvec.x += result.w;
+		}
+
+	}
+	else if (nvec.y < 0)
+	{
+		if (data_player.position.y + data_player.colOffset.y >= objdata->data->y + objdata->data->height)
+		{
+			if (nvec.x > 0)
+			{
+				if (result.h <= result.w || data_player.position.x + data_player.col.w + data_player.colOffset.x >= objdata->data->x)
+					nvec.y += result.h;
+				else
+					nvec.x -= result.w;
+			}
+			else if (nvec.x < 0)
+			{
+				if (result.h <= result.w || data_player.position.x + data_player.colOffset.x <= objdata->data->x + objdata->data->width)
+					nvec.y += result.h;
+				else
+					nvec.x += result.w;
+			}
+			else
+				nvec.y += result.h;
+		}
+		else
+		{
+			if (nvec.x > 0)
+				nvec.x -= result.w;
+			else if (nvec.x < 0)
+				nvec.x += result.w;
+			else
+				nvec.y += result.h;
+		}
+	}
+	else
+	{
+		if (nvec.x > 0)
+			nvec.x -= result.w;
+		else if (nvec.x < 0)
+			nvec.x += result.w;
+	}
+	return nvec;
+}
+
+SDL_Rect j1Player::CreateRect_FromObjData(MapObject* data)
+{
+	SDL_Rect ret;
+	ret.x = data->x;
+	ret.y = data->y;
+	ret.h = data->height;
+	ret.w = data->width;
+	return ret;
+}
 
 void j1Player::Pushbacks() {
 
@@ -313,7 +470,7 @@ void j1Player::Animation()
 
 }
 
-/*p2Point<int> j1Player::GetPosition() {
+iPoint j1Player::GetPosition() {
 
 	return data_player.position;
-}*/
+}

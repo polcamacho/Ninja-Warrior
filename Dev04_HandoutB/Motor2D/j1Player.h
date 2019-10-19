@@ -8,6 +8,8 @@
 #include "j1Module.h"
 #include "p2Animation.h"
 
+struct MapObject;
+
 enum states_player {
 	IDLE,
 	WALK_FORWARD,
@@ -34,9 +36,7 @@ struct PlayerData
 	p2SString		walkFX;
 	bool			grounded;
 
-	iPoint position;
-	//fPoint position = fPoint(0, 0);
-	//p2Point<int> position;	//Position of the player (x,y)
+	iPoint position;	//Position of the player (x,y)
 	iPoint a;	//Acceleration (x,y)
 	iPoint vj;	//Velocity of the jump (x,y)
 	iPoint v;	//Velocity of the player (x,y)
@@ -55,7 +55,7 @@ struct PlayerData
 
 
 
-	
+	//void Pushbacks();	//Load the frame animations
 
 };
 
@@ -88,16 +88,23 @@ public:
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 
-	
+	SDL_Rect CreateRect_FromObjData(MapObject* data);
 
 	// Called before quitting
 	bool CleanUp();
 
+	//Called to start the player at initial pos
+	//void Restart();
 	
+	//Change the sound depending the animation
+	//void SFX(int channel, int repeat);
+	
+	//Puts the camera on player and follows
 	
 	void Animation();	//Load keys to change the animations
 	void Pushbacks();	//Load the frame animations
-	
+	iPoint Collider_Overlay(iPoint ivec);
+	iPoint AvoidCollision(iPoint nvec, const SDL_Rect result, p2List_item<MapObject*>* objdata);
 	iPoint GetPosition();
 
 
