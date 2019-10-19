@@ -31,16 +31,6 @@ struct MapLayer {
 
 };
 
-struct MapObject
-{
-	p2SString	name;
-	int			x;
-	int			y;
-	uint		width;
-	uint		height;
-
-};
-
 // ----------------------------------------------------
 struct TileSet
 {
@@ -64,9 +54,11 @@ struct TileSet
 };
 
 struct ObjectGroup {
+	
 	p2SString name = "No name";
 	int size = 0;
 	SDL_Rect* object;
+
 };
 
 enum MapTypes

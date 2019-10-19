@@ -34,7 +34,7 @@ void j1Map::Draw()
 	if (map_loaded == false)
 		return;
 
-	// TODO 4: Make sure we draw all the layers and not just the first one
+	
 	MapLayer* layer = this->data.layers.start->data;
 	
 
@@ -54,7 +54,7 @@ void j1Map::Draw()
 						iPoint pos = MapToWorld(x, y);
 
 						App->render->Blit(tileset->texture, pos.x, pos.y, &r);
-						//App->render->Blit(tileset->texture, pos.x, pos.y, &r);	//App->render->Blit(data.tilesets[x]->texture, j*data.tile_width, i*data.tile_height, &data.tilesets[x]->tile_id(data.layers[y]->data[data.layers[y]->Get(j, i)]), SDL_FLIP_NONE, -data.layers[y]->parallax); //Parallax// -data.layers[y]->parallax); //	Blits the Map and call the parallax item to do it
+						
 					}
 				}
 			}
@@ -69,7 +69,6 @@ void j1Map::Draw()
 
 TileSet* j1Map::GetTilesetFromTileId(int id) const
 {
-	// TODO 3: Complete this method so we pick the right
 	// Tileset based on a tile id
 	TileSet* tile = nullptr;
 	for (p2List_item<TileSet*>* tileSearch = data.tilesets.start; tileSearch; tileSearch = tileSearch->next)
@@ -86,7 +85,6 @@ TileSet* j1Map::GetTilesetFromTileId(int id) const
 	}
 	return tile;
 }
-
 
 iPoint j1Map::MapToWorld(int x, int y) const
 {
@@ -508,11 +506,11 @@ bool j1Map::LoadObjectGroup(pugi::xml_node& node, ObjectGroup* objectgroup) {
 				App->collider->AddCollider(objectgroup->object[i], COLLIDER_FLOOR);
 			}
 
-			if (type == "feath") {
+			if (type == "death") {
 				App->collider->AddCollider(objectgroup->object[i], COLLIDER_DEAD);
 			}
 
-			if (type == "plataform") {
+			if (type == "platform") {
 				App->collider->AddCollider(objectgroup->object[i], COLLIDER_PLATFORM);
 			}
 

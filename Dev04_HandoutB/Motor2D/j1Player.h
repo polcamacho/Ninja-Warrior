@@ -92,8 +92,6 @@ public:
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 
-	SDL_Rect CreateRect_FromObjData(MapObject* data);
-
 	// Called before quitting
 	bool CleanUp();
 
@@ -107,8 +105,7 @@ public:
 	
 	void Animation();	//Load keys to change the animations
 	void Pushbacks();	//Load the frame animations
-	iPoint Collider_Overlay(iPoint ivec);
-	iPoint AvoidCollision(iPoint nvec, const SDL_Rect result, p2List_item<MapObject*>* objdata);
+	
 	iPoint GetPosition();
 	// Collisions
 	void OnCollision(Collider* c1, Collider* c2);
