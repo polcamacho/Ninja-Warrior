@@ -14,7 +14,6 @@ class j1Audio;
 class j1Scene;
 class j1Map;
 class j1Player;
-class j1Collider;
 
 class j1App
 {
@@ -86,7 +85,6 @@ public:
 	j1Scene*			scene;
 	j1Map*				map;
 	j1Player*			player;
-	j1Collider*			collision;
 
 private:
 

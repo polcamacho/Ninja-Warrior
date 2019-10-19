@@ -1,17 +1,15 @@
 #include "p2Defs.h"
 #include "p2Log.h"
-#include "p2SString.h"
 #include "j1App.h"
 #include "j1Render.h"
 #include "j1Textures.h"
-#include "j1Map.h"
-#include "j1Collider.h"
 #include "j1Scene.h"
+#include "j1Map.h"
 #include <math.h>
+
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
 	name.create("map");
-	spawn = iPoint(-1, -1);
 }
 
 // Destructor
@@ -26,22 +24,6 @@ bool j1Map::Awake(pugi::xml_node& config)
 
 	folder.create(config.child("folder").child_value());
 	
-	pugi::xml_document data;
-
-	pugi::xml_node lvlData = App->LoadConfig(data);
-
-	for (lvlData = lvlData.child("map").child("scene").child("data"); lvlData && ret; lvlData = lvlData.next_sibling("data"))
-	{
-		if (lvlData.attribute("start").as_bool()) {
-			sceneName = (p2SString)lvlData.attribute("name").as_string();
-			lvlData.attribute("currentLvl").set_value(true);
-		}
-		else {
-			lvlData.attribute("currentLvl").set_value(false);
-		}
-	}
-	data.save_file("config.xml");
-
 	return ret;
 }
 
@@ -267,6 +249,32 @@ bool j1Map::Load(const char* file_name)
 		
 	}
 	
+	// Load Object info ----------------------------------------------
+	/*pugi::xml_node groupnode;
+	for (groupnode = map_file.child("map").child("objectgroup"); groupnode && ret; groupnode = groupnode.next_sibling("objectgroup"))
+	{
+		OBJG* set = new OBJG();
+		
+				
+		if (ret == true)
+		{
+			set->name = groupnode.attribute("name").as_string();
+			for (pugi::xml_node& obj = groupnode.child("object"); obj && ret; obj = obj.next_sibling("object"))
+			{
+				MapObject* data = new MapObject;
+
+				data->height = obj.attribute("height").as_uint();
+				data->width = obj.attribute("width").as_uint();
+				data->x = obj.attribute("x").as_uint();
+				data->y = obj.attribute("y").as_uint();
+				data->name = obj.attribute("name").as_string();
+
+				set->objects.add(data);
+			}
+		}
+		data.objects.add(set);
+	}*/
+
 	if(ret == true)
 	{
 		LOG("Successfully parsed map XML file: %s", file_name);
@@ -294,6 +302,14 @@ bool j1Map::Load(const char* file_name)
 			item_layers = item_layers->next;
 		}
 
+		/*p2List_item<OBJG*>* obj_layer = data.objects.start;
+		while (item_layers != NULL)
+		{
+			OBJG* obj = obj_layer->data;
+			LOG("OBJ ----");
+			LOG("name: %s", obj->name.GetString());
+			obj_layer = obj_layer->next;
+		}*/
 	}
 
 	map_loaded = ret;
@@ -437,7 +453,9 @@ bool j1Map::LoadLayer(pugi::xml_node& layernode, MapLayer* layer)
 	layer->width = layernode.attribute("width").as_int();
 	layer->height = layernode.attribute("height").as_int();
 	pugi::xml_node layer_data = layernode.child("data");
-	
+	//layer->tilegid =layer->width * layer->height;
+	//layer->data = new uint[layer->tilegid];
+	layer->parallax = layernode.child("properties").child("property").attribute("value").as_float(0.0f);
 	
 	
 
@@ -469,6 +487,37 @@ bool j1Map::LoadLayer(pugi::xml_node& layernode, MapLayer* layer)
 	   	 
 }
 
+bool j1Map::LoadObject(pugi::xml_node& objectnode, OBJG* object)
+{
+
+	bool ret = true;
+
+	object->name = objectnode.attribute("name").as_string();
+
+	for (pugi::xml_node& obj = objectnode.child("object"); obj && ret; obj = obj.next_sibling("object"))
+	{
+		MapObject* set = new MapObject;
+
+		set->height = obj.attribute("height").as_uint();
+		set->width = obj.attribute("width").as_uint();
+		set->x = obj.attribute("x").as_uint();
+		set->y = obj.attribute("y").as_uint();
+		set->name = obj.attribute("name").as_string();
+
+		object->objects.add(set);
+	}
+
+	int i = 0;
+
+	/*for (int i = 0; i <= object->width * object->height; i++) {				//Comprovate that all layers of objects are loaded
+
+		LOG("TileGid= %d", object->set[i]);
+	}*/
+
+	return ret;
+
+}
+
 bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 {
 	bool ret = false;
@@ -494,6 +543,10 @@ bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 
 }
 
+OBJG::~OBJG()
+{
+	objects.clear();
+}
 
 
 
