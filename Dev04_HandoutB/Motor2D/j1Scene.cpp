@@ -28,7 +28,7 @@ bool j1Scene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
 
-	for (pugi::xml_node map = config.child("mn"); map; map = map.next_sibling("mn"))
+	for (pugi::xml_node map = config.child("map"); map; map = map.next_sibling("map"))
 	{
 		p2SString* data = new p2SString;
 
@@ -45,9 +45,8 @@ bool j1Scene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	
-	bool ret = App->map->Load(mn.start->data->GetString());
-	LOG("Map: %s", mn.start->data->GetString());
+	App->map->Load("map.tmx");
+	LOG("LOADING MAP");
 	App->render->camera.x = App->player->GetPosition().x;
 	App->render->camera.y = App->player->GetPosition().y;
 	//camvelocity = { 0.0f,0.0f };
@@ -86,8 +85,8 @@ bool j1Scene::Update(float dt)
 	//int x = 0;
 	//int y = 0;
 
-	App->render->camera.x = -((App->player->GetPosition().x * App->win->GetScale()) - (App->render->camera.w / 2)); 
-	App->render->camera.y = -((App->player->GetPosition().y * App->win->GetScale()) - (App->render->camera.w * 2 / 3));
+	App->render->camera.x = ((App->player->GetPosition().x * App->win->GetScale()) - (App->render->camera.w / 2))*-1; 
+	App->render->camera.y = ((App->player->GetPosition().y * App->win->GetScale()) - (App->render->camera.w * 2 / 3))*-1;
 
 	App->map->Draw();
 	

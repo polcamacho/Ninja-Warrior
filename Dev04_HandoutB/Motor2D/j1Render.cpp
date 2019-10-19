@@ -48,6 +48,7 @@ bool j1Render::Awake(pugi::xml_node& config)
 		camera.x = 0;
 		camera.y = 0;
 	}
+	velcamera = config.child("cameraveloticy").attribute("camvel").as_int();
 
 	return ret;
 }
@@ -70,6 +71,10 @@ bool j1Render::PreUpdate()
 
 bool j1Render::Update(float dt)
 {
+	camera.x = -(data_player.position.x-velcamera);
+	if (camera.x > 0) {
+		camera.x = 0;
+	}
 	return true;
 }
 

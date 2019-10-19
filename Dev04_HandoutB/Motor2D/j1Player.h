@@ -52,7 +52,7 @@ struct PlayerData
 	int jumpspeed=0;
 	int jumpspeedx=0;
 	int initialposy;
-
+	float gravity;
 
 
 	//void Pushbacks();	//Load the frame animations

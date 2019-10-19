@@ -43,10 +43,9 @@ bool j1Player::Awake(pugi::xml_node& config) {
 
 	data_player.colOffset.x = config.child("colOffset").attribute("x").as_int();
 	data_player.colOffset.y = config.child("colOffset").attribute("y").as_int();
+	data_player.gravity = config.child("gravity").attribute("grav").as_float();
 
 	return ret;
-
-	
 
 }
 
@@ -69,8 +68,8 @@ bool j1Player::Start() {
 	Pushbacks();
 	data_player.current_animation = &data_player.idle;
 	
-	data_player.position.y = -50;
-	data_player.position.x = 10;
+	data_player.position.y = 675;
+	data_player.position.x = 100;
 	data_player.v = { 5,0 };
 
 	App->audio->LoadFx(data_player.walkFX.GetString());
@@ -173,6 +172,8 @@ bool j1Player::Load(pugi::xml_node& node) {
 
 	data_player.v.x = node.child("velocity").attribute("x").as_int();
 	data_player.v.y = node.child("velocity").attribute("y").as_int();
+	
+	data_player.gravity = node.child("gravity").attribute("grav").as_float();
 
 	return true;
 

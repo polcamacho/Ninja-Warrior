@@ -5,9 +5,10 @@
     <title>Game Development Testbed</title>
     <organization>UPC</organization>
   </app>
-	
+
   <renderer>
     <vsync value="true"/>
+    <cameravelocity camvel="3"/>
   </renderer>
 
   <window>
@@ -29,12 +30,13 @@
    <player>
     <folder>textures/</folder>
     <texture source="rogue_spritesheed.png"/>
-    <position x="0" y="645"/>
+    <position x="100" y="680"/>
     <jumpFX source="Walk.wav"/>
     <deathFX source="Death.wav"/>
     <acceleration x="1" y="1"/>
     <jump_velocity x="1" y="-5"/>
     <velocity x="1" y="-5"/>
+     <gravity grav="5.1"/>
 
     <colOffset x="11" y="8"/>
    
