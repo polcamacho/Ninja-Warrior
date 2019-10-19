@@ -72,11 +72,14 @@ bool j1Render::PreUpdate()
 bool j1Render::Update(float dt)
 {
 	
-	//velcamera = App->player->data_player.v.x;
-	camera.x = -(App->player->data_player.position.x-velcamera);
-	if (camera.x > 0) {
-		camera.x = 0;
-	}
+		camera.x = -(App->player->data_player.position.x + velcamera);
+
+		if (camera.x > 0) {
+			camera.x = 0;
+		}
+		velcamera = App->player->data_player.v.x;
+	
+	
 	return true;
 }
 
@@ -131,7 +134,7 @@ void j1Render::ResetViewPort()
 }
 
 // Blit to screen
-bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,SDL_RendererFlip flip, float speed, double angle, int pivot_x, int pivot_y) const
+bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, SDL_RendererFlip flip, float speed, double angle, int pivot_x, int pivot_y) const
 {
 	bool ret = true;
 	uint scale = App->win->GetScale();

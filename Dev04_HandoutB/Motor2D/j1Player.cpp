@@ -68,10 +68,6 @@ bool j1Player::Start() {
 	Pushbacks();
 	data_player.current_animation = &data_player.idle;
 	
-	data_player.position.y = App->render->camera.y;
-	data_player.position.x = App->render->camera.x;
-	//data_player.v = { 5,0 };
-
 	App->audio->LoadFx(data_player.walkFX.GetString());
 	App->audio->LoadFx(data_player.deathFX.GetString());
 
@@ -79,7 +75,7 @@ bool j1Player::Start() {
 
 	//Sets the player in the start position
 
-	for (p2List_item<OBJG*>* obj = App->map->data.objects.start; obj; obj = obj->next)
+	/*for (p2List_item<OBJG*>* obj = App->map->data.objects.start; obj; obj = obj->next)
 	{
 		if (obj->data->name == ("colisions")){
 
@@ -101,9 +97,9 @@ bool j1Player::Start() {
 				}
 			}
 		}
-	}
+	}*/
 
-	data_player.Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));
+	//data_player.Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));
 	
 	return	true;
 
