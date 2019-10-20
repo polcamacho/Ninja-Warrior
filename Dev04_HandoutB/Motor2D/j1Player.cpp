@@ -33,7 +33,7 @@ bool j1Player::Awake(pugi::xml_node& config) {
 	data_player.a.x = config.child("acceleration").attribute("x").as_int();
 	data_player.a.y = config.child("acceleration").attribute("y").as_int();
 
-	data_player.vj.x = config.child("jump_velocity").attribute("jumpvel").as_int();
+	data_player.jumpvel = config.child("jump_velocity").attribute("jumpvel").as_int();
 
 	data_player.v.x = config.child("velocity").attribute("x").as_int();
 	data_player.v.y = config.child("velocity").attribute("y").as_int();
@@ -71,7 +71,6 @@ bool j1Player::Start() {
 	//data_player.injump = false;
 	
 	Pushbacks();
-	data_player.current_animation = &data_player.idle;
 
 
 	App->audio->LoadFx(data_player.walkFX.GetString());
@@ -140,8 +139,7 @@ bool j1Player::Load(pugi::xml_node& node) {
 	data_player.a.x = node.child("acceleration").attribute("x").as_int();
 	data_player.a.y = node.child("acceleration").attribute("y").as_int();
 
-	data_player.vj.x = node.child("jump_velocity").attribute("x").as_int();
-	data_player.vj.y = node.child("jump_velocity").attribute("y").as_int();
+	data_player.jumpvel = node.child("jump_velocity").attribute("jumpvel").as_int();
 
 	data_player.v.x = node.child("velocity").attribute("x").as_int();
 	data_player.v.y = node.child("velocity").attribute("y").as_int();
@@ -159,8 +157,7 @@ bool j1Player::Save(pugi::xml_node& node) const {
 	node.append_child("acceleration").append_attribute("x") = data_player.a.x;
 	node.child("acceleration").attribute("y") = data_player.a.y;
 
-	node.append_child("jump_velocity").append_attribute("x") = data_player.vj.x;
-	node.child("jump_velocity").attribute("y") = data_player.vj.y;
+	node.append_child("jump_velocity").append_attribute("jumpvel") = data_player.jumpvel;
 
 	node.append_child("velocity").append_attribute("x") = data_player.v.x;
 	node.child("velocity").attribute("y") = data_player.v.y;
@@ -275,24 +272,15 @@ void j1Player::CheckState()
 		data_player.player_flip = false;
 	}
 
-	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || (data_player.injump == true)) {		//if "SPACE" is pressed 
+	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		//if "SPACE" is pressed 
 
-		data_player.canjump = false;
 		current_state = JUMP_UP;
 
-		data_player.current_animation = &data_player.jump;
-		data_player.injump = true;
-		float jumpspeed = 6.0f;
-		data_player.position.y -= jumpspeed;
-		jumpspeed -= 0.5;
-
-		if (jumpspeed < -7)
-		{
-			data_player.injump = false;
-			data_player.position.y = 220;
-			jumpspeed = 6;
-			data_player.current_animation = &data_player.idle;
+		if (data_player.canjump == true) {
+			data_player.jumpenergy = data_player.jumpvel;
 		}
+
+
 
 	}
 	else if(data_player.canjump==true && App->input->GetKey(SDL_SCANCODE_SPACE) == NULL && App->input->GetKey(SDL_SCANCODE_A) == NULL && App->input->GetKey(SDL_SCANCODE_D) == NULL){
@@ -314,6 +302,28 @@ void j1Player::Animations() {
 		
 	if (current_state == RUN) {
 		data_player.current_animation = &data_player.walk2;		//If any key pressed animation idle
+	}
+
+	if (current_state == JUMP_UP) {
+
+		data_player.canjump = false;
+		data_player.injump = true;
+		data_player.current_animation = &data_player.jump;
+
+		if (data_player.jumpenergy < data_player.gravity) {
+			data_player.jumpenergy += 0.5;
+			data_player.position.y = data_player.position.y + data_player.jumpenergy;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		{
+			data_player.position.x -= App->render->velcamera;
+			data_player.player_flip = true;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+			data_player.position.x += App->render->velcamera;
+			data_player.player_flip = false;
+		}
 	}
 
 }

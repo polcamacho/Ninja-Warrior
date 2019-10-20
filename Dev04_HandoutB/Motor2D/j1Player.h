@@ -39,7 +39,7 @@ struct PlayerData
 
 	iPoint position;	//Position of the player (x,y)
 	iPoint a;	//Acceleration (x,y)
-	iPoint vj;	//Velocity of the jump (x,y)
+		//Velocity of the jump (x,y)
 	iPoint v;	//Velocity of the player (x,y)
 
 	SDL_Rect		col;
@@ -50,9 +50,9 @@ struct PlayerData
 
 	bool injump=false;	//Says that the player is jumping or not
 	bool canjump = false;  //Says the player can jump or not
+	int jumpvel;
+	int jumpenergy;
 	bool player_flip;
-	int jumpspeed=0;
-	int jumpspeedx=0;
 	int initialposy;
 	float gravity;
 

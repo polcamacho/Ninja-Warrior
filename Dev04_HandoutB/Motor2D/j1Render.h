@@ -58,7 +58,6 @@ public:
 
 	int				velcamera;
 	int				scale;
-	SDL_Point		velcamera1;
 
 	SDL_Renderer*	renderer;
 	SDL_Rect		camera;
