@@ -56,8 +56,6 @@ struct PlayerData
 	int initialposy;
 	float gravity;
 
-	states_player			current_state;
-
 	Collider* colliders = nullptr;
 	Collider* colliders2 = nullptr;
 	bool showcolliders = false;

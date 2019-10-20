@@ -30,7 +30,7 @@
 		<acceleration x="1" y="1" />
 		<jump_velocity jumpvel="-5" />
 		<velocity x="10" y="-5" />
-		<gravity grav="5.1" />
+		<gravity grav="20" />
 		<colOffset x="11" y="8" />
 	</player>
 	<scene>

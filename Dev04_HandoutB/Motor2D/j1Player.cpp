@@ -262,7 +262,7 @@ void j1Player::CheckState()
 	else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT && data_player.canjump == true) {		//if "A" and "SHIFT" are pressed animation walk backward actives flips to the Blit
 
 		current_state = RUN;
-		data_player.position.x -= App->render->velcamera;
+		data_player.position.x -= App->render->velcamera + data_player.v.x;
 		data_player.player_flip = true;
 		
 	}
@@ -271,7 +271,7 @@ void j1Player::CheckState()
 
 
 		current_state = RUN;
-		data_player.position.x += App->render->velcamera;
+		data_player.position.x += App->render->velcamera + data_player.v.x;
 		data_player.player_flip = false;
 	}
 
@@ -328,7 +328,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 	
 	if (data_player.colliders == c1 && c2->type == COLLIDER_FLOOR)
 	{
-		data_player.injump = false;
+		data_player.canjump = true;
 		LOG("COLLIDERS WOOOOOOOOOOOOOOOOOOOOOORKS");
 	}
 
@@ -342,6 +342,9 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 		
 		break;
 	case COLLIDER_DEAD:
+
+		data_player.current_animation = &data_player.death;
+		
 
 		break;
 	default:
