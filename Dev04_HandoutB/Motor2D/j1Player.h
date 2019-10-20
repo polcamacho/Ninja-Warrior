@@ -36,8 +36,10 @@ struct PlayerData
 	p2SString		deathFX;
 	p2SString		walkFX;
 	bool			grounded;
+	bool			platformdrop;
 
 	iPoint position;	//Position of the player (x,y)
+	iPoint preposition;
 	iPoint a;	//Acceleration (x,y)
 		//Velocity of the jump (x,y)
 	iPoint v;	//Velocity of the player (x,y)

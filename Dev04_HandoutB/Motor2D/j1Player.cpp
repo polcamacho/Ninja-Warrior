@@ -95,7 +95,7 @@ bool j1Player::PreUpdate() {
 bool j1Player::Update(float dt) {
 
 	data_player.position.y += data_player.gravity;
-
+	data_player.preposition = data_player.position;
 	CheckState();
 	Animations();
 	
@@ -336,7 +336,7 @@ iPoint j1Player::GetPosition() {
 
 void j1Player::OnCollision(Collider* c1, Collider* c2) {
 	
-	if (data_player.colliders == c1 && c2->type == COLLIDER_FLOOR)
+	/*if (data_player.colliders == c1 && c2->type == COLLIDER_FLOOR)
 	{
 		data_player.canjump = true;
 		LOG("COLLIDERS WOOOOOOOOOOOOOOOOOOOOOORKS");
@@ -359,5 +359,49 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 		break;
 	default:
 		break;
+	}*/
+
+	if (c1->type == ColliderType:: COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_FLOOR) {
+
+		//from above
+		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
+			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
+			data_player.grounded = true;
+			data_player.canjump=true;
+		}
+		//from below
+		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {
+			data_player.position.y = c2->rect.y + c2->rect.h;
+		}
+		//from a side
+		else if ((data_player.position.x < c2->rect.x + c2->rect.w && data_player.position.x > c2->rect.x) ||
+			(data_player.position.x + data_player.colliders->rect.w < c2->rect.x + c2->rect.w && data_player.position.x + data_player.colliders->rect.w > c2->rect.x)) {
+			LOG("WALL");
+			if ((data_player.position.x + data_player.colliders->rect.w) < (c2->rect.x + c2->rect.w / 2)) { //Player to the left 
+				data_player.position.x = c2->rect.x - data_player.colliders->rect.w;
+			}
+			else if (data_player.position.x < (c2->rect.x + c2->rect.w)) {
+				data_player.position.x = c2->rect.x + c2->rect.w;
+			}
+		}
 	}
+
+
+	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_PLATFORM) {
+
+		if (data_player.platformdrop == false) {
+			if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
+				data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
+				data_player.grounded = true;
+				data_player.canjump = true;
+			}
+			else if ((data_player.position.y >= data_player.preposition.y) && (data_player.preposition.y + data_player.colliders->rect.h) < c2->rect.y) {
+				data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
+				//data_player.grounded=true;
+				//data_player.canjump = false;
+			}
+		}
+
+	}
+
 }
