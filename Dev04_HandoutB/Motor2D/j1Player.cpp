@@ -228,18 +228,15 @@ void j1Player::Pushbacks() {
 	data_player.death.PushBack({ 734,455,113,65 });
 	data_player.death.PushBack({ 894,445,127,74 });
 	data_player.death.PushBack({ 1054,433,116,87 });
-	data_player.death.loop = true;
-	data_player.death.speed = 1.0f;
+	data_player.death.loop = false;
+	data_player.death.speed = 0.5f;
 
 
 }
 
 void j1Player::CheckState()
 {
-
 	
-	
-
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && data_player.canjump == true) {		//if "D" is pressed animation walk forward 
 
 		current_state = WALK;
@@ -326,6 +323,10 @@ void j1Player::Animations() {
 		}
 	}
 
+	if (current_state == DEATH) {
+		data_player.current_animation = &data_player.death;		//If any key pressed animation idle
+	}
+
 }
 
 
@@ -400,6 +401,24 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 				//data_player.grounded=true;
 				//data_player.canjump = false;
 			}
+		}
+
+	}
+
+	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_DEAD) {
+
+		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
+			
+			current_state = DEATH;
+			
+			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
+			data_player.grounded = false;
+			data_player.canjump = false;
+
+			data_player.position.x = 100;
+			data_player.position.y = 300;
+			
+
 		}
 
 	}

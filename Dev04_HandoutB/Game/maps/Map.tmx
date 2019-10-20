@@ -150065,7 +150065,7 @@
   <object id="30" name="platform" x="4160" y="1123.84" width="96" height="60.1577"/>
   <object id="31" name="platform" x="4512" y="1251.89" width="96" height="60.1122"/>
   <object id="32" name="platform" x="4768" y="1123.97" width="96" height="60.0327"/>
-  <object id="33" name="floor" x="4960" y="1124.75" width="554.667" height="283.25"/>
+  <object id="33" name="floor" x="4960" y="1120.75" width="554.667" height="287.25"/>
   <object id="34" name="floor" x="3264" y="862">
    <polygon points="-192,-62 192,-62 192,66 -64,66"/>
   </object>
@@ -150093,15 +150093,15 @@
   <object id="54" name="floor" x="4224" y="644.5" width="64" height="59.5"/>
   <object id="55" name="floor" x="4288" y="672" width="64" height="32"/>
   <object id="56" name="floor" x="4416" y="704" width="288" height="224"/>
-  <object id="57" name="floor" x="4416" y="682.5" width="288" height="21.5"/>
-  <object id="58" name="floor" x="4800" y="681.75" width="928" height="22.25"/>
+  <object id="57" name="floor" x="4416" y="670.5" width="288" height="33.5"/>
+  <object id="58" name="floor" x="4800" y="673.75" width="928" height="30.25"/>
   <object id="59" name="death" x="4672" y="928" width="32" height="32"/>
   <object id="60" name="death" x="4800" y="928" width="32" height="32"/>
   <object id="61" name="floor" x="4800" y="704" width="171" height="224"/>
   <object id="62" name="floor" x="4960" y="928" width="448" height="96"/>
   <object id="64" name="death" x="1792" y="1011" width="352" height="13.001"/>
   <object id="65" name="death" x="3360" y="1364.5" width="1600" height="11.5"/>
-  <object id="67" name="floor" x="5924.67" y="683.333" width="2075.33" height="92.667"/>
+  <object id="67" name="floor" x="5924.67" y="671.333" width="2075.33" height="104.667"/>
   <object id="70" name="player" x="96" y="640" width="32" height="43"/>
   <object id="71" name="floor" x="2620.67" y="895.333" width="34.6667" height="40.6667"/>
   <object id="72" name="floor" x="2588.67" y="865.333" width="34.6667" height="34.6667"/>
