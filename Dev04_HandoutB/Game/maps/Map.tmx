@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="250" height="100" tilewidth="32" tileheight="32" nextobjectid="119">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="250" height="100" tilewidth="32" tileheight="32" nextobjectid="128">
  <tileset firstgid="1" name="Assets" tilewidth="32" tileheight="32" tilecount="2304" columns="48">
   <image source="Assets.png" width="1536" height="1536"/>
  </tileset>
@@ -150051,8 +150051,8 @@
   <object id="7" name="floor" x="1792" y="1011.33" width="352" height="44.6686"/>
   <object id="8" name="platform" x="640" y="574" width="96" height="66"/>
   <object id="11" name="startpoint" x="288" y="640" width="32" height="43"/>
-  <object id="15" name="floor" x="2652" y="932" width="292" height="124"/>
-  <object id="17" name="floor" x="2944" y="1152" width="416" height="256"/>
+  <object id="15" name="floor" x="2652" y="919.5" width="292" height="136.5"/>
+  <object id="17" name="floor" x="3152" y="1142" width="208" height="266"/>
   <object id="18" name="floor" x="3360" y="1376" width="1600" height="32"/>
   <object id="20" name="floor" x="2720" y="667" width="416" height="133"/>
   <object id="22" name="floor" x="3232" y="362.25" width="224" height="437.75"/>
@@ -150061,18 +150061,12 @@
   <object id="26" name="platform" x="2816" y="382.962" width="96" height="65.0379"/>
   <object id="27" name="platform" x="3008" y="509.436" width="96" height="66.5644"/>
   <object id="28" name="death" x="3584" y="928" width="32" height="32"/>
-  <object id="29" name="platform" x="3904" y="1187.68" width="96" height="60.3154"/>
-  <object id="30" name="platform" x="4160" y="1123.84" width="96" height="60.1577"/>
-  <object id="31" name="platform" x="4512" y="1251.89" width="96" height="60.1122"/>
-  <object id="32" name="platform" x="4768" y="1123.97" width="96" height="60.0327"/>
-  <object id="33" name="floor" x="4960" y="1120.75" width="554.667" height="287.25"/>
-  <object id="34" name="floor" x="3264" y="862">
-   <polygon points="-192,-62 192,-62 192,66 -64,66"/>
-  </object>
-  <object id="35" name="floor" x="3315.33" y="966.667">
-   <polygon points="-115.333,-38.6667 44.6667,-38.6667 44.6667,57.3333 -19.3333,57.3333"/>
-  </object>
-  <object id="36" name="platform" x="3584" y="1092.04" width="96" height="59.9583"/>
+  <object id="29" name="platform" x="3904" y="1179.01" width="96" height="68.9821"/>
+  <object id="30" name="platform" x="4160" y="1114.51" width="96" height="69.491"/>
+  <object id="31" name="platform" x="4512" y="1241.22" width="96" height="70.7789"/>
+  <object id="32" name="platform" x="4768" y="1112.64" width="96" height="71.366"/>
+  <object id="33" name="floor" x="4960" y="1112.75" width="554.667" height="295.25"/>
+  <object id="36" name="platform" x="3584" y="1078.71" width="96" height="73.2916"/>
   <object id="37" name="death" x="3648" y="928" width="32" height="32"/>
   <object id="38" name="death" x="3744" y="928" width="32" height="32"/>
   <object id="39" name="death" x="3872" y="928" width="32" height="32"/>
@@ -150103,20 +150097,20 @@
   <object id="65" name="death" x="3360" y="1364.5" width="1600" height="11.5"/>
   <object id="67" name="floor" x="5924.67" y="671.333" width="2075.33" height="104.667"/>
   <object id="70" name="player" x="96" y="640" width="32" height="43"/>
-  <object id="71" name="floor" x="2620.67" y="895.333" width="34.6667" height="40.6667"/>
-  <object id="72" name="floor" x="2588.67" y="865.333" width="34.6667" height="34.6667"/>
-  <object id="73" name="floor" x="2556.67" y="830.667" width="34.6667" height="34.6667"/>
-  <object id="74" name="floor" x="2525.33" y="800" width="34.6667" height="31.3333"/>
-  <object id="75" name="floor" x="2492.67" y="766.667" width="34.6667" height="41.3333"/>
-  <object id="76" name="floor" x="2460.67" y="736.667" width="34.6667" height="48"/>
-  <object id="77" name="floor" x="2428.67" y="704.667" width="34.6667" height="71.3333"/>
-  <object id="78" name="floor" x="2973.33" y="965" width="34.6667" height="48"/>
-  <object id="79" name="floor" x="3005.33" y="995" width="34.6667" height="41.3333"/>
-  <object id="80" name="floor" x="2941.33" y="933" width="34.6667" height="71.3333"/>
-  <object id="81" name="floor" x="3037.99" y="1028.33" width="34.6667" height="31.3333"/>
-  <object id="82" name="floor" x="3069.33" y="1059" width="34.6667" height="34.6667"/>
-  <object id="83" name="floor" x="3101.33" y="1093.67" width="34.6667" height="34.6667"/>
-  <object id="84" name="floor" x="3133.33" y="1123.67" width="34.6667" height="40.6667"/>
+  <object id="71" name="floor" x="2623.42" y="889.083" width="32.1667" height="42.9167"/>
+  <object id="72" name="floor" x="2588.67" y="856.833" width="35.4167" height="43.1667"/>
+  <object id="73" name="floor" x="2556.67" y="824.167" width="35.4167" height="41.1667"/>
+  <object id="74" name="floor" x="2525.33" y="792.25" width="34.1667" height="39.0833"/>
+  <object id="75" name="floor" x="2492.67" y="759.417" width="35.4167" height="40.5833"/>
+  <object id="76" name="floor" x="2460.67" y="727.167" width="35.1667" height="41.5"/>
+  <object id="77" name="floor" x="2428.67" y="696.167" width="41.1667" height="79.8333"/>
+  <object id="78" name="floor" x="2973.33" y="955" width="34.6667" height="58"/>
+  <object id="79" name="floor" x="3005.33" y="987" width="34.6667" height="49.3333"/>
+  <object id="80" name="floor" x="2941.33" y="919.5" width="34.6667" height="84.8333"/>
+  <object id="81" name="floor" x="3037.99" y="1019.83" width="34.6667" height="39.8333"/>
+  <object id="82" name="floor" x="3069.33" y="1051.25" width="34.6667" height="42.4167"/>
+  <object id="83" name="floor" x="3101.33" y="1083.17" width="34.6667" height="45.1667"/>
+  <object id="84" name="floor" x="3133.33" y="1115.42" width="34.6667" height="48.9167"/>
   <object id="92" name="floor" x="5744.83" y="896.167" width="35.3334" height="48.6667" rotation="90"/>
   <object id="93" name="floor" x="5960.17" y="704.5" width="34.6667" height="71.3333" rotation="90"/>
   <object id="94" name="floor" x="5866.17" y="767.5" width="34.6667" height="41.3333" rotation="90"/>
@@ -150144,5 +150138,14 @@
   <object id="116" name="platform" x="1187" y="448" width="96" height="66"/>
   <object id="117" name="platform" x="1441" y="288" width="96" height="66"/>
   <object id="118" name="platform" x="1570" y="513" width="96" height="66"/>
+  <object id="119" name="floor" x="3233" y="800.125" width="224" height="126.75"/>
+  <object id="120" name="floor" x="3105" y="800.125" width="127.5" height="62.75"/>
+  <object id="121" name="floor" x="3262.75" y="990.125" width="97" height="34.25"/>
+  <object id="122" name="floor" x="3232.25" y="928.125" width="127.5" height="62.75"/>
+  <object id="123" name="floor" x="3135.75" y="863.125" width="97" height="31.75"/>
+  <object id="124" name="floor" x="3168" y="895.625" width="64.5" height="31.75"/>
+  <object id="125" name="floor" x="3198.75" y="928.125" width="33.5" height="31.75"/>
+  <object id="126" name="floor" x="3071.25" y="800.125" width="33.5" height="31.75"/>
+  <object id="127" name="death" x="3425" y="926.5" width="32" height="32"/>
  </objectgroup>
 </map>

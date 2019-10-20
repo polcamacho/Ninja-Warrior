@@ -110,7 +110,6 @@ public:
 	void Animations();	//Check animations
 	void Pushbacks();	//Load the frame animations
 	
-	iPoint GetPosition();
 	// Collisions
 	void OnCollision(Collider* c1, Collider* c2);
 
