@@ -79,6 +79,10 @@ bool j1Render::Update(float dt)
 	if (camera.x > 0) {
 		camera.x = 0;
 	}
+
+	if (camera.x > 600) {
+		camera.x = 600;
+	}
 	if (camera.y > 0) {
 		camera.y = 0;
 	}

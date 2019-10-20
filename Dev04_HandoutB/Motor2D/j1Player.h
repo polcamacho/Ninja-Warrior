@@ -13,8 +13,8 @@ struct Collider;
 
 enum states_player {
 	IDLE,
-	WALK_FORWARD,
-	WALK_BACKWARD,
+	WALK,
+	RUN,
 	JUMP_UP,
 	JUMP_FALL,
 	DEATH
@@ -49,11 +49,14 @@ struct PlayerData
 	float jump_time=0.0f;	//Time of the jump
 
 	bool injump=false;	//Says that the player is jumping or not
+	bool canjump = false;  //Says the player can jump or not
 	bool player_flip;
 	int jumpspeed=0;
 	int jumpspeedx=0;
 	int initialposy;
 	float gravity;
+
+	states_player			current_state;
 
 	Collider* colliders = nullptr;
 	Collider* colliders2 = nullptr;
@@ -103,7 +106,8 @@ public:
 	
 	//Puts the camera on player and follows
 	
-	void Animation();	//Load keys to change the animations
+	void CheckState();	//Load keys to check states
+	void Animations();	//Check animations
 	void Pushbacks();	//Load the frame animations
 	
 	iPoint GetPosition();
