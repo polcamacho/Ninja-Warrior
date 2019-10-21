@@ -170,77 +170,73 @@ bool j1Player::Save(pugi::xml_node& node) const {
 
 void j1Player::Pushbacks() {
 
-	data_player.idle.PushBack({ 7,554,48,52 });
-	data_player.idle.PushBack({ 84,554,41,52 });
-	data_player.idle.PushBack({ 156,555,42,50 });
-	data_player.idle.PushBack({ 232,557,41,48 });
-	data_player.idle.PushBack({ 291,557,41,48 });
-	data_player.idle.PushBack({ 351,557,40,48 });
-	data_player.idle.PushBack({ 415,556,41,49 });
-	data_player.idle.PushBack({ 474,556,42,49 });
-	data_player.idle.PushBack({ 533,557,41,48 });
-	data_player.idle.PushBack({ 591,554,41,51 });
-	data_player.idle.PushBack({ 643,554,52,52 });
-	data_player.idle.PushBack({ 705,555,44,50 });
-	data_player.idle.PushBack({ 763,554,43,52 });
-	data_player.idle.PushBack({ 819,554,45,52 });
-	data_player.idle.PushBack({ 880,554,43,51 });
-	data_player.idle.PushBack({ 938,555,43,51 });
-	data_player.idle.PushBack({ 995,554,44,52 });
+	data_player.idle.PushBack({ 7,554,48,52 }, 0.4, 0, 0);
+	data_player.idle.PushBack({ 84,554,41,52 }, 0.4, 10, 0);
+	data_player.idle.PushBack({ 156,555,42,50 }, 0.6, 10, 0);
+	data_player.idle.PushBack({ 232,557,41,48 }, 0.6, 10, 0);
+	data_player.idle.PushBack({ 291,557,41,48 }, 0.6, 10, 0);
+	data_player.idle.PushBack({ 351,557,40,48 }, 0.6, 10, 0);
+	data_player.idle.PushBack({ 415,556,41,49 }, 0.6, 10, 0);
+	data_player.idle.PushBack({ 474,556,42,49 }, 0.6, 10, 0);
+	data_player.idle.PushBack({ 533,557,41,48 }, 0.6, 10, 0);
+	data_player.idle.PushBack({ 591,554,41,51 }, 0.4, 0, 0);
+	data_player.idle.PushBack({ 643,554,52,52 }, 0.6, -1, 0);
+	data_player.idle.PushBack({ 705,555,44,50 }, 0.6, -6, 0);
+	data_player.idle.PushBack({ 763,554,43,52 }, 0.6, -20, 0);
+	data_player.idle.PushBack({ 819,554,45,52 }, 0.6, -20, 0);
+	data_player.idle.PushBack({ 880,554,43,51 }, 0.6, -20, 0);
+	data_player.idle.PushBack({ 938,555,43,51 }, 0.6, -20, 0);
+	data_player.idle.PushBack({ 995,554,44,52 }, 0.6, -20, 0);
 	data_player.idle.loop = true;
-	data_player.idle.speed = 0.3f;
 
-	data_player.walk.PushBack({ 7,4,42,49 });
-	data_player.walk.PushBack({ 65,4,41,49 });
-	data_player.walk.PushBack({ 131,3,38,50 });
-	data_player.walk.PushBack({ 201,3,36,51 });
-	data_player.walk.PushBack({ 259,5,38,48 });
-	data_player.walk.PushBack({ 317,4,44,50 });
+	data_player.walk.PushBack({ 7,4,42,49 }, 0.3, 0, 0);
+	data_player.walk.PushBack({ 65,4,41,49 }, 0.3, 0, 0);
+	data_player.walk.PushBack({ 131,3,38,50 }, 0.3, 0, 0);
+	data_player.walk.PushBack({ 201,3,36,51 }, 0.3, 0, 0);
+	data_player.walk.PushBack({ 259,5,38,48 }, 0.3, 0, 0);
+	data_player.walk.PushBack({ 317,4,44,50 }, 0.3, 0, 0);
 	data_player.walk.loop = true;
-	data_player.walk.speed = 0.3f;
 
-	data_player.walk2.PushBack({ 7,4,42,49 });
-	data_player.walk2.PushBack({ 65,4,41,49 });
-	data_player.walk2.PushBack({ 131,3,38,50 });
-	data_player.walk2.PushBack({ 201,3,36,51 });
-	data_player.walk2.PushBack({ 259,5,38,48 });
-	data_player.walk2.PushBack({ 317,4,44,50 });
+	data_player.walk2.PushBack({ 7,4,42,49 }, 0.6, 0, 0);
+	data_player.walk2.PushBack({ 65,4,41,49 }, 0.6, 0, 0);
+	data_player.walk2.PushBack({ 131,3,38,50 }, 0.6, 0, 0);
+	data_player.walk2.PushBack({ 201,3,36,51 }, 0.6, 0, 0);
+	data_player.walk2.PushBack({ 259,5,38,48 }, 0.6, 0, 0);
+	data_player.walk2.PushBack({ 317,4,44,50 }, 0.6, 0, 0);
 	data_player.walk2.loop = true;
-	data_player.walk2.speed = 0.6f;
 
-	data_player.jump.PushBack({ 7,128,52,43 });
-	data_player.jump.PushBack({ 81,114,47,57 });
-	data_player.jump.PushBack({ 155,113,42,58 });
-	data_player.jump.PushBack({ 221,118,52,53 });
-	data_player.jump.PushBack({ 285,116,53,55 });
-	data_player.jump.PushBack({ 348,119,56,52 });
-	data_player.jump.PushBack({ 423,129,53,42 });
+	data_player.jump.PushBack({ 7,128,52,43 }, 0.5, 0, 0);
+	data_player.jump.PushBack({ 81,114,47,57 }, 0.5, 0, 0);
+	data_player.jump.PushBack({ 155,113,42,58 }, 0.5, 0, 0);
+	data_player.jump.PushBack({ 221,118,52,53 }, 0.5, 0, 0);
+	data_player.jump.PushBack({ 285,116,53,55 }, 0.5, 0, 0);
+	data_player.jump.PushBack({ 348,119,56,52 }, 0.5, 0, 0);
+	data_player.jump.PushBack({ 423,129,53,42 }, 0.5, 0, 0);
 	data_player.jump.loop = true;
-	data_player.jump.speed = 0.5f;
 
-	data_player.death.PushBack({ 8,464,48,55 });
-	data_player.death.PushBack({ 72,456,62,63 });
-	data_player.death.PushBack({ 150,454,69,65 });
-	data_player.death.PushBack({ 257,464,82,56 });
-	data_player.death.PushBack({ 367,447,83,72 });
-	data_player.death.PushBack({ 488,447,84,73 });
-	data_player.death.PushBack({ 609,457,94,62 });
-	data_player.death.PushBack({ 734,455,113,65 });
-	data_player.death.PushBack({ 894,445,127,74 });
-	data_player.death.PushBack({ 1054,433,116,87 });
+	data_player.death.PushBack({ 8,464,48,55 }, 0.5, 0, 0);
+	data_player.death.PushBack({ 72,456,62,63 }, 0.5, 0, 0);
+	data_player.death.PushBack({ 150,454,69,65 }, 0.5, 0, 0);
+	data_player.death.PushBack({ 257,464,82,56 }, 0.5, 0, 0);
+	data_player.death.PushBack({ 367,447,83,72 }, 0.5, 0, 0);
+	data_player.death.PushBack({ 488,447,84,73 }, 0.5, 0, 0);
+	data_player.death.PushBack({ 609,457,94,62 }, 0.5, 0, 0);
+	data_player.death.PushBack({ 734,455,113,65 }, 0.5, 0, 0);
+	data_player.death.PushBack({ 894,445,127,74 }, 0.5, 0, 0);
+	data_player.death.PushBack({ 1054,433,116,87 }, 0.5, 0, 0);
 	data_player.death.loop = false;
-	data_player.death.speed = 0.5f;
 
 
 }
 
 void j1Player::CheckState()
 {
+	data_player.velrun = data_player.v.x*5;
 	
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && data_player.canjump == true) {		//if "D" is pressed animation walk forward 
 
 		current_state = WALK;
-		data_player.position.x += App->render->velcamera;
+		data_player.position.x += data_player.v.x;
 		data_player.player_flip = false;
 		
 	}
@@ -248,7 +244,7 @@ void j1Player::CheckState()
 	else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && data_player.canjump == true) {		//if "A" is pressed animation walk backward actives flips to the Blit
 
 		current_state = WALK;
-		data_player.position.x -= App->render->velcamera;
+		data_player.position.x -= data_player.v.x;
 		data_player.player_flip = true;
 		
 	}
@@ -256,7 +252,7 @@ void j1Player::CheckState()
 	else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT && data_player.canjump == true) {		//if "A" and "SHIFT" are pressed animation walk backward actives flips to the Blit
 
 		current_state = RUN;
-		data_player.position.x -= App->render->velcamera + data_player.v.x;
+		data_player.position.x -= data_player.velrun;
 		data_player.player_flip = true;
 		
 	}
@@ -265,7 +261,7 @@ void j1Player::CheckState()
 
 
 		current_state = RUN;
-		data_player.position.x += App->render->velcamera + data_player.v.x;
+		data_player.position.x += data_player.velrun;
 		data_player.player_flip = false;
 	}
 
@@ -282,7 +278,8 @@ void j1Player::CheckState()
 	}
 	else if(data_player.canjump==true && App->input->GetKey(SDL_SCANCODE_SPACE) == NULL && App->input->GetKey(SDL_SCANCODE_A) == NULL && App->input->GetKey(SDL_SCANCODE_D) == NULL){
 		current_state = IDLE;
-		
+		data_player.player_flip = false;
+
 	}
 
 }
@@ -311,14 +308,17 @@ void j1Player::Animations() {
 			data_player.jumpenergy += 0.5;
 			data_player.position.y = data_player.position.y + data_player.jumpenergy;
 		}
+		else if (data_player.jumpenergy == data_player.gravity) {
+			data_player.position.y = data_player.position.y + data_player.gravity;
+		}
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			data_player.position.x -= App->render->velcamera;
+			data_player.position.x -= data_player.v.x;
 			data_player.player_flip = true;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
-			data_player.position.x += App->render->velcamera;
+			data_player.position.x += data_player.v.x;
 			data_player.player_flip = false;
 		}
 	}
@@ -329,11 +329,6 @@ void j1Player::Animations() {
 
 }
 
-
-iPoint j1Player::GetPosition() {
-
-	return data_player.position;
-}
 
 void j1Player::OnCollision(Collider* c1, Collider* c2) {
 	

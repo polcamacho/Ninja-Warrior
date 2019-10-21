@@ -17,6 +17,8 @@ enum states_player {
 	RUN,
 	JUMP_UP,
 	JUMP_FALL,
+	JUMP_WALK,
+	JUMP_RUN,
 	DEATH
 };
 
@@ -55,8 +57,9 @@ struct PlayerData
 	int jumpvel;
 	int jumpenergy;
 	bool player_flip;
-	int initialposy;
 	float gravity;
+
+	int velrun;
 
 	Collider* colliders = nullptr;
 	Collider* colliders2 = nullptr;
