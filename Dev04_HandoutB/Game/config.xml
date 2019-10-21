@@ -24,12 +24,12 @@
 	<player>
 		<folder>textures/</folder>
 		<texture source="rogue_spritesheed.png" />
-		<position x="100" y="400" />
+		<position x="6000" y="400" />
 		<jumpFX source="Walk.wav" />
 		<deathFX source="Death.wav" />
 		<acceleration x="1" y="1" />
 		<jump_velocity jumpvel="-35" />
-		<velocity x="10" y="-15" />
+		<velocity x="10" y="-35" />
 		<gravity grav="20" />
 		<colOffset x="11" y="8" />
 	</player>
