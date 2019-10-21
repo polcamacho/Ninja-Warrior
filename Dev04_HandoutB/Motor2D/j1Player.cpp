@@ -180,7 +180,7 @@ void j1Player::Pushbacks() {
 	data_player.idle.PushBack({ 474,556,42,49 }, 0.6, 10, 0);
 	data_player.idle.PushBack({ 533,557,41,48 }, 0.6, 10, 0);
 	data_player.idle.PushBack({ 591,554,41,51 }, 0.4, 0, 0);
-	data_player.idle.PushBack({ 643,554,52,52 }, 0.6, -1, 0);
+	data_player.idle.PushBack({ 643,554,52,52 }, 0.4, -1, 0);
 	data_player.idle.PushBack({ 705,555,44,50 }, 0.6, -6, 0);
 	data_player.idle.PushBack({ 763,554,43,52 }, 0.6, -20, 0);
 	data_player.idle.PushBack({ 819,554,45,52 }, 0.6, -20, 0);
@@ -205,14 +205,19 @@ void j1Player::Pushbacks() {
 	data_player.walk2.PushBack({ 317,4,44,50 }, 0.6, 0, 0);
 	data_player.walk2.loop = true;
 
-	data_player.jump.PushBack({ 7,128,52,43 }, 0.5, 0, 0);
-	data_player.jump.PushBack({ 81,114,47,57 }, 0.5, 0, 0);
+	data_player.jump.PushBack({ 7,128,52,43 }, 0.1, 0, 0);
+	data_player.jump.PushBack({ 81,114,47,57 }, 0.3, 0, 0);
 	data_player.jump.PushBack({ 155,113,42,58 }, 0.5, 0, 0);
-	data_player.jump.PushBack({ 221,118,52,53 }, 0.5, 0, 0);
-	data_player.jump.PushBack({ 285,116,53,55 }, 0.5, 0, 0);
-	data_player.jump.PushBack({ 348,119,56,52 }, 0.5, 0, 0);
+	data_player.jump.PushBack({ 221,118,52,53 }, 0.3, 0, 0);
+	data_player.jump.PushBack({ 285,116,53,55 }, 0.1, 0, 0);
+	data_player.jump.PushBack({ 348,119,56,52 }, 0.05, 0, 0);
 	data_player.jump.PushBack({ 423,129,53,42 }, 0.5, 0, 0);
-	data_player.jump.loop = true;
+	data_player.jump.loop = false;
+
+
+	data_player.fall.PushBack({ 348,119,56,52 }, 0.05, 0, 0);
+	data_player.fall.PushBack({ 423,129,53,42 }, 0.5, 0, 0);
+	data_player.fall.loop = true;
 
 	data_player.death.PushBack({ 8,464,48,55 }, 0.5, 0, 0);
 	data_player.death.PushBack({ 72,456,62,63 }, 0.5, 0, 0);
@@ -231,7 +236,7 @@ void j1Player::Pushbacks() {
 
 void j1Player::CheckState()
 {
-	data_player.velrun = data_player.v.x*5;
+	data_player.velrun = (data_player.v.x)+40;
 	
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && data_player.canjump == true) {		//if "D" is pressed animation walk forward 
 
@@ -268,6 +273,7 @@ void j1Player::CheckState()
 	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		//if "SPACE" is pressed 
 
 		current_state = JUMP_UP;
+		data_player.player_flip = false;
 
 		if (data_player.canjump == true) {
 			data_player.jumpenergy = data_player.jumpvel;
@@ -282,20 +288,31 @@ void j1Player::CheckState()
 
 	}
 
+	if (data_player.grounded == false) {
+		current_state = JUMP_FALL;
+	}
+
 }
 
 void j1Player::Animations() {
 
 	if (current_state == IDLE) {
 		data_player.current_animation = &data_player.idle;		//If any key pressed animation idle
+		data_player.jump.Reset();
+		data_player.fall.Reset();
+
 	}
 
 	if (current_state == WALK) {
 		data_player.current_animation = &data_player.walk;		//If any key pressed animation idle
+		data_player.jump.Reset();
+		data_player.fall.Reset();
 	}
 		
 	if (current_state == RUN) {
 		data_player.current_animation = &data_player.walk2;		//If any key pressed animation idle
+		data_player.jump.Reset();
+		data_player.fall.Reset();
 	}
 
 	if (current_state == JUMP_UP) {
@@ -326,43 +343,21 @@ void j1Player::Animations() {
 	if (current_state == DEATH) {
 		data_player.current_animation = &data_player.death;		//If any key pressed animation idle
 	}
+	if (current_state == JUMP_FALL) {
+		data_player.current_animation = &data_player.fall;
+	}
 
 }
 
 
 void j1Player::OnCollision(Collider* c1, Collider* c2) {
 	
-	/*if (data_player.colliders == c1 && c2->type == COLLIDER_FLOOR)
-	{
-		data_player.canjump = true;
-		LOG("COLLIDERS WOOOOOOOOOOOOOOOOOOOOOORKS");
-	}
-
-	switch (c2->type)
-	{
-	case COLLIDER_FLOOR: // what happens when colliders collide 
-
-
-		data_player.position.y = data_player.position.y - data_player.gravity;
-
-		
-		break;
-	case COLLIDER_DEAD:
-
-		data_player.current_animation = &data_player.death;
-		
-
-		break;
-	default:
-		break;
-	}*/
-
 	if (c1->type == ColliderType:: COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_FLOOR) {
 
 		//from above
 		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
 			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
-			data_player.grounded = true;
+			data_player.grounded = false;
 			data_player.canjump=true;
 		}
 		//from below
