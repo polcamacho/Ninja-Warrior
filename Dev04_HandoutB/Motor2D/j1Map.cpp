@@ -60,7 +60,7 @@ void j1Map::Draw()
 				
 			}
 		}
-		LOG("%f", layer->data->parallax);
+		//LOG("%f", layer->data->parallax);
 	}
 
 
