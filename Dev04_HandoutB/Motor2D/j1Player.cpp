@@ -226,94 +226,101 @@ void j1Player::Pushbacks() {
 
 void j1Player::CheckState()
 {
-	data_player.velrun = (data_player.v.x)+3;
-	
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && data_player.canjump == true) {		//if "D" is pressed animation walk forward 
-
-		current_state = WALK;
-		data_player.position.x += data_player.v.x;
-		data_player.player_flip = false;
+	data_player.velrun = (data_player.v.x)+0.25;
+	//LOG("%i %i", data_player.v.x, data_player.v.y);
+	if (data_player.position.y < 640 && data_player.position.x == 100) {
+		data_player.move = true;
+	}
+	else{
 		
-		if (App->input->GetKey(SDL_SCANCODE_SPACE)==KEY_DOWN) {		//if  "SPACE" is pressed when "D" is pressed, the player jumps forward
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && data_player.canjump == true) {		//if "D" is pressed animation walk forward 
 
+			current_state = WALK;
 			data_player.position.x += data_player.v.x;
-			current_state = JUMP_WALK;
-
-			if (data_player.canjump == true) {
-				data_player.jumpenergy = data_player.jumpvel;
-			}
-
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {		//if  "LSHIFT" is pressed when "D" is pressed, the player runs forward
-			current_state = RUN;
-			data_player.position.x += data_player.velrun;
 			data_player.player_flip = false;
+		
+			if (App->input->GetKey(SDL_SCANCODE_SPACE)==KEY_DOWN) {		//if  "SPACE" is pressed when "D" is pressed, the player jumps forward
 
-
-			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		//if "SPACE" is pressed when "LSHIFT" is pressed, and when "D" is pressed, the player jumps running forward
-
-				data_player.position.x += data_player.velrun;
-				data_player.right = true;
-
-				current_state = JUMP_RUN;
+				data_player.position.x += data_player.v.x;
+				current_state = JUMP_WALK;
 
 				if (data_player.canjump == true) {
 					data_player.jumpenergy = data_player.jumpvel;
 				}
+
 			}
 
+			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {		//if  "LSHIFT" is pressed when "D" is pressed, the player runs forward
+				current_state = RUN;
+				data_player.position.x += data_player.velrun;
+				data_player.player_flip = false;
+
+
+				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		//if "SPACE" is pressed when "LSHIFT" is pressed, and when "D" is pressed, the player jumps running forward
+
+					data_player.position.x += data_player.velrun;
+					data_player.right = true;
+
+					current_state = JUMP_RUN;
+
+					if (data_player.canjump == true) {
+						data_player.jumpenergy = data_player.jumpvel;
+					}
+				}
+
+			}
 		}
-	}
 
-	else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && data_player.canjump == true) {		//if "A" is pressed animation walk backward actives flips to the Blit
+		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && data_player.canjump == true) {		//if "A" is pressed animation walk backward actives flips to the Blit
 
-		current_state = WALK;
-		data_player.position.x -= data_player.v.x;
-		data_player.player_flip = true;
-		
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		//if "SPACE" is pressed 
-
+			current_state = WALK;
 			data_player.position.x -= data_player.v.x;
-			current_state = JUMP_WALK;
-
-			if (data_player.canjump == true) {
-				data_player.jumpenergy = data_player.jumpvel;
-			}
-		}
-		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
-			current_state = RUN;
-			data_player.position.x -= data_player.velrun;
-			
 			data_player.player_flip = true;
-
+		
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		//if "SPACE" is pressed 
 
-				data_player.left = true;
-				current_state = JUMP_RUN;
+				data_player.position.x -= data_player.v.x;
+				current_state = JUMP_WALK;
 
 				if (data_player.canjump == true) {
 					data_player.jumpenergy = data_player.jumpvel;
 				}
 			}
+			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
+				current_state = RUN;
+				data_player.position.x -= data_player.velrun;
+			
+				data_player.player_flip = true;
+
+				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		//if "SPACE" is pressed 
+
+					data_player.left = true;
+					current_state = JUMP_RUN;
+
+					if (data_player.canjump == true) {
+						data_player.jumpenergy = data_player.jumpvel;
+					}
+				}
+			}
 		}
-	}
 
 
-	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && data_player.canjump == true) {		//if "SPACE" is pressed 
+		else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && data_player.canjump == true) {		//if "SPACE" is pressed 
 
-		current_state = JUMP_UP;
-		data_player.player_flip = false;
+			current_state = JUMP_UP;
+			data_player.player_flip = false;
 
-		if (data_player.canjump == true) {
-			data_player.jumpenergy = data_player.jumpvel;
+			if (data_player.canjump == true) {
+				data_player.jumpenergy = data_player.jumpvel;
+			}
+
 		}
 
-	}
+		else if(data_player.canjump==true && App->input->GetKey(SDL_SCANCODE_SPACE) == NULL && App->input->GetKey(SDL_SCANCODE_A) == NULL && App->input->GetKey(SDL_SCANCODE_D) == NULL){
+			current_state = IDLE;
+			data_player.player_flip = false;
 
-	else if(data_player.canjump==true && App->input->GetKey(SDL_SCANCODE_SPACE) == NULL && App->input->GetKey(SDL_SCANCODE_A) == NULL && App->input->GetKey(SDL_SCANCODE_D) == NULL){
-		current_state = IDLE;
-		data_player.player_flip = false;
+		}
 
 	}
 
@@ -424,6 +431,8 @@ void j1Player::Animations() {
 			data_player.player_flip = false;
 		}
 	}
+
+	
 
 }
 

@@ -29,7 +29,7 @@
 	<player>
 		<folder>textures/</folder>
 		<texture source="rogue_spritesheed.png" />
-		<position x="6000" y="400" />
+		<position x="100" y="400" />
 		<jumpFX source="Walk.wav" />
 		<deathFX source="Death.wav" />
 		<jump_velocity jumpvel="-35" />
