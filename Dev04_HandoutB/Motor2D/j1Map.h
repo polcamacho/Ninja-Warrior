@@ -7,14 +7,13 @@
 #include "j1Module.h"
 
 // ----------------------------------------------------
-
 struct MapLayer {
 
-	p2SString name;
-	int width;
-	float speed;
-	int height;
-	uint* data;
+	p2SString	name;
+	int			width;
+	float		parallax;
+	int			height;
+	uint*		data = nullptr;
 	
 	MapLayer() : data(NULL)
 	{}
@@ -30,12 +29,11 @@ struct MapLayer {
 	}
 
 };
-
 // ----------------------------------------------------
 struct TileSet
 {
 	
-	SDL_Rect GetTileRect(int id) const;
+	SDL_Rect			GetTileRect(int id) const;
 
 	p2SString			name;
 	int					firstgid;
@@ -52,15 +50,15 @@ struct TileSet
 	int					offset_y;
 
 };
-
+// ----------------------------------------------------
 struct ObjectGroup {
 	
-	p2SString name = "No name";
-	int size = 0;
-	SDL_Rect* object;
+	p2SString		name = "No name";
+	int				size = 0;
+	SDL_Rect*		object;
 
 };
-
+// ----------------------------------------------------
 enum MapTypes
 {
 	MAPTYPE_UNKNOWN = 0,
@@ -71,24 +69,24 @@ enum MapTypes
 // ----------------------------------------------------
 struct MapData
 {
-	int					width;
-	int					height;
-	int					tile_width;
-	int					tile_height;
-	SDL_Color			background_color;
-	MapTypes			type;
+	int						width;
+	int						height;
+	int						tile_width;
+	int						tile_height;
+	SDL_Color				background_color;
+	MapTypes				type;
 	
-	p2List<TileSet*>	tilesets;
-	p2List<MapLayer*>	layers;
-	p2List<ObjectGroup*> objectgroups;
+	p2List<TileSet*>		tilesets;
+	p2List<MapLayer*>		layers;
+	p2List<ObjectGroup*>	objectgroups;
 
 };
-
 // ----------------------------------------------------
 class j1Map : public j1Module
 {
 public:
 
+	// Constructor
 	j1Map();
 
 	// Destructor
@@ -117,7 +115,7 @@ private:
 	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set); //Load all details of the tilset
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set); //Load the image of the tileset
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer); //Load the layer
-	bool LoadObjectGroup(pugi::xml_node& node, ObjectGroup* objectgroup);
+	bool LoadObject(pugi::xml_node& objectnode, ObjectGroup* objectgroup);
 
 	TileSet* GetTilesetFromTileId(int id) const;
 	
@@ -134,5 +132,5 @@ private:
 	bool				map_loaded;
 	float				parallax;
 };
-
+// ----------------------------------------------------
 #endif // __j1MAP_H__

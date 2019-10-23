@@ -244,6 +244,7 @@ void j1Player::CheckState()
 		data_player.position.x += data_player.v.x;
 		data_player.player_flip = false;
 		
+		
 	}
 
 	else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && data_player.canjump == true) {		//if "A" is pressed animation walk backward actives flips to the Blit
@@ -251,6 +252,7 @@ void j1Player::CheckState()
 		current_state = WALK;
 		data_player.position.x -= data_player.v.x;
 		data_player.player_flip = true;
+		
 		
 	}
 
@@ -288,9 +290,7 @@ void j1Player::CheckState()
 
 	}
 
-	if (data_player.grounded == false) {
-		current_state = JUMP_FALL;
-	}
+	
 
 }
 
@@ -328,6 +328,7 @@ void j1Player::Animations() {
 		else if (data_player.jumpenergy == data_player.gravity) {
 			data_player.position.y = data_player.position.y + data_player.gravity;
 		}
+
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
 			data_player.position.x -= data_player.v.x;
@@ -345,6 +346,16 @@ void j1Player::Animations() {
 	}
 	if (current_state == JUMP_FALL) {
 		data_player.current_animation = &data_player.fall;
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		{
+			data_player.position.x -= data_player.v.x;
+			data_player.player_flip = true;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+			data_player.position.x += data_player.v.x;
+			data_player.player_flip = false;
+		}
 	}
 
 }
@@ -357,18 +368,19 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 		//from above
 		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
 			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
-			data_player.grounded = false;
+			data_player.grounded = true;
 			data_player.canjump=true;
 		}
 		//from below
 		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {
 			data_player.position.y = c2->rect.y + c2->rect.h;
+			current_state = JUMP_FALL;
 		}
 		//from a side
 		else if ((data_player.position.x < c2->rect.x + c2->rect.w && data_player.position.x > c2->rect.x) ||
 			(data_player.position.x + data_player.colliders->rect.w < c2->rect.x + c2->rect.w && data_player.position.x + data_player.colliders->rect.w > c2->rect.x)) {
 			LOG("WALL");
-			if ((data_player.position.x + data_player.colliders->rect.w) < (c2->rect.x + c2->rect.w / 2)) { //Player to the left 
+			if ((data_player.position.x + data_player.colliders->rect.w) < (c2->rect.x + c2->rect.w)) { //Player to the left 
 				data_player.position.x = c2->rect.x - data_player.colliders->rect.w;
 			}
 			else if (data_player.position.x < (c2->rect.x + c2->rect.w)) {
@@ -381,15 +393,16 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_PLATFORM) {
 
 		if (data_player.platformdrop == false) {
+			
 			if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
 				data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
 				data_player.grounded = true;
 				data_player.canjump = true;
+				current_state = IDLE;
 			}
 			else if ((data_player.position.y >= data_player.preposition.y) && (data_player.preposition.y + data_player.colliders->rect.h) < c2->rect.y) {
 				data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
-				//data_player.grounded=true;
-				//data_player.canjump = false;
+				
 			}
 		}
 
@@ -412,5 +425,12 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 		}
 
 	}
+
+	
+	if (data_player.grounded == false) {
+		current_state = JUMP_FALL;
+	}
+
+	
 
 }

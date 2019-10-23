@@ -7,17 +7,16 @@
 #include "j1Map.h"
 #include "j1Collider.h"
 #include <math.h>
-
+// ----------------------------------------------------
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
 	name.create("map");
 }
-
+// ----------------------------------------------------
 // Destructor
 j1Map::~j1Map()
 {}
-
-// Called before render is available
+// ----------------------------------------------------
 bool j1Map::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Map Parser");
@@ -27,24 +26,24 @@ bool j1Map::Awake(pugi::xml_node& config)
 	
 	return ret;
 }
-
+// ----------------------------------------------------
 void j1Map::Draw()
 {
 	
 	if (map_loaded == false)
 		return;
-
-	
+		
 	MapLayer* layer = this->data.layers.start->data;
 	
-
 	for (p2List_item<MapLayer*>* layer = data.layers.start; layer != NULL; layer = layer->next)
 	{
+		
 		for (int y = 0; y < data.height; ++y)
 		{
 			for (int x = 0; x < data.width; ++x)
 			{
 				int tile_id = layer->data->Get(x, y);
+				
 				if (tile_id > 0)
 				{
 					TileSet* tileset = GetTilesetFromTileId(tile_id);
@@ -53,20 +52,21 @@ void j1Map::Draw()
 						SDL_Rect r = tileset->GetTileRect(tile_id);
 						iPoint pos = MapToWorld(x, y);
 
-						App->render->Blit(tileset->texture, pos.x, pos.y, &r);
+						
+						App->render->Blit(tileset->texture, pos.x, pos.y, &r, SDL_FLIP_NONE, -layer->data->parallax);
 						
 					}
 				}
+				
 			}
 		}
+		LOG("%f", layer->data->parallax);
 	}
 
-	
-				
-	
+
 
 }
-
+// ----------------------------------------------------
 TileSet* j1Map::GetTilesetFromTileId(int id) const
 {
 	// Tileset based on a tile id
@@ -85,7 +85,7 @@ TileSet* j1Map::GetTilesetFromTileId(int id) const
 	}
 	return tile;
 }
-
+// ----------------------------------------------------
 iPoint j1Map::MapToWorld(int x, int y) const
 {
 	iPoint ret;
@@ -108,7 +108,7 @@ iPoint j1Map::MapToWorld(int x, int y) const
 
 	return ret;
 }
-
+// ----------------------------------------------------
 iPoint j1Map::WorldToMap(int x, int y) const
 {
 	iPoint ret(0, 0);
@@ -134,7 +134,7 @@ iPoint j1Map::WorldToMap(int x, int y) const
 
 	return ret;
 }
-
+// ----------------------------------------------------
 SDL_Rect TileSet::GetTileRect(int id) const
 {
 	int relative_id = id - firstgid;
@@ -145,7 +145,7 @@ SDL_Rect TileSet::GetTileRect(int id) const
 	rect.y = margin + ((rect.h + spacing) * (relative_id / num_tiles_width));
 	return rect;
 }
-
+// ----------------------------------------------------
 // Called before quitting
 bool j1Map::CleanUp()
 {
@@ -190,7 +190,7 @@ bool j1Map::CleanUp()
 
 	return true;
 }
-
+// ----------------------------------------------------
 // Load new map
 bool j1Map::Load(const char* file_name)
 {
@@ -257,7 +257,7 @@ bool j1Map::Load(const char* file_name)
 
 		if (ret == true)
 		{
-			ret = LoadObjectGroup(objectgroup, set);
+			ret = LoadObject(objectgroup, set);
 		}
 		data.objectgroups.add(set);
 	}
@@ -304,8 +304,8 @@ bool j1Map::Load(const char* file_name)
 
 	return ret;
 }
-
-// Load map general properties
+// ----------------------------------------------------
+// Load map general properties of map
 bool j1Map::LoadMap()
 {
 	bool ret = true;
@@ -370,7 +370,8 @@ bool j1Map::LoadMap()
 
 	return ret;
 }
-
+// ----------------------------------------------------
+// Load map general properties of tileset
 bool j1Map::LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set)
 {
 	bool ret = true;
@@ -395,7 +396,8 @@ bool j1Map::LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set)
 
 	return ret;
 }
-
+// ----------------------------------------------------
+// Load tilet images
 bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 {
 	bool ret = true;
@@ -431,7 +433,8 @@ bool j1Map::LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set)
 
 	return ret;
 }
-
+// ----------------------------------------------------
+// Load layers
 bool j1Map::LoadLayer(pugi::xml_node& layernode, MapLayer* layer)
 {
 
@@ -440,7 +443,7 @@ bool j1Map::LoadLayer(pugi::xml_node& layernode, MapLayer* layer)
 	layer->name.create(layernode.attribute("name").as_string());
 	layer->width = layernode.attribute("width").as_int();
 	layer->height = layernode.attribute("height").as_int();
-	layer->speed = layernode.child("properties").child("property").attribute("value").as_float();
+	layer->parallax = layernode.child("properties").child("property").attribute("value").as_float();
 	pugi::xml_node layer_data = layernode.child("data");
 	
 	
@@ -472,50 +475,49 @@ bool j1Map::LoadLayer(pugi::xml_node& layernode, MapLayer* layer)
 	return ret;
 	   	 
 }
-
-bool j1Map::LoadObjectGroup(pugi::xml_node& node, ObjectGroup* objectgroup) {
+// ----------------------------------------------------
+// Load objects in map
+bool j1Map::LoadObject(pugi::xml_node& objectnode, ObjectGroup* objectgroup) {
 
 	bool ret = true;
-	pugi::xml_node object = node.child("object");
+	pugi::xml_node objectid = objectnode.child("object");
 
-	objectgroup->name = node.attribute("name").as_string();
-	uint i = 0u;
+	objectgroup->name = objectnode.attribute("name").as_string();
+	uint i = 0;
 	p2SString type;
 
-	if (object == NULL)
+	if (objectid == NULL)
 	{
 		LOG("Error loading object group");
 		ret = false;
+		RELEASE(objectgroup);
 	}
 
 	else
 	{
 		objectgroup->object = new SDL_Rect[MAX_COLLIDERS];
 
-		while (object != NULL)
+		while (objectid != NULL)
 		{
-			objectgroup->object[i].x = object.attribute("x").as_int();
-			objectgroup->object[i].y = object.attribute("y").as_int();
-			objectgroup->object[i].w = object.attribute("width").as_int();
-			objectgroup->object[i].h = object.attribute("height").as_int();
+			objectgroup->object[i].x = objectid.attribute("x").as_int();
+			objectgroup->object[i].y = objectid.attribute("y").as_int();
+			objectgroup->object[i].w = objectid.attribute("width").as_int();
+			objectgroup->object[i].h = objectid.attribute("height").as_int();
 
-			p2SString type(object.attribute("name").as_string());
+			p2SString type(objectid.attribute("name").as_string());
 			LOG("this name %s", type);
 
 			if (type == "floor") {
 				App->collider->AddCollider(objectgroup->object[i], COLLIDER_FLOOR);
 			}
-
 			if (type == "death") {
 				App->collider->AddCollider(objectgroup->object[i], COLLIDER_DEAD);
 			}
-
 			if (type == "platform") {
 				App->collider->AddCollider(objectgroup->object[i], COLLIDER_PLATFORM);
 			}
 
-
-			object = object.next_sibling("object");
+			objectid = objectid.next_sibling("object");
 
 			LOG("Collider %i", i);
 			LOG("Collider x: %i y: %i", objectgroup->object[i].x, objectgroup->object[i].y);
@@ -526,6 +528,7 @@ bool j1Map::LoadObjectGroup(pugi::xml_node& node, ObjectGroup* objectgroup) {
 
 	return ret;
 }
+
 
 
 

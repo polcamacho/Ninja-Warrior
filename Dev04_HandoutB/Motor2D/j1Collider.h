@@ -66,6 +66,7 @@ public:
 
 
 	Collider* AddCollider(SDL_Rect rect, ColliderType type, j1Module* callback = nullptr);
+	
 	void DebugDraw();
 
 	
