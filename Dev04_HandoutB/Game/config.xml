@@ -4,10 +4,12 @@
 		<title>Game Development Testbed</title>
 		<organization>UPC</organization>
 	</app>
+	
 	<renderer>
 		<vsync value="true" />
 		<cameravelocity camvel="-50" />
 	</renderer>
+	
 	<window>
 		<resolution width="1024" height="768" scale="1" />
 		<fullscreen value="false" />
@@ -15,12 +17,15 @@
 		<resizable value="false" />
 		<fullscreen_window value="false" />
 	</window>
+	
 	<file_system>
 		<path>data.zip</path>
 	</file_system>
+	
 	<map>
 		<folder>maps/</folder>
 	</map>
+	
 	<player>
 		<folder>textures/</folder>
 		<texture source="rogue_spritesheed.png" />
@@ -35,5 +40,6 @@
 	</player>
 	<scene>
 		<map name="Map.tmx" />
+		<map name="map2.tmx" />
 	</scene>
 </config>

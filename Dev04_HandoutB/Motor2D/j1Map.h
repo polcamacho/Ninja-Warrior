@@ -13,7 +13,7 @@ struct MapLayer {
 	int			width;
 	float		parallax;
 	int			height;
-	uint*		data = nullptr;
+	uint*		data;
 	
 	MapLayer() : data(NULL)
 	{}
@@ -25,7 +25,7 @@ struct MapLayer {
 
 	inline uint Get(int x, int y) const
 	{
-		return data[(y*width) + x];
+		return  x + y * width;
 	}
 
 };
@@ -130,7 +130,7 @@ private:
 	pugi::xml_document	map_file;
 	p2SString			folder;
 	bool				map_loaded;
-	float				parallax;
+	//float				parallax;
 };
 // ----------------------------------------------------
 #endif // __j1MAP_H__

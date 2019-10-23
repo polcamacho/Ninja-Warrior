@@ -32,8 +32,10 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	p2List<p2SString*> mn;
-
+	p2List<p2SString> maps;
+	p2SString current_map;
+	
+	void SecondMap();
 
 private:
 };

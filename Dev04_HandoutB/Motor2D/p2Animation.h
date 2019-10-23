@@ -31,6 +31,8 @@ public:
 		speed[speeddelay++] = delay;
 	}
 
+	
+
 	SDL_Rect& GetCurrentFrame()
 	{
 		current_frame += speed[(int)current_frame];

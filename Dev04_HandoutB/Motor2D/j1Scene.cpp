@@ -9,6 +9,7 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1Player.h"
+#include "j1Collider.h"
 
 #include <string>
 
@@ -25,14 +26,14 @@ j1Scene::~j1Scene()
 bool j1Scene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
-
-	for (pugi::xml_node map = config.child("map"); map; map = map.next_sibling("map"))
+	pugi::xml_node map;
+	for (map= config.child("map"); map; map = map.next_sibling("map"))
 	{
-		p2SString* data = new p2SString;
+		p2SString* lvl = new p2SString();
 
-		data->create(map.attribute("name").as_string());
+		lvl->create(map.attribute("name").as_string());
 		
-		mn.add(data);
+		maps.add(lvl->GetString());
 	}
 
 	bool ret = true;
@@ -43,8 +44,11 @@ bool j1Scene::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool j1Scene::Start()
 {
-	App->map->Load("map.tmx");
 	LOG("LOADING MAP");
+	current_map = maps.start->data;
+	App->map->Load(current_map.GetString());
+	//App->audio->PlayMusic(); MUSIC NOT ENABLED
+	
 	
 	return true;
 }
@@ -58,23 +62,63 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 		App->LoadGame();
 
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
 		App->SaveGame();
 
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	/*if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
 		App->render->camera.y += 10;
 
-	if(App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
 		App->render->camera.y -= 10;
 
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
 		App->render->camera.x += 10;
 
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x -= 10;
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		App->render->camera.x -= 10;*/
+	p2List_item<p2SString>* i = maps.start;
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN){
+		
+		
+		current_map.create("Map.tmx");
+		
+		App->player->CleanUp();
+		App->collider->CleanUp();
+		App->map->CleanUp();
+		
+		App->map->Load(current_map.GetString());
+		App->player->Start();
+
+		App->player->data_player.position.x = 100;
+		App->player->data_player.position.y = 300;
+		
+	} 
+	
+	i = i->next;
+
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
+		
+		
+		current_map.create("Map2.tmx");
+		
+
+		App->player->CleanUp();
+		App->collider->CleanUp();
+		App->map->CleanUp();
+
+		App->map->Load(current_map.GetString());
+		App->player->Start();
+
+		
+		App->player->data_player.position.x = 150;
+		App->player->data_player.position.y = 10;
+	}
+
+	App->map->Draw();
 
 	// Show player and map colliders
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
@@ -92,7 +136,7 @@ bool j1Scene::Update(float dt)
 	//int x = 0;
 	//int y = 0;
 
-	App->map->Draw();
+	
 	
 	/*App->input->GetMousePosition(x, y);
 	p2Point<uint> TilePos = App->map->data.GetTilePos(x, y);
@@ -128,3 +172,33 @@ bool j1Scene::CleanUp()
 
 	return true;
 }
+
+/*bool j1Scene::Load(pugi::xml_node& data)
+{
+	LOG("Loading Scene state");
+	App->map->CleanUp();
+	sn.create(data.child("scene").attribute("name").as_string());
+	App->map->Load(sn.GetString());
+	
+	return true;
+}*/
+
+/*bool j1Scene::Save(pugi::xml_node& data) const
+{
+	LOG("Saving Scene state");
+	pugi::xml_node scene = data.append_child("scene");
+	scene.append_attribute("name") = sn.GetString();
+	
+
+	return true;
+}*/
+
+/*void j1Scene::SecondMap() {
+	
+	App->map->CleanUp();
+	p2List_item<p2SString>* i;
+	if (i->next != NULL) { i = i->next; }
+	else { i = mn.start; }
+	sn = i->data;
+	App->map->Load(sn.GetString());
+}*/

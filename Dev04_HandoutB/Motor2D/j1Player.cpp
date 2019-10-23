@@ -78,7 +78,7 @@ bool j1Player::Start() {
 
 	data_player.Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));
 	
-	data_player.colliders = App->collider->AddCollider({ data_player.position.x, data_player.position.y, 43,53 }, COLLIDER_PLAYER, this);	//Collider player
+	data_player.colliders = App->collider->AddCollider({ data_player.position.x, data_player.position.y, 39,53 }, COLLIDER_PLAYER, this);	//Collider player
 	
 
 
@@ -231,6 +231,7 @@ void j1Player::Pushbacks() {
 	data_player.death.PushBack({ 1054,433,116,87 }, 0.5, 0, 0);
 	data_player.death.loop = false;
 
+	
 
 }
 

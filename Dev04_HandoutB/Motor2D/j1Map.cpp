@@ -6,6 +6,7 @@
 #include "j1Scene.h"
 #include "j1Map.h"
 #include "j1Collider.h"
+#include "j1Player.h"
 #include <math.h>
 // ----------------------------------------------------
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -32,37 +33,34 @@ void j1Map::Draw()
 	
 	if (map_loaded == false)
 		return;
-		
-	MapLayer* layer = this->data.layers.start->data;
-	
-	for (p2List_item<MapLayer*>* layer = data.layers.start; layer != NULL; layer = layer->next)
-	{
-		
-		for (int y = 0; y < data.height; ++y)
-		{
-			for (int x = 0; x < data.width; ++x)
-			{
-				int tile_id = layer->data->Get(x, y);
-				
-				if (tile_id > 0)
-				{
-					TileSet* tileset = GetTilesetFromTileId(tile_id);
-					if (tileset != nullptr)
-					{
-						SDL_Rect r = tileset->GetTileRect(tile_id);
-						iPoint pos = MapToWorld(x, y);
 
-						
-						App->render->Blit(tileset->texture, pos.x, pos.y, &r, SDL_FLIP_NONE, -layer->data->parallax);
-						
-					}
+	// TODO 5(old): Prepare the loop to draw all tilesets + Blit
+	MapLayer* layer = data.layers.start->data; // for now we just use the first layer and tileset
+	TileSet* tileset = data.tilesets.start->data;
+
+	p2List_item<MapLayer*>* item_layer = data.layers.start;
+	while (item_layer != NULL)
+	{
+		MapLayer* l = item_layer->data;
+		item_layer = item_layer->next;
+		for (int i = 0; i < l->width; i++)
+		{
+			for (int j = 0; j < l->height; j++)
+			{
+				if (l->data[l->Get(i, j)] != 0)
+				{
+					l->Get(i, j);
+					SDL_Texture* texture = data.tilesets.start->data->texture;
+					iPoint position = MapToWorld(i, j);
+					SDL_Rect* sect = &data.tilesets.start->data->GetTileRect(l->data[l->Get(i, j)]);
+
+					
+					App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);
+					
 				}
-				
 			}
 		}
-		LOG("%f", layer->data->parallax);
 	}
-
 
 
 }
@@ -184,8 +182,8 @@ bool j1Map::CleanUp()
 	}
 	data.objectgroups.clear();
 
-
 	// Clean up the pugui tree
+
 	map_file.reset();
 
 	return true;
@@ -505,7 +503,7 @@ bool j1Map::LoadObject(pugi::xml_node& objectnode, ObjectGroup* objectgroup) {
 			objectgroup->object[i].h = objectid.attribute("height").as_int();
 
 			p2SString type(objectid.attribute("name").as_string());
-			LOG("this name %s", type);
+			LOG("Name %s", type);
 
 			if (type == "floor") {
 				App->collider->AddCollider(objectgroup->object[i], COLLIDER_FLOOR);
