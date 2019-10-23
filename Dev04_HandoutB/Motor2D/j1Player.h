@@ -56,6 +56,9 @@ struct PlayerData
 	bool canjump = false;  //Says the player can jump or not
 	int jumpvel;
 	int jumpenergy;
+	int doublejump;
+	bool left;
+	bool right;
 	bool player_flip;
 	float gravity;
 

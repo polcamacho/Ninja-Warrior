@@ -32,6 +32,8 @@ bool j1Player::Awake(pugi::xml_node& config) {
 
 	data_player.jumpvel = config.child("jump_velocity").attribute("jumpvel").as_int();
 
+	data_player.doublejump = config.child("double_jump").attribute("dbjump").as_int();
+
 	data_player.v.x = config.child("velocity").attribute("x").as_int();
 
 	data_player.walkFX = config.child("walkFX").attribute("source").as_string();
@@ -134,9 +136,9 @@ bool j1Player::Load(pugi::xml_node& node) {
 
 	data_player.jumpvel = node.child("jump_velocity").attribute("jumpvel").as_int();
 
+
 	data_player.v.x = node.child("velocity").attribute("x").as_int();
 	
-	data_player.gravity = node.child("gravity").attribute("grav").as_float();
 
 	return true;
 
@@ -150,7 +152,6 @@ bool j1Player::Save(pugi::xml_node& node) const {
 
 	node.append_child("velocity").append_attribute("x") = data_player.v.x;
 
-	node.child("gravity").attribute("grav") = data_player.gravity;
 
 	return true;
 
@@ -233,7 +234,7 @@ void j1Player::CheckState()
 		data_player.position.x += data_player.v.x;
 		data_player.player_flip = false;
 		
-		if (App->input->GetKey(SDL_SCANCODE_SPACE)) {		//if  "SPACE" is pressed when "D" is pressed, the player jumps forward
+		if (App->input->GetKey(SDL_SCANCODE_SPACE)==KEY_DOWN) {		//if  "SPACE" is pressed when "D" is pressed, the player jumps forward
 
 			data_player.position.x += data_player.v.x;
 			current_state = JUMP_WALK;
@@ -249,9 +250,12 @@ void j1Player::CheckState()
 			data_player.position.x += data_player.velrun;
 			data_player.player_flip = false;
 
-			if (App->input->GetKey(SDL_SCANCODE_SPACE)) {		//if "SPACE" is pressed when "LSHIFT" is pressed, and when "D" is pressed, the player jumps running forward
+
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		//if "SPACE" is pressed when "LSHIFT" is pressed, and when "D" is pressed, the player jumps running forward
 
 				data_player.position.x += data_player.velrun;
+				data_player.right = true;
+
 				current_state = JUMP_RUN;
 
 				if (data_player.canjump == true) {
@@ -268,7 +272,7 @@ void j1Player::CheckState()
 		data_player.position.x -= data_player.v.x;
 		data_player.player_flip = true;
 		
-		if (App->input->GetKey(SDL_SCANCODE_SPACE)) {		//if "SPACE" is pressed 
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		//if "SPACE" is pressed 
 
 			data_player.position.x -= data_player.v.x;
 			current_state = JUMP_WALK;
@@ -281,12 +285,11 @@ void j1Player::CheckState()
 			current_state = RUN;
 			data_player.position.x -= data_player.velrun;
 			
-
 			data_player.player_flip = true;
 
-			if (App->input->GetKey(SDL_SCANCODE_SPACE)) {		//if "SPACE" is pressed 
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		//if "SPACE" is pressed 
 
-				
+				data_player.left = true;
 				current_state = JUMP_RUN;
 
 				if (data_player.canjump == true) {
@@ -337,8 +340,34 @@ void j1Player::Animations() {
 	}
 
 	if (current_state == JUMP_RUN) {
+		
+		if (data_player.left == true) {
+			data_player.position.x -= data_player.velrun;
+		}
+		else if (data_player.right == true) {
+			data_player.position.x += data_player.velrun;
+		}
 
-		current_state = JUMP_UP;
+		data_player.canjump = false;
+		data_player.injump = true;
+		data_player.current_animation = &data_player.jump;
+
+		if (data_player.jumpenergy <= data_player.gravity) {
+			data_player.jumpenergy += 0.5;
+			data_player.position.y = data_player.position.y + data_player.jumpenergy;
+
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+		{
+			data_player.position.x -= data_player.v.x;
+			data_player.player_flip = true;
+		}
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+		{
+			data_player.position.x += data_player.v.x;
+			data_player.player_flip = false;
+		}
 
 	}
 		
@@ -357,7 +386,6 @@ void j1Player::Animations() {
 		if (data_player.jumpenergy <= data_player.gravity) {
 			data_player.jumpenergy += 0.5;
 			data_player.position.y = data_player.position.y + data_player.jumpenergy;
-			LOG("%i", data_player.jumpenergy);
 
 		}
 
@@ -371,6 +399,13 @@ void j1Player::Animations() {
 			data_player.position.x += data_player.v.x;
 			data_player.player_flip = false;
 		}
+		/*if (App->input->GetKey(SDL_SCANCODE_SPACE)==KEY_DOWN) {
+			float i = SDL_GetTicks();
+			float j = SDL_GetTicks() + 10000;
+			if (j > i) {
+				data_player.position.y -= data_player.doublejump;
+			}
+		}*/
 	}
 
 	if (current_state == DEATH) {
@@ -402,6 +437,9 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
 			data_player.grounded = true;
 			data_player.canjump=true;
+			if (data_player.injump == true) {
+				data_player.jump.Reset();
+			}
 		}
 		//from below
 		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {

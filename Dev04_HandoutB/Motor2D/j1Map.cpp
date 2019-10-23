@@ -54,9 +54,14 @@ void j1Map::Draw()
 					iPoint position = MapToWorld(i, j);
 					SDL_Rect* sect = &data.tilesets.start->data->GetTileRect(l->data[l->Get(i, j)]);
 
-					
-					App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);
-					
+					if (data.type == MAPTYPE_ORTHOGONAL) {
+						App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);
+
+					}
+					else {
+						App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE);
+
+					}
 				}
 			}
 		}
