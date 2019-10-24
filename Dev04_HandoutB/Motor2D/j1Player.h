@@ -19,7 +19,8 @@ enum states_player {
 	JUMP_FALL,
 	JUMP_WALK,
 	JUMP_RUN,
-	DEATH
+	DEATH,
+	NONE
 };
 
 struct PlayerData

@@ -86,8 +86,6 @@ bool j1Scene::Update(float dt)
 		
 		current_map.create("Map.tmx");
 		
-		App->player->CleanUp();
-		App->collider->CleanUp();
 		App->map->CleanUp();
 		
 		App->map->Load(current_map.GetString());
@@ -104,16 +102,12 @@ bool j1Scene::Update(float dt)
 		
 		
 		current_map.create("Map2.tmx");
-		
-
-		App->player->CleanUp();
-		App->collider->CleanUp();
+				
 		App->map->CleanUp();
 
 		App->map->Load(current_map.GetString());
 		App->player->Start();
 
-		
 		App->player->data_player.position.x = 150;
 		App->player->data_player.position.y = 10;
 	}

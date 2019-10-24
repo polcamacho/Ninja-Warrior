@@ -14,6 +14,7 @@
 j1Player::j1Player() : j1Module()
 {
 	name.create("player");
+	
 }
 
 // Destructor
