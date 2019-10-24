@@ -1,7 +1,7 @@
 #ifndef __j1Collider_H__
 #define __j1Collider_H__
 
-#define MAX_COLLIDERS 1000
+#define MAX_COLLIDERS 3000
 
 #include "j1Module.h"
 
@@ -14,8 +14,10 @@ enum ColliderType
 	COLLIDER_FLOOR,
 	COLLIDER_DEAD,
 	COLLIDER_PLATFORM,
+	COLLIDER_NEXT,
 	COLLIDER_PLAYER,
-	COLLIDER_MAX
+	
+	COLLIDER_MAX,
 };
 
 struct Collider

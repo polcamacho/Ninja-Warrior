@@ -9,6 +9,7 @@
 #include "j1Map.h"
 #include "j1Input.h"
 #include "j1Collider.h"
+#include "j1Scene.h"
 #include <math.h>
 
 j1Player::j1Player() : j1Module()
@@ -230,10 +231,8 @@ void j1Player::CheckState()
 {
 	data_player.velrun = (data_player.v.x)+0.25;
 	//LOG("%i %i", data_player.v.x, data_player.v.y);
-	if (data_player.position.y < 640 && data_player.position.x == 100) {
-		data_player.move = true;
-	}
-	else{
+	
+	
 		
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && data_player.canjump == true) {		//if "D" is pressed animation walk forward 
 
@@ -323,9 +322,9 @@ void j1Player::CheckState()
 
 		}
 
-	}
-
 }
+
+
 
 void j1Player::Animations() {
 
@@ -442,8 +441,9 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 	
 	if (c1->type == ColliderType:: COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_FLOOR) {
 
-		//from above
+		//ABOVE
 		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
+			
 			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
 			data_player.grounded = true;
 			data_player.canjump=true;
@@ -451,13 +451,15 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 				data_player.jump.Reset();
 			}
 		}
-		//from below
+		//BELOW
 		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {
 			data_player.position.y = c2->rect.y + c2->rect.h;
 			current_state = JUMP_FALL;
 		}
-		//from a side
+		//SIDES
 		else if ((data_player.position.x < c2->rect.x + c2->rect.w && data_player.position.x > c2->rect.x) ||
+		
+			
 			(data_player.position.x + data_player.colliders->rect.w < c2->rect.x + c2->rect.w && data_player.position.x + data_player.colliders->rect.w > c2->rect.x)) {
 			LOG("WALL");
 			if ((data_player.position.x + data_player.colliders->rect.w) < (c2->rect.x + c2->rect.w)) { //Player to the left 
@@ -472,19 +474,20 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
 	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_PLATFORM) {
 
-		if (data_player.platformdrop == false) {
+		
 			
 			if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
+				
 				data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
 				data_player.grounded = true;
 				data_player.canjump = true;
-				current_state = IDLE;
+				//current_state = IDLE;
 			}
 			else if ((data_player.position.y >= data_player.preposition.y) && (data_player.preposition.y + data_player.colliders->rect.h) < c2->rect.y) {
 				data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
 				
 			}
-		}
+		
 
 	}
 
@@ -504,7 +507,41 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
 		}
 
+		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {
+			data_player.position.y = c2->rect.y + c2->rect.h;
+			
+			data_player.grounded = false;
+			data_player.canjump = false;
+
+			data_player.position.x = 100;
+			data_player.position.y = 300;
+		}
+
 	}
+
+	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_NEXT) {
+
+		//ABOVE
+		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
+			App->scene->SecondMap();
+		}
+		//BELOW
+		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {
+			App->scene->SecondMap();
+		}
+		//SIDES
+		else if ((data_player.position.x < c2->rect.x + c2->rect.w && data_player.position.x > c2->rect.x) || (data_player.position.x + data_player.colliders->rect.w < c2->rect.x + c2->rect.w && data_player.position.x + data_player.colliders->rect.w > c2->rect.x)) {
+			
+			if ((data_player.position.x + data_player.colliders->rect.w) < (c2->rect.x + c2->rect.w)) { //Player to the left 
+				App->scene->SecondMap();
+			}
+			else if (data_player.position.x < (c2->rect.x + c2->rect.w)) {
+				App->scene->SecondMap();
+			}
+		}
+	}
+
+	
 
 	
 	if (data_player.grounded == false) {

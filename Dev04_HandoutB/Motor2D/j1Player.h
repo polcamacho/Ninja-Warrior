@@ -41,6 +41,7 @@ struct PlayerData
 	
 	bool			grounded = false;
 	bool			platformdrop;
+	bool			platformdrop2;
 	bool			move=false;
 
 	iPoint position;	//Position of the player (x,y)

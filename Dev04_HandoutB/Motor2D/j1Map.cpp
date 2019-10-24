@@ -525,6 +525,10 @@ bool j1Map::LoadObject(pugi::xml_node& objectnode, ObjectGroup* objectgroup) {
 			if (type == "platform") {
 				App->collider->AddCollider(objectgroup->object[i], COLLIDER_PLATFORM);
 			}
+			if (type == "platform2")
+			{
+				App->collider->AddCollider(objectgroup->object[i], COLLIDER_NEXT);
+			}
 
 			objectid = objectid.next_sibling("object");
 
