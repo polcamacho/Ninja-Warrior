@@ -89,7 +89,7 @@ bool j1Scene::Update(float dt)
 		
 		App->map->CleanUp();
 		App->audio->CleanUp();
-		
+		App->player->CleanUp();
 
 		App->map->Load(current_map.GetString());
 		App->player->Start();
@@ -109,7 +109,7 @@ bool j1Scene::Update(float dt)
 				
 		App->map->CleanUp();
 		App->audio->CleanUp();
-		
+		App->player->CleanUp();
 
 		App->map->Load(current_map.GetString());
 		App->player->Start();
