@@ -60,8 +60,8 @@ struct PlayerData
 	int jumpvel;
 	int jumpenergy;
 	int doublejump;
-	bool left;
-	bool right;
+	bool left=false;
+	bool right=false;
 	bool player_flip;
 	float gravity;
 

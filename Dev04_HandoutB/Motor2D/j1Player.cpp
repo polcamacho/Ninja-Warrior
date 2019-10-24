@@ -261,6 +261,8 @@ void j1Player::CheckState()
 				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		//if "SPACE" is pressed when "LSHIFT" is pressed, and when "D" is pressed, the player jumps running forward
 
 					data_player.right = true;
+					data_player.left = false;
+
 
 					current_state = JUMP_RUN;
 
@@ -296,6 +298,8 @@ void j1Player::CheckState()
 				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		//if "SPACE" is pressed 
 
 					data_player.left = true;
+					data_player.right = false;
+
 					current_state = JUMP_RUN;
 
 					if (data_player.canjump == true) {
