@@ -198,8 +198,8 @@ void j1Player::Pushbacks() {
 	data_player.jump.PushBack({ 81,114,47,57 }, 0.3, 0, 0);
 	data_player.jump.PushBack({ 155,113,42,58 }, 0.3, 0, 0);
 	data_player.jump.PushBack({ 221,118,52,53 }, 0.2, 0, 0);
-	data_player.jump.PushBack({ 285,116,53,55 }, 0.1, 0, 0);
-	data_player.jump.PushBack({ 348,119,56,52 }, 0.1, 0, 0);
+	data_player.jump.PushBack({ 285,116,53,55 }, 0.05, 0, 0);
+	data_player.jump.PushBack({ 348,119,56,52 }, 0.05, 0, 0);
 	data_player.jump.PushBack({ 423,129,53,42 }, 0.5, 0, 0);
 	data_player.jump.loop = false;
 
@@ -258,7 +258,6 @@ void j1Player::CheckState()
 
 				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		//if "SPACE" is pressed when "LSHIFT" is pressed, and when "D" is pressed, the player jumps running forward
 
-					data_player.position.x += data_player.velrun;
 					data_player.right = true;
 
 					current_state = JUMP_RUN;
