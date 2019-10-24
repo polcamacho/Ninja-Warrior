@@ -19,6 +19,7 @@ enum states_player {
 	JUMP_FALL,
 	JUMP_WALK,
 	JUMP_RUN,
+	DOUBLE_JUMP,
 	DEATH,
 	NONE
 };
@@ -60,13 +61,16 @@ struct PlayerData
 	bool canjump = false;  //Says the player can jump or not
 	int jumpvel;
 	int jumpenergy;
-	int doublejump;
+	int vel_doublejump;
 	bool left=false;
 	bool right=false;
+	bool is_double_jump=false;
 	bool player_flip;
 	float gravity;
 
 	int velrun;
+
+	iPoint jump_position;
 
 	Collider* colliders = nullptr;
 	Collider* colliders2 = nullptr;

@@ -34,7 +34,7 @@ bool j1Player::Awake(pugi::xml_node& config) {
 
 	data_player.jumpvel = config.child("jump_velocity").attribute("jumpvel").as_int();
 
-	data_player.doublejump = config.child("double_jump").attribute("dbjump").as_int();
+	data_player.vel_doublejump = config.child("vel_double_jump").attribute("veldbjump").as_int();
 
 	data_player.v.x = config.child("velocity").attribute("x").as_int();
 
@@ -201,9 +201,8 @@ void j1Player::Pushbacks() {
 	data_player.jump.PushBack({ 81,114,47,57 }, 0.3, 0, 0);
 	data_player.jump.PushBack({ 155,113,42,58 }, 0.3, 0, 0);
 	data_player.jump.PushBack({ 221,118,52,53 }, 0.2, 0, 0);
-	data_player.jump.PushBack({ 285,116,53,55 }, 0.05, 0, 0);
+	data_player.jump.PushBack({ 285,116,53,55 }, 0.15, 0, 0);
 	data_player.jump.PushBack({ 348,119,56,52 }, 0.05, 0, 0);
-	data_player.jump.PushBack({ 423,129,53,42 }, 0.5, 0, 0);
 	data_player.jump.loop = false;
 
 
@@ -318,11 +317,23 @@ void j1Player::CheckState()
 				data_player.jumpenergy = data_player.jumpvel;
 			}
 
+			if (!data_player.is_double_jump) {
+
+				if (current_state == JUMP_UP) {
+					current_state = DOUBLE_JUMP;
+					data_player.is_double_jump = true;
+					//data_player.jump_position=data_player.position.y;
+				}
+
+			}
+
 		}
 
 		else if(data_player.canjump==true && App->input->GetKey(SDL_SCANCODE_SPACE) == NULL && App->input->GetKey(SDL_SCANCODE_A) == NULL && App->input->GetKey(SDL_SCANCODE_D) == NULL){
 			current_state = IDLE;
 			data_player.player_flip = false;
+
+			
 
 		}
 
@@ -410,18 +421,9 @@ void j1Player::Animations() {
 			data_player.position.x += data_player.v.x;
 			data_player.player_flip = false;
 		}
-		/*if (App->input->GetKey(SDL_SCANCODE_SPACE)==KEY_DOWN) {
-			float i = SDL_GetTicks();
-			float j = SDL_GetTicks() + 10000;
-			if (j > i) {
-				data_player.position.y -= data_player.doublejump;
-			}
-		}*/
+		
 	}
 
-	if (current_state == DEATH) {
-		data_player.current_animation = &data_player.death;		//If any key pressed animation idle
-	}
 	if (current_state == JUMP_FALL) {
 		data_player.current_animation = &data_player.fall;
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
@@ -436,6 +438,17 @@ void j1Player::Animations() {
 		}
 	}
 
+	if (current_state == DOUBLE_JUMP) {
+		data_player.jump.Reset();
+		current_state = JUMP_UP;
+		data_player.position.y = data_player.position.y + data_player.jumpenergy*(2/3);
+
+	}
+
+	if (current_state == DEATH) {
+		data_player.current_animation = &data_player.death;		//If any key pressed animation idle
+	}
+	
 	
 
 }
@@ -545,7 +558,6 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 		}
 	}
 
-	
 
 	
 	if (data_player.grounded == false) {
