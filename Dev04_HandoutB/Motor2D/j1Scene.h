@@ -35,7 +35,10 @@ public:
 	p2List<p2SString> maps;
 	p2SString current_map;
 	
-	void SecondMap();
+	bool Load(pugi::xml_node&);			//LOAD THE SAVE XML
+	bool Save(pugi::xml_node&) const;	//SAVE THE PLAYER POSITION
+
+	void SecondMap();		//LOAD NEXT MAP
 
 private:
 };

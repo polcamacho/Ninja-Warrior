@@ -137,23 +137,16 @@ bool j1Player::Load(pugi::xml_node& node) {
 	data_player.position.x = node.child("position").attribute("x").as_int();
 	data_player.position.y = node.child("position").attribute("y").as_int();
 
-	data_player.jumpvel = node.child("jump_velocity").attribute("jumpvel").as_int();
-
-
-	data_player.v.x = node.child("velocity").attribute("x").as_int();
-	
-
 	return true;
 
 }
+
 bool j1Player::Save(pugi::xml_node& node) const {
 
-	node.append_child("position").append_attribute("x") = data_player.position.x;
-	node.child("position").attribute("y") = data_player.position.y;
+	pugi::xml_node pos = node.append_child("position");
 
-	node.append_child("jump_velocity").append_attribute("jumpvel") = data_player.jumpvel;
-
-	node.append_child("velocity").append_attribute("x") = data_player.v.x;
+	pos.append_attribute("x") = data_player.position.x;
+	pos.append_attribute("y") = data_player.position.y;
 
 
 	return true;
@@ -328,8 +321,6 @@ void j1Player::CheckState()
 
 }
 
-
-
 void j1Player::Animations() {
 
 	if (current_state == IDLE) {
@@ -440,7 +431,6 @@ void j1Player::Animations() {
 
 }
 
-
 void j1Player::OnCollision(Collider* c1, Collider* c2) {
 	
 	if (c1->type == ColliderType:: COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_FLOOR) {
@@ -545,11 +535,10 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 		}
 	}
 
-	
-
-	
 	if (data_player.grounded == false) {
+		
 		current_state = JUMP_FALL;
+
 	}
 
 	

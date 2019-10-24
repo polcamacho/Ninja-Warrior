@@ -116,7 +116,7 @@ bool j1Scene::Update(float dt)
 		App->player->Start();
 		App->map->Draw();
 
-		App->player->data_player.position.x = 150;
+		App->player->data_player.position.x = 50;
 		App->player->data_player.position.y = 10;
 	}
 
@@ -178,42 +178,56 @@ bool j1Scene::CleanUp()
 	return true;
 }
 
-/*bool j1Scene::Load(pugi::xml_node& data)
+bool j1Scene::Load(pugi::xml_node& data)
 {
 	LOG("Loading Scene state");
 	App->map->CleanUp();
-	sn.create(data.child("scene").attribute("name").as_string());
-	App->map->Load(sn.GetString());
+	current_map.create(data.child("scene").attribute("name").as_string());
+	App->map->Load(current_map.GetString());
 	
 	return true;
-}*/
+}
 
-/*bool j1Scene::Save(pugi::xml_node& data) const
+bool j1Scene::Save(pugi::xml_node& data) const
 {
 	LOG("Saving Scene state");
 	pugi::xml_node scene = data.append_child("scene");
-	scene.append_attribute("name") = sn.GetString();
+	scene.append_attribute("name") = current_map.GetString();
 	
-
 	return true;
-}*/
+}
 
 void j1Scene::SecondMap() {
 	
 	App->map->CleanUp();
 	App->audio->CleanUp();
-	App->player->CleanUp();
+	//App->player->CleanUp();
 
 	p2List_item<p2SString>* i;
 	for (i = maps.start; i->data != current_map.GetString(); i = i->next) {
 		LOG("%s  %s", i->data.GetString(), current_map.GetString());
 	}
-
+	
 	if (i->next != NULL) { i = i->next; }
 	else { i = maps.start; }
 	current_map = i->data;
+	
+	if (current_map == "Map.tmx") {
+
+		App->player->data_player.position.x = 100;
+		App->player->data_player.position.y = 300;
+
+	}
+	
+	else {
+
+		App->player->data_player.position.x = 50;
+		App->player->data_player.position.y = 10;
+	}
 	App->map->Load(current_map.GetString());
 	App->player->Start();
 	App->map->Draw();
+
+	
 
 }
