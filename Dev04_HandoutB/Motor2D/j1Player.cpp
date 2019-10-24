@@ -126,7 +126,8 @@ bool j1Player::CleanUp()
 	LOG("Unloading player");
 
 	App->tex->UnLoad(data_player.Tex_Player);
-	
+	App->collider->CleanUp();
+
 	return true;
 }
 

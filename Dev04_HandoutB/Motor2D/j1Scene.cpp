@@ -80,23 +80,27 @@ bool j1Scene::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		App->render->camera.x -= 10;*/
-	p2List_item<p2SString>* i = maps.start;
+	
+	
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN){
 		
 		
 		current_map.create("Map.tmx");
 		
 		App->map->CleanUp();
+		App->audio->CleanUp();
 		
+
 		App->map->Load(current_map.GetString());
 		App->player->Start();
+		App->map->Draw();
 
 		App->player->data_player.position.x = 100;
 		App->player->data_player.position.y = 300;
 		
 	} 
 	
-	i = i->next;
+
 
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
 		
@@ -104,16 +108,22 @@ bool j1Scene::Update(float dt)
 		current_map.create("Map2.tmx");
 				
 		App->map->CleanUp();
+		App->audio->CleanUp();
+		
 
 		App->map->Load(current_map.GetString());
 		App->player->Start();
+		App->map->Draw();
 
 		App->player->data_player.position.x = 150;
 		App->player->data_player.position.y = 10;
 	}
 
-	App->map->Draw();
+	else{
 
+	App->map->Draw();
+	
+	}
 	// Show player and map colliders
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 	{

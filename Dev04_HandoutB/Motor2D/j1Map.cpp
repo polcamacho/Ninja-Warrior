@@ -195,6 +195,7 @@ bool j1Map::CleanUp()
 	map_file.reset();
 
 	App->collider->CleanUp();
+	App->player->CleanUp();
 
 	return true;
 }
