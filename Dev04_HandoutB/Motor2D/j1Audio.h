@@ -32,10 +32,8 @@ public:
 	unsigned int LoadFx(const char* path);
 
 	// Play a previously loaded WAV
-	bool PlayFx(unsigned int fx, int repeat);
+	bool PlayFx(unsigned int fx, int repeat=0);
 
-	p2SString			folder_music;
-	p2SString			folder_sfx;
 private:
 
 	_Mix_Music*			music = nullptr;

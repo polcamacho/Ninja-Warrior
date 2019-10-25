@@ -47,9 +47,16 @@ bool j1Scene::Start()
 	LOG("LOADING MAP");
 	current_map = maps.start->data;
 	App->map->Load(current_map.GetString());
-	walk_FX = App->audio->LoadFx("audio/fx/Walk.wav");
-	//App->audio->PlayMusic(); MUSIC NOT ENABLED
-	
+	if (current_map == "Map.tmx") {
+		walk_FX = App->audio->LoadFx("audio/fx/Walk.wav");
+		App->audio->PlayMusic("audio/music/map1_music.ogg");
+
+	}
+	else {
+
+	}
+	//App->audio->PlayMusic(App->map->data.musicFile.GetString());
+
 	
 	return true;
 }
@@ -78,7 +85,7 @@ bool j1Scene::Update(float dt)
 		App->map->Load(current_map.GetString());
 		App->player->Start();
 		App->map->Draw();
-		
+		App->audio->PlayMusic("audio/music/map1_music.ogg");
 
 		App->player->data_player.position.x = 100;
 		App->player->data_player.position.y = 300;

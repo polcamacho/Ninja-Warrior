@@ -284,7 +284,13 @@ void j1Player::CheckState()
 			current_state = WALK;
 			data_player.position.x += data_player.v.x;
 			data_player.player_flip = false;
-			SFX(1, 0);
+			if (App->scene->current_map == "Map.tmx") {
+				App->audio->PlayFx(App->scene->walk_FX);
+			}
+			else
+			{
+
+			}
 		
 			if (App->input->GetKey(SDL_SCANCODE_SPACE)==KEY_DOWN) {		//if  "SPACE" is pressed when "D" is pressed, the player jumps forward
 
@@ -533,7 +539,6 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 			}
 			if (data_player.grounded == true) {
 				data_player.jumpCounter = 2;
-				LOG("JUMP %i", data_player.jumpCounter);
 			}
 
 		}
@@ -683,10 +688,6 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
 }
 
-void j1Player::SFX(int channel, int repeat)
-{
-	App->audio->PlayFx(channel, repeat);
-}
 
 void j1Player::Reset() {
 
