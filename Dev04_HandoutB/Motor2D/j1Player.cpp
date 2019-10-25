@@ -71,8 +71,7 @@ bool j1Player::Start() {
 	//data_player.injump = false;
 	
 	Pushbacks();
-
-
+	
 	App->audio->LoadFx(data_player.walkFX.GetString());
 	App->audio->LoadFx(data_player.deathFX.GetString());
 
@@ -94,6 +93,43 @@ bool j1Player::PreUpdate() {
 
 bool j1Player::Update(float dt) {
 
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
+
+		if (godmode == false)
+		{
+
+			data_player.colliders->to_delete = true;
+			data_player.colliders = App->collider->AddCollider({ data_player.position.x,data_player.position.y, 39,53 }, COLLIDER_NONE, this);
+			data_player.gravity = 0;
+			godmode = true;
+
+		}
+		else if (godmode == true)
+		{
+
+			data_player.colliders->to_delete = true;
+			data_player.colliders = App->collider->AddCollider({ data_player.position.x,data_player.position.y, 39,53 }, COLLIDER_PLAYER, this);
+			data_player.gravity = 20;
+			godmode = false;
+			
+		}
+	}
+	
+	if (godmode == true) {
+
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+			data_player.position.y -= 20;
+
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+			data_player.position.y += 20;
+
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+			data_player.position.x -= 20;
+
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+			data_player.position.x += 20;
+	}
+	
 	data_player.position.y += data_player.gravity;
 	data_player.preposition = data_player.position;
 	
@@ -221,7 +257,11 @@ void j1Player::Pushbacks() {
 
 void j1Player::CheckState()
 {
-	data_player.velrun = (data_player.v.x)+0.25;
+	
+	
+	if(godmode==false){
+		
+		data_player.velrun = (data_player.v.x)+0.25;
 		
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && data_player.canjump == true) {		//if "D" is pressed animation walk forward 
 
@@ -342,7 +382,7 @@ void j1Player::CheckState()
 			
 
 		}
-
+	}
 }
 
 void j1Player::Animations() {

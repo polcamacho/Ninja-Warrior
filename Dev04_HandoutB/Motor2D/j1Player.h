@@ -140,6 +140,8 @@ public:
 	int globaltime;
 	int pretime;
 	bool die = false;
+	bool godmode = false;
+
 private:
 
 	

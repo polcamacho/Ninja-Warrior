@@ -63,72 +63,64 @@ bool j1Scene::PreUpdate()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-
-	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
-		App->LoadGame();
-
-	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
-		App->SaveGame();
-
-	/*if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		App->render->camera.y += 10;
-
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		App->render->camera.y -= 10;
-
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		App->render->camera.x += 10;
-
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		App->render->camera.x -= 10;*/
 	
 	p2List_item<p2SString>* i = maps.start;
 
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN){
-		
-		
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
+
+
 		current_map.create("Map.tmx");
-		
+
 		App->map->CleanUp();
-		App->audio->CleanUp();
+		
 		App->player->CleanUp();
 
 		App->map->Load(current_map.GetString());
 		App->player->Start();
 		App->map->Draw();
+		
 
 		App->player->data_player.position.x = 100;
 		App->player->data_player.position.y = 300;
-		
-	} 
-	
+
+	}
+
 	i = i->next;
 
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
-		
-		
+
+
 		current_map.create("Map2.tmx");
-				
+
 		App->map->CleanUp();
-		App->audio->CleanUp();
+		
 		App->player->CleanUp();
 
 		App->map->Load(current_map.GetString());
 		App->player->Start();
 		App->map->Draw();
-
+		
 		//charge map 2 position when F2 is pressed
-		App->player->data_player.position.x = 50;					
+		App->player->data_player.position.x = 50;
 		App->player->data_player.position.y = 10;
 
 	}
 
-	else{
+	else {
 
-	App->map->Draw();
-	
+
+		App->map->Draw();
+
 	}
-	// Show player and map colliders
+
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+		App->LoadGame();
+
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+		App->SaveGame();
+
+	
+	 // Show player and map colliders
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
 	{
 		if (App->player->data_player.showcolliders == false)
@@ -177,7 +169,7 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
-
+	App->audio->CleanUp();
 	return true;
 }
 

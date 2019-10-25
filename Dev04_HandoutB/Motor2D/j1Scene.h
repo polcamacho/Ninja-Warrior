@@ -42,7 +42,9 @@ public:
 private:
 
 public:
+	
 	int walk_FX;
+	
 
 };
 
