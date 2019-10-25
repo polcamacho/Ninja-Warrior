@@ -80,7 +80,7 @@ bool j1Player::Start() {
 	
 	data_player.colliders = App->collider->AddCollider({ data_player.position.x, data_player.position.y, 39,53 }, COLLIDER_PLAYER, this);	//Collider player
 	
-
+	globaltime = SDL_GetTicks();
 
 	return	true;
 
@@ -96,6 +96,7 @@ bool j1Player::Update(float dt) {
 
 	data_player.position.y += data_player.gravity;
 	data_player.preposition = data_player.position;
+	
 	CheckState();
 	Animations();
 	
@@ -111,6 +112,7 @@ bool j1Player::Update(float dt) {
 		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_NONE, -1.0);
 	}
 
+	
 	
 	return true;
 
@@ -201,16 +203,16 @@ void j1Player::Pushbacks() {
 	data_player.fall.PushBack({ 423,129,53,42 }, 0.5, 0, 0);
 	data_player.fall.loop = true;
 
-	data_player.death.PushBack({ 8,464,48,55 }, 0.5, 0, 0);
-	data_player.death.PushBack({ 72,456,62,63 }, 0.5, 0, 0);
-	data_player.death.PushBack({ 150,454,69,65 }, 0.5, 0, 0);
-	data_player.death.PushBack({ 257,464,82,56 }, 0.5, 0, 0);
-	data_player.death.PushBack({ 367,447,83,72 }, 0.5, 0, 0);
-	data_player.death.PushBack({ 488,447,84,73 }, 0.5, 0, 0);
-	data_player.death.PushBack({ 609,457,94,62 }, 0.5, 0, 0);
-	data_player.death.PushBack({ 734,455,113,65 }, 0.5, 0, 0);
-	data_player.death.PushBack({ 894,445,127,74 }, 0.5, 0, 0);
-	data_player.death.PushBack({ 1054,433,116,87 }, 0.5, 0, 0);
+	data_player.death.PushBack({ 8,464,48,55 }, 0.15, 0, 0);
+	data_player.death.PushBack({ 72,456,62,63 }, 0.15, 0, 0);
+	data_player.death.PushBack({ 150,454,69,65 }, 0.15, 0, 0);
+	data_player.death.PushBack({ 257,464,82,56 }, 0.15, 0, 0);
+	data_player.death.PushBack({ 367,447,83,72 }, 0.15, 0, 0);
+	data_player.death.PushBack({ 488,447,84,73 }, 0.15, 0, 0);
+	data_player.death.PushBack({ 609,457,94,62 }, 0.15, 0, 0);
+	data_player.death.PushBack({ 734,455,113,65 }, 0.15, 0, 0);
+	data_player.death.PushBack({ 894,445,127,74 }, 0.15, 0, 0);
+	data_player.death.PushBack({ 1054,433,116,87 }, 0.15, 0, 0);
 	data_player.death.loop = false;
 
 	
@@ -343,21 +345,20 @@ void j1Player::CheckState()
 
 }
 
-
-
 void j1Player::Animations() {
 
 	if (current_state == IDLE) {
 		data_player.current_animation = &data_player.idle;		//If any key pressed animation idle
 		data_player.jump.Reset();
 		data_player.fall.Reset();
-
+		
 	}
 
 	if (current_state == WALK) {
 		data_player.current_animation = &data_player.walk;		//If any key pressed animation idle
 		data_player.jump.Reset();
 		data_player.fall.Reset();
+		
 	}
 	if(current_state==JUMP_WALK){
 
@@ -401,6 +402,7 @@ void j1Player::Animations() {
 		data_player.current_animation = &data_player.walk2;		//If any key pressed animation idle
 		data_player.jump.Reset();
 		data_player.fall.Reset();
+		
 	}
 
 	if (current_state == JUMP_UP) {
@@ -429,6 +431,8 @@ void j1Player::Animations() {
 	}
 
 	if (current_state == JUMP_FALL) {
+
+		
 		data_player.current_animation = &data_player.fall;
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
@@ -457,17 +461,17 @@ void j1Player::Animations() {
 
 }
 
-
 void j1Player::OnCollision(Collider* c1, Collider* c2) {
-	
-	if (c1->type == ColliderType:: COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_FLOOR) {
+
+	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_FLOOR) {
 
 		//ABOVE
 		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
-			
+
 			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
 			data_player.grounded = true;
-			data_player.canjump=true;
+			data_player.canjump = true;
+
 			if (data_player.injump == true) {
 				data_player.jump.Reset();
 			}
@@ -475,9 +479,9 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 				data_player.jumpCounter = 2;
 				LOG("JUMP %i", data_player.jumpCounter);
 			}
+
 		}
 
-		
 		//BELOW
 		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {
 			data_player.position.y = c2->rect.y + c2->rect.h;
@@ -485,8 +489,8 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 		}
 		//SIDES
 		else if ((data_player.position.x < c2->rect.x + c2->rect.w && data_player.position.x > c2->rect.x) ||
-		
-			
+
+
 			(data_player.position.x + data_player.colliders->rect.w < c2->rect.x + c2->rect.w && data_player.position.x + data_player.colliders->rect.w > c2->rect.x)) {
 			LOG("WALL");
 			if ((data_player.position.x + data_player.colliders->rect.w) < (c2->rect.x + c2->rect.w)) { //Player to the left 
@@ -499,57 +503,99 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
 	}
 
-
 	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_PLATFORM) {
 
-		
-			
-			if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
-				
-				data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
-				data_player.grounded = true;
-				data_player.canjump = true;
-				//current_state = IDLE;
 
-				if (data_player.grounded == true) {
-					data_player.jumpCounter = 2;
-				}
+
+		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
+
+			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
+			data_player.grounded = true;
+			data_player.canjump = true;
+
+			//current_state = IDLE;
+
+			if (data_player.grounded == true) {
+				data_player.jumpCounter = 2;
 			}
-			else if ((data_player.position.y >= data_player.preposition.y) && (data_player.preposition.y + data_player.colliders->rect.h) < c2->rect.y) {
-				data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
-				
-			}
-		
+		}
+		else if ((data_player.position.y >= data_player.preposition.y) && (data_player.preposition.y + data_player.colliders->rect.h) < c2->rect.y) {
+			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
+
+		}
+
 
 	}
 
 	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_DEAD) {
 
 		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
-			
-			current_state = DEATH;
-			
-			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
-			data_player.grounded = false;
-			data_player.canjump = false;
 
-			data_player.position.x = 100;
-			data_player.position.y = 300;
-			
+
+			pretime = SDL_GetTicks();
+
+
+			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
+			current_state = DEATH;
+			data_player.grounded = true;
+			data_player.canjump = false;
+			die = true;
+
+
+
+
 
 		}
 
 		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {
-			data_player.position.y = c2->rect.y + c2->rect.h;
-			
-			data_player.grounded = false;
-			data_player.canjump = false;
 
-			data_player.position.x = 100;
-			data_player.position.y = 300;
+			pretime = SDL_GetTicks();
+			data_player.position.y = c2->rect.y + c2->rect.h;
+			current_state = DEATH;
+
+			data_player.grounded = true;
+			data_player.canjump = false;
+			die = true;
+
+
+
 		}
 
+		if (die == true) {
+
+			if (App->scene->current_map == "Map.tmx") {
+
+				if (pretime >= globaltime + 5000) {
+
+					data_player.position.x = 100;
+					data_player.position.y = 300;
+
+				}
+
+			}
+
+
+			else {
+
+				if (pretime >= globaltime + 3500) {
+
+					data_player.position.x = 55;
+					data_player.position.y = 100;
+
+				}
+
+			}
+
+
+			Reset();
+
+			die = false;
+		}
+
+
 	}
+
+
 
 	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_NEXT) {
 
@@ -574,7 +620,9 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 	}
 
 	if (data_player.grounded == false) {
+		
 		current_state = JUMP_FALL;
+		
 	}
 
 }
@@ -582,4 +630,16 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 void j1Player::SFX(int channel, int repeat)
 {
 	App->audio->PlayFx(channel, repeat);
+}
+
+void j1Player::Reset() {
+
+	data_player.death.Reset();
+	data_player.jump.Reset();
+	data_player.walk.Reset();
+	data_player.walk2.Reset();
+	data_player.idle.Reset();
+	data_player.fall.Reset();
+	data_player.running.Reset();
+	die = false;
 }
