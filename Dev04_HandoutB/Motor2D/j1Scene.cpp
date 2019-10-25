@@ -118,6 +118,7 @@ bool j1Scene::Update(float dt)
 
 		App->player->data_player.position.x = 150;
 		App->player->data_player.position.y = 10;
+
 	}
 
 	else{
