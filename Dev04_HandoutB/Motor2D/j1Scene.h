@@ -44,6 +44,7 @@ private:
 public:
 	
 	int walk_FX;
+	int jump_FX;
 	
 
 };

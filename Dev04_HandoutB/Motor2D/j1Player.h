@@ -119,7 +119,6 @@ public:
 	
 	//Change the sound depending the animation
 	
-	void SFX(int channel, int repeat);
 	
 	//Puts the camera on player and follows
 	

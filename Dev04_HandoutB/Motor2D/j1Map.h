@@ -79,6 +79,7 @@ struct MapData
 	p2List<TileSet*>		tilesets;
 	p2List<MapLayer*>		layers;
 	p2List<ObjectGroup*>	objectgroups;
+	p2SString				musicFile;
 
 };
 // ----------------------------------------------------
