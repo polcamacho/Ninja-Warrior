@@ -36,8 +36,13 @@ public:
 	p2SString current_map;
 	
 	void SecondMap();
+	bool Load(pugi::xml_node &node);
+	bool Save(pugi::xml_node &node)const;
+
 
 private:
+
+
 };
 
 #endif // __j1SCENE_H__

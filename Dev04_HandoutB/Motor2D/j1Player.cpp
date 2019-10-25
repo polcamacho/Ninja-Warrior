@@ -137,24 +137,15 @@ bool j1Player::Load(pugi::xml_node& node) {
 	data_player.position.x = node.child("position").attribute("x").as_int();
 	data_player.position.y = node.child("position").attribute("y").as_int();
 
-	data_player.jumpvel = node.child("jump_velocity").attribute("jumpvel").as_int();
-
-
-	data_player.v.x = node.child("velocity").attribute("x").as_int();
-	
-
 	return true;
 
 }
 bool j1Player::Save(pugi::xml_node& node) const {
 
-	node.append_child("position").append_attribute("x") = data_player.position.x;
-	node.child("position").attribute("y") = data_player.position.y;
+	pugi::xml_node pos = node.append_child("position");
 
-	node.append_child("jump_velocity").append_attribute("jumpvel") = data_player.jumpvel;
-
-	node.append_child("velocity").append_attribute("x") = data_player.v.x;
-
+	pos.append_attribute("x") = data_player.position.x;
+	pos.append_attribute("y") = data_player.position.y;
 
 	return true;
 
@@ -247,6 +238,12 @@ void j1Player::CheckState()
 				if (data_player.canjump == true) {
 					data_player.jumpenergy = data_player.jumpvel;
 				}
+				data_player.jumpCounter--;
+				LOG("%i", data_player.jumpCounter);
+
+				if (data_player.jumpCounter == 0) {
+					data_player.jump.Reset();
+				}
 
 			}
 
@@ -264,8 +261,11 @@ void j1Player::CheckState()
 
 					current_state = JUMP_RUN;
 
-					if (data_player.canjump == true) {
-						data_player.jumpenergy = data_player.jumpvel;
+					data_player.jumpCounter--;
+					LOG("%i", data_player.jumpCounter);
+
+					if (data_player.jumpCounter == 0) {
+						data_player.jump.Reset();
 					}
 				}
 
@@ -286,6 +286,13 @@ void j1Player::CheckState()
 				if (data_player.canjump == true) {
 					data_player.jumpenergy = data_player.jumpvel;
 				}
+
+				data_player.jumpCounter--;
+				LOG("%i", data_player.jumpCounter);
+
+				if (data_player.jumpCounter == 0) {
+					data_player.jump.Reset();
+				}
 			}
 			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
 				current_state = RUN;
@@ -300,15 +307,18 @@ void j1Player::CheckState()
 
 					current_state = JUMP_RUN;
 
-					if (data_player.canjump == true) {
-						data_player.jumpenergy = data_player.jumpvel;
+					data_player.jumpCounter--;
+					LOG("%i", data_player.jumpCounter);
+
+					if (data_player.jumpCounter == 0) {
+						data_player.jump.Reset();
 					}
 				}
 			}
 		}
 
 
-		else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && data_player.jumpCounter!=0) {		//if "SPACE" is pressed 
+		else if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && (data_player.jumpCounter!=0)) {		//if "SPACE" is pressed 
 			
 				current_state = JUMP_UP;
 				data_player.player_flip = false;
@@ -463,6 +473,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 			}
 			if (data_player.grounded == true) {
 				data_player.jumpCounter = 2;
+				LOG("JUMP %i", data_player.jumpCounter);
 			}
 		}
 
@@ -499,6 +510,10 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 				data_player.grounded = true;
 				data_player.canjump = true;
 				//current_state = IDLE;
+
+				if (data_player.grounded == true) {
+					data_player.jumpCounter = 2;
+				}
 			}
 			else if ((data_player.position.y >= data_player.preposition.y) && (data_player.preposition.y + data_player.colliders->rect.h) < c2->rect.y) {
 				data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
