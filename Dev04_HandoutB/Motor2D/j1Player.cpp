@@ -166,24 +166,40 @@ bool j1Player::CleanUp()
 
 	App->tex->UnLoad(data_player.Tex_Player);
 	App->collider->CleanUp();
-
+	
 	return true;
 }
 
 bool j1Player::Load(pugi::xml_node& node) {
 
-	data_player.position.x = node.child("position").attribute("x").as_int();
-	data_player.position.y = node.child("position").attribute("y").as_int();
+	if (!node.child("position").empty())
+	{
 
+		data_player.position.x = node.child("position").attribute("x").as_int();
+		data_player.position.y = node.child("position").attribute("y").as_int();
+	}
+
+	else {
+		data_player.position.x = data_player.position.x;
+		data_player.position.y = data_player.position.y;
+	}
 	return true;
 
 }
 bool j1Player::Save(pugi::xml_node& node) const {
 
-	pugi::xml_node pos = node.append_child("position");
-
-	pos.append_attribute("x") = data_player.position.x;
-	pos.append_attribute("y") = data_player.position.y;
+	if (node.child("position").empty())
+	{
+		pugi::xml_node&  save = node.append_child("position");
+		save.append_attribute("x").set_value(data_player.position.x);
+		save.append_attribute("y").set_value(data_player.position.y);
+	}
+	else
+	{
+		node.child("position").attribute("x").set_value(data_player.position.x);
+		node.child("position").attribute("y").set_value(data_player.position.y);
+	}
+	
 
 	return true;
 
