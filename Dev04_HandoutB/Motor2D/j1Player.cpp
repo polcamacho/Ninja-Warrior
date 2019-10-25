@@ -308,26 +308,20 @@ void j1Player::CheckState()
 		}
 
 
-		else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && data_player.canjump == true) {		//if "SPACE" is pressed 
-
-			current_state = JUMP_UP;
-			data_player.player_flip = false;
-
-			if (data_player.canjump == true) {
+		else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && data_player.jumpCounter!=0) {		//if "SPACE" is pressed 
+			
+				current_state = JUMP_UP;
+				data_player.player_flip = false;
 				data_player.jumpenergy = data_player.jumpvel;
-			}
-
-			if (!data_player.is_double_jump) {
-
-				if (current_state == JUMP_UP) {
-					current_state = DOUBLE_JUMP;
-					data_player.is_double_jump = true;
-					//data_player.jump_position=data_player.position.y;
+				data_player.jumpCounter--;
+				LOG("%i", data_player.jumpCounter);
+				
+				if(data_player.jumpCounter==0){
+					data_player.jump.Reset();
 				}
 
-			}
-
 		}
+
 
 		else if(data_player.canjump==true && App->input->GetKey(SDL_SCANCODE_SPACE) == NULL && App->input->GetKey(SDL_SCANCODE_A) == NULL && App->input->GetKey(SDL_SCANCODE_D) == NULL){
 			current_state = IDLE;
@@ -467,7 +461,12 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 			if (data_player.injump == true) {
 				data_player.jump.Reset();
 			}
+			if (data_player.grounded == true) {
+				data_player.jumpCounter = 2;
+			}
 		}
+
+		
 		//BELOW
 		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {
 			data_player.position.y = c2->rect.y + c2->rect.h;
@@ -486,6 +485,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 				data_player.position.x = c2->rect.x + c2->rect.w;
 			}
 		}
+
 	}
 
 

@@ -74974,9 +74974,9 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="1076"/>
-   <tile gid="1077"/>
-   <tile gid="1078"/>
+   <tile/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -75209,9 +75209,9 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="1124"/>
-   <tile gid="1125"/>
-   <tile gid="1126"/>
+   <tile/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -75444,9 +75444,9 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile gid="1172"/>
-   <tile gid="1173"/>
-   <tile gid="1174"/>
+   <tile/>
+   <tile/>
+   <tile/>
    <tile/>
    <tile/>
    <tile/>
@@ -82385,7 +82385,6 @@
   <object id="157" name="platform" x="2971.33" y="1053.88" width="136" height="35.8977"/>
   <object id="158" name="platform" x="2425" y="798.051" width="136" height="35.8977"/>
   <object id="159" name="platform" x="6337.17" y="445.051" width="96" height="66.5644"/>
-  <object id="171" name="platform2" x="6224" y="595.384" width="63.6667" height="63.5644"/>
   <object id="172" name="platform2" x="6672.83" y="242.218" width="63.6667" height="63.5644"/>
  </objectgroup>
 </map>

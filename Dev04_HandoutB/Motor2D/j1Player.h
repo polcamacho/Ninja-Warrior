@@ -45,6 +45,8 @@ struct PlayerData
 	bool			platformdrop2;
 	bool			move=false;
 
+	int jumpCounter = 2;
+
 	iPoint position;	//Position of the player (x,y)
 	iPoint preposition;
 	iPoint a;	//Acceleration (x,y)
