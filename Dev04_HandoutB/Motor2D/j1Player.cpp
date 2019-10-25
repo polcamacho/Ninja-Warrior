@@ -39,7 +39,7 @@ bool j1Player::Awake(pugi::xml_node& config) {
 	data_player.v.x = config.child("velocity").attribute("x").as_int();
 
 	data_player.walkFX = config.child("walkFX").attribute("source").as_string();
-	data_player.deathFX = config.child("deathFX").attribute("source").as_string();
+	//data_player.deathFX = config.child("deathFX").attribute("source").as_string();
 
 	data_player.colOffset.x = config.child("colOffset").attribute("x").as_int();
 	data_player.colOffset.y = config.child("colOffset").attribute("y").as_int();
@@ -220,15 +220,13 @@ void j1Player::Pushbacks() {
 void j1Player::CheckState()
 {
 	data_player.velrun = (data_player.v.x)+0.25;
-	//LOG("%i %i", data_player.v.x, data_player.v.y);
-	
-	
 		
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && data_player.canjump == true) {		//if "D" is pressed animation walk forward 
 
 			current_state = WALK;
 			data_player.position.x += data_player.v.x;
 			data_player.player_flip = false;
+			SFX(1, 0);
 		
 			if (App->input->GetKey(SDL_SCANCODE_SPACE)==KEY_DOWN) {		//if  "SPACE" is pressed when "D" is pressed, the player jumps forward
 
@@ -575,12 +573,13 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 		}
 	}
 
-
-	
 	if (data_player.grounded == false) {
 		current_state = JUMP_FALL;
 	}
 
-	
+}
 
+void j1Player::SFX(int channel, int repeat)
+{
+	App->audio->PlayFx(channel, repeat);
 }

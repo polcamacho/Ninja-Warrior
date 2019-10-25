@@ -21,22 +21,32 @@
 	<file_system>
 		<path>data.zip</path>
 	</file_system>
+
+  <audio>
+    <music>
+       <folder>audio/music</folder>
+    </music>
+    <SFX>
+       <folder>audio/fx</folder>
+    </SFX>
+
+  </audio>
 	
 	<map>
 		<folder>maps/</folder>
 	</map>
+  
 	
 	<player>
 		<folder>textures/</folder>
 		<texture source="rogue_spritesheed.png" />
 		<position x="6000" y="400" />
-		<jumpFX source="Walk.wav" />
-		<deathFX source="Death.wav" />
 		<jump_velocity jumpvel="-35" />
     <vel_double_jump veldbjump ="-40"/>
 		<velocity x="5"/>
 		<gravity grav="20" />
 		<colOffset x="11" y="8" />
+  	<walkFX source="Walk.wav" />
 	</player>
 	<scene>
 		<map name="Map.tmx" />

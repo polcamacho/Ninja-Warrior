@@ -39,9 +39,10 @@ public:
 	bool Load(pugi::xml_node &node);
 	bool Save(pugi::xml_node &node)const;
 
-
 private:
 
+public:
+	int walk_FX;
 
 };
 

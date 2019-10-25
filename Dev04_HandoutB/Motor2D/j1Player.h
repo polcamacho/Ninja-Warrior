@@ -36,9 +36,9 @@ struct PlayerData
 	Animation		fall;
 	Animation		death;
 
+	p2SString		walkFX;
 	p2SString		jumpFX;
 	p2SString		deathFX;
-	p2SString		walkFX;
 	
 	bool			grounded = false;
 	bool			platformdrop;
@@ -118,7 +118,8 @@ public:
 	//void Restart();
 	
 	//Change the sound depending the animation
-	//void SFX(int channel, int repeat);
+	
+	void SFX(int channel, int repeat);
 	
 	//Puts the camera on player and follows
 	

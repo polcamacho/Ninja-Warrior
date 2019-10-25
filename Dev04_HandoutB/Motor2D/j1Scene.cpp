@@ -47,6 +47,7 @@ bool j1Scene::Start()
 	LOG("LOADING MAP");
 	current_map = maps.start->data;
 	App->map->Load(current_map.GetString());
+	walk_FX = App->audio->LoadFx("audio/fx/Walk.wav");
 	//App->audio->PlayMusic(); MUSIC NOT ENABLED
 	
 	

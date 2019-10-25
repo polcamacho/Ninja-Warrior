@@ -20,6 +20,9 @@ j1Audio::~j1Audio()
 // Called before render is available
 bool j1Audio::Awake(pugi::xml_node& config)
 {
+	folder_music = config.child("music").child_value("folder");
+	folder_sfx = config.child("SFX").child_value("folder");
+
 	LOG("Loading Audio Mixer");
 	bool ret = true;
 	SDL_Init(0);
@@ -102,7 +105,9 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 		Mix_FreeMusic(music);
 	}
 
-	music = Mix_LoadMUS(path);
+	p2SString M_music("%s%s", folder_music.GetString(), path);
+
+	music = Mix_LoadMUS(M_music.GetString());
 
 	if(music == NULL)
 	{
@@ -141,7 +146,9 @@ unsigned int j1Audio::LoadFx(const char* path)
 	if(!active)
 		return 0;
 
-	Mix_Chunk* chunk = Mix_LoadWAV(path);
+	p2SString M_SFX("%s%s", folder_sfx.GetString(), path);
+
+	Mix_Chunk* chunk = Mix_LoadWAV(M_SFX.GetString());
 
 	if(chunk == NULL)
 	{

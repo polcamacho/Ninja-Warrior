@@ -32,12 +32,15 @@ public:
 	unsigned int LoadFx(const char* path);
 
 	// Play a previously loaded WAV
-	bool PlayFx(unsigned int fx, int repeat = 0);
+	bool PlayFx(unsigned int fx, int repeat);
 
+	p2SString			folder_music;
+	p2SString			folder_sfx;
 private:
 
-	_Mix_Music*			music;
+	_Mix_Music*			music = nullptr;
 	p2List<Mix_Chunk*>	fx;
+	
 };
 
 #endif // __j1AUDIO_H__
