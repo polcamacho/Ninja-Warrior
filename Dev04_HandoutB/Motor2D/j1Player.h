@@ -125,7 +125,8 @@ public:
 	void CheckState();	//Load keys to check states
 	void Animations();	//Check animations
 	void Pushbacks();	//Load the frame animations
-	
+	void Reset();
+
 	// Collisions
 	void OnCollision(Collider* c1, Collider* c2);
 
@@ -135,7 +136,9 @@ private:
 public:
 
 	PlayerData			data_player;
-
+	int globaltime;
+	int pretime;
+	bool die = false;
 private:
 
 	
