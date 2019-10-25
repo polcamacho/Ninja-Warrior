@@ -21,7 +21,7 @@ j1Audio::~j1Audio()
 bool j1Audio::Awake(pugi::xml_node& config)
 {
 	folder_music = config.child("music").child_value("folder");
-	folder_sfx = config.child("SFX").child_value("folder");
+	folder_sfx = config.child("fx").child_value("folder");
 
 	LOG("Loading Audio Mixer");
 	bool ret = true;
