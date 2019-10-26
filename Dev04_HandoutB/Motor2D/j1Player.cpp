@@ -145,6 +145,11 @@ bool j1Player::Update(float dt) {
 		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_NONE, -1.0);
 	}
 
+	if (data_player.grounded == false) {
+
+		current_state = JUMP_FALL;
+
+	}
 		
 	return true;
 
@@ -521,18 +526,22 @@ void j1Player::Animations() {
 	}*/
 
 	if (current_state == DEATH) {
-		data_player.current_animation = &data_player.death;		//If any key pressed animation idle
+		
+		die = true;
 
-
+		
 		if (die == true) {
 
 			if (App->scene->current_map == "Map.tmx") {
+				
+				data_player.current_animation = &data_player.death;		//If any key pressed animation idle
 
-				if (pretime >= globaltime + 6500) {
+				if (pretime >= globaltime + 6000) {
 
 					data_player.position.x = 100;
 					data_player.position.y = 300;
 					current_state = JUMP_FALL;
+
 				}
 
 			}
@@ -540,20 +549,26 @@ void j1Player::Animations() {
 
 			else {
 
+				data_player.current_animation = &data_player.death;		//If any key pressed animation idle
+				
 				if (pretime >= globaltime + 3500) {
 
 					data_player.position.x = 55;
-					data_player.position.y = 100;
+					data_player.position.y = 10;
 					current_state = JUMP_FALL;
+								
 				}
 
 			}
 
 			die = false;
+			
+			
 		}
-
+		
 		
 	}
+	
 	
 	
 
@@ -626,9 +641,11 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
 	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_DEAD) {
 
+		pretime = SDL_GetTicks();
+
 		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
 
-			pretime = SDL_GetTicks();
+			
 
 			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
 			current_state = DEATH;
@@ -641,14 +658,13 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {
 
 			pretime = SDL_GetTicks();
+
 			data_player.position.y = c2->rect.y + c2->rect.h;
 			current_state = DEATH;
 
 			data_player.grounded = true;
 			data_player.canjump = false;
 			die = true;
-
-
 
 		}
 
@@ -681,11 +697,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 		}
 	}
 
-	if (data_player.grounded == false) {
-		
-		current_state = JUMP_FALL;
-		
-	}
+	
 
 }
 
