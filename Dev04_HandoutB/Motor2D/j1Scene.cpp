@@ -139,8 +139,12 @@ bool j1Scene::Update(float dt)
 		}
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
+		
 		App->LoadGame();
+		App->player->data_player.position.y -= 20;
+	}
+		
 
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
 		App->SaveGame();
@@ -203,9 +207,14 @@ bool j1Scene::Load(pugi::xml_node& data)
 {
 	LOG("Loading Scene state");
 	App->map->CleanUp();
+	App->collider->CleanUp();
+	
 	current_map.create(data.child("scene").attribute("name").as_string());
 	App->map->Load(current_map.GetString());
+	App->collider->Start();
 	App->player->Start();
+	//App->audio->Start();
+	
 	return true;
 }
 

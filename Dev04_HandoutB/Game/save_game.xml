@@ -6,13 +6,13 @@
 	<audio />
 	<map />
 	<scene>
-		<scene name="map2.tmx" />
+		<scene name="Map.tmx" />
 	</scene>
 	<player>
-		<position x="418" y="399" />
+		<position x="1490" y="255" />
 	</player>
 	<:anonymous />
 	<renderer>
-		<camera x="0" y="0" />
+		<camera x="-983" y="0" />
 	</renderer>
 </game_state>

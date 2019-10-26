@@ -284,6 +284,7 @@ void j1App::LoadGame()
 	// we should be checking if that file actually exist
 	// from the "GetSaveGames" list
 	want_to_load = true;
+	
 }
 
 // ---------------------------------------
