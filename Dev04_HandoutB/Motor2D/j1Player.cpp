@@ -280,27 +280,30 @@ void j1Player::CheckState()
 		
 		data_player.velrun = (data_player.v.x)+0.25;
 		
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && data_player.canjump == true) {		//if "D" is pressed animation walk forward 
+		//if "D" is pressed animation walk forward 
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && data_player.canjump == true) {		
 
 			current_state = WALK;
 			data_player.position.x += data_player.v.x;
 			data_player.player_flip = false;
-			if (App->scene->current_map == "Map.tmx") {
-			}
-			else
-			{
 
+			if (App->scene->current_map == "Map.tmx") {
+				App->audio->PlayFx(App->scene->walk_grass_FX);
+			}
+			else if(App->scene->current_map=="map2.tmx")
+			{
+				App->audio->PlayFx(App->scene->walk_rock_FX);
 			}
 		
-			if (App->input->GetKey(SDL_SCANCODE_SPACE)==KEY_DOWN) {		//if  "SPACE" is pressed when "D" is pressed, the player jumps forward
+			//if  "SPACE" is pressed when "D" is pressed, the player jumps forward
+			if (App->input->GetKey(SDL_SCANCODE_SPACE)==KEY_DOWN) {		
 
-				data_player.position.x += data_player.v.x;
 				current_state = JUMP_WALK;
 				App->audio->PlayFx(App->scene->jump_FX);
 
-				if (data_player.canjump == true) {
+				
 					data_player.jumpenergy = data_player.jumpvel;
-				}
+				
 				data_player.jumpCounter--;
 				LOG("%i", data_player.jumpCounter);
 
@@ -310,13 +313,14 @@ void j1Player::CheckState()
 
 			}
 
-			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {		//if  "LSHIFT" is pressed when "D" is pressed, the player runs forward
+			//if  "LSHIFT" is pressed when "D" is pressed, the player runs forward
+			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {		
 				current_state = RUN;
 				data_player.position.x += data_player.velrun;
 				data_player.player_flip = false;
 
-
-				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		//if "SPACE" is pressed when "LSHIFT" is pressed, and when "D" is pressed, the player jumps running forward
+				//if "SPACE" is pressed when "LSHIFT" is pressed, and when "D" is pressed, the player jumps running forward
+				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		
 					data_player.jumpCounter = 2;
 
 					data_player.right = true;
@@ -337,46 +341,58 @@ void j1Player::CheckState()
 			}
 		}
 
-		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && data_player.canjump == true) {		//if "A" is pressed animation walk backward actives flips to the Blit
+		//if "A" is pressed animation walk backward actives flips to the Blit
+		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && data_player.canjump == true) {		
 
 			current_state = WALK;
 			data_player.position.x -= data_player.v.x;
 			data_player.player_flip = true;
+
+			if (App->scene->current_map == "Map.tmx") {
+				App->audio->PlayFx(App->scene->walk_grass_FX);
+			}
+			else if (App->scene->current_map == "map2.tmx")
+			{
+				App->audio->PlayFx(App->scene->walk_rock_FX);
+			}
 		
-			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		//if "SPACE" is pressed 
+			//if "SPACE" is pressed when "A" is pressed, the player jumps backward
+			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		
 
-				data_player.position.x -= data_player.v.x;
 				current_state = JUMP_WALK;
-				App->audio->PlayFx(App->scene->jump_FX);
 
-				if (data_player.canjump == true) {
-					data_player.jumpenergy = data_player.jumpvel;
-				}
-
+				data_player.jumpenergy = data_player.jumpvel;
+				
 				data_player.jumpCounter--;
 				LOG("%i", data_player.jumpCounter);
+				App->audio->PlayFx(App->scene->jump_FX);
+
 
 				if (data_player.jumpCounter == 0) {
 					data_player.jump.Reset();
 				}
 			}
+
+			//if  "LSHIFT" is pressed when "A" is pressed, the player runs backward
 			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
 				current_state = RUN;
 				data_player.position.x -= data_player.velrun;
 			
 				data_player.player_flip = true;
 
-				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		//if "SPACE" is pressed 
+				//if "SPACE" is pressed when "LSHIFT" is pressed, and when "A" is pressed, the player jumps running backward
+				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		 
 
 					data_player.jumpCounter = 2;
 					data_player.left = true;
 					data_player.right = false;
-					App->audio->PlayFx(App->scene->jump_FX);
 
 					current_state = JUMP_RUN;
 
 					data_player.jumpCounter--;
 					LOG("%i", data_player.jumpCounter);
+					App->audio->PlayFx(App->scene->jump_FX);
+
 
 					if (data_player.jumpCounter == 0) {
 						data_player.jump.Reset();
@@ -385,8 +401,8 @@ void j1Player::CheckState()
 			}
 		}
 
-
-		else if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && (data_player.jumpCounter!=0)) {		//if "SPACE" is pressed 
+		//if "SPACE" is pressed the player jumps
+		else if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && (data_player.jumpCounter!=0)) {		
 			
 				current_state = JUMP_UP;
 				data_player.player_flip = false;
@@ -402,8 +418,8 @@ void j1Player::CheckState()
 
 		}
 
-
-		else if(data_player.canjump==true && App->input->GetKey(SDL_SCANCODE_SPACE) == NULL && App->input->GetKey(SDL_SCANCODE_A) == NULL && App->input->GetKey(SDL_SCANCODE_D) == NULL){
+		//If any key pressed animation idle
+		else if(data_player.canjump==true && App->input->GetKey(SDL_SCANCODE_SPACE) == NULL && App->input->GetKey(SDL_SCANCODE_A) == NULL && App->input->GetKey(SDL_SCANCODE_D) == NULL){	
 			current_state = IDLE;
 			data_player.player_flip = false;
 
@@ -423,7 +439,6 @@ void j1Player::Animations() {
 	}
 
 	if (current_state == WALK) {
-		App->audio->PlayFx(App->scene->walk_FX);
 
 		data_player.current_animation = &data_player.walk;		//If any key pressed animation idle
 		data_player.jump.Reset();
@@ -470,7 +485,7 @@ void j1Player::Animations() {
 	}
 		
 	if (current_state == RUN) {
-		data_player.current_animation = &data_player.walk2;		//If any key pressed animation idle
+		data_player.current_animation = &data_player.walk2;		
 		data_player.jump.Reset();
 		data_player.fall.Reset();
 		
@@ -518,12 +533,7 @@ void j1Player::Animations() {
 		}
 	}
 
-	/*if (current_state == DOUBLE_JUMP) {
-		data_player.jump.Reset();
-		current_state = JUMP_UP;
-		data_player.position.y = data_player.position.y + data_player.jumpenergy*(2/3);
-
-	}*/
+	
 
 	if (current_state == DEATH) {
 		
@@ -532,9 +542,10 @@ void j1Player::Animations() {
 		
 		if (die == true) {
 
+			App->audio->PlayFx(App->scene->death_FX);
 			if (App->scene->current_map == "Map.tmx") {
 				
-				data_player.current_animation = &data_player.death;		//If any key pressed animation idle
+				data_player.current_animation = &data_player.death;		
 
 				if (pretime >= globaltime + 6000) {
 
@@ -549,7 +560,7 @@ void j1Player::Animations() {
 
 			else {
 
-				data_player.current_animation = &data_player.death;		//If any key pressed animation idle
+				data_player.current_animation = &data_player.death;		
 				
 				if (pretime >= globaltime + 3500) {
 

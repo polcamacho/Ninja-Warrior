@@ -48,20 +48,21 @@ bool j1Scene::Start()
 	current_map = maps.start->data;
 	App->map->Load(current_map.GetString());
 	if (current_map == "Map.tmx") {
-		
-		walk_FX = App->audio->LoadFx("audio/fx/Walk.wav");
+
 		App->audio->PlayMusic("audio/music/map1_music.ogg");
+		walk_grass_FX = App->audio->LoadFx("audio/fx/Walk_grass.wav");
 		jump_FX= App->audio->LoadFx("audio/fx/Jump.wav");
+		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
+
 
 	}
-	/*else {
+	else if(current_map=="map2.tmx") {
 		
 		App->audio->PlayMusic("audio/music/map2_music.ogg");
+		walk_rock_FX = App->audio->LoadFx("audio/fx/Walk_rock.wav");
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
-
-	}*/
-	//App->audio->PlayMusic(App->map->data.musicFile.GetString());
-
+		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
+	}
 	
 	return true;
 }
@@ -100,7 +101,7 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
 
 
-		current_map.create("Map2.tmx");
+		current_map.create("map2.tmx");
 		App->audio->PlayMusic("audio/music/map2_music.ogg");
 
 		App->map->CleanUp();
@@ -253,20 +254,24 @@ void j1Scene::SecondMap() {
 		App->player->data_player.position.x = 100;
 		App->player->data_player.position.y = 500;
 		
-		walk_FX = App->audio->LoadFx("audio/fx/Walk.wav");
+		walk_grass_FX = App->audio->LoadFx("audio/fx/Walk_grass.wav");
 		App->audio->PlayMusic("audio/music/map1_music.ogg");
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
+		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
 
 	}
 
 	//charge map 2 position when player completes level 1
-	else {
+	else if(current_map=="map2.tmx"){
 
 		App->player->data_player.position.x = 50;
 		App->player->data_player.position.y = 50;
 
 		App->audio->PlayMusic("audio/music/map2_music.ogg");
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
+		walk_rock_FX = App->audio->LoadFx("audio/fx/Walk_rock.wav");
+		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
+
 	}
 
 	App->player->Start();
