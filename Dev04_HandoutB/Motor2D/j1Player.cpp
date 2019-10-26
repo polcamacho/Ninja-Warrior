@@ -407,6 +407,7 @@ void j1Player::Animations() {
 		
 	}
 	if(current_state==JUMP_WALK){
+		App->audio->PlayFx(App->scene->jump_FX);
 
 		current_state = JUMP_UP;
 
@@ -414,6 +415,8 @@ void j1Player::Animations() {
 
 	if (current_state == JUMP_RUN) {
 		
+		App->audio->PlayFx(App->scene->jump_FX);
+
 		if (data_player.left == true) {
 			data_player.position.x -= data_player.velrun;
 		}
@@ -452,6 +455,8 @@ void j1Player::Animations() {
 	}
 
 	if (current_state == JUMP_UP) {
+
+		App->audio->PlayFx(App->scene->jump_FX);
 
 		data_player.canjump = false;
 		data_player.injump = true;
@@ -492,12 +497,12 @@ void j1Player::Animations() {
 		}
 	}
 
-	if (current_state == DOUBLE_JUMP) {
+	/*if (current_state == DOUBLE_JUMP) {
 		data_player.jump.Reset();
 		current_state = JUMP_UP;
 		data_player.position.y = data_player.position.y + data_player.jumpenergy*(2/3);
 
-	}
+	}*/
 
 	if (current_state == DEATH) {
 		data_player.current_animation = &data_player.death;		//If any key pressed animation idle

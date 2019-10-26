@@ -50,9 +50,12 @@ bool j1Scene::Start()
 	if (current_map == "Map.tmx") {
 		walk_FX = App->audio->LoadFx("audio/fx/Walk.wav");
 		App->audio->PlayMusic("audio/music/map1_music.ogg");
+		jump_FX= App->audio->LoadFx("audio/fx/Jump.wav");
 
 	}
 	else {
+		App->audio->PlayMusic("audio/music/map2_music.ogg");
+		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 
 	}
 	//App->audio->PlayMusic(App->map->data.musicFile.GetString());
@@ -98,6 +101,7 @@ bool j1Scene::Update(float dt)
 
 
 		current_map.create("Map2.tmx");
+		App->audio->PlayMusic("audio/music/map2_music.ogg");
 
 		App->map->CleanUp();
 		
