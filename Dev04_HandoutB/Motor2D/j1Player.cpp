@@ -38,7 +38,7 @@ bool j1Player::Awake(pugi::xml_node& config) {
 
 	data_player.v.x = config.child("velocity").attribute("x").as_int();
 
-	data_player.walkFX = config.child("walkFX").attribute("source").as_string();
+	//data_player.walkFX = config.child("walkFX").attribute("source").as_string();
 	//data_player.deathFX = config.child("deathFX").attribute("source").as_string();
 
 	data_player.colOffset.x = config.child("colOffset").attribute("x").as_int();
@@ -296,6 +296,7 @@ void j1Player::CheckState()
 
 				data_player.position.x += data_player.v.x;
 				current_state = JUMP_WALK;
+				App->audio->PlayFx(App->scene->jump_FX);
 
 				if (data_player.canjump == true) {
 					data_player.jumpenergy = data_player.jumpvel;
@@ -320,6 +321,7 @@ void j1Player::CheckState()
 
 					data_player.right = true;
 					data_player.left = false;
+					App->audio->PlayFx(App->scene->jump_FX);
 
 
 					current_state = JUMP_RUN;
@@ -345,6 +347,7 @@ void j1Player::CheckState()
 
 				data_player.position.x -= data_player.v.x;
 				current_state = JUMP_WALK;
+				App->audio->PlayFx(App->scene->jump_FX);
 
 				if (data_player.canjump == true) {
 					data_player.jumpenergy = data_player.jumpvel;
@@ -368,6 +371,7 @@ void j1Player::CheckState()
 					data_player.jumpCounter = 2;
 					data_player.left = true;
 					data_player.right = false;
+					App->audio->PlayFx(App->scene->jump_FX);
 
 					current_state = JUMP_RUN;
 
@@ -389,6 +393,8 @@ void j1Player::CheckState()
 				data_player.jumpenergy = data_player.jumpvel;
 				data_player.jumpCounter--;
 				LOG("%i", data_player.jumpCounter);
+				App->audio->PlayFx(App->scene->jump_FX);
+
 				
 				if(data_player.jumpCounter==0){
 					data_player.jump.Reset();
@@ -423,7 +429,6 @@ void j1Player::Animations() {
 		
 	}
 	if(current_state==JUMP_WALK){
-		App->audio->PlayFx(App->scene->jump_FX);
 
 		current_state = JUMP_UP;
 
@@ -431,7 +436,6 @@ void j1Player::Animations() {
 
 	if (current_state == JUMP_RUN) {
 		
-		App->audio->PlayFx(App->scene->jump_FX);
 
 		if (data_player.left == true) {
 			data_player.position.x -= data_player.velrun;
@@ -472,7 +476,6 @@ void j1Player::Animations() {
 
 	if (current_state == JUMP_UP) {
 
-		App->audio->PlayFx(App->scene->jump_FX);
 
 		data_player.canjump = false;
 		data_player.injump = true;
@@ -597,19 +600,13 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
 		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
 
-
 			pretime = SDL_GetTicks();
-
 
 			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
 			current_state = DEATH;
 			data_player.grounded = true;
 			data_player.canjump = false;
 			die = true;
-
-
-
-
 
 		}
 
