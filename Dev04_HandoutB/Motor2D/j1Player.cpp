@@ -72,9 +72,6 @@ bool j1Player::Start() {
 	
 	Pushbacks();
 	
-	App->audio->LoadFx(data_player.walkFX.GetString());
-	App->audio->LoadFx(data_player.deathFX.GetString());
-
 	data_player.Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));
 	
 	data_player.colliders = App->collider->AddCollider({ data_player.position.x, data_player.position.y, 39,53 }, COLLIDER_PLAYER, this);	//Collider player
@@ -207,23 +204,23 @@ bool j1Player::Save(pugi::xml_node& node) const {
 
 void j1Player::Pushbacks() {
 
-	data_player.idle.PushBack({ 7,554,48,52 }, 0.2, 0, 0);
-	data_player.idle.PushBack({ 84,554,41,52 }, 0.2, 10, 0);
-	data_player.idle.PushBack({ 156,555,42,50 }, 0.3, 10, 0);
-	data_player.idle.PushBack({ 232,557,41,48 }, 0.3, 10, 0);
-	data_player.idle.PushBack({ 291,557,41,48 }, 0.3, 10, 0);
-	data_player.idle.PushBack({ 351,557,40,48 }, 0.3, 10, 0);
-	data_player.idle.PushBack({ 415,556,41,49 }, 0.3, 10, 0);
-	data_player.idle.PushBack({ 474,556,42,49 }, 0.3, 10, 0);
-	data_player.idle.PushBack({ 533,557,41,48 }, 0.3, 10, 0);
-	data_player.idle.PushBack({ 591,554,41,51 }, 0.2, 0, 0);
-	data_player.idle.PushBack({ 643,554,52,52 }, 0.2, -1, 0);
-	data_player.idle.PushBack({ 705,555,44,50 }, 0.2, -6, 0);
-	data_player.idle.PushBack({ 763,554,43,52 }, 0.3, -20, 0);
-	data_player.idle.PushBack({ 819,554,45,52 }, 0.3, -20, 0);
-	data_player.idle.PushBack({ 880,554,43,51 }, 0.3, -20, 0);
-	data_player.idle.PushBack({ 938,555,43,51 }, 0.3, -20, 0);
-	data_player.idle.PushBack({ 995,554,44,52 }, 0.3, -20, 0);
+	data_player.idle.PushBack({ 7,554,48,52 }, 0.1, 0, 0);
+	data_player.idle.PushBack({ 84,554,41,52 }, 0.1, 10, 0);
+	data_player.idle.PushBack({ 156,555,42,50 }, 0.2, 10, 0);
+	data_player.idle.PushBack({ 232,557,41,48 }, 0.2, 10, 0);
+	data_player.idle.PushBack({ 291,557,41,48 }, 0.2, 10, 0);
+	data_player.idle.PushBack({ 351,557,40,48 }, 0.2, 10, 0);
+	data_player.idle.PushBack({ 415,556,41,49 }, 0.2, 10, 0);
+	data_player.idle.PushBack({ 474,556,42,49 }, 0.2, 10, 0);
+	data_player.idle.PushBack({ 533,557,41,48 }, 0.2, 10, 0);
+	data_player.idle.PushBack({ 591,554,41,51 }, 0.1, 0, 0);
+	data_player.idle.PushBack({ 643,554,52,52 }, 0.1, -1, 0);
+	data_player.idle.PushBack({ 705,555,44,50 }, 0.1, -6, 0);
+	data_player.idle.PushBack({ 763,554,43,52 }, 0.2, -20, 0);
+	data_player.idle.PushBack({ 819,554,45,52 }, 0.2, -20, 0);
+	data_player.idle.PushBack({ 880,554,43,51 }, 0.2, -20, 0);
+	data_player.idle.PushBack({ 938,555,43,51 }, 0.2, -20, 0);
+	data_player.idle.PushBack({ 995,554,44,52 }, 0.2, -20, 0);
 	data_player.idle.loop = true;
 
 	data_player.walk.PushBack({ 7,4,42,49 }, 0.2, 0, 0);
@@ -285,7 +282,6 @@ void j1Player::CheckState()
 			data_player.position.x += data_player.v.x;
 			data_player.player_flip = false;
 			if (App->scene->current_map == "Map.tmx") {
-				App->audio->PlayFx(App->scene->walk_FX);
 			}
 			else
 			{
@@ -423,6 +419,8 @@ void j1Player::Animations() {
 	}
 
 	if (current_state == WALK) {
+		App->audio->PlayFx(App->scene->walk_FX);
+
 		data_player.current_animation = &data_player.walk;		//If any key pressed animation idle
 		data_player.jump.Reset();
 		data_player.fall.Reset();
