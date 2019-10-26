@@ -36,9 +36,6 @@ struct PlayerData
 	Animation		fall;
 	Animation		death;
 
-	p2SString		walkFX;
-	p2SString		jumpFX;
-	p2SString		deathFX;
 	
 	bool			grounded = false;
 	bool			platformdrop;

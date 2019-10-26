@@ -523,6 +523,7 @@ void j1Player::Animations() {
 	if (current_state == DEATH) {
 		data_player.current_animation = &data_player.death;		//If any key pressed animation idle
 
+
 		if (die == true) {
 
 			if (App->scene->current_map == "Map.tmx") {
