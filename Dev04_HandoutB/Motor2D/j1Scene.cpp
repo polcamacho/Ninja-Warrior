@@ -124,6 +124,21 @@ bool j1Scene::Update(float dt)
 
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
+	{
+		if(current_map=="Map.tmx"){
+		App->player->data_player.position.x = 100;
+		App->player->data_player.position.y = 300;
+		App->player->data_player.player_flip = SDL_FLIP_NONE;
+		}
+
+		else {
+			App->player->data_player.position.x = 50;
+			App->player->data_player.position.y = 10;
+			App->player->data_player.player_flip = SDL_FLIP_NONE;
+		}
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		App->LoadGame();
 
