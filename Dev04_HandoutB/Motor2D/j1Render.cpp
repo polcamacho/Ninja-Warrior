@@ -5,6 +5,7 @@
 #include "j1Render.h"
 #include "j1Player.h"
 #include "j1Map.h"
+#include "j1Scene.h"
 
 #define VSYNC true
 
@@ -73,9 +74,14 @@ bool j1Render::PreUpdate()
 bool j1Render::Update(float dt)
 {
 
+	if(App->scene->current_map=="Map.tmx"){
 	camera.x = -(App->player->data_player.position.x + velcamera) + App->win->width / 2;
 	camera.y = -(App->player->data_player.position.y + velcamera) + App->win->height / 1.40;
-	
+	}
+	else {
+		camera.x = -(App->player->data_player.position.x + velcamera) + App->win->width / 2;
+		camera.y = -(App->player->data_player.position.y + velcamera) + App->win->height / 2;
+	}
 	if (camera.x > 0) {
 		camera.x = 0;
 	}

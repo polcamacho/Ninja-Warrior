@@ -48,16 +48,18 @@ bool j1Scene::Start()
 	current_map = maps.start->data;
 	App->map->Load(current_map.GetString());
 	if (current_map == "Map.tmx") {
+		
 		walk_FX = App->audio->LoadFx("audio/fx/Walk.wav");
 		App->audio->PlayMusic("audio/music/map1_music.ogg");
 		jump_FX= App->audio->LoadFx("audio/fx/Jump.wav");
 
 	}
-	else {
+	/*else {
+		
 		App->audio->PlayMusic("audio/music/map2_music.ogg");
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 
-	}
+	}*/
 	//App->audio->PlayMusic(App->map->data.musicFile.GetString());
 
 	
@@ -80,9 +82,7 @@ bool j1Scene::Update(float dt)
 
 
 		current_map.create("Map.tmx");
-
 		App->map->CleanUp();
-		
 		App->player->CleanUp();
 
 		App->map->Load(current_map.GetString());
@@ -195,7 +195,7 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
-	App->audio->CleanUp();
+	//App->audio->CleanUp();
 	return true;
 }
 
@@ -221,8 +221,8 @@ bool j1Scene::Save(pugi::xml_node& data) const
 void j1Scene::SecondMap() {
 	
 	App->map->CleanUp();
-	App->audio->CleanUp();
-	//App->player->CleanUp();
+	App->collider->CleanUp();
+
 
 	p2List_item<p2SString>* i;
 	for (i = maps.start; i->data != current_map.GetString(); i = i->next) {
@@ -233,11 +233,20 @@ void j1Scene::SecondMap() {
 	else { i = maps.start; }
 	current_map = i->data;
 
+	App->map->Load(current_map.GetString());
+	App->map->Draw();
+	App->collider->Start();
+	
 	//charge map 1 position when initialize the game
+
 	if (current_map == "Map.tmx") {
 
 		App->player->data_player.position.x = 100;
-		App->player->data_player.position.y = 300;
+		App->player->data_player.position.y = 500;
+		
+		walk_FX = App->audio->LoadFx("audio/fx/Walk.wav");
+		App->audio->PlayMusic("audio/music/map1_music.ogg");
+		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 
 	}
 
@@ -245,11 +254,12 @@ void j1Scene::SecondMap() {
 	else {
 
 		App->player->data_player.position.x = 50;
-		App->player->data_player.position.y = 10;
-	}
-															
-	App->map->Load(current_map.GetString());
-	App->player->Start();
-	App->map->Draw();
+		App->player->data_player.position.y = 50;
 
+		App->audio->PlayMusic("audio/music/map2_music.ogg");
+		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
+	}
+
+	App->player->Start();
+	App->player->Reset();
 }

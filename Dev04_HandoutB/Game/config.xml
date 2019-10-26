@@ -32,13 +32,13 @@
 	<player>
 		<folder>textures/</folder>
 		<texture source="rogue_spritesheed.png" />
-		<position x="6000" y="400" />
+		<position x="100" y="500" />
 		<jump_velocity jumpvel="-35" />
-    <vel_double_jump veldbjump ="-40"/>
+   		<vel_double_jump veldbjump ="-40"/>
 		<velocity x="5"/>
 		<gravity grav="20" />
 		<colOffset x="11" y="8" />
-  	<walkFX source="Walk.wav" />
+  		<walkFX source="Walk.wav" />
 	</player>
 	<scene>
 		<map name="Map.tmx" />
