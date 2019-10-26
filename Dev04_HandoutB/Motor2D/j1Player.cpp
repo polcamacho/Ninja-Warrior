@@ -72,8 +72,6 @@ bool j1Player::Start() {
 	
 	Pushbacks();
 	
-	App->audio->LoadFx(data_player.walkFX.GetString());
-	App->audio->LoadFx(data_player.deathFX.GetString());
 
 	data_player.Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));
 	
