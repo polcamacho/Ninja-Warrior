@@ -145,8 +145,7 @@ bool j1Player::Update(float dt) {
 		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_NONE, -1.0);
 	}
 
-	
-	
+		
 	return true;
 
 }
@@ -523,6 +522,36 @@ void j1Player::Animations() {
 
 	if (current_state == DEATH) {
 		data_player.current_animation = &data_player.death;		//If any key pressed animation idle
+
+		if (die == true) {
+
+			if (App->scene->current_map == "Map.tmx") {
+
+				if (pretime >= globaltime + 6500) {
+
+					data_player.position.x = 100;
+					data_player.position.y = 300;
+					current_state = JUMP_FALL;
+				}
+
+			}
+
+
+			else {
+
+				if (pretime >= globaltime + 3500) {
+
+					data_player.position.x = 55;
+					data_player.position.y = 100;
+					current_state = JUMP_FALL;
+				}
+
+			}
+
+			die = false;
+		}
+
+		
 	}
 	
 	
@@ -622,36 +651,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
 		}
 
-		if (die == true) {
-
-			if (App->scene->current_map == "Map.tmx") {
-
-				if (pretime >= globaltime + 5000) {
-
-					data_player.position.x = 100;
-					data_player.position.y = 300;
-
-				}
-
-			}
-
-
-			else {
-
-				if (pretime >= globaltime + 3500) {
-
-					data_player.position.x = 55;
-					data_player.position.y = 100;
-
-				}
-
-			}
-
-
-			Reset();
-
-			die = false;
-		}
+		
 
 
 	}
