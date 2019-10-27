@@ -547,7 +547,7 @@ void j1Player::Animations() {
 				
 				data_player.current_animation = &data_player.death;		
 
-				if (pretime >= globaltime + 6000) {
+				if (pretime >= globaltime + 4000) {
 
 					data_player.position.x = 100;
 					data_player.position.y = 300;
@@ -562,7 +562,7 @@ void j1Player::Animations() {
 
 				data_player.current_animation = &data_player.death;		
 				
-				if (pretime >= globaltime + 3500) {
+				if (pretime >= globaltime + 3000) {
 
 					data_player.position.x = 55;
 					data_player.position.y = 10;
