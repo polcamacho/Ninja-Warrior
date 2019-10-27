@@ -147,7 +147,7 @@ bool j1Scene::Update(float dt)
 
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
 		if(current_map=="Map.tmx"){
 		App->player->data_player.position.x = 100;
