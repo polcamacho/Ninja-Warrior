@@ -188,21 +188,8 @@ bool j1Scene::Update(float dt)
 		}
 	}
 
-	//int x = 0;
-	//int y = 0;
-
 	
-	
-	/*App->input->GetMousePosition(x, y);
-	p2Point<uint> TilePos = App->map->data.GetTilePos(x, y);
-	
-	p2SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d Tile:%dx%d ",
-		App->map->data.width, App->map->data.height,
-		App->map->data.tile_width, App->map->data.tile_height,
-		App->map->data.tilesets.count(),
-		TilePos.x, TilePos.y);*/
-	
-	p2SString title("2D PLATFORMER");
+	p2SString title("NINJA WARRIOR");
 	App->win->SetTitle(title.GetString());
 
 	return true;

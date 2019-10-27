@@ -20,7 +20,7 @@ Responsability: Map 2 creation, colliders creation in Tiled, animations, state m
 
 Github link: https://github.com/christianpi4
 
-Responsability: Map 1 creation, collider implementor, load and save map, death animation and cleaning code.
+Responsability: Map 1 creation and Map 2 improved, collider implementor, load and save map, god mode, restart, change map, death animation and cleaning code.
 
 ## How to play
 
