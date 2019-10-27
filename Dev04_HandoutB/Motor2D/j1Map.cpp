@@ -34,7 +34,7 @@ void j1Map::Draw()
 	if (map_loaded == false)
 		return;
 
-	// TODO 5(old): Prepare the loop to draw all tilesets + Blit
+	//Prepare the loop to draw all tilesets + Blit
 	MapLayer* layer = data.layers.start->data; // for now we just use the first layer and tileset
 	TileSet* tileset = data.tilesets.start->data;
 
@@ -66,7 +66,6 @@ void j1Map::Draw()
 			}
 		}
 
-		//LOG("%f", layer->data->parallax);
 
 	}
 
@@ -168,7 +167,7 @@ bool j1Map::CleanUp()
 	}
 	data.tilesets.clear();
 
-	// TODO 2: clean up all layer data
+	// clean up all layer data
 	// Remove all layers
 
 	p2List_item<MapLayer*>* item2;

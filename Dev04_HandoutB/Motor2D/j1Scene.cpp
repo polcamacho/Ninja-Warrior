@@ -100,7 +100,6 @@ bool j1Scene::Update(float dt)
 		App->player->Start();
 		App->map->Draw();
 		
-		//App->audio->PlayMusic("audio/music/map1_music.ogg");
 
 		App->player->data_player.position.x = 100;
 		App->player->data_player.position.y = 300;
@@ -113,7 +112,6 @@ bool j1Scene::Update(float dt)
 
 
 		current_map.create("map2.tmx");
-		//App->audio->PlayMusic("audio/music/map2_music.ogg");
 
 		App->map->CleanUp();
 		
@@ -225,7 +223,6 @@ bool j1Scene::Load(pugi::xml_node& data)
 	App->map->Load(current_map.GetString());
 	App->collider->Start();
 	App->player->Start();
-	//App->audio->Start();
 	
 	return true;
 }

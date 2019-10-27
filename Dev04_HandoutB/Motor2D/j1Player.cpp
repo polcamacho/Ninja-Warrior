@@ -33,14 +33,9 @@ bool j1Player::Awake(pugi::xml_node& config) {
 	data_player.position.y = config.child("position").attribute("y").as_int();
 
 	data_player.jumpvel = config.child("jump_velocity").attribute("jumpvel").as_int();
-
-	data_player.vel_doublejump = config.child("vel_double_jump").attribute("veldbjump").as_int();
-
+	   
 	data_player.v.x = config.child("velocity").attribute("x").as_int();
-
-	//data_player.walkFX = config.child("walkFX").attribute("source").as_string();
-	//data_player.deathFX = config.child("deathFX").attribute("source").as_string();
-
+	
 	data_player.colOffset.x = config.child("colOffset").attribute("x").as_int();
 	data_player.colOffset.y = config.child("colOffset").attribute("y").as_int();
 	
@@ -432,7 +427,7 @@ void j1Player::CheckState()
 void j1Player::Animations() {
 
 	if (current_state == IDLE) {
-		data_player.current_animation = &data_player.idle;		//If any key pressed animation idle
+		data_player.current_animation = &data_player.idle;		
 		data_player.jump.Reset();
 		data_player.fall.Reset();
 		
@@ -440,7 +435,7 @@ void j1Player::Animations() {
 
 	if (current_state == WALK) {
 
-		data_player.current_animation = &data_player.walk;		//If any key pressed animation idle
+		data_player.current_animation = &data_player.walk;		
 		data_player.jump.Reset();
 		data_player.fall.Reset();
 		
@@ -453,10 +448,12 @@ void j1Player::Animations() {
 
 	if (current_state == JUMP_RUN) {
 		
-
+		//If left = true, jump running backward
 		if (data_player.left == true) {
 			data_player.position.x -= data_player.velrun;
 		}
+
+		//If right = true, jump running forward
 		else if (data_player.right == true) {
 			data_player.position.x += data_player.velrun;
 		}

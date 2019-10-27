@@ -53,23 +53,18 @@ struct PlayerData
 	SDL_Rect		col;
 	iPoint			colOffset;
 	SDL_Texture*	Tex_Player;
-
-	float jump_time=0.0f;	//Time of the jump
-
+	
 	bool injump=false;	//Says that the player is jumping or not
 	bool canjump = false;  //Says the player can jump or not
 	int jumpvel;		//Jump velocity only in y
-	int jumpenergy;
-	int vel_doublejump;
+	int jumpenergy;		//energy while is jumping
 	bool left=false;	//If left = true, jump running backward
 	bool right=false;	//If right = true, jump running forward
 	bool player_flip;
 	int gravity;
 
 	int velrun;			//velocity while running
-
-	iPoint jump_position;
-
+	   
 	Collider* colliders = nullptr;
 	Collider* colliders2 = nullptr;
 	bool showcolliders = false;
