@@ -90,7 +90,7 @@ bool j1Player::PreUpdate() {
 
 bool j1Player::Update(float dt) {
 
-	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 
 		if (godmode == false)
 		{
