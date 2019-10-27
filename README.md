@@ -4,6 +4,10 @@
 
 Ninja warrior is a platform game made by two students from Design and Development videogames degree. 
 
+## Repository link
+
+https://github.com/polcamacho/Platformer2D
+
 ## Team members and responsabilities
 
 ### Pol Camacho Banal
