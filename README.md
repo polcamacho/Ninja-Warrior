@@ -25,29 +25,45 @@ The main goal is simple: arrive to the end of the map! But be carefull, some par
 ## Controls
 
 D: Walk forward.
+
 A: Walk backward.
+
 SPACE: Jump.
+
 D+LSHIFT: Run forward.
+
 A+LSHIFT: Run backward.
+
 D+LSHIFT+SPACE: Jump while running forward.
+
 A+LSHIFT+SPACE: Jump while running backward.
 
 ### Double jump!
 
 SPACE+SPACE: Simple double jump.
+
 D+SPACE+SPACE: Double jump while walk forward.
+
 A+SPACE+SPACE: Double jump while walk backward.
+
 D+LSHIFT+SPACE+SPACE: Double jump while running forward.
+
 A+LSHIFT+SPACE+SPACE: Double jump while running backward.
 
 ### Debug
 
 F1: Change to map 1.
+
 F2: Change to map 2.
+
 F3: Start from the beginning of the current level.
+
 F5: Save current state.
+
 F6: Load current state.
+
 F9: View colliders and logic.
+
 F10: God mode.
 
 ## License
