@@ -256,16 +256,16 @@ void j1Player::Pushbacks() {
 	data_player.fall.PushBack({ 423,129,53,42 }, 0.5, 0, 0);
 	data_player.fall.loop = true;
 
-	data_player.death.PushBack({ 8,464,48,55 }, 0.15, 0, 0);
-	data_player.death.PushBack({ 72,456,62,63 }, 0.15, 0, 0);
-	data_player.death.PushBack({ 150,454,69,65 }, 0.15, 0, 0);
-	data_player.death.PushBack({ 257,464,82,56 }, 0.15, 0, 0);
-	data_player.death.PushBack({ 367,447,83,72 }, 0.15, 0, 0);
-	data_player.death.PushBack({ 488,447,84,73 }, 0.15, 0, 0);
-	data_player.death.PushBack({ 609,457,94,62 }, 0.15, 0, 0);
-	data_player.death.PushBack({ 734,455,113,65 }, 0.15, 0, 0);
-	data_player.death.PushBack({ 894,445,127,74 }, 0.15, 0, 0);
-	data_player.death.PushBack({ 1054,433,116,87 }, 0.15, 0, 0);
+	data_player.death.PushBack({ 8,464,48,55 }, 0.2, 0, 0);
+	data_player.death.PushBack({ 72,456,62,63 }, 0.2, 0, 0);
+	data_player.death.PushBack({ 150,454,69,65 }, 0.2, 0, 0);
+	data_player.death.PushBack({ 257,464,82,56 }, 0.2, 0, 0);
+	data_player.death.PushBack({ 367,447,83,72 }, 0.2, 0, 0);
+	data_player.death.PushBack({ 488,447,84,73 }, 0.2, 0, 0);
+	data_player.death.PushBack({ 609,457,94,62 }, 0.2, 0, 0);
+	data_player.death.PushBack({ 734,455,113,65 }, 0.2, 0, 0);
+	data_player.death.PushBack({ 894,445,127,74 }, 0.2, 0, 0);
+	data_player.death.PushBack({ 1054,433,116,87 }, 0.2, 0, 0);
 	data_player.death.loop = false;
 
 	
@@ -542,12 +542,12 @@ void j1Player::Animations() {
 		
 		if (die == true) {
 
-			App->audio->PlayFx(App->scene->death_FX);
 			if (App->scene->current_map == "Map.tmx") {
 				
 				data_player.current_animation = &data_player.death;		
+				App->audio->PlayFx(App->scene->death_FX);
 
-				if (pretime >= globaltime + 4000) {
+				if (pretime >= globaltime + 3800) {
 
 					data_player.position.x = 100;
 					data_player.position.y = 300;
@@ -561,8 +561,9 @@ void j1Player::Animations() {
 			else {
 
 				data_player.current_animation = &data_player.death;		
-				
-				if (pretime >= globaltime + 3000) {
+				App->audio->PlayFx(App->scene->death_FX);
+
+				if (pretime >= globaltime + 2000) {
 
 					data_player.position.x = 55;
 					data_player.position.y = 10;
