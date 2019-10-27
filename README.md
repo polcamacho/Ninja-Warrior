@@ -70,6 +70,27 @@ F9: View colliders and logic.
 
 F10: God mode.
 
+## Credits
+
+Spritesheed:https://craftpix.net/freebies/assassin-mage-viking-free-pixel-art-game-heroes/
+
+Map assets: https://anokolisa.itch.io/forest-game-assets-20
+
+Map 1 music: https://www.youtube.com/watch?v=iQIz5LmRuKE
+
+Map 2 music: https://www.youtube.com/watch?v=vBatUCjxSrQ&list=PL06diOotXAJLPta6SgpLj9YEgp7VmGr4g
+
+Both walk FX: https://es.audioblocks.com/royalty-free-audio/sound-effects?search-origin=top_nav
+
+Death FX: https://audiojungle.net/item/8bit-death-sounds/6327314
+
+Jump FX: https://opengameart.org/content/8-bit-platformer-sfx
+
+Using the following SDL libraries:
+SDL: https://www.libsdl.org/
+SDL_Image: https://www.libsdl.org/projects/SDL_image/
+SDL_Mixer: https://www.libsdl.org/projects/SDL_mixer/
+
 ## License
 
 MIT License
