@@ -9,10 +9,10 @@
 		<scene name="Map.tmx" />
 	</scene>
 	<player>
-		<position x="1490" y="255" />
+		<position x="1515" y="621" />
 	</player>
 	<:anonymous />
 	<renderer>
-		<camera x="-983" y="0" />
+		<camera x="-1008" y="-77" />
 	</renderer>
 </game_state>
