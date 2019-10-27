@@ -26,7 +26,9 @@ bool j1Player::Awake(pugi::xml_node& config) {
 
 	bool ret = true;
 
-	folder.create(config.child("folder").child_value());
+	//Load All Player Features from Config
+
+	folder.create(config.child("folder").child_value());	
 	texture = config.child("texture").attribute("source").as_string();
 
 	data_player.position.x = config.child("position").attribute("x").as_int();
@@ -51,10 +53,10 @@ void j1Player::DrawPlayer()
 	
 
 	if (data_player.player_flip) {
-		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL, -1.0);
+		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL, -1.0);	//Draw Player Flipped
 	}
 	else {
-		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_NONE, -1.0);
+		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_NONE, -1.0);	//Draw Player Normal
 	}
 
 
@@ -62,17 +64,14 @@ void j1Player::DrawPlayer()
 
 bool j1Player::Start() {
 
+	globaltime = SDL_GetTicks();	//Sets the Global time to the death timer
 	
-	//data_player.injump = false;
+	Pushbacks();	//Call all the Pushback of animations
 	
-	Pushbacks();
+	data_player.Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));	//Load The Texture of player
 	
-	data_player.Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));
+	data_player.colliders = App->collider->AddCollider({ data_player.position.x, data_player.position.y, 39,53 }, COLLIDER_PLAYER, this);	//Sets The Collider Type and Dimensions to Player
 	
-	data_player.colliders = App->collider->AddCollider({ data_player.position.x, data_player.position.y, 39,53 }, COLLIDER_PLAYER, this);	//Collider player
-	
-	globaltime = SDL_GetTicks();
-
 	return	true;
 
 }
@@ -85,29 +84,30 @@ bool j1Player::PreUpdate() {
 
 bool j1Player::Update(float dt) {
 
+	
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 
-		if (godmode == false)
+		if (godmode == false)	//If godmode is false sets None Collider to player for he can fly around map and not collide
 		{
 
-			data_player.colliders->to_delete = true;
-			data_player.colliders = App->collider->AddCollider({ data_player.position.x,data_player.position.y, 39,53 }, COLLIDER_NONE, this);
-			data_player.gravity = 0;
-			godmode = true;
+			data_player.colliders->to_delete = true;	//Delate Player Collider
+			data_player.colliders = App->collider->AddCollider({ data_player.position.x,data_player.position.y, 39,53 }, COLLIDER_NONE, this);	//Charge new collider
+			data_player.gravity = 0;	//Sets new gravity to player for he can move around map
+			godmode = true;	
 
 		}
 		else if (godmode == true)
 		{
 
-			data_player.colliders->to_delete = true;
-			data_player.colliders = App->collider->AddCollider({ data_player.position.x,data_player.position.y, 39,53 }, COLLIDER_PLAYER, this);
-			data_player.gravity = 20;
+			data_player.colliders->to_delete = true;	//Delate Player Collider
+			data_player.colliders = App->collider->AddCollider({ data_player.position.x,data_player.position.y, 39,53 }, COLLIDER_PLAYER, this);	//Charge new collider
+			data_player.gravity = 20;	//Sets normal gravity to player 
 			godmode = false;
 			
 		}
 	}
 	
-	if (godmode == true) {
+	if (godmode == true) {	//Sets the Debug keys to player move when he cant die
 
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 			data_player.position.y -= 20;
@@ -125,22 +125,22 @@ bool j1Player::Update(float dt) {
 	data_player.position.y += data_player.gravity;
 	data_player.preposition = data_player.position;
 	
-	CheckState();
-	Animations();
+	CheckState();	//Checks the state where is the player
+	Animations();	//Set the animation relationed with the state that he is
 	
 	//Player Collider Draw
-	data_player.colliders->SetPos(data_player.position.x, data_player.position.y);
+	data_player.colliders->SetPos(data_player.position.x, data_player.position.y);	//Sets the Player Collider Position
 
 
 	//Player Draw
 	if (data_player.player_flip) {
-		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL, -1.0);
+		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL, -1.0);	//Draw Player Flipped
 	}
 	else {
-		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_NONE, -1.0);
+		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_NONE, -1.0);	//Draw Player Normal
 	}
 
-	if (data_player.grounded == false) {
+	if (data_player.grounded == false) {	//Sets that if the player is not touching the ground puts the fall animation
 
 		current_state = JUMP_FALL;
 
@@ -160,49 +160,49 @@ bool j1Player::CleanUp()
 {
 	LOG("Unloading player");
 
-	App->tex->UnLoad(data_player.Tex_Player);
-	App->collider->CleanUp();
+	App->tex->UnLoad(data_player.Tex_Player);	//Unload The Player texture
+	App->collider->CleanUp();	//Unload the Player collider
 	
 	return true;
 }
 
 bool j1Player::Load(pugi::xml_node& node) {
 
-	if (!node.child("position").empty())
+	if (!node.child("position").empty())	//Load the valors if save_confign file is empty link
 	{
 
-		data_player.position.x = node.child("position").attribute("x").as_int();
-		data_player.position.y = node.child("position").attribute("y").as_int();
+		data_player.position.x = node.child("position").attribute("x").as_int();	//Load Player X
+		data_player.position.y = node.child("position").attribute("y").as_int();	//Load Player Y
 	}
 
-	else {
-		data_player.position.x = data_player.position.x;
-		data_player.position.y = data_player.position.y;
+	else {	
+		data_player.position.x = data_player.position.x;	//Load Player X
+		data_player.position.y = data_player.position.y;	//Load Player Y
 	}
 	return true;
 
 }
 bool j1Player::Save(pugi::xml_node& node) const {
 
-	if (node.child("position").empty())
+	if (node.child("position").empty())	//Save The Position Valors in the save_config file
 	{
-		pugi::xml_node&  save = node.append_child("position");
-		save.append_attribute("x").set_value(data_player.position.x);
-		save.append_attribute("y").set_value(data_player.position.y);
+		pugi::xml_node&  save = node.append_child("position");	
+		save.append_attribute("x").set_value(data_player.position.x);	//Save Player X
+		save.append_attribute("y").set_value(data_player.position.y);	//Save Player Y
 	}
 	else
 	{
-		node.child("position").attribute("x").set_value(data_player.position.x);
-		node.child("position").attribute("y").set_value(data_player.position.y);
+		node.child("position").attribute("x").set_value(data_player.position.x);	//Save Player X
+		node.child("position").attribute("y").set_value(data_player.position.y);	//Save Player Y
 	}
 	
-
 	return true;
 
 }
 
 void j1Player::Pushbacks() {
 
+	//Sets the Idle Animation
 	data_player.idle.PushBack({ 7,554,48,52 }, 0.1, 0, 0);
 	data_player.idle.PushBack({ 84,554,41,52 }, 0.1, 10, 0);
 	data_player.idle.PushBack({ 156,555,42,50 }, 0.2, 10, 0);
@@ -222,6 +222,7 @@ void j1Player::Pushbacks() {
 	data_player.idle.PushBack({ 995,554,44,52 }, 0.2, -20, 0);
 	data_player.idle.loop = true;
 
+	//Sets the Walk Animation
 	data_player.walk.PushBack({ 7,4,42,49 }, 0.2, 0, 0);
 	data_player.walk.PushBack({ 65,4,41,49 }, 0.2, 0, 0);
 	data_player.walk.PushBack({ 131,3,38,50 }, 0.2, 0, 0);
@@ -230,6 +231,7 @@ void j1Player::Pushbacks() {
 	data_player.walk.PushBack({ 317,4,44,50 }, 0.2, 0, 0);
 	data_player.walk.loop = true;
 
+	//Sets the Run Animation
 	data_player.walk2.PushBack({ 7,4,42,49 }, 0.4, 0, 0);
 	data_player.walk2.PushBack({ 65,4,41,49 }, 0.4, 0, 0);
 	data_player.walk2.PushBack({ 131,3,38,50 }, 0.4, 0, 0);
@@ -238,6 +240,7 @@ void j1Player::Pushbacks() {
 	data_player.walk2.PushBack({ 317,4,44,50 }, 0.4, 0, 0);
 	data_player.walk2.loop = true;
 
+	//Sets the Jump Animation
 	data_player.jump.PushBack({ 7,128,52,43 }, 0.6, 0, 0);
 	data_player.jump.PushBack({ 81,114,47,57 }, 0.3, 0, 0);
 	data_player.jump.PushBack({ 155,113,42,58 }, 0.3, 0, 0);
@@ -246,11 +249,12 @@ void j1Player::Pushbacks() {
 	data_player.jump.PushBack({ 348,119,56,52 }, 0.05, 0, 0);
 	data_player.jump.loop = false;
 
-
+	//Sets the Fall Animation
 	data_player.fall.PushBack({ 348,119,56,52 }, 0.05, 0, 0);
 	data_player.fall.PushBack({ 423,129,53,42 }, 0.5, 0, 0);
 	data_player.fall.loop = true;
 
+	//Sets the Death Animation
 	data_player.death.PushBack({ 8,464,48,55 }, 0.2, 0, 0);
 	data_player.death.PushBack({ 72,456,62,63 }, 0.2, 0, 0);
 	data_player.death.PushBack({ 150,454,69,65 }, 0.2, 0, 0);
@@ -263,13 +267,10 @@ void j1Player::Pushbacks() {
 	data_player.death.PushBack({ 1054,433,116,87 }, 0.2, 0, 0);
 	data_player.death.loop = false;
 
-	
-
 }
 
 void j1Player::CheckState()
 {
-	
 	
 	if(godmode==false){
 		
@@ -532,67 +533,62 @@ void j1Player::Animations() {
 
 	
 
-	if (current_state == DEATH) {
+	if (current_state == DEATH) {	
 		
-		die = true;
+		die = true;	//Sets the die to true
 
 		
 		if (die == true) {
 
-			if (App->scene->current_map == "Map.tmx") {
+			if (App->scene->current_map == "Map.tmx") {	//If player is in map 1
 				
-				data_player.current_animation = &data_player.death;		
-				App->audio->PlayFx(App->scene->death_FX);
+				data_player.current_animation = &data_player.death;	//Current Animation is Death
+				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 
-				if (pretime >= globaltime + 3800) {
-
-					data_player.position.x = 100;
-					data_player.position.y = 300;
-					current_state = JUMP_FALL;
+				if (pretime >= globaltime + 3800) {	//Do a timer to stop the game during the Death animation
+					
+					//Sets the Position that player goes when he dies
+					data_player.position.x = 100;	//Set Player X	
+					data_player.position.y = 300;	//Set Player Y
+					current_state = JUMP_FALL;	//Sets the Animation when he reapears
 
 				}
 
 			}
 
+			else {	//If player is not in map 1 is in map 2
 
-			else {
+				data_player.current_animation = &data_player.death;	//Current Animation is Death
+				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 
-				data_player.current_animation = &data_player.death;		
-				App->audio->PlayFx(App->scene->death_FX);
-
-				if (pretime >= globaltime + 2000) {
-
-					data_player.position.x = 55;
-					data_player.position.y = 10;
-					current_state = JUMP_FALL;
+				if (pretime >= globaltime + 2000) {	//Do a timer to stop the game during the Death Animation
+					
+					//Sets the Position that player goes when he dies
+					data_player.position.x = 55;	//Set Player X	
+					data_player.position.y = 10;	//Set Player Y
+					current_state = JUMP_FALL;	//Sets the Animation when he reapears
 								
 				}
 
 			}
 
 			die = false;
-			
-			
+					
 		}
-		
 		
 	}
 	
-	
-	
-
 }
 
-void j1Player::OnCollision(Collider* c1, Collider* c2) {
+void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player collides with something
 
-	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_FLOOR) {
+	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_FLOOR) {	//If player collide with floor
 
-		//ABOVE
-		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
+		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {	//Checks that player collider from above
 
 			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
-			data_player.grounded = true;
-			data_player.canjump = true;
+			data_player.grounded = true;	//Sets that player is touching the floor
+			data_player.canjump = true;		//Sets tha player can jump
 
 			if (data_player.injump == true) {
 				data_player.jump.Reset();
@@ -603,44 +599,46 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
 		}
 
-		//BELOW
-		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {
+		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
+			
 			data_player.position.y = c2->rect.y + c2->rect.h;
-			current_state = JUMP_FALL;
+			current_state = JUMP_FALL;	//Sets the animation 
+
 		}
-		//SIDES
-		else if ((data_player.position.x < c2->rect.x + c2->rect.w && data_player.position.x > c2->rect.x) ||
-
-
-			(data_player.position.x + data_player.colliders->rect.w < c2->rect.x + c2->rect.w && data_player.position.x + data_player.colliders->rect.w > c2->rect.x)) {
-			LOG("WALL");
-			if ((data_player.position.x + data_player.colliders->rect.w) < (c2->rect.x + c2->rect.w)) { //Player to the left 
+		
+		else if ((data_player.position.x < c2->rect.x + c2->rect.w && data_player.position.x > c2->rect.x) ||(data_player.position.x + data_player.colliders->rect.w < c2->rect.x + c2->rect.w && data_player.position.x + data_player.colliders->rect.w > c2->rect.x)) {	//Checks that player collider from sides
+			
+			if ((data_player.position.x + data_player.colliders->rect.w) < (c2->rect.x + c2->rect.w)) { //Checks that player collides from left
+				
 				data_player.position.x = c2->rect.x - data_player.colliders->rect.w;
+
 			}
-			else if (data_player.position.x < (c2->rect.x + c2->rect.w)) {
+			else if (data_player.position.x < (c2->rect.x + c2->rect.w)) {	//Checks that player collides from right
+				
 				data_player.position.x = c2->rect.x + c2->rect.w;
+
 			}
 		}
 
 	}
 
-	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_PLATFORM) {
+	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_PLATFORM) {		//Checks that player collides with platform
 
-
-
-		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
+		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {	//Checks that player collider from above
 
 			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
-			data_player.grounded = true;
-			data_player.canjump = true;
-
-			//current_state = IDLE;
+			data_player.grounded = true;	//Sets that player is touching the floor
+			data_player.canjump = true;		//Sets tha player can jump
 
 			if (data_player.grounded == true) {
+				
 				data_player.jumpCounter = 2;
+
 			}
+
 		}
-		else if ((data_player.position.y >= data_player.preposition.y) && (data_player.preposition.y + data_player.colliders->rect.h) < c2->rect.y) {
+		else if ((data_player.position.y >= data_player.preposition.y) && (data_player.preposition.y + data_player.colliders->rect.h) < c2->rect.y) {	//Checks that player collider from below
+			
 			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
 
 		}
@@ -648,70 +646,61 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {
 
 	}
 
-	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_DEAD) {
+	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_DEAD) {		//Checks that player collides with something that he can die
 
-		pretime = SDL_GetTicks();
+		pretime = SDL_GetTicks();	//Sets the pretime to death timer
 
-		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
-
-			
+		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {	//Checks that player collider from above
 
 			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
-			current_state = DEATH;
-			data_player.grounded = true;
-			data_player.canjump = false;
-			die = true;
+			current_state = DEATH;	//Sets player to Death state
+			
+			data_player.grounded = true;	//Sets that player is touching the floor
+			data_player.canjump = false;	//Sets tha player can jump
+			die = true;	//Sets die bool to true for timer start
 
 		}
 
-		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {
+		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
 
-			pretime = SDL_GetTicks();
+			pretime = SDL_GetTicks();	//Sets the pretime to death timer
 
 			data_player.position.y = c2->rect.y + c2->rect.h;
-			current_state = DEATH;
+			current_state = DEATH;	//Sets player to Death state
 
-			data_player.grounded = true;
-			data_player.canjump = false;
-			die = true;
+			data_player.grounded = true;	//Sets that player is touching the floor
+			data_player.canjump = false;	//Sets tha player can jump
+			die = true;	//Sets die bool to true for timer start
 
 		}
 
-		
-
-
 	}
-
-
 
 	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_NEXT) {
 
-		//ABOVE
-		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {
-			App->scene->SecondMap();
+		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {	//Checks that player collider from above	
+			App->scene->SecondMap();	//Pass to next map
 		}
-		//BELOW
-		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {
-			App->scene->SecondMap();
+		
+		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
+			App->scene->SecondMap();	//Pass to next map
 		}
-		//SIDES
-		else if ((data_player.position.x < c2->rect.x + c2->rect.w && data_player.position.x > c2->rect.x) || (data_player.position.x + data_player.colliders->rect.w < c2->rect.x + c2->rect.w && data_player.position.x + data_player.colliders->rect.w > c2->rect.x)) {
+		
+		else if ((data_player.position.x < c2->rect.x + c2->rect.w && data_player.position.x > c2->rect.x) || (data_player.position.x + data_player.colliders->rect.w < c2->rect.x + c2->rect.w && data_player.position.x + data_player.colliders->rect.w > c2->rect.x)) {	//Checks that player collider from sides
 			
-			if ((data_player.position.x + data_player.colliders->rect.w) < (c2->rect.x + c2->rect.w)) { //Player to the left 
-				App->scene->SecondMap();
+			if ((data_player.position.x + data_player.colliders->rect.w) < (c2->rect.x + c2->rect.w)) {		//Checks that player collides from left
+				App->scene->SecondMap();	//Pass to next map
 			}
-			else if (data_player.position.x < (c2->rect.x + c2->rect.w)) {
-				App->scene->SecondMap();
+			else if (data_player.position.x < (c2->rect.x + c2->rect.w)) {	//Checks that player collides from right
+				App->scene->SecondMap();	//Pass to next map
 			}
 		}
 	}
-
-	
 
 }
 
 
-void j1Player::Reset() {
+void j1Player::Reset() {	//Reset All Player Animations
 
 	data_player.death.Reset();
 	data_player.jump.Reset();

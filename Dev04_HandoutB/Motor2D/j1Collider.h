@@ -8,7 +8,7 @@
 #include "j1Render.h"
 
 
-enum ColliderType
+enum ColliderType	//Set Type of Colliders
 {
 	COLLIDER_NONE = -1,
 	COLLIDER_FLOOR,

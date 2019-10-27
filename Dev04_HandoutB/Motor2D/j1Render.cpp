@@ -75,21 +75,25 @@ bool j1Render::Update(float dt)
 {
 
 	if(App->scene->current_map=="Map.tmx"){
-	camera.x = -(App->player->data_player.position.x + velcamera) + App->win->width / 2;
-	camera.y = -(App->player->data_player.position.y + velcamera) + App->win->height / 1.40;
+	
+		camera.x = -(App->player->data_player.position.x + velcamera) + App->win->width / 2;
+		camera.y = -(App->player->data_player.position.y + velcamera) + App->win->height / 1.40;
+
 	}
 	else {
+		
 		camera.x = -(App->player->data_player.position.x + velcamera) + App->win->width / 2;
-		camera.y = -(App->player->data_player.position.y + velcamera) + App->win->height / 2;
+		camera.y = -(App->player->data_player.position.y + velcamera) + App->win->height / 1.9;
 	}
-	if (camera.x > 0) {
+	
+	//Set Camera Limits
+	if (camera.x > 0) {	//Left
+		
 		camera.x = 0;
 	}
-
-	if (camera.x > 600) {
-		camera.x = 600;
-	}
-	if (camera.y > 0) {
+		
+	if (camera.y > 0) {	//Above
+		
 		camera.y = 0;
 	}
 
@@ -116,8 +120,8 @@ bool j1Render::CleanUp()
 // Load Game State
 bool j1Render::Load(pugi::xml_node& data)
 {
-	camera.x = data.child("camera").attribute("x").as_int();
-	camera.y = data.child("camera").attribute("y").as_int();
+	camera.x = data.child("camera").attribute("x").as_int();	//Load Camera X
+	camera.y = data.child("camera").attribute("y").as_int();	//Load Camera Y
 
 	return true;
 }
@@ -127,8 +131,8 @@ bool j1Render::Save(pugi::xml_node& data) const
 {
 	pugi::xml_node cam = data.append_child("camera");
 
-	cam.append_attribute("x") = camera.x;
-	cam.append_attribute("y") = camera.y;
+	cam.append_attribute("x") = camera.x;	//Save Camera X
+	cam.append_attribute("y") = camera.y;	//Save Camera Y
 
 	return true;
 }

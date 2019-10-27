@@ -11,7 +11,7 @@
 // ----------------------------------------------------
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
-	name.create("map");
+	name.create("map");	
 }
 // ----------------------------------------------------
 // Destructor
@@ -34,8 +34,8 @@ void j1Map::Draw()
 	if (map_loaded == false)
 		return;
 
-	//Prepare the loop to draw all tilesets + Blit
-	MapLayer* layer = data.layers.start->data; // for now we just use the first layer and tileset
+	//Loop all tilesets and layers and Blit
+	MapLayer* layer = data.layers.start->data; 
 	TileSet* tileset = data.tilesets.start->data;
 
 	p2List_item<MapLayer*>* item_layer = data.layers.start;
@@ -54,11 +54,11 @@ void j1Map::Draw()
 					iPoint position = MapToWorld(i, j);
 					SDL_Rect* sect = &data.tilesets.start->data->GetTileRect(l->data[l->Get(i, j)]);
 
-					if (data.type == MAPTYPE_ORTHOGONAL) {
-						App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);
+					if (data.type == MAPTYPE_ORTHOGONAL) {	//Blit if the map is orthogonal
+						App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);	//Blit with parallax velocity
 
 					}
-					else {
+					else {	//Blit if is any other map type
 						App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE);
 
 					}
@@ -66,9 +66,7 @@ void j1Map::Draw()
 			}
 		}
 
-
 	}
-
 
 }
 // ----------------------------------------------------
@@ -454,7 +452,7 @@ bool j1Map::LoadLayer(pugi::xml_node& layernode, MapLayer* layer)
 	layer->name.create(layernode.attribute("name").as_string());
 	layer->width = layernode.attribute("width").as_int();
 	layer->height = layernode.attribute("height").as_int();
-	layer->parallax = layernode.child("properties").child("property").attribute("value").as_float();
+	layer->parallax = layernode.child("properties").child("property").attribute("value").as_float();	
 	pugi::xml_node layer_data = layernode.child("data");
 	
 	
@@ -517,7 +515,7 @@ bool j1Map::LoadObject(pugi::xml_node& objectnode, ObjectGroup* objectgroup) {
 
 			p2SString type(objectid.attribute("name").as_string());
 			LOG("Name %s", type);
-
+			//Link objects in map tmx with the type of collider
 			if (type == "floor") {
 				App->collider->AddCollider(objectgroup->object[i], COLLIDER_FLOOR);
 			}

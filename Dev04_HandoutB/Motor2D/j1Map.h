@@ -53,7 +53,7 @@ struct TileSet
 // ----------------------------------------------------
 struct ObjectGroup {
 	
-	p2SString		name = "No name";
+	p2SString		name = "NoNE";
 	int				size = 0;
 	SDL_Rect*		object;
 
@@ -116,7 +116,7 @@ private:
 	bool LoadTilesetDetails(pugi::xml_node& tileset_node, TileSet* set); //Load all details of the tilset
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set); //Load the image of the tileset
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer); //Load the layer
-	bool LoadObject(pugi::xml_node& objectnode, ObjectGroup* objectgroup);
+	bool LoadObject(pugi::xml_node& objectnode, ObjectGroup* objectgroup);	//Load all the Objects in map
 
 	TileSet* GetTilesetFromTileId(int id) const;
 	
@@ -131,7 +131,7 @@ private:
 	pugi::xml_document	map_file;
 	p2SString			folder;
 	bool				map_loaded;
-	//float				parallax;
+	
 };
 // ----------------------------------------------------
 #endif // __j1MAP_H__

@@ -8,27 +8,28 @@ j1Collider::j1Collider()
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 		colliders[i] = nullptr;
 
-
+	//Set the Collider Events of Floor
 	matrix[COLLIDER_FLOOR][COLLIDER_FLOOR] = false;
 	matrix[COLLIDER_FLOOR][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_FLOOR][COLLIDER_DEAD] = false;
 	matrix[COLLIDER_FLOOR][COLLIDER_PLATFORM] = false;
 	matrix[COLLIDER_FLOOR][COLLIDER_NEXT] = false;
 	
-
+	//Set the Collider Events of Player
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_FLOOR] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_DEAD] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLATFORM] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_NEXT] = true;
 	
-
+	//Set the Collider Events of Dead
 	matrix[COLLIDER_DEAD][COLLIDER_DEAD] = false;
 	matrix[COLLIDER_DEAD][COLLIDER_FLOOR] = false;
 	matrix[COLLIDER_DEAD][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_DEAD][COLLIDER_PLATFORM] = false;
 	matrix[COLLIDER_DEAD][COLLIDER_NEXT] = false;
-
+	
+	//Set the Collider Events of Next
 	matrix[COLLIDER_NEXT][COLLIDER_NEXT] = false;
 	matrix[COLLIDER_NEXT][COLLIDER_DEAD] = false;
 	matrix[COLLIDER_NEXT][COLLIDER_FLOOR] = false;
@@ -130,23 +131,23 @@ void j1Collider::DebugDraw()
 
 		switch (colliders[i]->type)
 		{
-		case COLLIDER_NONE: // white
+		case COLLIDER_NONE: // Set Collider Color white
 			App->render->DrawQuad(colliders[i]->rect, 255, 255, 255, alpha);
 			break;
-		case COLLIDER_FLOOR: // blue
+		case COLLIDER_FLOOR: // Set Collider Color blue
 			App->render->DrawQuad(colliders[i]->rect, 0, 0, 255, alpha);
 			break;
-		case COLLIDER_DEAD: // red
+		case COLLIDER_DEAD: // Set Collider Color red
 			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
 			break;
-		case COLLIDER_PLATFORM: // blue white
+		case COLLIDER_PLATFORM: // Set Collider Color blue white
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 255, alpha);
 			break;
-		case COLLIDER_PLAYER: // green
+		case COLLIDER_PLAYER: // Set Collider Color green
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);
 			break;
 
-		case COLLIDER_NEXT: // violet
+		case COLLIDER_NEXT: // Set Collider Color violet
 			App->render->DrawQuad(colliders[i]->rect, 130, 5, 255, alpha);
 			break;
 		
@@ -188,10 +189,6 @@ Collider* j1Collider::AddCollider(SDL_Rect rect, ColliderType type, j1Module* ca
 
 	return ret;
 }
-
-
-
-// -----------------------------------------------------
 
 bool Collider::CheckCollision(const SDL_Rect& r) const
 {
