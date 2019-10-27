@@ -42,11 +42,15 @@ bool j1Scene::Awake(pugi::xml_node& config)
 }
 
 // Called before the first frame
+
+// Loads map and audio
 bool j1Scene::Start()
 {
 	LOG("LOADING MAP");
 	current_map = maps.start->data;
 	App->map->Load(current_map.GetString());
+
+	//load audio from map 1
 	if (current_map == "Map.tmx") {
 
 		App->audio->PlayMusic("audio/music/map1_music.ogg");
@@ -56,6 +60,8 @@ bool j1Scene::Start()
 
 
 	}
+
+	//load audio from map 2
 	else if(current_map=="map2.tmx") {
 		
 		App->audio->PlayMusic("audio/music/map2_music.ogg");
@@ -82,12 +88,12 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
 
 
-		current_map.create("Map.tmx");
+		current_map.create("Map.tmx");				// it starts in map 1 
 
 		App->map->CleanUp();
-		App->player->CleanUp();
+		App->player->CleanUp();						//clean all map and player stuff 
 
-		if (current_map == "Map.tmx") {
+		if (current_map == "Map.tmx") {												//load audio from map 1
 
 			walk_grass_FX = App->audio->LoadFx("audio/fx/Walk_grass.wav");
 			App->audio->PlayMusic("audio/music/map1_music.ogg");
@@ -100,9 +106,8 @@ bool j1Scene::Update(float dt)
 		App->player->Start();
 		App->map->Draw();
 		
-
 		App->player->data_player.position.x = 100;
-		App->player->data_player.position.y = 300;
+		App->player->data_player.position.y = 300;				// initial position in map 1 by default
 
 	}
 
@@ -111,16 +116,16 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
 
 
-		current_map.create("map2.tmx");
+		current_map.create("map2.tmx");								// it starts in map 1 
 
 		App->map->CleanUp();
 		
 		App->player->CleanUp();
 
-		//charge map 2 position when player completes level 1
+		//charge map 2 position when player presses F2
 		if (current_map == "map2.tmx") {
 
-		App->audio->PlayMusic("audio/music/map2_music.ogg");
+		App->audio->PlayMusic("audio/music/map2_music.ogg");						//load audio from map 1
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 		walk_rock_FX = App->audio->LoadFx("audio/fx/Walk_rock.wav");
 		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
@@ -141,10 +146,11 @@ bool j1Scene::Update(float dt)
 	else {
 
 
-		App->map->Draw();
+		App->map->Draw();		//draws the correspondant map
 
 	}
 
+	//restart map and puts the player at the beginning of it
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
 		if(current_map=="Map.tmx"){
@@ -160,6 +166,7 @@ bool j1Scene::Update(float dt)
 		}
 	}
 
+	//save player position in every map
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
 		
 		App->SaveGame();
@@ -167,14 +174,14 @@ bool j1Scene::Update(float dt)
 		App->player->data_player.position.y -= 20;
 	}
 		
-
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)
+	//load player position in every map
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)						
 	App->LoadGame();
 
 
 	
 	 // Show player and map colliders
-	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)						
 	{
 		if (App->player->data_player.showcolliders == false)
 		{
@@ -187,7 +194,7 @@ bool j1Scene::Update(float dt)
 	}
 
 	
-	p2SString title("NINJA WARRIOR");
+	p2SString title("NINJA WARRIOR");										//puts the title in the window
 	App->win->SetTitle(title.GetString());
 
 	return true;
@@ -209,23 +216,24 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
-	App->audio->CleanUp();
 	return true;
 }
 
+//load function
 bool j1Scene::Load(pugi::xml_node& data)
 {
 	LOG("Loading Scene state");
 	App->map->CleanUp();
-	App->collider->CleanUp();
+	App->collider->CleanUp();																//cleans the colliders and map
 	
-	current_map.create(data.child("scene").attribute("name").as_string());
+	current_map.create(data.child("scene").attribute("name").as_string());					//check which map have to be loaded and load it
 	App->map->Load(current_map.GetString());
 	App->collider->Start();
 	App->player->Start();
 	
 	return true;
 }
+
 
 bool j1Scene::Save(pugi::xml_node& data) const
 {
