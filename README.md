@@ -1,4 +1,4 @@
-# Ninja warrior
+﻿# Ninja warrior
 
 ## What is this?
 
@@ -8,12 +8,12 @@ Ninja warrior is a platform game made by two students from Design and Developmen
 
 ### Pol Camacho Banal
 
-Github link:
+Github link: https://github.com/polcamacho
 Responsability: Map 2 creation, colliders creation in Tiled, animations, state machine, audio, cleaning code, and readme.
 
 ### Christian Piña López
 
-Github link:
+Github link: https://github.com/christianpi4
 Responsability: Map 1 creation, collider implementor, load and save map, death animation and cleaning code.
 
 ## How to play
