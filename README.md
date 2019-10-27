@@ -87,8 +87,11 @@ Death FX: https://audiojungle.net/item/8bit-death-sounds/6327314
 Jump FX: https://opengameart.org/content/8-bit-platformer-sfx
 
 Using the following SDL libraries:
+
 SDL: https://www.libsdl.org/
+
 SDL_Image: https://www.libsdl.org/projects/SDL_image/
+
 SDL_Mixer: https://www.libsdl.org/projects/SDL_mixer/
 
 ## License
