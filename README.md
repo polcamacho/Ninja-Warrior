@@ -26,6 +26,10 @@ Responsability: Map 1 creation and Map 2 improved, collider implementor, load an
 
 The main goal is simple: arrive to the end of the map! But be carefull, some parts of the map are not easy.
 
+## Innovation
+
+Double jump and run mechanics implemented.
+
 ## Controls
 
 D: Walk forward.
