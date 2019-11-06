@@ -254,6 +254,16 @@ void j1Player::Pushbacks() {
 	data_player.fall.PushBack({ 423,129,53,42 }, 0.5, 0, 0);
 	data_player.fall.loop = true;
 
+	//Sets the Attack Animation
+	data_player.idle_attack.PushBack({ 7,759,58,53 }, 0.1, 0, 0);
+	data_player.idle_attack.PushBack({ 70,758,60,54 }, 0.1, 0, 0);
+	data_player.idle_attack.PushBack({ 130,763,61,50 }, 0.1, 0, 0);
+	data_player.idle_attack.PushBack({ 201,763,59,51 }, 0.1, 0, 0);
+	data_player.idle_attack.PushBack({ 270,758,56,54 }, 0.1, 0, 0);
+	data_player.idle_attack.PushBack({ 333,757,39,54 }, 0.1, 0, 0);
+	data_player.idle_attack.PushBack({ 397,759,38,53 }, 0.1, 0, 0);
+	data_player.idle_attack.loop = false;
+
 	//Sets the Death Animation
 	data_player.death.PushBack({ 8,464,48,55 }, 0.2, 0, 0);
 	data_player.death.PushBack({ 72,456,62,63 }, 0.2, 0, 0);
@@ -414,6 +424,12 @@ void j1Player::CheckState()
 
 		}
 
+		if ((App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) && data_player.canjump == true) {
+			
+			current_state = IDLE_ATTACK;
+		}
+
+
 		//If any key pressed animation idle
 		else if(data_player.canjump==true && App->input->GetKey(SDL_SCANCODE_SPACE) == NULL && App->input->GetKey(SDL_SCANCODE_A) == NULL && App->input->GetKey(SDL_SCANCODE_D) == NULL){	
 			
@@ -532,6 +548,14 @@ void j1Player::Animations() {
 			data_player.position.x += data_player.v.x;
 			data_player.player_flip = false;
 		}
+	}
+
+	if (current_state == IDLE_ATTACK) {
+
+		data_player.current_animation = &data_player.idle_attack;
+		LOG("%i", data_player.canjump);
+
+
 	}
 
 	if (current_state == DEATH) {	

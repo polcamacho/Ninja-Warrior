@@ -20,6 +20,7 @@ enum states_player {
 	JUMP_WALK,
 	JUMP_RUN,
 	DOUBLE_JUMP,
+	IDLE_ATTACK,
 	DEATH,
 	NONE
 };
@@ -34,6 +35,8 @@ struct PlayerData
 	Animation		running;
 	Animation		jump;
 	Animation		fall;
+	Animation		idle_attack;
+	Animation		walk_attack;
 	Animation		death;
 
 	
