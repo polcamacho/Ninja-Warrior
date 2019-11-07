@@ -424,20 +424,23 @@ void j1Player::CheckState()
 
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) && data_player.canjump == true) {
-			
+
+		if ((App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) && data_player.canjump == true || (data_player.TimeAttack == false)) {
+						
 			current_state = IDLE_ATTACK;
+			
 		}
 
-
+		
 		//If any key pressed animation idle
-		else if(data_player.canjump==true && App->input->GetKey(SDL_SCANCODE_SPACE) == NULL && App->input->GetKey(SDL_SCANCODE_A) == NULL && App->input->GetKey(SDL_SCANCODE_D) == NULL){	
+		else if(data_player.canjump==true && App->input->GetKey(SDL_SCANCODE_SPACE) == NULL && App->input->GetKey(SDL_SCANCODE_A) == NULL && App->input->GetKey(SDL_SCANCODE_D) == NULL && App->input->GetKey(SDL_SCANCODE_P)==NULL){	
 			
 			current_state = IDLE;
 			data_player.player_flip = false;
 
 		}
 	}
+
 }
 
 void j1Player::Animations() {
@@ -447,7 +450,7 @@ void j1Player::Animations() {
 		data_player.current_animation = &data_player.idle;				
 		data_player.jump.Reset();
 		data_player.fall.Reset();
-		
+		data_player.idle_attack.Reset();
 	}
 
 	if (current_state == WALK) {
@@ -455,7 +458,7 @@ void j1Player::Animations() {
 		data_player.current_animation = &data_player.walk;		
 		data_player.jump.Reset();
 		data_player.fall.Reset();
-		
+		data_player.idle_attack.Reset();
 	}
 	if(current_state==JUMP_WALK){
 
@@ -505,7 +508,7 @@ void j1Player::Animations() {
 		data_player.current_animation = &data_player.walk2;		
 		data_player.jump.Reset();
 		data_player.fall.Reset();
-		
+		data_player.idle_attack.Reset();
 	}
 
 	if (current_state == JUMP_UP) {
@@ -553,8 +556,14 @@ void j1Player::Animations() {
 	if (current_state == IDLE_ATTACK) {
 
 		data_player.current_animation = &data_player.idle_attack;
-		LOG("%i", data_player.canjump);
-
+		//LOG("%i", data_player.canjump);
+		data_player.TimeAttack = true;
+		if (data_player.current_animation->AnimFinished() == true) {
+			
+			data_player.TimeAttack = false;
+			
+		}
+		
 
 	}
 

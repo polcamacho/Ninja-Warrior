@@ -64,6 +64,8 @@ struct PlayerData
 	bool left=false;	//If left = true, jump running backward
 	bool right=false;	//If right = true, jump running forward
 	bool player_flip;
+	bool TimeAttack = false;
+
 	int gravity;
 
 	int velrun;			//velocity while running

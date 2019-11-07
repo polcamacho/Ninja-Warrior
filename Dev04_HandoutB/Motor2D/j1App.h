@@ -3,6 +3,7 @@
 
 #include "p2List.h"
 #include "j1Module.h"
+
 #include "PugiXml\src\pugixml.hpp"
 
 // Modules
@@ -15,6 +16,7 @@ class j1Scene;
 class j1Map;
 class j1Player;
 class j1Collider;
+class j1PathFinding;
 
 class j1App
 {
@@ -87,6 +89,7 @@ public:
 	j1Map*				map;
 	j1Player*			player;
 	j1Collider*			collider;
+	j1PathFinding*		pathfinding;
 
 private:
 
