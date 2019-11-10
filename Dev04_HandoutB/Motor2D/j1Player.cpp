@@ -704,7 +704,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 			data_player.current_animation = &data_player.death;	//Current Animation is Death
 			App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 			//pretime = SDL_GetTicks();	//Sets the pretime to death timer
-			pretimer += 17;
+
 			data_player.position.y = c2->rect.y + c2->rect.h;
 			current_state = DEATH;	//Sets player to Death state
 
