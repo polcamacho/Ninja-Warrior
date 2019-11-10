@@ -64,7 +64,8 @@ void j1Player::DrawPlayer()
 
 bool j1Player::Start() {
 
-	globaltime = SDL_GetTicks();	//Sets the Global time to the death timer
+	pretimer = 0;
+	//globaltime = SDL_GetTicks();	//Sets the Global time to the death timer
 	
 	Pushbacks();	//Call all the Pushback of animations
 	
@@ -570,45 +571,48 @@ void j1Player::Animations() {
 	if (current_state == DEATH) {	
 		
 		die = true;	//Sets the die to true
-
+		LOG("GLOBAL: %d", globaltime);
+		LOG("PRE: %d", pretimer);
 		if (die == true) {
 
 			if (App->scene->current_map == "Map.tmx") {	//If player is in map 1
 				
-				data_player.current_animation = &data_player.death;	//Current Animation is Death
-				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
+				
 
-				if (pretime >= globaltime + 3800) {	//Do a timer to stop the game during the Death animation
+				if (pretime (20)) {	//Do a timer to stop the game during the Death animation
+					
+
 					
 					//Sets the Position that player goes when he dies
 					data_player.position.x = 100;	//Set Player X	
 					data_player.position.y = 300;	//Set Player Y
 					current_state = JUMP_FALL;	//Sets the Animation when he reapears
-
+					data_player.death.Reset();
 				}
 
 			}
 
 			else {	//If player is not in map 1 is in map 2
 
-				data_player.current_animation = &data_player.death;	//Current Animation is Death
-				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
+				
 
-				if (pretime >= globaltime + 2000) {	//Do a timer to stop the game during the Death Animation
-					
+				if (pretime (20)) {	//Do a timer to stop the game during the Death Animation
+					data_player.current_animation = &data_player.death;	//Current Animation is Death
+					App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 					//Sets the Position that player goes when he dies
 					data_player.position.x = 55;	//Set Player X	
 					data_player.position.y = 10;	//Set Player Y
 					current_state = JUMP_FALL;	//Sets the Animation when he reapears
-								
+					data_player.death.Reset();
+
 				}
 
 			}
 
-			die = false;
 					
 		}
-		
+		die = false;
+
 	}
 	
 }
@@ -680,29 +684,33 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 
 	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_DEAD) {		//Checks that player collides with something that he can die
 
-		pretime = SDL_GetTicks();	//Sets the pretime to death timer
-
+		//pretime = SDL_GetTicks();	//Sets the pretime to death timer
+		
 		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {	//Checks that player collider from above
-
+			
+			data_player.current_animation = &data_player.death;	//Current Animation is Death
+			App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
 			current_state = DEATH;	//Sets player to Death state
 			
 			data_player.grounded = true;	//Sets that player is touching the floor
 			data_player.canjump = false;	//Sets tha player can jump
-			die = true;	//Sets die bool to true for timer start
+			//die = true;	//Sets die bool to true for timer start
 
 		}
 
 		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
-
-			pretime = SDL_GetTicks();	//Sets the pretime to death timer
-
+			
+			data_player.current_animation = &data_player.death;	//Current Animation is Death
+			App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
+			//pretime = SDL_GetTicks();	//Sets the pretime to death timer
+			pretimer += 17;
 			data_player.position.y = c2->rect.y + c2->rect.h;
 			current_state = DEATH;	//Sets player to Death state
 
 			data_player.grounded = true;	//Sets that player is touching the floor
 			data_player.canjump = false;	//Sets tha player can jump
-			die = true;	//Sets die bool to true for timer start
+			//die = true;	//Sets die bool to true for timer start
 
 		}
 
@@ -741,4 +749,12 @@ void j1Player::Reset() {	//Reset All Player Animations
 	data_player.fall.Reset();
 	data_player.running.Reset();
 	die = false;
+}
+
+bool j1Player::pretime(float sec)
+{
+	bool ret = false;
+	pretimer++;
+	if (pretimer >= sec) { ret = true; pretimer = 0; }
+	return ret;
 }

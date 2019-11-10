@@ -122,6 +122,7 @@ public:
 	void Animations();	//Check animations
 	void Pushbacks();	//Load the frame animations
 	void Reset();
+	bool pretime(float sec);
 
 	// Collisions
 	void OnCollision(Collider* c1, Collider* c2);
@@ -133,7 +134,7 @@ public:
 
 	PlayerData			data_player;
 	int globaltime;
-	int pretime;
+	int pretimer=0;
 	bool die = false;
 	bool godmode = false;
 
