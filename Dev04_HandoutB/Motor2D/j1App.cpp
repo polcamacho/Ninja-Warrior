@@ -3,7 +3,6 @@
 #include "p2Defs.h"
 #include "p2Log.h"
 
-
 #include "j1Window.h"
 #include "j1Input.h"
 #include "j1Render.h"
@@ -15,7 +14,7 @@
 #include "j1Player.h"
 #include "j1Collider.h"
 #include "j1Pathfinding.h"
-
+#include "j1FadeToBlack.h"
 
 
 // Constructor
@@ -34,6 +33,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	player = new j1Player();
 	collider = new j1Collider();
 	pathfinding = new j1PathFinding();
+	fade = new j1FadeToBlack();
+
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -46,6 +47,8 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(player);
 	AddModule(collider);
 	AddModule(pathfinding);
+	AddModule(fade);
+
 
 	// render last to swap buffer
 	AddModule(render);
