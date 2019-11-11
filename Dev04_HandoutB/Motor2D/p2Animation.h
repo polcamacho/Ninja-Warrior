@@ -10,6 +10,7 @@ class Animation
 public:
 	bool loop = true;
 	SDL_Rect frames[MAX_FRAMES];
+	bool animend = false;
 	int pivotx[MAX_FRAMES];
 	int pivoty[MAX_FRAMES];
 	double speed[MAX_FRAMES];
@@ -45,6 +46,11 @@ public:
 		}
 
 		return frames[(int)current_frame];
+	}
+
+	bool AnimFinished() {
+
+		return animend;
 	}
 
 	bool Finished() const
