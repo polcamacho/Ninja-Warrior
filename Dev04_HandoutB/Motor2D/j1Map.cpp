@@ -492,6 +492,7 @@ bool j1Map::LoadObject(pugi::xml_node& objectnode, ObjectGroup* objectgroup) {
 	pugi::xml_node objectid = objectnode.child("object");
 
 	objectgroup->name = objectnode.attribute("name").as_string();
+
 	uint i = 0;
 	p2SString type;
 

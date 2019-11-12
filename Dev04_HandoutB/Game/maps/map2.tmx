@@ -4,6 +4,9 @@
   <image source="Assets2.png" width="1536" height="1536"/>
  </tileset>
  <layer name="Game" width="220" height="90">
+ <properties>
+   <property name="parallax" type="float" value="1"/>
+ </properties>
   <data>
    <tile gid="820"/>
    <tile gid="820"/>

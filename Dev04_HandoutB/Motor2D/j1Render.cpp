@@ -50,7 +50,7 @@ bool j1Render::Awake(pugi::xml_node& config)
 		camera.x = 0;
 		camera.y = 0;
 	}
-	velcamera = config.child("cameraveloticy").attribute("camvel").as_int();
+//	velcamera = config.child("cameraveloticy").attribute("camvel").as_int();
 	scale = config.child("resolution").attribute("scale").as_int();
 	return ret;
 }
@@ -76,14 +76,14 @@ bool j1Render::Update(float dt)
 
 	if(App->scene->current_map=="Map.tmx"){
 	
-		camera.x = -(App->player->data_player.position.x + velcamera) + App->win->width / 2;
-		camera.y = -(App->player->data_player.position.y + velcamera) + App->win->height / 1.40;
+		camera.x = -(App->player->data_player.position.x) + (App->win->width / 2);
+		camera.y = -(App->player->data_player.position.y) + (App->win->height / 1.40);
 
 	}
 	else {
 		
-		camera.x = -(App->player->data_player.position.x + velcamera) + App->win->width / 2;
-		camera.y = -(App->player->data_player.position.y + velcamera) + App->win->height / 1.9;
+		camera.x = -(App->player->data_player.position.x) + (App->win->width / 2);
+		camera.y = -(App->player->data_player.position.y) + (App->win->height / 1.9);
 	}
 	
 	//Set Camera Limits
@@ -97,7 +97,7 @@ bool j1Render::Update(float dt)
 		camera.y = 0;
 	}
 
-	velcamera = App->player->data_player.v.x;
+	//velcamera = App->player->data_player.v.x;
 
 	return true;
 }
@@ -159,8 +159,8 @@ bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section,
 	uint scale = App->win->GetScale();
 
 	SDL_Rect rect;
-	rect.x = (int)(camera.x ) + x * scale;
-	rect.y = (int)(camera.y ) + y * scale;
+	rect.x = (int)(camera.x * speed) + x * scale;
+	rect.y = (int)(camera.y) + y * scale;
 
 	if(section != NULL)
 	{

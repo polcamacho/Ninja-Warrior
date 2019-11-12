@@ -47033,7 +47033,7 @@
  </layer>
  <layer name="Decoracion" width="235" height="50">
   <properties>
-   <property name="parallax" type="float" value="0"/>
+   <property name="parallax" type="float" value="1"/>
   </properties>
   <data>
    <tile gid="0"/>
@@ -58790,7 +58790,7 @@
  </layer>
  <layer name="Decoracion2" width="235" height="50">
   <properties>
-   <property name="parallax" type="float" value="0"/>
+   <property name="parallax" type="float" value="1"/>
   </properties>
   <data>
    <tile gid="0"/>
@@ -70547,7 +70547,7 @@
  </layer>
  <layer name="Game" width="235" height="50">
   <properties>
-   <property name="parallax" type="float" value="0"/>
+   <property name="parallax" type="float" value="1"/>
   </properties>
   <data>
    <tile gid="0"/>
