@@ -91,8 +91,6 @@ bool j1Player::Update(float dt) {
 		if (godmode == false)	//If godmode is false sets None Collider to player for he can fly around map and not collide
 		{
 
-			data_player.colliders->to_delete = true;	//Delate Player Collider
-			data_player.colliders = App->collider->AddCollider({ data_player.position.x,data_player.position.y, 39,53 }, COLLIDER_NONE, this);	//Charge new collider
 			data_player.gravity = 0;	//Sets new gravity to player for he can move around map
 			godmode = true;	
 
@@ -100,8 +98,6 @@ bool j1Player::Update(float dt) {
 		else if (godmode == true)
 		{
 
-			data_player.colliders->to_delete = true;	//Delate Player Collider
-			data_player.colliders = App->collider->AddCollider({ data_player.position.x,data_player.position.y, 39,53 }, COLLIDER_PLAYER, this);	//Charge new collider
 			data_player.gravity = 20;	//Sets normal gravity to player 
 			godmode = false;
 			
@@ -604,122 +600,129 @@ void j1Player::State() {
 
 void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player collides with something
 
-	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_FLOOR) {	//If player collide with floor
+	if(godmode==false){
 
-		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {	//Checks that player collider from above
+		if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_FLOOR) {	//If player collide with floor
 
-			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
-			data_player.grounded = true;	//Sets that player is touching the floor
-			data_player.canjump = true;		//Sets tha player can jump
+			if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {	//Checks that player collider from above
 
-			if (data_player.injump == true) {
-				data_player.jump.Reset();
+				data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
+				data_player.grounded = true;	//Sets that player is touching the floor
+				data_player.canjump = true;		//Sets tha player can jump
+
+				if (data_player.injump == true) {
+					data_player.jump.Reset();
+				}
+				if (data_player.grounded == true) {
+					data_player.jumpCounter = 2;
+				}
+
 			}
-			if (data_player.grounded == true) {
-				data_player.jumpCounter = 2;
-			}
 
-		}
-
-		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
+			else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
 			
-			data_player.position.y = c2->rect.y + c2->rect.h;
-			current_state = JUMP_FALL;	//Sets the animation 
+				data_player.position.y = c2->rect.y + c2->rect.h;
+				current_state = JUMP_FALL;	//Sets the animation 
 
-		}
+			}
 		
-		else if ((data_player.position.x < c2->rect.x + c2->rect.w && data_player.position.x > c2->rect.x) ||(data_player.position.x + data_player.colliders->rect.w < c2->rect.x + c2->rect.w && data_player.position.x + data_player.colliders->rect.w > c2->rect.x)) {	//Checks that player collider from sides
+			else if ((data_player.position.x < c2->rect.x + c2->rect.w && data_player.position.x > c2->rect.x) ||(data_player.position.x + data_player.colliders->rect.w < c2->rect.x + c2->rect.w && data_player.position.x + data_player.colliders->rect.w > c2->rect.x)) {	//Checks that player collider from sides
 			
-			if ((data_player.position.x + data_player.colliders->rect.w) < (c2->rect.x + c2->rect.w)) { //Checks that player collides from left
+				if ((data_player.position.x + data_player.colliders->rect.w) < (c2->rect.x + c2->rect.w)) { //Checks that player collides from left
 				
-				data_player.position.x = c2->rect.x - data_player.colliders->rect.w;
+					data_player.position.x = c2->rect.x - data_player.colliders->rect.w;
 
-			}
-			else if (data_player.position.x < (c2->rect.x + c2->rect.w)) {	//Checks that player collides from right
+				}
+				else if (data_player.position.x < (c2->rect.x + c2->rect.w)) {	//Checks that player collides from right
 				
-				data_player.position.x = c2->rect.x + c2->rect.w;
+					data_player.position.x = c2->rect.x + c2->rect.w;
 
-			}
-		}
-
-	}
-
-	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_PLATFORM) {		//Checks that player collides with platform
-
-		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {	//Checks that player collider from above
-
-			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
-			data_player.grounded = true;	//Sets that player is touching the floor
-			data_player.canjump = true;		//Sets tha player can jump
-
-			if (data_player.grounded == true) {
-				
-				data_player.jumpCounter = 2;
-
+				}
 			}
 
 		}
-		else if ((data_player.position.y >= data_player.preposition.y) && (data_player.preposition.y + data_player.colliders->rect.h) < c2->rect.y) {	//Checks that player collider from below
+
+		if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_PLATFORM) {		//Checks that player collides with platform
+
+			if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {	//Checks that player collider from above
+
+				data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
+				data_player.grounded = true;	//Sets that player is touching the floor
+				data_player.canjump = true;		//Sets tha player can jump
+
+				if (data_player.grounded == true) {
+				
+					data_player.jumpCounter = 2;
+
+				}
+
+			}
+			else if ((data_player.position.y >= data_player.preposition.y) && (data_player.preposition.y + data_player.colliders->rect.h) < c2->rect.y) {	//Checks that player collider from below
 			
-			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
+				data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
+
+			}
 
 		}
 
-	}
+		if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_DEAD) {		//Checks that player collides with something that he can die
 
-	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_DEAD) {		//Checks that player collides with something that he can die
-
-		//pretime = SDL_GetTicks();	//Sets the pretime to death timer
-		
-		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {	//Checks that player collider from above
-			
-			data_player.current_animation = &data_player.death;	//Current Animation is Death
-			App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
-			data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
-			current_state = DEATH;	//Sets player to Death state
-			
-			data_player.grounded = true;	//Sets that player is touching the floor
-			data_player.canjump = false;	//Sets tha player can jump
-			//die = true;	//Sets die bool to true for timer start
-
-		}
-
-		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
-			
-			data_player.current_animation = &data_player.death;	//Current Animation is Death
-			App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 			//pretime = SDL_GetTicks();	//Sets the pretime to death timer
+		
+			if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {	//Checks that player collider from above
+			
+				data_player.current_animation = &data_player.death;	//Current Animation is Death
+				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
+				data_player.position.y = c2->rect.y - data_player.colliders->rect.h;
+				current_state = DEATH;	//Sets player to Death state
+			
+				data_player.grounded = true;	//Sets that player is touching the floor
+				data_player.canjump = false;	//Sets tha player can jump
+				//die = true;	//Sets die bool to true for timer start
 
-			data_player.position.y = c2->rect.y + c2->rect.h;
-			current_state = DEATH;	//Sets player to Death state
+			}
 
-			data_player.grounded = true;	//Sets that player is touching the floor
-			data_player.canjump = false;	//Sets tha player can jump
-			//die = true;	//Sets die bool to true for timer start
+			else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
+			
+				data_player.current_animation = &data_player.death;	//Current Animation is Death
+				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
+				//pretime = SDL_GetTicks();	//Sets the pretime to death timer
 
+				data_player.position.y = c2->rect.y + c2->rect.h;
+				current_state = DEATH;	//Sets player to Death state
+
+				data_player.grounded = true;	//Sets that player is touching the floor
+				data_player.canjump = false;	//Sets tha player can jump
+				//die = true;	//Sets die bool to true for timer start
+
+			}
+
+		}
+
+		if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_NEXT) {
+
+			if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {	//Checks that player collider from above	
+				App->scene->SecondMap();	//Pass to next map
+			}
+		
+			else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
+				App->scene->SecondMap();	//Pass to next map
+			}
+		
+			else if ((data_player.position.x < c2->rect.x + c2->rect.w && data_player.position.x > c2->rect.x) || (data_player.position.x + data_player.colliders->rect.w < c2->rect.x + c2->rect.w && data_player.position.x + data_player.colliders->rect.w > c2->rect.x)) {	//Checks that player collider from sides
+			
+				if ((data_player.position.x + data_player.colliders->rect.w) < (c2->rect.x + c2->rect.w)) {		//Checks that player collides from left
+					App->scene->SecondMap();	//Pass to next map
+				}
+				else if (data_player.position.x < (c2->rect.x + c2->rect.w)) {	//Checks that player collides from right
+					App->scene->SecondMap();	//Pass to next map
+				}
+			}
 		}
 
 	}
+	else {
 
-	if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_NEXT) {
-
-		if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {	//Checks that player collider from above	
-			App->scene->SecondMap();	//Pass to next map
-		}
-		
-		else if (data_player.preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
-			App->scene->SecondMap();	//Pass to next map
-		}
-		
-		else if ((data_player.position.x < c2->rect.x + c2->rect.w && data_player.position.x > c2->rect.x) || (data_player.position.x + data_player.colliders->rect.w < c2->rect.x + c2->rect.w && data_player.position.x + data_player.colliders->rect.w > c2->rect.x)) {	//Checks that player collider from sides
-			
-			if ((data_player.position.x + data_player.colliders->rect.w) < (c2->rect.x + c2->rect.w)) {		//Checks that player collides from left
-				App->scene->SecondMap();	//Pass to next map
-			}
-			else if (data_player.position.x < (c2->rect.x + c2->rect.w)) {	//Checks that player collides from right
-				App->scene->SecondMap();	//Pass to next map
-			}
-		}
 	}
 
 }
