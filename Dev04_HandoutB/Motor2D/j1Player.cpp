@@ -294,14 +294,6 @@ void j1Player::CheckState()
 			data_player.position.x += data_player.v.x;
 			data_player.player_flip = false;
 
-			if (App->scene->current_map == "Map.tmx") {
-				App->audio->PlayFx(App->scene->walk_grass_FX);
-			}
-			else if(App->scene->current_map=="map2.tmx")
-			{
-				App->audio->PlayFx(App->scene->walk_rock_FX);
-			}
-		
 			//if  "SPACE" is pressed when "D" is pressed, the player jumps forward
 			if (App->input->GetKey(SDL_SCANCODE_SPACE)==KEY_DOWN) {		
 
@@ -359,14 +351,7 @@ void j1Player::CheckState()
 			data_player.position.x -= data_player.v.x;
 			data_player.player_flip = true;
 
-			if (App->scene->current_map == "Map.tmx") {
-				App->audio->PlayFx(App->scene->walk_grass_FX);					//we play grass FX in map 1
-			}
-			else if (App->scene->current_map == "map2.tmx")
-			{
-				App->audio->PlayFx(App->scene->walk_rock_FX);					//we play rock FX in map 2
-			}
-		
+			
 			//if "SPACE" is pressed when "A" is pressed, the player jumps backward
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		
 

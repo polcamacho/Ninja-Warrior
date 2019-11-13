@@ -43,8 +43,6 @@ private:
 
 public:
 	
-	int walk_grass_FX;
-	int walk_rock_FX;
 	int jump_FX;
 	int death_FX;
 

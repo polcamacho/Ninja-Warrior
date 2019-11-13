@@ -54,7 +54,6 @@ bool j1Scene::Start()
 	if (current_map == "Map.tmx") {
 
 		App->audio->PlayMusic("audio/music/map1_music.ogg");
-		walk_grass_FX = App->audio->LoadFx("audio/fx/Walk_grass.wav");
 		jump_FX= App->audio->LoadFx("audio/fx/Jump.wav");
 		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
 
@@ -65,7 +64,6 @@ bool j1Scene::Start()
 	else if(current_map=="map2.tmx") {
 		
 		App->audio->PlayMusic("audio/music/map2_music.ogg");
-		walk_rock_FX = App->audio->LoadFx("audio/fx/Walk_rock.wav");
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
 	}
@@ -95,7 +93,6 @@ bool j1Scene::Update(float dt)
 
 		if (current_map == "Map.tmx") {												//load audio from map 1
 
-			walk_grass_FX = App->audio->LoadFx("audio/fx/Walk_grass.wav");
 			App->audio->PlayMusic("audio/music/map1_music.ogg");
 			jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 			death_FX = App->audio->LoadFx("audio/fx/Death.wav");
@@ -127,7 +124,6 @@ bool j1Scene::Update(float dt)
 
 		App->audio->PlayMusic("audio/music/map2_music.ogg");						//load audio from map 1
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
-		walk_rock_FX = App->audio->LoadFx("audio/fx/Walk_rock.wav");
 		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
 
 		}
@@ -270,7 +266,6 @@ void j1Scene::SecondMap() {
 		App->player->data_player.position.x = 100;
 		App->player->data_player.position.y = 500;
 		
-		walk_grass_FX = App->audio->LoadFx("audio/fx/Walk_grass.wav");
 		App->audio->PlayMusic("audio/music/map1_music.ogg");
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
@@ -285,7 +280,6 @@ void j1Scene::SecondMap() {
 
 		App->audio->PlayMusic("audio/music/map2_music.ogg");
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
-		walk_rock_FX = App->audio->LoadFx("audio/fx/Walk_rock.wav");
 		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
 
 	}
