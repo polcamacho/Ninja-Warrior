@@ -127,7 +127,7 @@ bool j1Player::Update(float dt) {
 	data_player.preposition = data_player.position;
 	
 	CheckState();	//Checks the state where is the player
-	Animations();	//Set the animation relationed with the state that he is
+	State();	//Set the animation relationed with the state that he is
 	
 	//Player Collider Draw
 	data_player.colliders->SetPos(data_player.position.x, data_player.position.y);	//Sets the Player Collider Position
@@ -429,7 +429,7 @@ void j1Player::CheckState()
 
 }
 
-void j1Player::Animations() {
+void j1Player::State() {
 
 	if (current_state == IDLE) {
 		
