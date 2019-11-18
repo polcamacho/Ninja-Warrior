@@ -7,7 +7,7 @@
 #include "j1Map.h"
 #include "j1Collider.h"
 #include "j1Player.h"
-#include "j1Enemy.h"
+//#include "j1Enemy.h"
 #include "j1Window.h"
 #include <math.h>
 // ----------------------------------------------------
