@@ -134,7 +134,7 @@ bool j1Scene::Update(float dt)
 		App->map->Draw();
 		
 		//charge map 2 position when F2 is pressed
-		App->player->data_player.position.x = 50;
+		App->player->data_player.position.x = 55;
 		App->player->data_player.position.y = 10;
 
 	}
@@ -156,7 +156,7 @@ bool j1Scene::Update(float dt)
 		}
 
 		else {
-			App->player->data_player.position.x = 50;
+			App->player->data_player.position.x = 55;
 			App->player->data_player.position.y = 10;
 			App->player->data_player.player_flip = SDL_FLIP_NONE;
 		}
@@ -190,8 +190,7 @@ bool j1Scene::Update(float dt)
 	}
 
 	
-	p2SString title("NINJA WARRIOR");										//puts the title in the window
-	App->win->SetTitle(title.GetString());
+	
 
 	return true;
 }
@@ -269,21 +268,21 @@ void j1Scene::SecondMap() {
 		App->audio->PlayMusic("audio/music/map1_music.ogg");
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-
+		App->player->Start();
 	}
 
 	//charge map 2 position when player completes level 1
 	else if(current_map=="map2.tmx"){
 
-		App->player->data_player.position.x = 50;
-		App->player->data_player.position.y = 50;
+		App->player->data_player.position.x = 55;
+		App->player->data_player.position.y = 10;
 
 		App->audio->PlayMusic("audio/music/map2_music.ogg");
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-
+		App->player->Start();
 	}
 
-	App->player->Start();
-	App->player->Reset();
+	
+	
 }

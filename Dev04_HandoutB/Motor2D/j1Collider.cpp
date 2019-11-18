@@ -14,13 +14,23 @@ j1Collider::j1Collider()
 	matrix[COLLIDER_FLOOR][COLLIDER_DEAD] = false;
 	matrix[COLLIDER_FLOOR][COLLIDER_PLATFORM] = false;
 	matrix[COLLIDER_FLOOR][COLLIDER_NEXT] = false;
-	
+	matrix[COLLIDER_FLOOR][COLLIDER_ENEMY] = true;
+
 	//Set the Collider Events of Player
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_FLOOR] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_DEAD] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLATFORM] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_NEXT] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY] = true;
+
+	//Set the Collider Events of Enemy
+	matrix[COLLIDER_ENEMY][COLLIDER_ENEMY] = false;
+	matrix[COLLIDER_ENEMY][COLLIDER_FLOOR] = true;
+	matrix[COLLIDER_ENEMY][COLLIDER_DEAD] = true;
+	matrix[COLLIDER_ENEMY][COLLIDER_PLATFORM] = true;
+	matrix[COLLIDER_ENEMY][COLLIDER_NEXT] = true;
+	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER] = true;
 	
 	//Set the Collider Events of Dead
 	matrix[COLLIDER_DEAD][COLLIDER_DEAD] = false;
@@ -28,6 +38,7 @@ j1Collider::j1Collider()
 	matrix[COLLIDER_DEAD][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_DEAD][COLLIDER_PLATFORM] = false;
 	matrix[COLLIDER_DEAD][COLLIDER_NEXT] = false;
+	matrix[COLLIDER_DEAD][COLLIDER_ENEMY] = true;
 	
 	//Set the Collider Events of Next
 	matrix[COLLIDER_NEXT][COLLIDER_NEXT] = false;
@@ -35,6 +46,9 @@ j1Collider::j1Collider()
 	matrix[COLLIDER_NEXT][COLLIDER_FLOOR] = false;
 	matrix[COLLIDER_NEXT][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_NEXT][COLLIDER_PLATFORM] = false;
+	matrix[COLLIDER_NEXT][COLLIDER_ENEMY] = true;
+
+	
 	
 }
 
@@ -149,6 +163,10 @@ void j1Collider::DebugDraw()
 
 		case COLLIDER_NEXT: // Set Collider Color violet
 			App->render->DrawQuad(colliders[i]->rect, 130, 5, 255, alpha);
+			break;
+
+		case COLLIDER_ENEMY: // Set Collider Color violet
+			App->render->DrawQuad(colliders[i]->rect, 100, 100, 100, alpha);
 			break;
 		
 		default:

@@ -1,8 +1,8 @@
 #pragma once
-#ifndef __j1PLAYER_H__
-#define __j1PLAYER_H__
+#ifndef __j1ENEMY_H__
+#define __j1ENEMY_H__
 
-#define LIMIT_TIMER 60
+#define LIMIT_TIMER 50
 
 #include "PugiXml/src/pugixml.hpp"
 #include "p2List.h"
@@ -13,34 +13,29 @@
 struct MapObject;
 struct Collider;
 
-enum states_player {
-	IDLE,
-	WALK,
-	RUN,
-	JUMP_UP,
-	JUMP_FALL,
-	JUMP_WALK,
-	JUMP_RUN,
-	DOUBLE_JUMP,
-	IDLE_ATTACK,
-	DEATH,
-	NONE
+enum states_enemy {
+	IDLE2,
+	WALK2,
+	RUN2,
+	JUMP_UP2,
+	JUMP_FALL2,
+	JUMP_WALK2,
+	JUMP_RUN2,
+	DOUBLE_JUMP2,
+	IDLE_ATTACK2,
+	DEATH2,
+	NONE2
 };
 
-struct PlayerData
+struct EnemyData
 {
 
 	Animation*		current_animation;
 	Animation		idle;
 	Animation		walk;
-	Animation		walk2;
-	Animation		running;
-	Animation		jump;
-	Animation		fall;
-	Animation		idle_attack;
-	Animation		walk_attack;
+	Animation		hurt;
 	Animation		death;
-
+	Animation		attack;
 	
 	bool			grounded = false;
 	bool			platformdrop;
@@ -52,7 +47,6 @@ struct PlayerData
 	iPoint position;	//Position of the player (x,y)
 	iPoint preposition;
 	iPoint a;	//Acceleration (x,y)
-		//Velocity of the jump (x,y)
 	iPoint v;	//Velocity of the player (x,y)
 
 	SDL_Rect		col;
@@ -81,15 +75,15 @@ struct PlayerData
 };
 
 // ----------------------------------------------------
-class j1Player : public j1Module
+class j1Enemy : public j1Module
 {
 public:
 
 	//Constructor
-	j1Player();
+	j1Enemy();
 
 	// Destructor
-	virtual ~j1Player();
+	virtual ~j1Enemy();
 
 	//Called at first
 	bool Start();
@@ -104,7 +98,7 @@ public:
 	
 	// Called each loop iteration
 	
-	void DrawPlayer();
+	void DrawEnemy();
 
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
@@ -134,7 +128,7 @@ private:
 	
 public:
 
-	PlayerData			data_player;
+	EnemyData			data_enemy;
 	int globaltime;
 	int pretimer=0;
 	bool die = false;
@@ -143,7 +137,7 @@ public:
 private:
 
 	
-	states_player		current_state;
+	states_enemy		current_state;
 	p2SString			folder;
 	p2SString			texture;
 

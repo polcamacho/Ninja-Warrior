@@ -9,10 +9,15 @@
 		<scene name="Map.tmx" />
 	</scene>
 	<player>
-		<position x="100" y="621" />
+		<position x="100" y="616" />
 	</player>
 	<:anonymous />
+	<pathfinding />
+	<:anonymous />
+	<enemy>
+		<position x="150" y="1986" />
+	</enemy>
 	<renderer>
-		<camera x="0" y="-77" />
+		<camera x="0" y="-67" />
 	</renderer>
 </game_state>

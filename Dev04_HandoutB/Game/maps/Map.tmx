@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="235" height="50" tilewidth="32" tileheight="32" nextobjectid="173">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="235" height="50" tilewidth="32" tileheight="32" nextobjectid="180">
  <tileset firstgid="1" name="Assets" tilewidth="32" tileheight="32" tilecount="2304" columns="48">
   <image source="Assets.png" width="1536" height="1536"/>
  </tileset>
@@ -82386,5 +82386,8 @@
   <object id="158" name="platform" x="2425" y="798.051" width="136" height="35.8977"/>
   <object id="159" name="platform" x="6337.17" y="445.051" width="96" height="66.5644"/>
   <object id="172" name="platform2" x="6672.83" y="242.218" width="63.6667" height="63.5644"/>
+  <object id="177" name="enemy_fly" x="924" y="403" width="40" height="54"/>
+  <object id="178" name="enemy_grass" x="666" y="483" width="40" height="54"/>
+  <object id="179" name="player" x="259" y="492" width="40" height="54"/>
  </objectgroup>
 </map>

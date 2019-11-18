@@ -1,14 +1,13 @@
 <?xml version="1.0"?>
 <config>
-	<app>
+	<app framerate_cap="60">
 		<title>NINJA WARRIOR</title>
 		<organization>UPC</organization>
 	</app>
 	
 	<renderer>
-		<vsync value="true" />
-		<cameravelocity camvel="-50" />
-	</renderer>
+		<vsync value="false" />
+  </renderer>
 	
 	<window>
 		<resolution width="1024" height="768" scale="1" />
@@ -30,14 +29,30 @@
   
 	
 	<player>
-		<folder>textures/</folder>
-		<texture source="rogue_spritesheed.png" />
-		<position x="100" y="500" />
-		<jump_velocity jumpvel="-35" />
-		<velocity x="5"/>
-		<gravity grav="20" />
-		<colOffset x="11" y="8" />
+    <folder>textures/</folder>
+    <texture source="rogue_spritesheed.png" />
+    <position x="100" y="500" />
+    <jump_velocity jumpvel="-45" />
+    <velocity x="5"/>
+    <velrun x="3"/>
+    <gravity grav="20" />
+    <colOffset x="11" y="8" />
 	</player>
+  
+	<enemy>
+    <folder>textures/</folder>
+    <texture source="golems.png" />
+    <position x="150" y="350" />
+    <gravity grav="15" />
+  </enemy>
+
+  <golem2>
+    <folder>textures/</folder>
+    <texture source="golems.png" />
+    <position x="150" y="350" />
+    <gravity grav="15" />
+  </golem2>
+  
 	<scene>
 		<map name="Map.tmx" />
 		<map name="map2.tmx" />

@@ -7,6 +7,8 @@
 #include "j1Map.h"
 #include "j1Collider.h"
 #include "j1Player.h"
+#include "j1Enemy.h"
+#include "j1Window.h"
 #include <math.h>
 // ----------------------------------------------------
 j1Map::j1Map() : j1Module(), map_loaded(false)
@@ -35,7 +37,7 @@ void j1Map::Draw()
 		return;
 
 	//Loop all tilesets and layers and Blit
-	MapLayer* layer = data.layers.start->data; 
+	MapLayer* layer = data.layers.start->data;
 	TileSet* tileset = data.tilesets.start->data;
 
 	p2List_item<MapLayer*>* item_layer = data.layers.start;
@@ -55,11 +57,14 @@ void j1Map::Draw()
 					SDL_Rect* sect = &data.tilesets.start->data->GetTileRect(l->data[l->Get(i, j)]);
 
 					if (data.type == MAPTYPE_ORTHOGONAL) {	//Blit if the map is orthogonal
-						App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);	//Blit with parallax velocity
+						//App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);	//Blit with parallax velocity
 
-					}
-					else {	//Blit if is any other map type
-						App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE);
+						//Blit every tile inside camera limits and colliders if blitcolliders is active ----------------------------------------------
+						if (position.x >= 1 * ((App->render->camera.x - 64)) * layer->parallax && position.y >= -1 * (App->render->camera.y + 32)) {
+							if (position.x <= -5 * (App->render->camera.x)*layer->parallax + App->win->width && position.y <= -1 * (App->render->camera.y - 32) + App->win->height) {
+								App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);
+							}
+						}
 
 					}
 				}
@@ -67,7 +72,6 @@ void j1Map::Draw()
 		}
 
 	}
-
 }
 // ----------------------------------------------------
 TileSet* j1Map::GetTilesetFromTileId(int id) const
@@ -302,7 +306,6 @@ bool j1Map::Load(const char* file_name)
 		{
 			ObjectGroup* o = item_object->data;
 			LOG("ObjectGroup ----");
-			LOG("name: %s", o->name.GetString());
 			item_object = item_object->next;
 		}
 	}
@@ -489,9 +492,11 @@ bool j1Map::LoadLayer(pugi::xml_node& layernode, MapLayer* layer)
 bool j1Map::LoadObject(pugi::xml_node& objectnode, ObjectGroup* objectgroup) {
 
 	bool ret = true;
+	objectgroup->name = objectnode.attribute("name").as_string();
+
 	pugi::xml_node objectid = objectnode.child("object");
 
-	objectgroup->name = objectnode.attribute("name").as_string();
+	
 
 	uint i = 0;
 	p2SString type;
@@ -530,6 +535,11 @@ bool j1Map::LoadObject(pugi::xml_node& objectnode, ObjectGroup* objectgroup) {
 			{
 				App->collider->AddCollider(objectgroup->object[i], COLLIDER_NEXT);
 			}
+			/*if (type == "player")
+			{
+				App->player->data_player.colliders = App->collider->AddCollider({ App->player->data_player.position.x, App->player->data_player.position.y, 39,53 }, COLLIDER_PLAYER, this);
+			}*/
+			
 
 			objectid = objectid.next_sibling("object");
 
