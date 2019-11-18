@@ -13,7 +13,7 @@
 struct MapObject;
 struct Collider;
 
-enum states_enemy {
+enum states_golem {
 	IDLE2,
 	WALK2,
 	RUN2,
@@ -27,7 +27,7 @@ enum states_enemy {
 	NONE2
 };
 
-struct EnemyData
+struct GolemData
 {
 
 	Animation*		current_animation;
@@ -75,15 +75,15 @@ struct EnemyData
 };
 
 // ----------------------------------------------------
-class j1Enemy : public j1Module
+class j1Golem1 : public j1Module
 {
 public:
 
 	//Constructor
-	j1Enemy();
+	j1Golem1();
 
 	// Destructor
-	virtual ~j1Enemy();
+	virtual ~j1Golem1();
 
 	//Called at first
 	bool Start();
@@ -128,7 +128,7 @@ private:
 	
 public:
 
-	EnemyData			data_enemy;
+	GolemData			data_golem;
 	int globaltime;
 	int pretimer=0;
 	bool die = false;
@@ -137,7 +137,7 @@ public:
 private:
 
 	
-	states_enemy		current_state;
+	states_golem		current_state;
 	p2SString			folder;
 	p2SString			texture;
 

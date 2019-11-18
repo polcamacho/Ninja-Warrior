@@ -1,4 +1,4 @@
-/*#include "p2Defs.h"
+#include "p2Defs.h"
 #include "p2Log.h"
 #include "j1App.h"
 #include "j1Render.h"
@@ -7,26 +7,23 @@
 #include "j1Entity.h"
 #include "j1Window.h"
 #include "j1Map.h"
-#include "j1Input.h"
-#include "j1Collider.h"
-#include "j1Scene.h"
-#include <math.h>
 
-Entity:: Entity()
+j1Entity::j1Entity()
 {
 }
 
-Entity::Entity(entity_type type) :type(type)
+j1Entity::j1Entity(entity_type type) :type(type)
 {
 }
 
 // Destructor
-Entity::~Entity()
-{}*/
+j1Entity::~j1Entity()
+{}
 
-/*
 
-void j1Enemy::DrawEnemy()
+
+void DrawEntity(int x, int y, entity_type entity)
+
 {
 	
 
@@ -40,7 +37,7 @@ void j1Enemy::DrawEnemy()
 
 }
 
-bool j1Enemy::Start() {
+bool j1Entity::Start() {
 
 	pretimer = 0;
 	//globaltime = SDL_GetTicks();	//Sets the Global time to the death timer
@@ -55,13 +52,23 @@ bool j1Enemy::Start() {
 
 }
 
-bool j1Enemy::PreUpdate(float dt) {
+bool j1Entity::PreUpdate() {
 
+	p2List_item<Entity*>* item = entities.start;
+	while (item != nullptr)
+	{
+		if (destroy==true)
+		{
+			delete item->data;
+			entities.del(item);
+		}
+		item = item->next;
+	}
 	return true;
 
 }
 
-bool j1Enemy::Update(float dt) {
+bool j1Entity::Update(float dt) {
 
 	
 
@@ -110,12 +117,12 @@ bool j1Enemy::Update(float dt) {
 
 }
 
-bool j1Enemy::PostUpdate(float dt) {
+bool j1Entity::PostUpdate(float dt) {
 
 	return true;
 }
 // Called before quitting
-bool j1Enemy::CleanUp()
+bool j1Entity::CleanUp()
 {
 	LOG("Unloading player");
 
@@ -125,7 +132,7 @@ bool j1Enemy::CleanUp()
 	return true;
 }
 
-bool j1Enemy::Load(pugi::xml_node& node) {
+bool j1Entity::Load(pugi::xml_node& node) {
 
 	if (!node.child("position").empty())	//Load the valors if save_confign file is empty link
 	{
@@ -141,7 +148,7 @@ bool j1Enemy::Load(pugi::xml_node& node) {
 	return true;
 
 }
-bool j1Enemy::Save(pugi::xml_node& node) const {
+bool j1Entity::Save(pugi::xml_node& node) const {
 
 	if (node.child("position").empty())	//Save The Position Valors in the save_config file
 	{
@@ -159,7 +166,7 @@ bool j1Enemy::Save(pugi::xml_node& node) const {
 
 }
 
-void j1Enemy::Pushbacks() {
+void j1Entity::Pushbacks() {
 
 	//Sets the Idle Animation
 	data_enemy.idle.PushBack({ 0,0,49,75 }, 0.1, 0, 0);
@@ -189,18 +196,18 @@ void j1Enemy::Pushbacks() {
 	data_player.walk.PushBack({ 201,3,36,51 }, 0.2, 0, 0);
 	data_player.walk.PushBack({ 259,5,38,48 }, 0.2, 0, 0);
 	data_player.walk.PushBack({ 317,4,44,50 }, 0.2, 0, 0);
-	data_player.walk.loop = true;*/
+	data_player.walk.loop = true;
 
-	/*//Sets the Run Animation
+	//Sets the Run Animation
 	data_player.walk2.PushBack({ 7,4,42,49 }, 0.4, 0, 0);
 	data_player.walk2.PushBack({ 65,4,41,49 }, 0.4, 0, 0);
 	data_player.walk2.PushBack({ 131,3,38,50 }, 0.4, 0, 0);
 	data_player.walk2.PushBack({ 201,3,36,51 }, 0.4, 0, 0);
 	data_player.walk2.PushBack({ 259,5,38,48 }, 0.4, 0, 0);
 	data_player.walk2.PushBack({ 317,4,44,50 }, 0.4, 0, 0);
-	data_player.walk2.loop = true;*/
+	data_player.walk2.loop = true;
 
-	/*//Sets the Jump Animation
+	//Sets the Jump Animation
 	data_player.jump.PushBack({ 7,128,52,43 }, 0.6, 0, 0);
 	data_player.jump.PushBack({ 81,114,47,57 }, 0.3, 0, 0);
 	data_player.jump.PushBack({ 155,113,42,58 }, 0.3, 0, 0);
@@ -239,14 +246,14 @@ void j1Enemy::Pushbacks() {
 
 }
 
-void j1Enemy::CheckState(float dt)
+void j1Entity::CheckState(float dt)
 {
 	
 	
 
 }
 
-void j1Enemy::State(float dt) {
+void j1Entity::State(float dt) {
 
 	if (current_state == IDLE2) {
 		
@@ -490,4 +497,4 @@ bool j1Enemy::pretime(float sec)
 	pretimer++;
 	if (pretimer >= sec) { ret = true; pretimer = 0; }
 	return ret;
-}*/
+}

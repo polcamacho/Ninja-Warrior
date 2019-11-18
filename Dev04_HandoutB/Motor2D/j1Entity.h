@@ -1,4 +1,4 @@
-/*#pragma once
+#pragma once
 #ifndef __j1ENTITY_H__
 #define __j1ENTITY_H__
 
@@ -12,53 +12,60 @@
 #include "j1Map.h"
 #include "j1Textures.h"
 
-class Entity{
+class Entity;
+
+enum entity_type {
+
+	NONE,
+	PLAYER,
+	GOLEM_GRASS_ENEMY,
+	GOLEM_ROCK_ENEMY,
+	MINOTAUR_ENEMY,
+	EYE_ENEMY,
+	BAT_ENEMY,
+
+};
+
+class j1Entity : public j1Module
+{
 
 public:
 	
-	enum entity_type {
-		
-		NONE,
-		PLAYER,
-		GOLEM_GRASS_ENEMY,
-		GOLEM_ROCK_ENEMY,
-		MINOTAUR_ENEMY,
-		EYE_ENEMY,
-		BAT_ENEMY,
-
-	};
+	
 
 public:
 	
 	//CONSTRUCTOR
-	Entity();
-	Entity(entity_type type);
+	j1Entity();
+	j1Entity(entity_type type);
 	
 	//DESTRUCTOR
-	~Entity();
+	~j1Entity();
 	
 	//Called at first
-	virtual bool Start() { return true; };
-	virtual bool PreUpdate() { return true; };
-	virtual bool Update(float dt) { return true; };
-	virtual bool PostUpdate() { return true; };
+	bool Start();
+	bool PreUpdate();
+	bool Update(float dt);
+	bool PostUpdate();
 
 	// Called before render is available
-	virtual bool Awake(pugi::xml_node & config) { return true; };
+	bool Awake(pugi::xml_node & config);
 	
 	// Called before quitting
-	virtual void CleanUp() {};
+	void CleanUp();
 
 	// Called each loop iteration
-	virtual void Save(pugi::xml_node& file) const {};
-	virtual void Load(pugi::xml_node& file) {};
+	void Save(pugi::xml_node& file) const;
+	void Load(pugi::xml_node& file);
 
-	virtual void CheckState(float dt);	//Load keys to check states
-	virtual void State(float dt);	//Check animations
-	virtual void Pushbacks() {};
-	virtual void OnCollision(Collider* c1, Collider* c2);
-	virtual void Reset() {};
-	virtual bool pretime(float sec);
+	void DrawEntity(int x, int y, entity_type entity);
+
+	//void CheckState(float dt);	//Load keys to check states
+	//void State(float dt);	//Check animations
+	//void Pushbacks() {};
+	//void OnCollision(Collider* c1, Collider* c2);
+	//void Reset() {};
+	//bool pretime(float sec);
 	
 
 private:
@@ -97,6 +104,9 @@ public:
 	
 	Collider*			colliders = nullptr;
 
+	p2List<Entity*> entities;
+
+	bool destroy = false;
 };
 
-#endif // __j1ENTITY_H__*/
+#endif // __j1ENTITY_H__
