@@ -5,33 +5,21 @@
 #include "p2List.h"
 #include "p2Point.h"
 #include "j1Module.h"
+#define MAX_PROPERTIES 2
 
 // ----------------------------------------------------
 struct Properties
 {
-	struct Property
-	{
-		p2SString name;
-		int value;
-	};
+	p2SString name;
+	union prop {
+		int ivalue;
+		bool bvalue;
+		SDL_Color cvalue;
+		float fvalue;
 
-	~Properties()
-	{
-		p2List_item<Property*>* item;
-		item = list.start;
+	}prop;
 
-		while (item != NULL)
-		{
-			RELEASE(item->data);
-			item = item->next;
-		}
 
-		list.clear();
-	}
-
-	int Get(const char* name, int default_value = 0) const;
-
-	p2List<Property*>	list;
 };
 // ----------------------------------------------------
 struct MapLayer {
@@ -40,11 +28,10 @@ struct MapLayer {
 	int			width;
 	float		parallax;
 	int			height;
-	float		Navigation;
 	uint*		data;
 	
-	Properties	properties;
-
+	Properties property[MAX_PROPERTIES];
+	int returnPropValue(const char* propName);
 	MapLayer() : data(NULL)
 	{}
 
@@ -86,6 +73,7 @@ struct ObjectGroup {
 	p2SString		name = "NoNE";
 	int				size = 0;
 	SDL_Rect*		object;
+	
 
 };
 // ----------------------------------------------------
@@ -137,7 +125,7 @@ public:
 
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
-	
+
 	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
 	
 
@@ -148,7 +136,7 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set); //Load the image of the tileset
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer); //Load the layer
 	bool LoadObject(pugi::xml_node& objectnode, ObjectGroup* objectgroup);	//Load all the Objects in map
-	bool LoadProperties(pugi::xml_node& node, Properties& properties);
+	bool LoadProperties(pugi::xml_node& node, Properties* properties);
 	
 
 	TileSet* GetTilesetFromTileId(int id) const;

@@ -94064,6 +94064,9 @@
   </data>
  </layer>
  <objectgroup name="colisions">
+ <properties>
+   <property name="Navigation" value="1"/>
+   </properties>
   <object id="5" name="floor" x="0" y="674" width="1792" height="414"/>
   <object id="6" name="floor" x="2144" y="668.75" width="294.667" height="387.25"/>
   <object id="7" name="floor" x="1792" y="1011.33" width="352" height="44.6686"/>
