@@ -55,7 +55,7 @@ bool j1Scene::Start()
 	uchar* data = NULL;
 	if (App->map->CreateWalkabilityMap(w, h, &data))
 		App->pathfinding->SetMap(w, h, data);
-
+	RELEASE_ARRAY(data);
 	//load audio from map 1
 	if (current_map == "Map.tmx") {
 
@@ -72,10 +72,7 @@ bool j1Scene::Start()
 	//load audio from map 2
 	else if(current_map=="map2.tmx") {
 		
-		int w, h;
-		uchar* data = NULL;
-		if (App->map->CreateWalkabilityMap(w, h, &data))
-			App->pathfinding->SetMap(w, h, data);
+		
 
 		
 		App->audio->PlayMusic("audio/music/map2_music.ogg");
