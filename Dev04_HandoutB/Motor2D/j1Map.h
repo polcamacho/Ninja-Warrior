@@ -40,6 +40,7 @@ struct MapLayer {
 	int			width;
 	float		parallax;
 	int			height;
+	float		Navigation;
 	uint*		data;
 	
 	Properties	properties;

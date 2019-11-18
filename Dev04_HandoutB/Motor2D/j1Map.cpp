@@ -471,7 +471,9 @@ bool j1Map::LoadLayer(pugi::xml_node& layernode, MapLayer* layer)
 	layer->name.create(layernode.attribute("name").as_string());
 	layer->width = layernode.attribute("width").as_int();
 	layer->height = layernode.attribute("height").as_int();
-	LoadProperties(layernode, layer->properties);
+	layer->parallax = layernode.child("properties").child("property").attribute("value").as_float();
+	//layer->Navigation = layernode.child("properties").child("property").attribute("value").as_float();
+	//LoadProperties(layernode, layer->properties);
 	pugi::xml_node layer_data = layernode.child("data");
 	
 	
@@ -569,7 +571,7 @@ bool j1Map::LoadObject(pugi::xml_node& objectnode, ObjectGroup* objectgroup) {
 	return ret;
 }
 
-bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
+/*bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 {
 	bool ret = false;
 
@@ -591,7 +593,7 @@ bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 	}
 
 	return ret;
-}
+}*/
 
 bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 {
@@ -602,7 +604,7 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 	for (item = data.layers.start; item != NULL; item = item->next)
 	{
 		MapLayer* layer = item->data;
-
+		//layer->Navigation = layernode.child("properties").child("property").attribute("value").as_float() == 1
 		if (layer->properties.Get("Navigation", 0) == 0)
 			continue;
 
