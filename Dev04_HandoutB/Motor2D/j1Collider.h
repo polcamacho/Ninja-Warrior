@@ -27,8 +27,8 @@ struct Collider
 	ColliderType type = COLLIDER_NONE;
 	j1Module* callback = nullptr;
 
-	Collider(SDL_Rect* rectangle, ColliderType type, j1Module* callback = nullptr) :
-		rect(*rectangle),
+	Collider(SDL_Rect rectangle, ColliderType type, j1Module* callback = nullptr) :
+		rect(rectangle),
 		type(type),
 		callback(callback)
 	{}

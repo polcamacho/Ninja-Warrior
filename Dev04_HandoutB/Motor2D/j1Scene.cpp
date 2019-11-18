@@ -10,6 +10,7 @@
 #include "j1Scene.h"
 #include "j1Player.h"
 #include "j1Collider.h"
+#include "j1Pathfinding.h"
 
 #include <string>
 
@@ -50,8 +51,16 @@ bool j1Scene::Start()
 	current_map = maps.start->data;
 	App->map->Load(current_map.GetString());
 
+	int w, h;
+	uchar* data = NULL;
+	if (App->map->CreateWalkabilityMap(w, h, &data))
+		App->pathfinding->SetMap(w, h, data);
+
 	//load audio from map 1
 	if (current_map == "Map.tmx") {
+
+		
+
 
 		App->audio->PlayMusic("audio/music/map1_music.ogg");
 		jump_FX= App->audio->LoadFx("audio/fx/Jump.wav");
@@ -63,17 +72,49 @@ bool j1Scene::Start()
 	//load audio from map 2
 	else if(current_map=="map2.tmx") {
 		
+		int w, h;
+		uchar* data = NULL;
+		if (App->map->CreateWalkabilityMap(w, h, &data))
+			App->pathfinding->SetMap(w, h, data);
+
+		
 		App->audio->PlayMusic("audio/music/map2_music.ogg");
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
 	}
 	
+	debug_tex = App->tex->Load("maps/cross.png");
+
 	return true;
 }
 
 // Called each loop iteration
 bool j1Scene::PreUpdate()
 {
+
+	// debug pathfing ------------------
+	static iPoint origin;
+	static bool origin_selected = false;
+
+	int x, y;
+	App->input->GetMousePosition(x, y);
+	iPoint p = App->render->ScreenToWorld(x, y);
+	p = App->map->WorldToMap(p.x, p.y);
+
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		if (origin_selected == true)
+		{
+			App->pathfinding->CreatePath(origin, p);
+			origin_selected = false;
+		}
+		else
+		{
+			origin = p;
+			origin_selected = true;
+		}
+	}
+
 	return true;
 }
 
@@ -182,6 +223,7 @@ bool j1Scene::Update(float dt)
 		if (App->player->data_player.showcolliders == false)
 		{
 			App->player->data_player.showcolliders = true;
+
 		}
 		else if (App->player->data_player.showcolliders == true)
 		{
@@ -189,8 +231,23 @@ bool j1Scene::Update(float dt)
 		}
 	}
 
-	
-	
+	// Debug pathfinding ------------------------------
+	int x = 0, y = 0;
+	App->input->GetMousePosition(x, y);
+	iPoint p = App->render->ScreenToWorld(x, y);
+	p = App->map->WorldToMap(p.x, p.y);
+	p = App->map->MapToWorld(p.x, p.y);
+
+	App->render->Blit(debug_tex, p.x, p.y);
+
+	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+
+	for (uint i = 0; i < path->Count(); ++i)
+	{
+		iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+		App->render->Blit(debug_tex, pos.x, pos.y);
+	}
+
 
 	return true;
 }

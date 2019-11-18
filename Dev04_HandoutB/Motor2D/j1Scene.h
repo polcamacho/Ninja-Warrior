@@ -40,7 +40,7 @@ public:
 	bool Save(pugi::xml_node &node)const;
 
 private:
-
+	SDL_Texture* debug_tex;
 public:
 	
 	int jump_FX;

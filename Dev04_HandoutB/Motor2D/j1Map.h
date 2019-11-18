@@ -7,6 +7,33 @@
 #include "j1Module.h"
 
 // ----------------------------------------------------
+struct Properties
+{
+	struct Property
+	{
+		p2SString name;
+		int value;
+	};
+
+	~Properties()
+	{
+		p2List_item<Property*>* item;
+		item = list.start;
+
+		while (item != NULL)
+		{
+			RELEASE(item->data);
+			item = item->next;
+		}
+
+		list.clear();
+	}
+
+	int Get(const char* name, int default_value = 0) const;
+
+	p2List<Property*>	list;
+};
+// ----------------------------------------------------
 struct MapLayer {
 
 	p2SString	name;
@@ -15,6 +42,8 @@ struct MapLayer {
 	int			height;
 	uint*		data;
 	
+	Properties	properties;
+
 	MapLayer() : data(NULL)
 	{}
 
@@ -107,7 +136,8 @@ public:
 
 	iPoint MapToWorld(int x, int y) const;
 	iPoint WorldToMap(int x, int y) const;
-
+	
+	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
 	
 
 private:
@@ -117,6 +147,8 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set); //Load the image of the tileset
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer); //Load the layer
 	bool LoadObject(pugi::xml_node& objectnode, ObjectGroup* objectgroup);	//Load all the Objects in map
+	bool LoadProperties(pugi::xml_node& node, Properties& properties);
+	
 
 	TileSet* GetTilesetFromTileId(int id) const;
 	

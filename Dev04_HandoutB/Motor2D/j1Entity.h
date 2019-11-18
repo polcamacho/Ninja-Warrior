@@ -100,3 +100,5 @@ public:
 };
 
 #endif // __j1ENTITY_H__*/
+
+//SDL_Texture* path_texture = nullptr;
