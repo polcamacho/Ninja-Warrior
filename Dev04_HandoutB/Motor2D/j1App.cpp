@@ -18,7 +18,7 @@
 #include "j1FadeToBlack.h"
 #include "j1Golem1.h"
 #include "j1Golem2.h"
-#include "j1Entity.h"
+#include "j1EntityManager.h"
 
 
 // Constructor
@@ -42,9 +42,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	fade = new j1FadeToBlack();
 	golem1 = new j1Golem1();
 	golem2 = new j1Golem2();
-	//entity = new j1Entity();
-
-	//entity = new j1Entity();
+	//entitymanager = new j1EntityManager();
 
 
 	// Ordered for awake / Start / Update
