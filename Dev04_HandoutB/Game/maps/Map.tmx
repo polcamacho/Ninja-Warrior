@@ -82307,7 +82307,7 @@
  </layer>
  <layer name="Navigation" width="235" height="50">
   <properties>
-   <property name="Navigation" value="1"/>
+   <property name="Navigation" type="int" value="1"/>
    <property name="parallax" type="float" value="1"/>
   </properties>
   <data>

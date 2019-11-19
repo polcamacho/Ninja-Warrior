@@ -49,22 +49,23 @@ void j1Map::Draw()
 		{
 			for (int j = 0; j < l->height; j++)
 			{
-				if (l->data[l->Get(i, j)] != 0)
+				if (l->Get(i, j) != 0)
 				{
 					l->Get(i, j);
 					SDL_Texture* texture = data.tilesets.start->data->texture;
 					iPoint position = MapToWorld(i, j);
-					SDL_Rect* sect = &data.tilesets.start->data->GetTileRect(l->data[l->Get(i, j)]);
+					SDL_Rect* sect = &data.tilesets.start->data->GetTileRect(l->Get(i, j));
 
 					if (data.type == MAPTYPE_ORTHOGONAL) {	//Blit if the map is orthogonal
-						//App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);	//Blit with parallax velocity
+						/*//App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);	//Blit with parallax velocity
 
 						//Blit every tile inside camera limits and colliders if blitcolliders is active ----------------------------------------------
 						if (position.x >= 1 * ((App->render->camera.x - 64)) * layer->parallax && position.y >= -1 * (App->render->camera.y + 32)) {
 							if (position.x <= -5 * (App->render->camera.x)*layer->parallax + App->win->width && position.y <= -1 * (App->render->camera.y - 32) + App->win->height) {
-								App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);
+								
 							}
-						}
+						}*/
+						App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);
 
 					}
 				}
@@ -75,20 +76,6 @@ void j1Map::Draw()
 
 
 }
-// ----------------------------------------------------
-/*int Properties::Get(const char* value, int default_value) const
-{
-	p2List_item<Property*>* item = list.start;
-
-	while (item)
-	{
-		if (item->data->name == value)
-			return item->data->value;
-		item = item->next;
-	}
-
-	return default_value;
-}*/
 // ----------------------------------------------------
 TileSet* j1Map::GetTilesetFromTileId(int id) const
 {
@@ -311,6 +298,7 @@ bool j1Map::Load(const char* file_name)
 			LOG("Layer ----");
 			LOG("name: %s", l->name.GetString());
 			LOG("tile width: %d tile height: %d", l->width, l->height);
+			LOG("Navigation: %i", l->Navigation);
 			item_layer = item_layer->next;
 		}
 
@@ -468,8 +456,16 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	layer->name = node.attribute("name").as_string();
 	layer->width = node.attribute("width").as_int();
 	layer->height = node.attribute("height").as_int();
-	LoadProperties(node, layer->property);
+	LoadProperties(node, layer->properties);
 	pugi::xml_node layer_data = node.child("data");
+
+	const char* aux = node.child("properties").child("property").attribute("name").as_string();
+
+	if (strcmp(aux, "parallax") == 0)
+		layer->parallax = node.child("properties").child("property").attribute("value").as_float();
+	
+	if (strcmp(aux, "Navigation") == 1)
+		layer->Navigation = node.child("properties").child("property").attribute("value").as_int();
 
 	if (layer_data == NULL)
 	{
@@ -558,29 +554,25 @@ bool j1Map::LoadObject(pugi::xml_node& objectnode, ObjectGroup* objectgroup) {
 	return ret;
 }
 
-bool j1Map::LoadProperties(pugi::xml_node& node, Properties property[])
+bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 {
-	LOG("Loading properties");
-	pugi::xml_node layer;
-	bool ret = true;
+	bool ret = false;
 
-	int i = 0;
+	pugi::xml_node data = node.child("properties");
 
-	for (layer = node.child("properties").child("property"); layer && ret; layer = layer.next_sibling("property"))
+	if (data != NULL)
 	{
+		pugi::xml_node prop;
 
-		property[i].name = layer.attribute("name").as_string();
-		
-		if (property[i].name == "Navigation") {
-			property[i].prop.ivalue = layer.attribute("value").as_int();
-			i++;
-		}
+		for (prop = data.child("property"); prop; prop = prop.next_sibling("property"))
+		{
+			Properties::Property* p = new Properties::Property();
 
-		if (property[i].name == "parallax") {
-			property[i].prop.fvalue = layer.attribute("value").as_float();
-			i++;
+			p->name = prop.attribute("name").as_string();
+			p->value = prop.attribute("value").as_int();
+
+			properties.list.add(p);
 		}
-		
 	}
 
 	return ret;
@@ -596,7 +588,7 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 	{
 		MapLayer* layer = item->data;
 
-		if (layer->returnPropValue("Navigation") != 1)
+		if (layer->properties.Get("Navigation", 0) == 0)
 			continue;
 
 		uchar* map = new uchar[layer->width*layer->height];
@@ -614,11 +606,7 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 				if (tileset != NULL)
 				{
 					map[i] = (tile_id - tileset->firstgid) > 0 ? 0 : 1;
-					/*TileType* ts = tileset->GetTileType(tile_id);
-					if(ts != NULL)
-					{
-						map[i] = ts->properties.Get("walkable", 1);
-					}*/
+				
 				}
 			}
 		}
@@ -634,18 +622,19 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 	return ret;
 }
 
-int MapLayer::returnPropValue(const char* propName) {
-	int value = -1;
-	for (int i = 0; i < MAX_PROPERTIES; i++) {
+int Properties::Get(const char* value, int default_value) const
+{
+	p2List_item<Property*>* item = list.start;
 
-		if (property[i].name == propName) {
-			value = property[i].prop.ivalue;
-		}
+	while (item)
+	{
+		if (item->data->name == value)
+			return item->data->value;
+		item = item->next;
 	}
 
-	return value;
+	return default_value;
 }
-
 
 
 

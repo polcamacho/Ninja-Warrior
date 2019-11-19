@@ -10,16 +10,29 @@
 // ----------------------------------------------------
 struct Properties
 {
-	p2SString name;
-	union prop {
-		int ivalue;
-		bool bvalue;
-		SDL_Color cvalue;
-		float fvalue;
+	struct Property
+	{
+		p2SString name;
+		int value;
+	};
 
-	}prop;
+	~Properties()
+	{
+		p2List_item<Property*>* item;
+		item = list.start;
 
+		while (item != NULL)
+		{
+			RELEASE(item->data);
+			item = item->next;
+		}
 
+		list.clear();
+	}
+
+	int Get(const char* name, int default_value = 0) const;
+
+	p2List<Property*>	list;
 };
 // ----------------------------------------------------
 struct MapLayer {
@@ -27,11 +40,11 @@ struct MapLayer {
 	p2SString	name;
 	int			width;
 	float		parallax;
+	int			Navigation;
 	int			height;
 	uint*		data;
-	
-	Properties property[MAX_PROPERTIES];
-	int returnPropValue(const char* propName);
+	Properties	properties;
+
 	MapLayer() : data(NULL)
 	{}
 
@@ -42,7 +55,7 @@ struct MapLayer {
 
 	inline uint Get(int x, int y) const
 	{
-		return  x + y * width;
+		return data[(y*width) + x];
 	}
 
 };
@@ -136,7 +149,7 @@ private:
 	bool LoadTilesetImage(pugi::xml_node& tileset_node, TileSet* set); //Load the image of the tileset
 	bool LoadLayer(pugi::xml_node& node, MapLayer* layer); //Load the layer
 	bool LoadObject(pugi::xml_node& objectnode, ObjectGroup* objectgroup);	//Load all the Objects in map
-	bool LoadProperties(pugi::xml_node& node, Properties* properties);
+	bool LoadProperties(pugi::xml_node& node, Properties& properties);
 	
 
 	TileSet* GetTilesetFromTileId(int id) const;
@@ -146,6 +159,7 @@ public:
 
 	MapData data;
 	
+	bool pathfinder = false;
 
 private:
 
