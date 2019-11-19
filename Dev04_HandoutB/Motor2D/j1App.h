@@ -99,7 +99,7 @@ public:
 	j1FadeToBlack*		fade;
 	j1Golem1*			golem1;
 	j1Golem2*			golem2;
-	//j1Entity*			entity;
+	//j1EntityManager*	entitymanager;
 
 private:
 
