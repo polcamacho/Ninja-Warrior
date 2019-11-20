@@ -102,9 +102,11 @@ bool j1Scene::PreUpdate(float dt)
 
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN)
 	{
+		LOG("hola");
 		if (origin_selected == true)
 		{
 			App->pathfinding->CreatePath(origin, p);
+			LOG("%d,%d,%d,%d", origin.x, origin.y, p.x, p.y);
 			origin_selected = false;
 		}
 		else

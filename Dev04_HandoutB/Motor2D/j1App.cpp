@@ -203,7 +203,7 @@ void j1App::PrepareUpdate()
 
 	//Calculate the dt: differential time since last frame
 	dt = frame_time.ReadSec();
-	LOG("%f", dt);
+	/*LOG("%f", dt);*/
 
 	//LOG("DelaTime %.2f", dt * 1000);
 	frame_time.Start();
@@ -269,7 +269,7 @@ bool j1App::PreUpdate()
 			continue;
 		}
 
-		ret = item->data->PreUpdate();
+		ret = item->data->PreUpdate(dt);
 	}
 
 	return ret;

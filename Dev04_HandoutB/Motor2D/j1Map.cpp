@@ -57,15 +57,15 @@ void j1Map::Draw()
 					SDL_Rect* sect = &data.tilesets.start->data->GetTileRect(l->Get(i, j));
 
 					if (data.type == MAPTYPE_ORTHOGONAL) {	//Blit if the map is orthogonal
-						/*//App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);	//Blit with parallax velocity
+						//App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);	//Blit with parallax velocity
 
 						//Blit every tile inside camera limits and colliders if blitcolliders is active ----------------------------------------------
 						if (position.x >= 1 * ((App->render->camera.x - 64)) * layer->parallax && position.y >= -1 * (App->render->camera.y + 32)) {
 							if (position.x <= -5 * (App->render->camera.x)*layer->parallax + App->win->width && position.y <= -1 * (App->render->camera.y - 32) + App->win->height) {
-								
+								App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);
 							}
-						}*/
-						App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);
+						}
+						
 
 					}
 				}
@@ -460,11 +460,12 @@ bool j1Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 	pugi::xml_node layer_data = node.child("data");
 
 	const char* aux = node.child("properties").child("property").attribute("name").as_string();
+	
 
 	if (strcmp(aux, "parallax") == 0)
 		layer->parallax = node.child("properties").child("property").attribute("value").as_float();
 	
-	if (strcmp(aux, "Navigation") == 1)
+	if (strcmp(aux, "Navigation") == 0)
 		layer->Navigation = node.child("properties").child("property").attribute("value").as_int();
 
 	if (layer_data == NULL)
@@ -588,7 +589,7 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 	{
 		MapLayer* layer = item->data;
 
-		if (layer->properties.Get("Navigation", 0) == 0)
+		if (layer->properties.Get("Navigation", 0) != 1);
 			continue;
 
 		uchar* map = new uchar[layer->width*layer->height];
