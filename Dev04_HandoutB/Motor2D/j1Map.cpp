@@ -62,11 +62,11 @@ void j1Map::Draw()
 						//App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);	//Blit with parallax velocity
 
 						//Blit every tile inside camera limits and colliders if blitcolliders is active ----------------------------------------------
-						if (position.x >= 1 * ((App->render->camera.x - 64)) * layer->parallax && position.y >= -1 * (App->render->camera.y + 32)) {
-							if (position.x <= -5 * (App->render->camera.x)*layer->parallax + App->win->width && position.y <= -1 * (App->render->camera.y - 32) + App->win->height) {
+						/*if (position.x >= 1 * ((App->render->camera.x - 64)) * layer->parallax && position.y >= -1 * (App->render->camera.y + 32)) {
+							if (position.x <= -5 * (App->render->camera.x)*layer->parallax + App->win->width && position.y <= -1 * (App->render->camera.y - 32) + App->win->height) {*/
 								App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);
-							}
-						}
+							//}
+						//}
 						
 
 					}
@@ -533,17 +533,17 @@ bool j1Map::LoadObject(pugi::xml_node& objectnode, ObjectGroup* objectgroup) {
 			LOG("Name %s", type);
 			//Link objects in map tmx with the type of collider
 			if (type == "floor") {
-				App->collider->AddCollider(objectgroup->object[i], COLLIDER_FLOOR);
+				App->collider->AddCollider(&objectgroup->object[i], COLLIDER_FLOOR);
 			}
 			if (type == "death") {
-				App->collider->AddCollider(objectgroup->object[i], COLLIDER_DEAD);
+				App->collider->AddCollider(&objectgroup->object[i], COLLIDER_DEAD);
 			}
 			if (type == "platform") {
-				App->collider->AddCollider(objectgroup->object[i], COLLIDER_PLATFORM);
+				App->collider->AddCollider(&objectgroup->object[i], COLLIDER_PLATFORM);
 			}
 			if (type == "platform2")
 			{
-				App->collider->AddCollider(objectgroup->object[i], COLLIDER_NEXT);
+				App->collider->AddCollider(&objectgroup->object[i], COLLIDER_NEXT);
 			}
 			
 			objectid = objectid.next_sibling("object");

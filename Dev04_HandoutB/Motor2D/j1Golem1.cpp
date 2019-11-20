@@ -67,7 +67,13 @@ bool j1Golem1::Start() {
 	
 	data_golem.Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));	//Load The Texture of player
 	LOG("%s", data_golem.Tex_Player);
-	data_golem.colliders = App->collider->AddCollider({ data_golem.position.x, data_golem.position.y, 39,53 }, COLLIDER_ENEMY, this);	//Sets The Collider Type and Dimensions to Player
+	SDL_Rect c;
+	c.x = data_golem.position.x;
+	c.y = data_golem.position.y;
+	c.w = 39;
+	c.h = 53;
+
+	data_golem.colliders = App->collider->AddCollider(&c, COLLIDER_ENEMY, this);	//Sets The Collider Type and Dimensions to Player
 	
 	return	true;
 

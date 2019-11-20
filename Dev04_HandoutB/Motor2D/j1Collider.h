@@ -22,9 +22,9 @@ enum ColliderType	//Set Type of Colliders
 
 struct Collider
 {
-	SDL_Rect rect = {0, 0, 0, 0};
+	SDL_Rect rect;
 	bool to_delete = false;
-	ColliderType type = COLLIDER_NONE;
+	ColliderType type;
 	j1Module* callback = nullptr;
 
 	Collider(SDL_Rect rectangle, ColliderType type, j1Module* callback = nullptr) :
@@ -67,10 +67,10 @@ public:
 	bool CleanUp();
 
 
-	Collider* AddCollider(SDL_Rect rect, ColliderType type, j1Module* callback = nullptr);
+	Collider* AddCollider(SDL_Rect* rect, ColliderType type, j1Module* callback = nullptr);
 	
 	void DebugDraw();
-
+	float DT;
 	
 
 private:

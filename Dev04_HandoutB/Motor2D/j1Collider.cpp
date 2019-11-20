@@ -125,8 +125,8 @@ bool j1Collider::PreUpdate(float dt)
 bool j1Collider::Update(float dt)
 {
 	
-
 	DebugDraw();
+	DT = dt;
 
 	return true;
 }
@@ -194,7 +194,7 @@ bool j1Collider::CleanUp()
 	return true;
 }
 
-Collider* j1Collider::AddCollider(SDL_Rect rect, ColliderType type, j1Module* callback)
+Collider* j1Collider::AddCollider(SDL_Rect* rect, ColliderType type, j1Module* callback)
 {
 	Collider* ret = nullptr;
 
@@ -202,7 +202,7 @@ Collider* j1Collider::AddCollider(SDL_Rect rect, ColliderType type, j1Module* ca
 	{
 		if (colliders[i] == nullptr)
 		{
-			ret = colliders[i] = new Collider(rect, type, callback);
+			ret = colliders[i] = new Collider(*rect, type, callback);
 			break;
 		}
 	}

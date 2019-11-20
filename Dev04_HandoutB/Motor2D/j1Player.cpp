@@ -76,7 +76,13 @@ bool j1Player::Start() {
 	
 	data_player.Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));	//Load The Texture of player
 	
-	data_player.colliders = App->collider->AddCollider({ data_player.position.x, data_player.position.y, 39,53 }, COLLIDER_PLAYER, this);	//Sets The Collider Type and Dimensions to Player
+	SDL_Rect c;
+	c.x = data_player.position.x;
+	c.y = data_player.position.y;
+	c.w = 39;
+	c.h = 53;
+
+	data_player.colliders = App->collider->AddCollider(&c, COLLIDER_PLAYER, this);	//Sets The Collider Type and Dimensions to Player
 	
 	return	true;
 
