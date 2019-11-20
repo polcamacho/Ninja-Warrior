@@ -6,6 +6,8 @@
 #include "SDL/include/SDL.h"
 #include "SDL_mixer\include\SDL_mixer.h"
 #pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib" )
+#include "..//Brofiler/Brofiler.h"
+
 
 j1Audio::j1Audio() : j1Module()
 {
@@ -82,6 +84,8 @@ bool j1Audio::CleanUp()
 // Play a music file
 bool j1Audio::PlayMusic(const char* path, float fade_time)
 {
+	BROFILER_CATEGORY("PlayMusic", Profiler::Color::Brown);
+
 	bool ret = true;
 
 	if(!active)
@@ -136,6 +140,7 @@ bool j1Audio::PlayMusic(const char* path, float fade_time)
 // Load WAV
 unsigned int j1Audio::LoadFx(const char* path)
 {
+
 	unsigned int ret = 0;
 
 	if(!active)
@@ -159,6 +164,7 @@ unsigned int j1Audio::LoadFx(const char* path)
 // Play WAV
 bool j1Audio::PlayFx(unsigned int id, int repeat)
 {
+
 	bool ret = false;
 
 	if(!active)

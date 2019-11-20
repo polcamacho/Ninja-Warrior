@@ -8,6 +8,8 @@
 #include "j1Window.h"
 #include "j1Map.h"
 #include "j1EntityManager.h"
+#include "..//Brofiler/Brofiler.h"
+
 
 j1EntityManager::j1EntityManager()
 {
@@ -29,6 +31,8 @@ bool j1EntityManager::Start()
 
 bool j1EntityManager::PreUpdate()
 {
+	BROFILER_CATEGORY("PreUpdate Entity Manager", Profiler::Color::Chartreuse);
+
 		p2List_item<j1Entity*>* item = entities.start;
 	while (item != nullptr)
 	{
@@ -44,6 +48,8 @@ bool j1EntityManager::PreUpdate()
 
 bool j1EntityManager::Update(float dt)
 {
+	BROFILER_CATEGORY("PreUpdate Entity Manager", Profiler::Color::Coral);
+
 		for (int i = 0; i < entities.count(); ++i)
 		{
 			if (entities.At(i) != nullptr)

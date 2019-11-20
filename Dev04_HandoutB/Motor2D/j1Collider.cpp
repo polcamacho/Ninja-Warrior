@@ -2,6 +2,8 @@
 #include "j1Input.h"
 #include "j1Collider.h"
 #include "p2Log.h"
+#include "..//Brofiler/Brofiler.h"
+
 
 j1Collider::j1Collider()
 {

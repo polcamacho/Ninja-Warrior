@@ -6,6 +6,8 @@
 #include "j1Player.h"
 #include "j1Map.h"
 #include "j1Scene.h"
+#include "..//Brofiler/Brofiler.h"
+
 
 #define VSYNC true
 
@@ -67,12 +69,15 @@ bool j1Render::Start()
 // Called each loop iteration
 bool j1Render::PreUpdate()
 {
+	BROFILER_CATEGORY("PreUpdate Render", Profiler::Color::Azure);
+
 	SDL_RenderClear(renderer);
 	return true;
 }
 
 bool j1Render::Update(float dt)
 {
+	BROFILER_CATEGORY("Update Render", Profiler::Color::Yellow);
 
 	if(App->scene->current_map=="Map.tmx"){
 	
@@ -104,6 +109,8 @@ bool j1Render::Update(float dt)
 
 bool j1Render::PostUpdate()
 {
+	BROFILER_CATEGORY("Update Render", Profiler::Color::BlanchedAlmond);
+
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
 	SDL_RenderPresent(renderer);
 	return true;

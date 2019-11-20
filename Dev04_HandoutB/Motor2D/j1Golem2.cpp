@@ -11,6 +11,8 @@
 #include "j1Collider.h"
 #include "j1Scene.h"
 #include <math.h>
+#include "..//Brofiler/Brofiler.h"
+
 
 j1Golem2::j1Golem2() : j1Module()
 {
