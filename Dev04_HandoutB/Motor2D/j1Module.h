@@ -36,19 +36,19 @@ public:
 	}
 
 	// Called each loop iteration
-	virtual bool PreUpdate(float dt)
+	virtual bool PreUpdate(float dt=0)
 	{
 		return true;
 	}
 
 	// Called each loop iteration
-	virtual bool Update(float dt)
+	virtual bool Update(float dt=0)
 	{
 		return true;
 	}
 
 	// Called each loop iteration
-	virtual bool PostUpdate()
+	virtual bool PostUpdate(float dt=0)
 	{
 		return true;
 	}

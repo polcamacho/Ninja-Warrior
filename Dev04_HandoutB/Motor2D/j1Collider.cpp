@@ -67,7 +67,7 @@ bool j1Collider::Start() {
 	return true;
 }
 
-bool j1Collider::PreUpdate()
+bool j1Collider::PreUpdate(float dt)
 {
 	// Remove all colliders scheduled for deletion
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)

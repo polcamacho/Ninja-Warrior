@@ -49,17 +49,20 @@ bool j1Scene::Start()
 {
 	LOG("LOADING MAP");
 	current_map = maps.start->data;
-	App->map->Load(current_map.GetString());
+	
+	if (App->map->Load(current_map.GetString()) == true) {
+	int w, h;
+	uchar* data = NULL;
+	if (App->map->CreateWalkabilityMap(w, h, &data)) {
+		App->pathfinding->SetMap(w, h, data);
+		LOG("%d %d %d 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", w, h, data);
+	}
+
+	RELEASE_ARRAY(data);
+	}	
 
 	//load audio from map 1
 	if (current_map == "Map.tmx") {
-
-		int w, h;
-		uchar* data = NULL;
-		if (App->map->CreateWalkabilityMap(w, h, &data))
-			App->pathfinding->SetMap(w, h, data);
-
-		RELEASE_ARRAY(data);
 
 		App->audio->PlayMusic("audio/music/map1_music.ogg");
 		jump_FX= App->audio->LoadFx("audio/fx/Jump.wav");
@@ -90,7 +93,7 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate(float dt)
 {
-
+	
 	// debug pathfing ------------------
 	static iPoint origin;
 	static bool origin_selected = false;
@@ -100,21 +103,23 @@ bool j1Scene::PreUpdate(float dt)
 	iPoint p = App->render->ScreenToWorld(x, y);
 	p = App->map->WorldToMap(p.x, p.y);
 
-	if (App->input->GetMouseButtonDown(SDL_BUTTON_RIGHT) == KEY_DOWN)
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
-		LOG("hola");
+		
 		if (origin_selected == true)
 		{
 			App->pathfinding->CreatePath(origin, p);
-			LOG("%d,%d,%d,%d", origin.x, origin.y, p.x, p.y);
 			origin_selected = false;
+			LOG("%d,%d,%d,%d", origin.x, origin.y, p.x, p.y);
 		}
 		else
 		{
 			origin = p;
+		
 			origin_selected = true;
 		}
 	}
+
 	return true;
 }
 
@@ -185,6 +190,7 @@ bool j1Scene::Update(float dt)
 
 		App->map->Draw();		//draws the correspondant map
 
+
 	}
 
 	//restart map and puts the player at the beginning of it
@@ -229,6 +235,7 @@ bool j1Scene::Update(float dt)
 		}
 	}
 
+
 	// Debug pathfinding ------------------------------
 	int x = 0, y = 0;
 	App->input->GetMousePosition(x, y);
@@ -239,18 +246,20 @@ bool j1Scene::Update(float dt)
 	App->render->Blit(debug_tex, p.x, p.y);
 
 	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+	LOG("%d", path->Count());
 
 	for (uint i = 0; i < path->Count(); ++i)
 	{
 		iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
 		App->render->Blit(debug_tex, pos.x, pos.y);
 	}
+	
 
 	return true;
 }
 
 // Called each loop iteration
-bool j1Scene::PostUpdate()
+bool j1Scene::PostUpdate(float dt)
 {
 	bool ret = true;
 
@@ -294,7 +303,7 @@ bool j1Scene::Save(pugi::xml_node& data) const
 }
 
 void j1Scene::SecondMap() {
-	
+
 	App->map->CleanUp();
 	App->collider->CleanUp();
 
@@ -311,14 +320,14 @@ void j1Scene::SecondMap() {
 	App->map->Load(current_map.GetString());
 	App->map->Draw();
 	App->collider->Start();
-	
+
 	//charge map 1 position when initialize the game
 
 	if (current_map == "Map.tmx") {
 
 		App->player->data_player.position.x = 100;
 		App->player->data_player.position.y = 500;
-		
+
 		App->audio->PlayMusic("audio/music/map1_music.ogg");
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
@@ -326,7 +335,7 @@ void j1Scene::SecondMap() {
 	}
 
 	//charge map 2 position when player completes level 1
-	else if(current_map=="map2.tmx"){
+	else if (current_map == "map2.tmx") {
 
 		App->player->data_player.position.x = 55;
 		App->player->data_player.position.y = 10;
@@ -337,6 +346,6 @@ void j1Scene::SecondMap() {
 		App->player->Start();
 	}
 
-	
-	
+
+
 }

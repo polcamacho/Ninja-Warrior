@@ -2,10 +2,9 @@
 #include "p2Log.h"
 #include "j1App.h"
 #include "j1Pathfinding.h"
-#include "..//Brofiler/Brofiler.h"
+#include "j1Scene.h"
 
-
-j1PathFinding::j1PathFinding() : j1Module(), map(NULL), last_path(DEFAULT_PATH_LENGTH),width(0), height(0)
+j1PathFinding::j1PathFinding() : j1Module(), map(NULL), last_path(DEFAULT_PATH_LENGTH), width(0), height(0)
 {
 	name.create("pathfinding");
 }
@@ -33,15 +32,15 @@ void j1PathFinding::SetMap(uint width, uint height, uchar* data)
 	this->height = height;
 
 	RELEASE_ARRAY(map);
-	map = new uchar[width*height];
-	memcpy(map, data, width*height);
+	map = new uchar[width * height];
+	memcpy(map, data, width * height);
 }
 
 // Utility: return true if pos is inside the map boundaries
 bool j1PathFinding::CheckBoundaries(const iPoint& pos) const
 {
 	return (pos.x >= 0 && pos.x <= (int)width &&
-			pos.y >= 0 && pos.y <= (int)height);
+		pos.y >= 0 && pos.y <= (int)height);
 }
 
 // Utility: returns true is the tile is walkable
@@ -54,8 +53,8 @@ bool j1PathFinding::IsWalkable(const iPoint& pos) const
 // Utility: return the walkability value of a tile
 uchar j1PathFinding::GetTileAt(const iPoint& pos) const
 {
-	if(CheckBoundaries(pos))
-		return map[(pos.y*width) + pos.x];
+	if (CheckBoundaries(pos))
+		return map[(pos.y * width) + pos.x];
 
 	return INVALID_WALK_CODE;
 }
@@ -72,9 +71,9 @@ const p2DynArray<iPoint>* j1PathFinding::GetLastPath() const
 p2List_item<PathNode>* PathList::Find(const iPoint& point) const
 {
 	p2List_item<PathNode>* item = list.start;
-	while(item)
+	while (item)
 	{
-		if(item->data.pos == point)
+		if (item->data.pos == point)
 			return item;
 		item = item->next;
 	}
@@ -90,9 +89,9 @@ p2List_item<PathNode>* PathList::GetNodeLowestScore() const
 	int min = 65535;
 
 	p2List_item<PathNode>* item = list.end;
-	while(item)
+	while (item)
 	{
-		if(item->data.Score() < min)
+		if (item->data.Score() < min)
 		{
 			min = item->data.Score();
 			ret = item;
@@ -189,10 +188,9 @@ int PathNode::CalculateF(const iPoint& destination)
 // ----------------------------------------------------------------------------------
 int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 {
-	BROFILER_CATEGORY("CreatePath Entity Manager", Profiler::Color::Indigo);
 
 	last_path.Clear();
-	
+
 	// TODO 1: if origin or destination are not walkable, return -1
 
 	if (IsWalkable(origin) == false || IsWalkable(destination) == false) {
@@ -208,7 +206,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 	open.list.add(node);
 
 	while (open.list.count() > 0) {
-		
+
 		// TODO 3: Move the lowest score cell from open list to the closed list
 		close.list.add(open.GetNodeLowestScore()->data);
 		open.list.del(open.GetNodeLowestScore());
@@ -245,7 +243,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 			// If it is NOT found, calculate its F and add it to the open list
 			// If it is already in the open list, check if it is a better path (compare G)
 			// If it is a better path, Update the parent
-			
+
 			PathList neighbours;
 
 			close.list.end->data.FindWalkableAdjacents(neighbours);
@@ -282,7 +280,7 @@ int j1PathFinding::CreatePath(const iPoint& origin, const iPoint& destination)
 
 	}
 
-	return last_path.Count();	
+	return last_path.Count();
 
 }
 

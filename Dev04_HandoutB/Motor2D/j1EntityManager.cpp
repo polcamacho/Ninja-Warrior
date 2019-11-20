@@ -29,7 +29,7 @@ bool j1EntityManager::Start()
 	return true;
 }
 
-bool j1EntityManager::PreUpdate()
+bool j1EntityManager::PreUpdate(float dt)
 {
 	BROFILER_CATEGORY("PreUpdate Entity Manager", Profiler::Color::Chartreuse);
 

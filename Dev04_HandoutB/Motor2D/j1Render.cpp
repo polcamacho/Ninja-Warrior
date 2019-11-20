@@ -67,7 +67,7 @@ bool j1Render::Start()
 }
 
 // Called each loop iteration
-bool j1Render::PreUpdate()
+bool j1Render::PreUpdate(float dt)
 {
 	BROFILER_CATEGORY("PreUpdate Render", Profiler::Color::Azure);
 
@@ -107,7 +107,7 @@ bool j1Render::Update(float dt)
 	return true;
 }
 
-bool j1Render::PostUpdate()
+bool j1Render::PostUpdate(float dt)
 {
 	BROFILER_CATEGORY("Update Render", Profiler::Color::BlanchedAlmond);
 

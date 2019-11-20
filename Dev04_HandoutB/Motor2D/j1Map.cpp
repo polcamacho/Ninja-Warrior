@@ -82,21 +82,22 @@ void j1Map::Draw()
 TileSet* j1Map::GetTilesetFromTileId(int id) const
 {
 	// Tileset based on a tile id
-	p2List_item<TileSet*>* item = data.tilesets.start;
-	TileSet* set = item->data;
+	p2List_item<TileSet*>* tileset_iterator = this->data.tilesets.start;
+	TileSet* tileset = tileset_iterator->data;
 
-	while (item)
+	while (tileset_iterator != NULL)
 	{
-		if (id < item->data->firstgid)
-		{
-			set = item->prev->data;
-			break;
-		}
-		set = item->data;
-		item = item->next;
-	}
+		if (id >= tileset_iterator->data->firstgid) {
+			tileset = tileset_iterator->data;
+			tileset_iterator = tileset_iterator->next;
 
-	return set;
+		}
+		else {
+			tileset_iterator = tileset_iterator->next;
+		}
+
+	}
+	return tileset;
 }
 // ----------------------------------------------------
 iPoint j1Map::MapToWorld(int x, int y) const
@@ -583,7 +584,8 @@ bool j1Map::LoadProperties(pugi::xml_node& node, Properties& properties)
 
 bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 {
-	bool ret = false;
+	
+		bool ret = false;
 	p2List_item<MapLayer*>* item;
 	item = data.layers.start;
 
@@ -591,25 +593,28 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 	{
 		MapLayer* layer = item->data;
 
-		if (layer->properties.Get("Navigation", 0) != 1);
+		if (layer->properties.Get("Navigation", 0) != 1)
 			continue;
 
-		uchar* map = new uchar[layer->width*layer->height];
-		memset(map, 1, layer->width*layer->height);
+		uchar* map = new uchar[layer->width * layer->height];
+		memset(map, 1, layer->width * layer->height);
 
 		for (int y = 0; y < data.height; ++y)
 		{
 			for (int x = 0; x < data.width; ++x)
 			{
-				int i = (y*layer->width) + x;
+				int i = (y * layer->width) + x;
 
 				int tile_id = layer->Get(x, y);
-				TileSet* tileset = (tile_id > 0) ? GetTilesetFromTileId(tile_id) : NULL;
 
-				if (tileset != NULL)
+				if (tile_id != 0)
 				{
-					map[i] = (tile_id - tileset->firstgid) > 0 ? 0 : 1;
-				
+					map[i] = 0;
+					/*TileType* ts = tileset->GetTileType(tile_id);
+					if(ts != NULL)
+					{
+						map[i] = ts->properties.Get("walkable", 1);
+					}*/
 				}
 			}
 		}
