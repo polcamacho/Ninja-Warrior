@@ -10,6 +10,8 @@
 //#include "j1Enemy.h"
 #include "j1Window.h"
 #include <math.h>
+#include "..//Brofiler/Brofiler.h"
+
 // ----------------------------------------------------
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
@@ -32,7 +34,7 @@ bool j1Map::Awake(pugi::xml_node& config)
 // ----------------------------------------------------
 void j1Map::Draw()
 {
-	
+	BROFILER_CATEGORY("Draw Map",Profiler::Color::Chocolate)
 	if (map_loaded == false)
 		return;
 

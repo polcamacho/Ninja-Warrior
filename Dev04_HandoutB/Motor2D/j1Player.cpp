@@ -11,8 +11,10 @@
 #include "j1Collider.h"
 #include "j1Scene.h"
 #include <math.h>
+#include "..//Brofiler/Brofiler.h"
 
-j1Player::j1Player() : j1Module()
+
+j1Player::j1Player()
 {
 	name.create("player");
 	
@@ -53,6 +55,7 @@ bool j1Player::Awake(pugi::xml_node& config) {
 void j1Player::DrawPlayer()
 {
 	
+	BROFILER_CATEGORY("DrawPlayer", Profiler::Color::Orange);
 
 	if (data_player.player_flip) {
 		App->render->Blit(data_player.Tex_Player, data_player.position.x, data_player.position.y, &(data_player.current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL, 0);	//Draw Player Flipped
@@ -81,13 +84,16 @@ bool j1Player::Start() {
 
 bool j1Player::PreUpdate(float dt) {
 
+	BROFILER_CATEGORY("PreUpdatePlayer", Profiler::Color::Gray);
+
 	return true;
 
 }
 
 bool j1Player::Update(float dt) {
 
-	
+	BROFILER_CATEGORY("DrawPlayer", Profiler::Color::Red);
+
 
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 

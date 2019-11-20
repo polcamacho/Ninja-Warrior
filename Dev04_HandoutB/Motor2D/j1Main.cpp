@@ -4,11 +4,16 @@
 #include "p2Log.h"
 #include "j1App.h"
 
+
 // This is needed here because SDL redefines main function
 // do not add any other libraries here, instead put them in their modules
 #include "SDL/include/SDL.h"
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
 #pragma comment( lib, "SDL/libx86/SDL2main.lib" )
+
+
+#include "..//Brofiler/Brofiler.h"
+#pragma comment( lib, "..//Brofiler/ProfilerCore32.lib" )
 
 
 enum MainState
@@ -38,64 +43,81 @@ int main(int argc, char* args[])
 
 			// Allocate the engine --------------------------------------------
 			case CREATE:
-			LOG("CREATION PHASE ===============================");
+			{
+				BROFILER_FRAME("frame");
+				LOG("CREATION PHASE ===============================");
 
-			App = new j1App(argc, args);
+				App = new j1App(argc, args);
 
-			if(App != NULL)
-				state = AWAKE;
-			else
-				state = FAIL;
+				if (App != NULL)
+					state = AWAKE;
+				else
+					state = FAIL;
 
-			break;
+				break;
+			}
 
 			// Awake all modules -----------------------------------------------
 			case AWAKE:
-			LOG("AWAKE PHASE ===============================");
-			if(App->Awake() == true)
-				state = START;
-			else
 			{
-				LOG("ERROR: Awake failed");
-				state = FAIL;
-			}
+				BROFILER_FRAME("frame");
+				LOG("AWAKE PHASE ===============================");
+				if (App->Awake() == true)
+					state = START;
+				else
+				{
+					LOG("ERROR: Awake failed");
+					state = FAIL;
+				}
 
-			break;
+				break;
+			}
 
 			// Call all modules before first frame  ----------------------------
 			case START:
-			LOG("START PHASE ===============================");
-			if(App->Start() == true)
 			{
-				state = LOOP;
-				LOG("UPDATE PHASE ===============================");
+				BROFILER_FRAME("frame");
+
+				LOG("START PHASE ===============================");
+				if (App->Start() == true)
+				{
+					state = LOOP;
+					LOG("UPDATE PHASE ===============================");
+				}
+				else
+				{
+					state = FAIL;
+					LOG("ERROR: Start failed");
+				}
+				break;
 			}
-			else
-			{
-				state = FAIL;
-				LOG("ERROR: Start failed");
-			}
-			break;
 
 			// Loop all modules until we are asked to leave ---------------------
 			case LOOP:
-			if(App->Update() == false)
-				state = CLEAN;
-			break;
+			{
+				BROFILER_FRAME("frame");
+
+				if (App->Update() == false)
+					state = CLEAN;
+				break;
+			}
 
 			// Cleanup allocated memory -----------------------------------------
 			case CLEAN:
-			LOG("CLEANUP PHASE ===============================");
-			if(App->CleanUp() == true)
 			{
-				RELEASE(App);
-				result = EXIT_SUCCESS;
-				state = EXIT;
-			}
-			else
-				state = FAIL;
+				BROFILER_FRAME("frame");
+				LOG("CLEANUP PHASE ===============================");
+				if (App->CleanUp() == true)
+				{
+					RELEASE(App);
+					result = EXIT_SUCCESS;
+					state = EXIT;
+				}
+				else
+					state = FAIL;
 
-			break;
+				break;
+			}
 
 			// Exit with errors and shame ---------------------------------------
 			case FAIL:

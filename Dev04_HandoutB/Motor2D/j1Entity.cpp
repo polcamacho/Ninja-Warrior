@@ -7,6 +7,8 @@
 //#include "j1Entity.h"
 //#include "j1Window.h"
 //#include "j1Map.h"
+//#include "..//Brofiler/Brofiler.h"
+
 //
 //j1Entity::j1Entity()
 //{
