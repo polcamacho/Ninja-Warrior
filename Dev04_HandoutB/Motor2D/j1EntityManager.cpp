@@ -36,11 +36,11 @@ bool j1EntityManager::PreUpdate(float dt)
 		p2List_item<j1Entity*>* item = entities.start;
 	while (item != nullptr)
 	{
-		/*if (item->data->to_destroy)
+		if (item->data->destroy)
 		{
 			delete item->data;
 			entities.del(item);
-		}*/
+		}
 		item = item->next;
 	}
 	return true;

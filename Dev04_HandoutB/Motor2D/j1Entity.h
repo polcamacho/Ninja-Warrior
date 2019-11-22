@@ -22,12 +22,8 @@ class j1Entity : public j1Module
 
 public:
 
-
-
-public:
-
 	//CONSTRUCTOR
-	j1Entity();
+	j1Entity(int x, int y, entity_type type);
 	j1Entity(entity_type type);
 
 	//DESTRUCTOR
@@ -40,7 +36,7 @@ public:
 	virtual bool PostUpdate();
 
 	// Called before render is available
-	virtual bool Awake(pugi::xml_node & config);
+	virtual bool Awake(pugi::xml_node& config);
 
 	// Called before quitting
 	virtual bool CleanUp();
@@ -49,51 +45,55 @@ public:
 	virtual bool Save(pugi::xml_node&) const;
 	virtual bool Load(pugi::xml_node&);
 
+	virtual bool DrawEntity(int x, int y, entity_type type);
 
-	void DrawEntity(int x, int y, entity_type entity);
-
-	void CheckState(float dt);	//Load keys to check states
 	void State(float dt);	//Check animations
 	void Pushbacks() {};
-	//void OnCollision(Collider* c1, Collider* c2);
-	//void Reset() {};
-	//bool pretime(float sec);
+	void OnCollision(Collider* c1, Collider* c2);
+	void Reset() {};
+	bool PreTime(float sec);
 
 
 private:
 
 public:
 
-	Animation*			current_animation;
+	//trash ??
+	Animation* current_animation=nullptr;
+
+	entity_type type = entity_type::ENTITY_NONE;
+	SDL_Texture* texture;	//TEXTURE
+	SDL_Texture* path_texture = nullptr;
 
 	bool				grounded = false;
 	bool				platformdrop;
-	bool				platformdrop2;
-	bool				left = false;	//If left = true, jump running backward
-	bool				right = false;	//If right = true, jump running forward
 	bool				flip;
 	bool				showcolliders = false;
 	bool				die = false;
-	bool				godmode = false;
+
+	SDL_Rect			col;	//Collider RECT
+
+	int					globaltime;
+	int					pretimer = 0;
+
+	Collider* colliders = nullptr;
+
+	bool destroy = false;
+
+};
+
+struct EntityData {
 
 	iPoint				position;	//Position of the player (x,y)
 	iPoint				preposition;
 	iPoint				v;	//Velocity of the player (x,y)
-
-	SDL_Rect			col;	//Collider RECT
-
-	SDL_Texture*		texture;	//TEXTURE
-
 	int					gravity;
-	int					globaltime;
-	int					pretimer = 0;
 
-	Collider*			colliders = nullptr;
 
-	SDL_Texture* path_texture = nullptr;
-
-	bool destroy = false;
 };
+
+EntityData data_entity;
+	
 
 
 #endif // __j1ENTITY_H__*/

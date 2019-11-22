@@ -14,7 +14,7 @@
 #include "..//Brofiler/Brofiler.h"
 
 
-j1Player::j1Player()
+j1Player::j1Player(int x, int y, entity_type type):j1Entity(x,y,type)
 {
 	name.create("player");
 	
@@ -582,7 +582,7 @@ void j1Player::State(float dt) {
 
 			if (App->scene->current_map == "Map.tmx") {	//If player is in map 1
 				
-				if (pretime (20)) {	//Do a timer to stop the game during the Death animation
+				if (PreTime (20)) {	//Do a timer to stop the game during the Death animation
 					
 
 					
@@ -599,7 +599,7 @@ void j1Player::State(float dt) {
 
 				
 
-				if (pretime (20)) {	//Do a timer to stop the game during the Death Animation
+				if (PreTime (20)) {	//Do a timer to stop the game during the Death Animation
 					data_player.current_animation = &data_player.death;	//Current Animation is Death
 					App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 					//Sets the Position that player goes when he dies
@@ -689,7 +689,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 
 		if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_DEAD) {		//Checks that player collides with something that he can die
 
-			//pretime = SDL_GetTicks();	//Sets the pretime to death timer
+			//PreTime = SDL_GetTicks();	//Sets the PreTime to death timer
 		
 			if (data_player.preposition.y < c2->rect.y || data_player.position.y == c2->rect.y - data_player.colliders->rect.h) {	//Checks that player collider from above
 			
@@ -708,7 +708,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 			
 				data_player.current_animation = &data_player.death;	//Current Animation is Death
 				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
-				//pretime = SDL_GetTicks();	//Sets the pretime to death timer
+				//PreTime = SDL_GetTicks();	//Sets the PreTime to death timer
 
 				//data_player.position.y = c2->rect.y + c2->rect.h;
 				current_state = DEATH;	//Sets player to Death state
@@ -761,7 +761,7 @@ void j1Player::Reset() {	//Reset All Player Animations
 	die = false;
 }
 
-bool j1Player::pretime(float sec)
+bool j1Player::PreTime(float sec)
 {
 	bool ret = false;
 	pretimer++;

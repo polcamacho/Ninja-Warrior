@@ -9,6 +9,9 @@
 #include "p2Point.h"
 #include "j1Module.h"
 #include "p2Animation.h"
+#include "j1EntityManager.h"
+#include "j1Entity.h"
+
 
 struct MapObject;
 struct Collider;
@@ -81,12 +84,12 @@ struct PlayerData
 };
 
 // ----------------------------------------------------
-class j1Player : public j1Module
+class j1Player : public j1Entity
 {
 public:
 
 	//Constructor
-	j1Player();
+	j1Player(int x, int y, entity_type type);
 
 	// Destructor
 	virtual ~j1Player();
@@ -124,7 +127,7 @@ public:
 	void State(float dt);	//Check animations
 	void Pushbacks();	//Load the frame animations
 	void Reset();
-	bool pretime(float sec);
+	bool PreTime(float sec);
 
 	// Collisions
 	void OnCollision(Collider* c1, Collider* c2);

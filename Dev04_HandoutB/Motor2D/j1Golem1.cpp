@@ -368,7 +368,7 @@ void j1Golem1::State(float dt) {
 				
 				
 
-				if (pretime (20)) {	//Do a timer to stop the game during the Death animation
+				if (PreTime (20)) {	//Do a timer to stop the game during the Death animation
 					
 
 					
@@ -385,7 +385,7 @@ void j1Golem1::State(float dt) {
 
 				
 
-				if (pretime (20)) {	//Do a timer to stop the game during the Death Animation
+				if (PreTime (20)) {	//Do a timer to stop the game during the Death Animation
 					data_golem.current_animation = &data_golem.death;	//Current Animation is Death
 					App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 					//Sets the Position that player goes when he dies
@@ -475,7 +475,7 @@ void j1Golem1::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 
 		if (c1->type == ColliderType::COLLIDER_ENEMY && c2->type == ColliderType::COLLIDER_DEAD) {		//Checks that player collides with something that he can die
 
-			//pretime = SDL_GetTicks();	//Sets the pretime to death timer
+			//PreTime = SDL_GetTicks();	//Sets the PreTime to death timer
 		
 			if (data_golem.preposition.y < c2->rect.y || data_golem.position.y == c2->rect.y - data_golem.colliders->rect.h) {	//Checks that player collider from above
 			
@@ -494,7 +494,7 @@ void j1Golem1::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 			
 				data_golem.current_animation = &data_golem.death;	//Current Animation is Death
 				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
-				//pretime = SDL_GetTicks();	//Sets the pretime to death timer
+				//PreTime = SDL_GetTicks();	//Sets the PreTime to death timer
 
 				//data_player.position.y = c2->rect.y + c2->rect.h;
 				current_state = DEATH2;	//Sets player to Death state
@@ -545,7 +545,7 @@ void j1Golem1::Reset() {	//Reset All Player Animations
 	die = false;
 }
 
-bool j1Golem1::pretime(float sec)
+bool j1Golem1::PreTime(float sec)
 {
 	bool ret = false;
 	pretimer++;
