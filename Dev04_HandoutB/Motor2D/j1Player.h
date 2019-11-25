@@ -89,7 +89,7 @@ class j1Player : public j1Entity
 public:
 
 	//Constructor
-	j1Player(int x, int y, entity_type type);
+	j1Player(int x, int y);
 
 	// Destructor
 	virtual ~j1Player();

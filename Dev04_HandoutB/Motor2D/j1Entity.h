@@ -37,7 +37,7 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 	void Reset() {};
 	bool PreTime(float sec);
-
+	
 
 private:
 
@@ -62,8 +62,9 @@ public:
 	int					pretimer = 0;
 
 	Collider* colliders = nullptr;
-
 	bool destroy = false;
+
+	
 
 };
 
@@ -73,7 +74,7 @@ struct EntityData {
 	iPoint				preposition;
 	iPoint				v;	//Velocity of the player (x,y)
 	int					gravity;
-
+	
 
 };
 

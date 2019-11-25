@@ -14,7 +14,7 @@
 #include "..//Brofiler/Brofiler.h"
 
 
-j1Player::j1Player(int x, int y, entity_type type):j1Entity(type)
+j1Player::j1Player(int x, int y):j1Entity(entity_type::PLAYER)
 {
 	name.create("player");
 	

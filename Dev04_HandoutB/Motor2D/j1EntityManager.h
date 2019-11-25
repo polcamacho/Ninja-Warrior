@@ -40,7 +40,7 @@ public:
 	j1Entity* DrawEntity(int x, int y, entity_type type);
 
 	bool CleanEntity();
-	bool DeleteEntity();
+	void DeleteEntity();
 
 	j1Entity* GetPlayer();
 
