@@ -21,16 +21,12 @@
 		<path>data.zip</path>
 	</file_system>
 
-  
-	
 	<map>
 		<folder>maps/</folder>
 	</map>
   
 	
 	<player>
-    <folder>textures/</folder>
-    <texture source="rogue_spritesheed.png" />
     <position x="100" y="500" />
     <jump_velocity jumpvel="-45" />
     <velocity x="5"/>
@@ -40,19 +36,21 @@
 	</player>
   
 	<enemy>
-    <folder>textures/</folder>
-    <texture source="golems.png" />
     <position x="150" y="350" />
     <gravity grav="15" />
     <velocity x="5"/>
   </enemy>
 
   <golem2>
-    <folder>textures/</folder>
-    <texture source="golems.png" />
     <position x="150" y="350" />
     <gravity grav="15" />
   </golem2>
+
+  <entitymanager>
+    <folder>textures/</folder>
+    <texture source1="rogue_spritesheed.png" />
+    <texture source2="golems.png" />
+  </entitymanager>
   
 	<scene>
 		<map name="Map.tmx" />

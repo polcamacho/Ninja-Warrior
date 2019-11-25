@@ -4,6 +4,7 @@
 #include "j1Render.h"
 #include "j1Audio.h"
 #include "j1Textures.h"
+#include "j1Player.h"
 #include "j1Entity.h"
 #include "j1Window.h"
 #include "j1Map.h"
@@ -18,14 +19,21 @@ j1EntityManager::j1EntityManager()
 
 j1EntityManager::~j1EntityManager() {}
 
-bool j1EntityManager::Awake(pugi::xml_node& conf)
+bool j1EntityManager::Awake(pugi::xml_node& config)
 {
+	folder.create(config.child("folder").child_value());
+	texture1 = config.child("texture").attribute("source1").as_string();
+	texture2 = config.child("texture").attribute("source2").as_string();
+
 	bool ret = true;
 	return ret;
 }
 
 bool j1EntityManager::Start()
 {
+	Tex_Player = App->tex->Load(PATH(folder.GetString(), texture1.GetString()));	//Load The Texture of player
+	Tex_Golems = App->tex->Load(PATH(folder.GetString(), texture2.GetString()));	//Load The Texture of player
+
 	return true;
 }
 
@@ -36,11 +44,10 @@ bool j1EntityManager::PreUpdate(float dt)
 		p2List_item<j1Entity*>* item = entities.start;
 	while (item != nullptr)
 	{
-		if (item->data->destroy)
-		{
+		
 			delete item->data;
 			entities.del(item);
-		}
+		
 		item = item->next;
 	}
 	return true;
@@ -80,51 +87,57 @@ bool j1EntityManager::CleanUp()
 	return true;
 }
 
-/*bool j1EntityManager::DrawEntity(int x, int y, entity_type type)
+j1Entity* j1EntityManager::DrawEntity(int x, int y, entity_type type)
 {
-	bool ret = false;
+	j1Entity* e = nullptr;
 
 	switch (type)
 	{
-	case PLAYER:
-	{
-		player = new Player(x, y, PLAYER);
-		entities.add(player);
-		ret = true;
-		break;
+	case entity_type::PLAYER:
+		{
+			e = new j1Player(x, y, type);
+			entities.add(e);
+			break;
+		}
+
+		/*case GOLEM_GRASS_ENEMY:
+		{
+			golem1 = new j1Golem1(x, y, GOLEM_GRASS_ENEMY);
+			entities.add(golem1);
+			ret = true;
+			break;
+		}
+
+		case GOLEM_ROCK_ENEMY:
+		{
+			BigBat* bat = new BigBat(x, y, BIGBAT);
+			entities.add(bat);
+			ret = true;
+			break;
+		}
+
+		case FLYING_EYE_ENEMY:
+		{
+			Coin* coin = new Coin(x, y, COIN);
+			entities.add(coin);
+			ret = true;
+			break;
+		}
+
+		case BAT_ENEMY:
+		{
+			Coin* coin = new Coin(x, y, COIN);
+			entities.add(coin);
+			ret = true;
+			break;
+		}*/
+
+		default:
+		{
+			break;
+		}
+
 	}
 
-	case BLACKBANDIT:
-	{
-		BlackBandit* bandit = new BlackBandit(x, y, BLACKBANDIT);
-		entities.add(bandit);
-		ret = true;
-		break;
-	}
-
-	case BIGBAT:
-	{
-		BigBat* bat = new BigBat(x, y, BIGBAT);
-		entities.add(bat);
-		ret = true;
-		break;
-	}
-
-	case COIN:
-	{
-		Coin* coin = new Coin(x, y, COIN);
-		entities.add(coin);
-		ret = true;
-		break;
-	}
-
-
-	default:
-	{
-		break;
-	}
-
-	}
-
-	return ret;
-}*/
+	return e;
+}

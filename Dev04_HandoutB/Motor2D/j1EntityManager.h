@@ -4,6 +4,11 @@
 
 #include "j1Module.h"
 #include "p2List.h"
+#include "PugiXml/src/pugixml.hpp"
+
+#define LIMIT_TIMER 60
+
+struct SDL_Texture;
 
 class j1Entity;
 
@@ -28,14 +33,26 @@ public:
 	bool Awake(pugi::xml_node&);
 	bool Start();
 	bool PreUpdate(float dt);
+	bool PostUpdate(float dt);
 	bool Update(float dt);
 	bool CleanUp();
 
-	bool DrawEntity(int x, int y, entity_type type);
+	j1Entity* DrawEntity(int x, int y, entity_type type);
 
+	bool CleanEntity();
+	bool DeleteEntity();
+
+	j1Entity* GetPlayer();
 
 public:
-	p2List<j1Entity*> entities;
+	p2List<j1Entity*>	entities;
+	SDL_Texture*	Tex_Player = nullptr;
+	SDL_Texture*	Tex_Golems = nullptr;
+
+	p2SString		folder;
+	p2SString		texture1;
+	p2SString		texture2;
+
 };
 
 

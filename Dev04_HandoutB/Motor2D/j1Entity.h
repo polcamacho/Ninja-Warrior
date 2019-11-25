@@ -2,44 +2,29 @@
 #ifndef __j1ENTITY_H__
 #define __j1ENTITY_H__
 
-#define LIMIT_TIMER 50
+#define LIMIT_TIMER 60
 
 #include "SDL/include/SDL.h"
 #include "p2Point.h"
 #include "j1EntityManager.h"
 
-//
-//
-//enum entity_type {
-
-//};
-//
 
 class Animation;
 
-class j1Entity : public j1Module
+class j1Entity
 {
 
 public:
 
-	//CONSTRUCTOR
-	j1Entity(int x, int y, entity_type type);
 	j1Entity(entity_type type);
 
-	//DESTRUCTOR
 	virtual ~j1Entity();
 
 	//Called at first
-	virtual bool Start();
-	virtual bool PreUpdate();
 	virtual bool Update(float dt);
-	virtual bool PostUpdate();
 
 	// Called before render is available
 	virtual bool Awake(pugi::xml_node& config);
-
-	// Called before quitting
-	virtual bool CleanUp();
 
 	// Called each loop iteration
 	virtual bool Save(pugi::xml_node&) const;

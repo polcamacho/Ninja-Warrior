@@ -9,7 +9,7 @@
 #include "j1Map.h"
 #include "p2Animation.h"
 
-j1Entity::j1Entity(int x, int y, entity_type type){}
+j1Entity::j1Entity(entity_type type){}
 
 j1Entity::~j1Entity()
 {
@@ -17,7 +17,7 @@ j1Entity::~j1Entity()
 	App->tex->UnLoad(path_texture);
 }
 
-bool Awake(pugi::xml_node& config) {
+bool j1Entity::Awake(pugi::xml_node& config) {
 
 	bool ret = true;
 	data_entity.gravity = config.child("gravity").attribute("grav").as_int();

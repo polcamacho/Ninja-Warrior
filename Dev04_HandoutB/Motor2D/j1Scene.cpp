@@ -135,7 +135,7 @@ bool j1Scene::Update(float dt)
 		current_map.create("Map.tmx");				// it starts in map 1 
 
 		App->map->CleanUp();
-		App->player->CleanUp();						//clean all map and player stuff 
+		//App->player->CleanUp();						//clean all map and player stuff 
 
 		if (current_map == "Map.tmx") {												//load audio from map 1
 
@@ -146,11 +146,11 @@ bool j1Scene::Update(float dt)
 		}
 
 		App->map->Load(current_map.GetString());
-		App->player->Start();
+		//App->player->Start();
 		App->map->Draw();
 		
-		App->player->data_player.position.x = 100;
-		App->player->data_player.position.y = 300;				// initial position in map 1 by default
+		//App->player->data_player.position.x = 100;
+		//App->player->data_player.position.y = 300;				// initial position in map 1 by default
 
 	}
 
@@ -163,7 +163,7 @@ bool j1Scene::Update(float dt)
 
 		App->map->CleanUp();
 		
-		App->player->CleanUp();
+		//App->player->CleanUp();
 
 		//charge map 2 position when player presses F2
 		if (current_map == "map2.tmx") {
@@ -176,12 +176,12 @@ bool j1Scene::Update(float dt)
 
 		App->map->Load(current_map.GetString());
 		
-		App->player->Start();
+		//App->player->Start();
 		App->map->Draw();
 		
 		//charge map 2 position when F2 is pressed
-		App->player->data_player.position.x = 55;
-		App->player->data_player.position.y = 10;
+		//App->player->data_player.position.x = 55;
+		//App->player->data_player.position.y = 10;
 
 	}
 
@@ -197,15 +197,15 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
 		if(current_map=="Map.tmx"){
-		App->player->data_player.position.x = 100;
-		App->player->data_player.position.y = 300;
-		App->player->data_player.player_flip = SDL_FLIP_NONE;
+		//App->player->data_player.position.x = 100;
+		//App->player->data_player.position.y = 300;
+		//App->player->data_player.player_flip = SDL_FLIP_NONE;
 		}
 
 		else {
-			App->player->data_player.position.x = 55;
-			App->player->data_player.position.y = 10;
-			App->player->data_player.player_flip = SDL_FLIP_NONE;
+			//App->player->data_player.position.x = 55;
+			//App->player->data_player.position.y = 10;
+			//App->player->data_player.player_flip = SDL_FLIP_NONE;
 		}
 	}
 
@@ -214,7 +214,7 @@ bool j1Scene::Update(float dt)
 		
 		App->SaveGame();
 
-		App->player->data_player.position.y -= 20;
+		//App->player->data_player.position.y -= 20;
 	}
 		
 	//load player position in every map
@@ -224,15 +224,15 @@ bool j1Scene::Update(float dt)
 	 // Show player and map colliders
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)						
 	{
-		if (App->player->data_player.showcolliders == false)
+		/*if (App->player->data_player.showcolliders == false)
 		{
-			App->player->data_player.showcolliders = true;
+			//App->player->data_player.showcolliders = true;
 
-		}
-		else if (App->player->data_player.showcolliders == true)
+		}*/
+		/*else if (App->player->data_player.showcolliders == true)
 		{
 			App->player->data_player.showcolliders = false;
-		}
+		}*/
 	}
 
 
@@ -287,7 +287,7 @@ bool j1Scene::Load(pugi::xml_node& data)
 	current_map.create(data.child("scene").attribute("name").as_string());					//check which map have to be loaded and load it
 	App->map->Load(current_map.GetString());
 	App->collider->Start();
-	App->player->Start();
+	//App->player->Start();
 	
 	return true;
 }
@@ -325,25 +325,25 @@ void j1Scene::SecondMap() {
 
 	if (current_map == "Map.tmx") {
 
-		App->player->data_player.position.x = 100;
-		App->player->data_player.position.y = 500;
+		//App->player->data_player.position.x = 100;
+		//App->player->data_player.position.y = 500;
 
 		App->audio->PlayMusic("audio/music/map1_music.ogg");
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-		App->player->Start();
+		//App->player->Start();
 	}
 
 	//charge map 2 position when player completes level 1
 	else if (current_map == "map2.tmx") {
 
-		App->player->data_player.position.x = 55;
-		App->player->data_player.position.y = 10;
+		//App->player->data_player.position.x = 55;
+		//App->player->data_player.position.y = 10;
 
 		App->audio->PlayMusic("audio/music/map2_music.ogg");
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-		App->player->Start();
+		//App->player->Start();
 	}
 
 

@@ -81,14 +81,14 @@ bool j1Render::Update(float dt)
 
 	if(App->scene->current_map=="Map.tmx"){
 	
-		camera.x = -(App->player->data_player.position.x) + (App->win->width / 2);
-		camera.y = -(App->player->data_player.position.y) + (App->win->height / 1.40);
+		camera.x = -/*(App->player->data_player.position.x)*/ + (App->win->width / 2);
+		camera.y = -/*(App->player->data_player.position.y)*/ + (App->win->height / 1.40);
 
 	}
 	else {
 		
-		camera.x = -(App->player->data_player.position.x) + (App->win->width / 2);
-		camera.y = -(App->player->data_player.position.y) + (App->win->height / 1.9);
+		camera.x = -/*(App->player->data_player.position.x)*/ + (App->win->width / 2);
+		camera.y = -/*(App->player->data_player.position.y)*/ + (App->win->height / 1.9);
 	}
 	
 	//Set Camera Limits

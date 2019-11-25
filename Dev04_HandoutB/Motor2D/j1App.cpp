@@ -12,7 +12,6 @@
 #include "j1Scene.h"
 #include "j1Map.h"
 #include "j1App.h"
-#include "j1Player.h"
 #include "j1Collider.h"
 #include "j1Pathfinding.h"
 #include "j1FadeToBlack.h"
@@ -38,13 +37,12 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	audio = new j1Audio();
 	scene = new j1Scene();
 	map = new j1Map();
-	player = new j1Player();
 	collider = new j1Collider();
 	pathfinding = new j1PathFinding();
 	fade = new j1FadeToBlack();
 	golem1 = new j1Golem1();
 	golem2 = new j1Golem2();
-	//entitymanager = new j1EntityManager();
+	entity = new j1EntityManager();
 
 
 	// Ordered for awake / Start / Update
@@ -55,13 +53,12 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(audio);
 	AddModule(map);
 	AddModule(scene);
-	AddModule(player);
 	AddModule(golem1);
 	AddModule(golem2);
 	AddModule(collider);
 	AddModule(pathfinding);
 	AddModule(fade);
-	//AddModule(entity);
+	AddModule(entity);
 	
 
 

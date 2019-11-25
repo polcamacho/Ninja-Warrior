@@ -143,6 +143,8 @@ public:
 	bool die = false;
 	bool godmode = false;
 
+	p2SString			name;
+
 private:
 
 	
