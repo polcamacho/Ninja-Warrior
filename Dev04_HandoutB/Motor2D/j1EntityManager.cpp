@@ -46,12 +46,12 @@ bool j1EntityManager::PreUpdate(float dt)
 bool j1EntityManager::Update(float dt)
 {
 	BROFILER_CATEGORY("PreUpdate Entity Manager", Profiler::Color::Coral);
-	p2List_item<j1Entity*>* all_entities = entities.start;
+	p2List_item<j1Entity*>* item = entities.start;
 
-		while (all_entities)
+		while (item!=nullptr)
 		{
-			all_entities->data->Update(dt);
-			all_entities = all_entities->next;
+			item->data->Update(dt);
+			item = item->next;
 		}
 	
 	DeleteEntity();
@@ -72,6 +72,7 @@ bool j1EntityManager::CleanUp()
 
 bool j1EntityManager::CleanEntity() {
 	
+	
 	p2List_item<j1Entity*>* item = entities.start;
 	while (item != nullptr)
 	{
@@ -79,7 +80,7 @@ bool j1EntityManager::CleanEntity() {
 		entities.del(item);
 		item = item->next;
 	}
-
+	return true;
 }
 
 j1Entity* j1EntityManager::DrawEntity(int x, int y, entity_type type)
@@ -92,7 +93,9 @@ j1Entity* j1EntityManager::DrawEntity(int x, int y, entity_type type)
 		case entity_type::PLAYER:
 		{
 			ret = new j1Player(x, y);
-			entities.add(ret);
+			if (ret != nullptr) {
+				entities.add(ret);
+			}
 			break;
 		}
 
@@ -127,12 +130,6 @@ j1Entity* j1EntityManager::DrawEntity(int x, int y, entity_type type)
 		}
 		*/
 
-		if (ret != nullptr) {
-
-			entities.add(ret);
-			//entities.end->data->Start;
-		}
-
 		default:
 		{
 			break;
@@ -147,7 +144,7 @@ void j1EntityManager::DeleteEntity() {
 
 	p2List_item<j1Entity*>* item = entities.start;
 	while (item != nullptr) {
-		if (item->data->destroy == true) {
+		if (item->data->data_entity.destroy == true) {
 			delete item->data;
 			entities.del(item);
 		}
@@ -161,7 +158,7 @@ j1Entity* j1EntityManager::GetPlayer() {
 	{
 		if (entities.At(i) != nullptr)
 		{
-			if (entities.At(i)->data->type == PLAYER)
+			if (entities.At(i)->data->data_entity.type == PLAYER)
 			{
 				return (j1Player*)entities.At(i);
 			}

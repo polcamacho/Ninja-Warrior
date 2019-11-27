@@ -7,9 +7,40 @@
 #include "SDL/include/SDL.h"
 #include "p2Point.h"
 #include "j1EntityManager.h"
+#include "p2Animation.h"
 
+struct EntityData {
 
-class Animation;
+	iPoint				position;	//Position of the player (x,y)
+	iPoint				preposition;
+	iPoint				v;	//Velocity of the player (x,y)
+	int					gravity;
+
+	Animation* current_animation = nullptr;
+	Animation  idle;
+	Animation  walk;
+	Animation  fall;
+	Animation  death;
+
+	entity_type type = entity_type::ENTITY_NONE;
+	SDL_Texture* texture;	//TEXTURE
+	SDL_Texture* path_texture = nullptr;
+
+	bool				grounded = false;
+	bool				platformdrop;
+	bool				flip;
+	bool				showcolliders = false;
+	bool				die = false;
+
+	SDL_Rect			col;	//Collider RECT
+
+	int					globaltime;
+	int					pretimer = 0;
+
+	Collider* entity_colliders = nullptr;
+	bool destroy = false;
+
+};
 
 class j1Entity
 {
@@ -44,43 +75,10 @@ private:
 public:
 
 	//trash ??
-	Animation* current_animation=nullptr;
-
-	entity_type type = entity_type::ENTITY_NONE;
-	SDL_Texture* texture;	//TEXTURE
-	SDL_Texture* path_texture = nullptr;
-
-	bool				grounded = false;
-	bool				platformdrop;
-	bool				flip;
-	bool				showcolliders = false;
-	bool				die = false;
-
-	SDL_Rect			col;	//Collider RECT
-
-	int					globaltime;
-	int					pretimer = 0;
-
-	Collider* colliders = nullptr;
-	bool destroy = false;
-
 	
+	EntityData data_entity;
 
 };
-
-struct EntityData {
-
-	iPoint				position;	//Position of the player (x,y)
-	iPoint				preposition;
-	iPoint				v;	//Velocity of the player (x,y)
-	int					gravity;
-	
-
-};
-
-EntityData data_entity;
-	
-
 
 #endif // __j1ENTITY_H__*/
 

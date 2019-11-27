@@ -32,33 +32,18 @@ enum states_player {
 
 struct PlayerData
 {
-
-	Animation*		current_animation;
-	Animation		idle;
-	Animation		walk;
 	Animation		walk2;
 	Animation		running;
 	Animation		jump;
-	Animation		fall;
 	Animation		idle_attack;
 	Animation		walk_attack;
-	Animation		death;
 
-	
-	bool			grounded = false;
-	bool			platformdrop;
-	bool			platformdrop2;
 	bool			move=false;
 
 	int jumpCounter = 2;
 
-	iPoint position;	//Position of the player (x,y)
-	iPoint preposition;
 	iPoint a;	//Acceleration (x,y)
 		//Velocity of the jump (x,y)
-	iPoint v;	//Velocity of the player (x,y)
-
-	SDL_Rect		col;
 	iPoint			colOffset;
 	SDL_Texture*	Tex_Player;
 	
@@ -68,18 +53,12 @@ struct PlayerData
 	int jumpenergy;		//energy while is jumping
 	bool left=false;	//If left = true, jump running backward
 	bool right=false;	//If right = true, jump running forward
-	bool player_flip;
 	bool TimeAttack = false;
-
-	int gravity;
 
 	float velrun;			//velocity while running
 	   
 	Collider* colliders = nullptr;
 	Collider* colliders2 = nullptr;
-	bool showcolliders = false;
-
-	//void Pushbacks();	//Load the frame animations
 
 };
 
@@ -138,9 +117,7 @@ private:
 public:
 
 	PlayerData			data_player;
-	int globaltime;
-	int pretimer=0;
-	bool die = false;
+	
 	bool godmode = false;
 
 	p2SString			name;

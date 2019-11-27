@@ -73,7 +73,7 @@ bool j1Golem1::Start() {
 	c.w = 39;
 	c.h = 53;
 
-	data_golem.colliders = App->collider->AddCollider(&c, COLLIDER_ENEMY, this);	//Sets The Collider Type and Dimensions to Player
+//	data_golem.colliders = App->collider->AddCollider(&c, COLLIDER_ENEMY, this);	//Sets The Collider Type and Dimensions to Player
 	
 	return	true;
 
@@ -496,7 +496,7 @@ void j1Golem1::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 				//PreTime = SDL_GetTicks();	//Sets the PreTime to death timer
 
-				//data_player.position.y = c2->rect.y + c2->rect.h;
+				//data_entity.position.y = c2->rect.y + c2->rect.h;
 				current_state = DEATH2;	//Sets player to Death state
 
 				data_golem.grounded = true;	//Sets that player is touching the floor
