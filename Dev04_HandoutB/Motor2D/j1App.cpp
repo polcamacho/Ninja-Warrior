@@ -40,8 +40,6 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	collider = new j1Collider();
 	pathfinding = new j1PathFinding();
 	fade = new j1FadeToBlack();
-	golem1 = new j1Golem1();
-	golem2 = new j1Golem2();
 	entity = new j1EntityManager();
 
 
@@ -52,13 +50,12 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(tex);
 	AddModule(audio);
 	AddModule(map);
+	AddModule(entity);
 	AddModule(scene);
-	AddModule(golem1);
-	AddModule(golem2);
 	AddModule(collider);
 	AddModule(pathfinding);
 	AddModule(fade);
-	AddModule(entity);
+	
 	
 
 

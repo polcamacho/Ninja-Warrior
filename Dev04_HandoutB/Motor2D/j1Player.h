@@ -9,7 +9,6 @@
 #include "p2Point.h"
 #include "j1Module.h"
 #include "p2Animation.h"
-#include "j1EntityManager.h"
 #include "j1Entity.h"
 
 
@@ -56,10 +55,6 @@ struct PlayerData
 	bool TimeAttack = false;
 
 	float velrun;			//velocity while running
-	   
-	Collider* colliders = nullptr;
-	Collider* colliders2 = nullptr;
-
 };
 
 // ----------------------------------------------------
@@ -71,7 +66,7 @@ public:
 	j1Player(int x, int y);
 
 	// Destructor
-	virtual ~j1Player();
+	~j1Player();
 
 	//Called at first
 	bool Start();
@@ -80,19 +75,11 @@ public:
 	bool PostUpdate(float dt);
 
 	// Called before render is available
-	
 	bool Awake(pugi::xml_node& conf);
-
-	
+		
 	// Called each loop iteration
 	
 	void DrawPlayer();
-
-	bool Load(pugi::xml_node&);
-	bool Save(pugi::xml_node&) const;
-
-	// Called before quitting
-	bool CleanUp();
 
 	//Called to start the player at initial pos
 	//void Restart();

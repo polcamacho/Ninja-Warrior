@@ -10,7 +10,14 @@
 #include "j1Map.h"
 #include "j1EntityManager.h"
 #include "p2Log.h"
+#include "j1Scene.h"
+#include "p2Animation.h"
+#include "j1Collider.h"
 #include "..//Brofiler/Brofiler.h"
+#include "p2List.h"
+#include "j1Input.h"
+#include "j1Map.h"
+
 
 
 j1EntityManager::j1EntityManager()
@@ -18,7 +25,8 @@ j1EntityManager::j1EntityManager()
 	name.create("entitymanager");
 }
 
-j1EntityManager::~j1EntityManager() {}
+j1EntityManager::~j1EntityManager() {
+}
 
 bool j1EntityManager::Awake(pugi::xml_node& config)
 {
@@ -38,23 +46,23 @@ bool j1EntityManager::Start()
 	return true;
 }
 
-bool j1EntityManager::PreUpdate(float dt)
-{
-	return true;
-}
-
 bool j1EntityManager::Update(float dt)
 {
 	BROFILER_CATEGORY("PreUpdate Entity Manager", Profiler::Color::Coral);
 	p2List_item<j1Entity*>* item = entities.start;
 
-		while (item!=nullptr)
-		{
-			item->data->Update(dt);
-			item = item->next;
-		}
-	
+	while (item != nullptr)
+	{
+		item->data->Update(dt);
+		item = item->next;
+	}
+
 	DeleteEntity();
+	return true;
+}
+
+bool j1EntityManager::PreUpdate(float dt)
+{
 	return true;
 }
 
@@ -72,7 +80,6 @@ bool j1EntityManager::CleanUp()
 
 bool j1EntityManager::CleanEntity() {
 	
-	
 	p2List_item<j1Entity*>* item = entities.start;
 	while (item != nullptr)
 	{
@@ -83,14 +90,14 @@ bool j1EntityManager::CleanEntity() {
 	return true;
 }
 
-j1Entity* j1EntityManager::DrawEntity(int x, int y, entity_type type)
+j1Entity* j1EntityManager::DrawEntity(int x, int y, j1Entity::entity_type type)
 {
 	j1Entity* ret = nullptr;
 
 	switch (type)
 	{
 		
-		case entity_type::PLAYER:
+	case j1Entity::entity_type::PLAYER:
 		{
 			ret = new j1Player(x, y);
 			if (ret != nullptr) {
@@ -144,7 +151,7 @@ void j1EntityManager::DeleteEntity() {
 
 	p2List_item<j1Entity*>* item = entities.start;
 	while (item != nullptr) {
-		if (item->data->data_entity.destroy == true) {
+		if (item->data->destroy == true) {
 			delete item->data;
 			entities.del(item);
 		}
@@ -154,17 +161,15 @@ void j1EntityManager::DeleteEntity() {
 
 j1Entity* j1EntityManager::GetPlayer() {
 
-	for (uint i = 0; i < entities.count(); ++i)
-	{
-		if (entities.At(i) != nullptr)
-		{
-			if (entities.At(i)->data->data_entity.type == PLAYER)
-			{
-				return (j1Player*)entities.At(i);
-			}
+	p2List_item<j1Entity*>* entities_list = entities.start;
+	while (entities_list != nullptr) {
+		
+		if (entities_list->data->type == j1Entity::entity_type::PLAYER) {
+			return entities_list->data;
 		}
+		entities_list = entities_list->next;
 	}
-	return nullptr;
+
 }
 
 

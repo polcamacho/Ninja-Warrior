@@ -4,6 +4,7 @@
 #include "j1Module.h"
 
 struct SDL_Texture;
+class j1Entity;
 
 class j1Scene : public j1Module
 {
@@ -38,6 +39,8 @@ public:
 	void SecondMap();
 	bool Load(pugi::xml_node &node);
 	bool Save(pugi::xml_node &node)const;
+
+	bool CreateEntities();
 
 private:
 	SDL_Texture* debug_tex;

@@ -25,9 +25,9 @@ struct Collider
 	SDL_Rect rect;
 	bool to_delete = false;
 	ColliderType type;
-	j1Entity* callback = nullptr;
+	j1Module* callback = nullptr;
 
-	Collider(SDL_Rect rectangle, ColliderType type, j1Entity* callback = nullptr) :
+	Collider(SDL_Rect rectangle, ColliderType type, j1Module* callback = nullptr) :
 		rect(rectangle),
 		type(type),
 		callback(callback)
@@ -51,12 +51,6 @@ public:
 	j1Collider();
 	~j1Collider();
 
-	// Called before render is available
-	bool Awake();
-
-	// Called before the first frame
-	bool Start();
-
 	// Called before all Updates
 	bool PreUpdate(float dt);
 
@@ -67,7 +61,7 @@ public:
 	bool CleanUp();
 
 
-	Collider* AddCollider(SDL_Rect* rect, ColliderType type, j1Entity* callback = nullptr);
+	Collider* AddCollider(SDL_Rect* rect, ColliderType type, j1Module* callback = nullptr);
 	
 	void DebugDraw();
 	float DT;

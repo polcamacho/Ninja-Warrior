@@ -1,16 +1,59 @@
-#pragma once
 #ifndef __j1ENTITY_H__
 #define __j1ENTITY_H__
 
 #define LIMIT_TIMER 60
 
+#include "PugiXml/src/pugixml.hpp"
 #include "SDL/include/SDL.h"
+#include "j1Module.h"
 #include "p2Point.h"
-#include "j1EntityManager.h"
 #include "p2Animation.h"
 
-struct EntityData {
+struct Collider;
+struct SDL_Texture;
+struct Animation;
 
+class j1Entity: public j1Module
+{
+
+public:
+
+	enum class entity_type {
+
+		ENTITY_NONE,
+		PLAYER,
+		GOLEM_GRASS_ENEMY,
+		GOLEM_ROCK_ENEMY,
+		MINOTAUR_ENEMY,
+		FLYING_EYE_ENEMY,
+		BAT_ENEMY,
+
+	};
+
+	entity_type type;
+
+	j1Entity(entity_type type);
+
+	virtual ~j1Entity();
+
+	bool CleanUp();
+	
+	// Called each loop iteration
+	bool Save(pugi::xml_node&) const;
+	bool Load(pugi::xml_node&);
+
+	//void OnCollision(Collider* c1, Collider* c2);
+
+	void State(float dt);	//Check animations
+	void Pushbacks() {};
+	void Reset() {};
+	bool PreTime(float sec);
+	void DrawCollider();
+
+private:
+
+public:
+	
 	iPoint				position;	//Position of the player (x,y)
 	iPoint				preposition;
 	iPoint				v;	//Velocity of the player (x,y)
@@ -22,7 +65,6 @@ struct EntityData {
 	Animation  fall;
 	Animation  death;
 
-	entity_type type = entity_type::ENTITY_NONE;
 	SDL_Texture* texture;	//TEXTURE
 	SDL_Texture* path_texture = nullptr;
 
@@ -37,46 +79,8 @@ struct EntityData {
 	int					globaltime;
 	int					pretimer = 0;
 
-	Collider* entity_colliders = nullptr;
+	Collider *entity_colliders;
 	bool destroy = false;
-
-};
-
-class j1Entity
-{
-
-public:
-
-	j1Entity(entity_type type);
-
-	virtual ~j1Entity();
-
-	//Called at first
-	virtual bool Update(float dt);
-
-	// Called before render is available
-	virtual bool Awake(pugi::xml_node& config);
-
-	// Called each loop iteration
-	virtual bool Save(pugi::xml_node&) const;
-	virtual bool Load(pugi::xml_node&);
-
-	virtual bool DrawEntity(int x, int y, entity_type type);
-
-	void State(float dt);	//Check animations
-	void Pushbacks() {};
-	void OnCollision(Collider* c1, Collider* c2);
-	void Reset() {};
-	bool PreTime(float sec);
-	
-
-private:
-
-public:
-
-	//trash ??
-	
-	EntityData data_entity;
 
 };
 

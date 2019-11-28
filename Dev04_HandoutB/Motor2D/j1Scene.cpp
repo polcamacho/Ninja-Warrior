@@ -10,6 +10,8 @@
 #include "j1Scene.h"
 #include "j1Player.h"
 #include "j1Collider.h"
+#include "j1EntityManager.h"
+#include "j1Entity.h"
 #include "j1Pathfinding.h"
 
 #include <string>
@@ -348,4 +350,14 @@ void j1Scene::SecondMap() {
 
 
 
+}
+
+bool j1Scene::CreateEntities() {
+
+	bool ret = true;
+
+
+	App->entity->DrawEntity(100, 500, j1Entity::entity_type::PLAYER);
+
+	return ret;
 }

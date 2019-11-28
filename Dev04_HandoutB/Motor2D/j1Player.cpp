@@ -15,7 +15,7 @@
 #include "..//Brofiler/Brofiler.h"
 
 
-j1Player::j1Player(int x, int y):j1Entity(entity_type::PLAYER)
+j1Player::j1Player(int x, int y) : j1Entity(entity_type::PLAYER)
 {
 	name.create("player");
 	
@@ -34,18 +34,18 @@ bool j1Player::Awake(pugi::xml_node& config) {
 	folder.create(config.child("folder").child_value());	
 	texture = config.child("texture").attribute("source").as_string();
 
-	data_entity.position.x = config.child("position").attribute("x").as_int();
-	data_entity.position.y = config.child("position").attribute("y").as_int();
+	position.x = config.child("position").attribute("x").as_int();
+	position.y = config.child("position").attribute("y").as_int();
 
 	data_player.jumpvel = config.child("jump_velocity").attribute("jumpvel").as_int();
 	   
-	data_entity.v.x = config.child("velocity").attribute("x").as_int();
+	v.x = config.child("velocity").attribute("x").as_int();
 	data_player.velrun = config.child("velrun").attribute("x").as_float();
 	
 	data_player.colOffset.x = config.child("colOffset").attribute("x").as_int();
 	data_player.colOffset.y = config.child("colOffset").attribute("y").as_int();
 	
-	data_entity.gravity = config.child("gravity").attribute("grav").as_int();
+	gravity = config.child("gravity").attribute("grav").as_int();
 
 	
 
@@ -58,11 +58,11 @@ void j1Player::DrawPlayer()
 	
 	BROFILER_CATEGORY("DrawPlayer", Profiler::Color::Orange);
 
-	if (data_entity.flip) {
-		App->render->Blit(App->entity->Tex_Player, data_entity.position.x, data_entity.position.y, &(data_entity.current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL, 0);	//Draw Player Flipped
+	if (flip) {
+		App->render->Blit(App->entity->Tex_Player, position.x, position.y, &(current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL, 0);	//Draw Player Flipped
 	}
 	else {
-		App->render->Blit(App->entity->Tex_Player, data_entity.position.x, data_entity.position.y, &(data_entity.current_animation->GetCurrentFrame()), SDL_FLIP_NONE, 0);	//Draw Player Normal
+		App->render->Blit(App->entity->Tex_Player, position.x, position.y, &(current_animation->GetCurrentFrame()), SDL_FLIP_NONE, 0);	//Draw Player Normal
 	}
 
 
@@ -70,20 +70,19 @@ void j1Player::DrawPlayer()
 
 bool j1Player::Start() {
 
-	data_entity.pretimer = 0;
+	pretimer = 0;
 	//globaltime = SDL_GetTicks();	//Sets the Global time to the death timer
 	
 	Pushbacks();	//Call all the Pushback of animations
 	
-	App->entity->Tex_Player = App->tex->Load(PATH(folder.GetString(), texture.GetString()));	//Load The Texture of player
 	
 	SDL_Rect c;
-	c.x = data_entity.position.x;
-	c.y = data_entity.position.y;
+	c.x = position.x;
+	c.y = position.y;
 	c.w = 39;
 	c.h = 53;
 
-	data_entity.entity_colliders = App->collider->AddCollider(&c, COLLIDER_PLAYER, this);	//Sets The Collider Type and Dimensions to Player
+	entity_colliders = App->collider->AddCollider(&c, COLLIDER_PLAYER, this);	//Sets The Collider Type and Dimensions to Player
 	
 	return	true;
 
@@ -100,21 +99,21 @@ bool j1Player::PreUpdate(float dt) {
 bool j1Player::Update(float dt) {
 
 	BROFILER_CATEGORY("DrawPlayer", Profiler::Color::Red);
-
+	current_animation = &idle;
 
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 
 		if (godmode == false)	//If godmode is false sets None Collider to player for he can fly around map and not collide
 		{
 
-			data_entity.gravity = 0;	//Sets new gravity to player for he can move around map
+			gravity = 0;	//Sets new gravity to player for he can move around map
 			godmode = true;	
 
 		}
 		else if (godmode == true)
 		{
 
-			data_entity.gravity = 20;	//Sets normal gravity to player 
+			gravity = 20;	//Sets normal gravity to player 
 			godmode = false;
 			
 		}
@@ -123,37 +122,33 @@ bool j1Player::Update(float dt) {
 	if (godmode == true) {	//Sets the Debug keys to player move when he cant die
 
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-			data_entity.position.y -= (int)(20 * dt * LIMIT_TIMER);
+			position.y -= (int)(20 * dt * LIMIT_TIMER);
 
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-			data_entity.position.y += (int)(20 * dt * LIMIT_TIMER);
+			position.y += (int)(20 * dt * LIMIT_TIMER);
 
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-			data_entity.position.x -= (int)(20 * dt * LIMIT_TIMER);
+			position.x -= (int)(20 * dt * LIMIT_TIMER);
 
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-			data_entity.position.x += (int)(20 * dt * LIMIT_TIMER);
+			position.x += (int)(20 * dt * LIMIT_TIMER);
 	}
 	
-	data_entity.position.y += data_entity.gravity;
-	data_entity.preposition = data_entity.position;
+	position.y += gravity;
+	preposition = position;
 	
 	CheckState(dt);	//Checks the state where is the player
 	State(dt);	//Set the animation relationed with the state that he is
-	
-	//Player Collider Draw
-	data_entity.entity_colliders->SetPos(data_entity.position.x, data_entity.position.y);	//Sets the Player Collider Position
-
-
+	DrawCollider();
 	//Player Draw
-	if (data_entity.flip) {
-		App->render->Blit(App->entity->Tex_Player, data_entity.position.x, data_entity.position.y, &(data_entity.current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL, 1.0);	//Draw Player Flipped
+	if (flip) {
+		App->render->Blit(App->entity->Tex_Player, position.x, position.y, &(current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL, 1.0);	//Draw Player Flipped
 	}
 	else {
-		App->render->Blit(App->entity->Tex_Player, data_entity.position.x, data_entity.position.y, &(data_entity.current_animation->GetCurrentFrame()), SDL_FLIP_NONE, 1.0);	//Draw Player Normal
+		App->render->Blit(App->entity->Tex_Player, position.x, position.y, &(current_animation->GetCurrentFrame()), SDL_FLIP_NONE, 1.0);	//Draw Player Normal
 	}
 
-	if (data_entity.grounded == false) {	//Sets that if the player is not touching the ground puts the fall animation
+	if (grounded == false) {	//Sets that if the player is not touching the ground puts the fall animation
 
 		current_state = JUMP_FALL;
 
@@ -169,7 +164,7 @@ bool j1Player::PostUpdate(float dt) {
 }
 
 // Called before quitting
-bool j1Player::CleanUp()
+/*bool j1Player::CleanUp()
 {
 	LOG("Unloading player");
 
@@ -177,9 +172,9 @@ bool j1Player::CleanUp()
 	App->collider->CleanUp();	//Unload the Player collider
 	
 	return true;
-}
+}*/
 
-bool j1Player::Load(pugi::xml_node& node) {
+/*bool j1Player::Load(pugi::xml_node& node) {
 
 	if (!node.child("position").empty())	//Load the valors if save_confign file is empty link
 	{
@@ -211,38 +206,38 @@ bool j1Player::Save(pugi::xml_node& node) const {
 	
 	return true;
 
-}
+}*/
 
 void j1Player::Pushbacks() {
 
 	//Sets the Idle Animation
-	data_entity.idle.PushBack({ 7,554,48,52 }, 0.1, 0, 0);
-	data_entity.idle.PushBack({ 84,554,41,52 }, 0.1, 10, 0);
-	data_entity.idle.PushBack({ 156,555,42,50 }, 0.2, 10, 0);
-	data_entity.idle.PushBack({ 232,557,41,48 }, 0.2, 10, 0);
-	data_entity.idle.PushBack({ 291,557,41,48 }, 0.2, 10, 0);
-	data_entity.idle.PushBack({ 351,557,40,48 }, 0.2, 10, 0);
-	data_entity.idle.PushBack({ 415,556,41,49 }, 0.2, 10, 0);
-	data_entity.idle.PushBack({ 474,556,42,49 }, 0.2, 10, 0);
-	data_entity.idle.PushBack({ 533,557,41,48 }, 0.2, 10, 0);
-	data_entity.idle.PushBack({ 591,554,41,51 }, 0.1, 0, 0);
-	data_entity.idle.PushBack({ 643,554,52,52 }, 0.1, -1, 0);
-	data_entity.idle.PushBack({ 705,555,44,50 }, 0.1, -6, 0);
-	data_entity.idle.PushBack({ 763,554,43,52 }, 0.2, -20, 0);
-	data_entity.idle.PushBack({ 819,554,45,52 }, 0.2, -20, 0);
-	data_entity.idle.PushBack({ 880,554,43,51 }, 0.2, -20, 0);
-	data_entity.idle.PushBack({ 938,555,43,51 }, 0.2, -20, 0);
-	data_entity.idle.PushBack({ 995,554,44,52 }, 0.2, -20, 0);
-	data_entity.idle.loop = true;
+	idle.PushBack({ 7,554,48,52 }, 0.1, 0, 0);
+	idle.PushBack({ 84,554,41,52 }, 0.1, 10, 0);
+	idle.PushBack({ 156,555,42,50 }, 0.2, 10, 0);
+	idle.PushBack({ 232,557,41,48 }, 0.2, 10, 0);
+	idle.PushBack({ 291,557,41,48 }, 0.2, 10, 0);
+	idle.PushBack({ 351,557,40,48 }, 0.2, 10, 0);
+	idle.PushBack({ 415,556,41,49 }, 0.2, 10, 0);
+	idle.PushBack({ 474,556,42,49 }, 0.2, 10, 0);
+	idle.PushBack({ 533,557,41,48 }, 0.2, 10, 0);
+	idle.PushBack({ 591,554,41,51 }, 0.1, 0, 0);
+	idle.PushBack({ 643,554,52,52 }, 0.1, -1, 0);
+	idle.PushBack({ 705,555,44,50 }, 0.1, -6, 0);
+	idle.PushBack({ 763,554,43,52 }, 0.2, -20, 0);
+	idle.PushBack({ 819,554,45,52 }, 0.2, -20, 0);
+	idle.PushBack({ 880,554,43,51 }, 0.2, -20, 0);
+	idle.PushBack({ 938,555,43,51 }, 0.2, -20, 0);
+	idle.PushBack({ 995,554,44,52 }, 0.2, -20, 0);
+	idle.loop = true;
 
 	//Sets the Walk Animation
-	data_entity.walk.PushBack({ 7,4,42,49 }, 0.2, 0, 0);
-	data_entity.walk.PushBack({ 65,4,41,49 }, 0.2, 0, 0);
-	data_entity.walk.PushBack({ 131,3,38,50 }, 0.2, 0, 0);
-	data_entity.walk.PushBack({ 201,3,36,51 }, 0.2, 0, 0);
-	data_entity.walk.PushBack({ 259,5,38,48 }, 0.2, 0, 0);
-	data_entity.walk.PushBack({ 317,4,44,50 }, 0.2, 0, 0);
-	data_entity.walk.loop = true;
+	walk.PushBack({ 7,4,42,49 }, 0.2, 0, 0);
+	walk.PushBack({ 65,4,41,49 }, 0.2, 0, 0);
+	walk.PushBack({ 131,3,38,50 }, 0.2, 0, 0);
+	walk.PushBack({ 201,3,36,51 }, 0.2, 0, 0);
+	walk.PushBack({ 259,5,38,48 }, 0.2, 0, 0);
+	walk.PushBack({ 317,4,44,50 }, 0.2, 0, 0);
+	walk.loop = true;
 
 	//Sets the Run Animation
 	data_player.walk2.PushBack({ 7,4,42,49 }, 0.4, 0, 0);
@@ -263,9 +258,9 @@ void j1Player::Pushbacks() {
 	data_player.jump.loop = false;
 
 	//Sets the Fall Animation
-	data_entity.fall.PushBack({ 348,119,56,52 }, 0.05, 0, 0);
-	data_entity.fall.PushBack({ 423,129,53,42 }, 0.5, 0, 0);
-	data_entity.fall.loop = true;
+	fall.PushBack({ 348,119,56,52 }, 0.05, 0, 0);
+	fall.PushBack({ 423,129,53,42 }, 0.5, 0, 0);
+	fall.loop = true;
 
 	//Sets the Attack Animation
 	data_player.idle_attack.PushBack({ 7,759,58,53 }, 0.1, 0, 0);
@@ -278,17 +273,17 @@ void j1Player::Pushbacks() {
 	data_player.idle_attack.loop = false;
 
 	//Sets the Death Animation
-	data_entity.death.PushBack({ 8,464,48,55 }, 0.2, 0, 0);
-	data_entity.death.PushBack({ 72,456,62,63 }, 0.2, 0, 0);
-	data_entity.death.PushBack({ 150,454,69,65 }, 0.2, 0, 0);
-	data_entity.death.PushBack({ 257,464,82,56 }, 0.2, 0, 0);
-	data_entity.death.PushBack({ 367,447,83,72 }, 0.2, 0, 0);
-	data_entity.death.PushBack({ 488,447,84,73 }, 0.2, 0, 0);
-	data_entity.death.PushBack({ 609,457,94,62 }, 0.2, 0, 0);
-	data_entity.death.PushBack({ 734,455,113,65 }, 0.2, 0, 0);
-	data_entity.death.PushBack({ 894,445,127,74 }, 0.2, 0, 0);
-	data_entity.death.PushBack({ 1054,433,116,87 }, 0.2, 0, 0);
-	data_entity.death.loop = false;
+	death.PushBack({ 8,464,48,55 }, 0.2, 0, 0);
+	death.PushBack({ 72,456,62,63 }, 0.2, 0, 0);
+	death.PushBack({ 150,454,69,65 }, 0.2, 0, 0);
+	death.PushBack({ 257,464,82,56 }, 0.2, 0, 0);
+	death.PushBack({ 367,447,83,72 }, 0.2, 0, 0);
+	death.PushBack({ 488,447,84,73 }, 0.2, 0, 0);
+	death.PushBack({ 609,457,94,62 }, 0.2, 0, 0);
+	death.PushBack({ 734,455,113,65 }, 0.2, 0, 0);
+	death.PushBack({ 894,445,127,74 }, 0.2, 0, 0);
+	death.PushBack({ 1054,433,116,87 }, 0.2, 0, 0);
+	death.loop = false;
 
 }
 
@@ -304,8 +299,8 @@ void j1Player::CheckState(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && data_player.canjump == true) {
 
 			current_state = WALK;
-			data_entity.position.x += (data_entity.v.x*dt * LIMIT_TIMER);
-			data_entity.flip = false;
+			position.x += (v.x*dt * LIMIT_TIMER);
+			flip = false;
 			LOG("%f", dt);
 
 			//if  "SPACE" is pressed when "D" is pressed, the player jumps forward
@@ -329,11 +324,11 @@ void j1Player::CheckState(float dt)
 
 			//if  "LSHIFT" is pressed when "D" is pressed, the player runs forward
 			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {		
-				data_entity.position.x += (data_player.velrun*dt * LIMIT_TIMER);
+				position.x += (data_player.velrun*dt * LIMIT_TIMER);
 
 				current_state = RUN;
 				
-				data_entity.flip = false;
+				flip = false;
 
 				//if "SPACE" is pressed when "LSHIFT" is pressed, and when "D" is pressed, the player jumps running forward
 				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		
@@ -364,8 +359,8 @@ void j1Player::CheckState(float dt)
 		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && data_player.canjump == true) {
 
 			current_state = WALK;
-			data_entity.position.x -= (data_entity.v.x*dt * LIMIT_TIMER);
-			data_entity.flip = true;
+			position.x -= (v.x*dt * LIMIT_TIMER);
+			flip = true;
 			LOG("%f", dt);
 
 			
@@ -390,9 +385,9 @@ void j1Player::CheckState(float dt)
 			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
 				
 				current_state = RUN;
-				data_entity.position.x -= (data_player.velrun * dt*LIMIT_TIMER);
+				position.x -= (data_player.velrun * dt*LIMIT_TIMER);
 			
-				data_entity.flip = true;
+				flip = true;
 
 				//if "SPACE" is pressed when "LSHIFT" is pressed, and when "A" is pressed, the player jumps running backward
 				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		 
@@ -419,7 +414,7 @@ void j1Player::CheckState(float dt)
 			
 		data_player.jumpenergy = (data_player.jumpvel);
 				current_state = JUMP_UP;
-				data_entity.flip = false;
+				flip = false;
 				data_player.jumpCounter--;
 				App->audio->PlayFx(App->scene->jump_FX);
 				LOG("%f", dt);
@@ -443,7 +438,7 @@ void j1Player::CheckState(float dt)
 		else if(data_player.canjump==true && App->input->GetKey(SDL_SCANCODE_SPACE) == NULL && App->input->GetKey(SDL_SCANCODE_A) == NULL && App->input->GetKey(SDL_SCANCODE_D) == NULL && App->input->GetKey(SDL_SCANCODE_P)==NULL){
 			
 			current_state = IDLE;
-			data_entity.flip = false;
+			flip = false;
 
 		}
 	}
@@ -454,17 +449,17 @@ void j1Player::State(float dt) {
 
 	if (current_state == IDLE) {
 		
-		data_entity.current_animation = &data_entity.idle;				
+		current_animation = &idle;				
 		data_player.jump.Reset();
-		data_entity.fall.Reset();
+		fall.Reset();
 		data_player.idle_attack.Reset();
 	}
 
 	if (current_state == WALK) {
 
-		data_entity.current_animation = &data_entity.walk;		
+		current_animation = &walk;		
 		data_player.jump.Reset();
-		data_entity.fall.Reset();
+		fall.Reset();
 		data_player.idle_attack.Reset();
 	}
 	if(current_state==JUMP_WALK){
@@ -478,43 +473,43 @@ void j1Player::State(float dt) {
 		//If left = true, jump running backward
 		if (data_player.left == true) {
 			
-			data_entity.position.x -= (data_player.velrun*dt * LIMIT_TIMER);
+			position.x -= (data_player.velrun*dt * LIMIT_TIMER);
 		}
 
 		//If right = true, jump running forward
 		else if (data_player.right == true) {
 			
-			data_entity.position.x += (data_player.velrun*dt * LIMIT_TIMER);
+			position.x += (data_player.velrun*dt * LIMIT_TIMER);
 		}
 
 		data_player.canjump = false;
 		data_player.injump = true;
-		data_entity.current_animation = &data_player.jump;
+		current_animation = &data_player.jump;
 
-		if ((data_player.jumpenergy) <= (data_entity.gravity)) {								//character will jump up until it do not accomplish this condition 
+		if ((data_player.jumpenergy) <= (gravity)) {								//character will jump up until it do not accomplish this condition 
 			
 			data_player.jumpenergy += 1*dt * LIMIT_TIMER;													// jump up increments 0.5 each time
-			data_entity.position.y += (data_player.jumpenergy);		// y position increments 0.5 each time
+			position.y += (data_player.jumpenergy);		// y position increments 0.5 each time
 
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			data_entity.position.x -= data_entity.v.x*(dt * LIMIT_TIMER);
-			data_entity.flip = true;
+			position.x -= v.x*(dt * LIMIT_TIMER);
+			flip = true;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
-			data_entity.position.x += data_entity.v.x*(dt * LIMIT_TIMER);
-			data_entity.flip = false;
+			position.x += v.x*(dt * LIMIT_TIMER);
+			flip = false;
 		}
 
 	}
 		
 	if (current_state == RUN) {
-		data_entity.current_animation = &data_player.walk2;
+		current_animation = &data_player.walk2;
 		data_player.jump.Reset();
-		data_entity.fall.Reset();
+		fall.Reset();
 		data_player.idle_attack.Reset();
 	}
 
@@ -522,51 +517,51 @@ void j1Player::State(float dt) {
 
 		data_player.canjump = false;
 		data_player.injump = true;
-		data_entity.current_animation = &data_player.jump;
+		current_animation = &data_player.jump;
 
-		if ((data_player.jumpenergy) <= (data_entity.gravity)) {									//character will jump up until it do not accomplish this condition 
+		if ((data_player.jumpenergy) <= (gravity)) {									//character will jump up until it do not accomplish this condition 
 			
 			data_player.jumpenergy += 1*dt * LIMIT_TIMER;														// jump up increments 0.5 each time
-			data_entity.position.y += (data_player.jumpenergy);		// y position increments 0.5 each time
+			position.y += (data_player.jumpenergy);		// y position increments 0.5 each time
 
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			data_entity.position.x -= data_entity.v.x*(dt * LIMIT_TIMER);
-			data_entity.flip = true;
+			position.x -= v.x*(dt * LIMIT_TIMER);
+			flip = true;
 		}
 		
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
-			data_entity.position.x += data_entity.v.x*(dt * LIMIT_TIMER);
-			data_entity.flip = false;
+			position.x += v.x*(dt * LIMIT_TIMER);
+			flip = false;
 		}
 		
 	}
 	
 	if (current_state == JUMP_FALL) {
 
-		data_entity.current_animation = &data_entity.fall;
+		current_animation = &fall;
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			data_entity.position.x -= data_entity.v.x*(dt * LIMIT_TIMER);
-			data_entity.flip = true;
+			position.x -= v.x*(dt * LIMIT_TIMER);
+			flip = true;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
-			data_entity.position.x += data_entity.v.x*(dt * LIMIT_TIMER);
-			data_entity.flip = false;
+			position.x += v.x*(dt * LIMIT_TIMER);
+			flip = false;
 			
 		}
 	}
 
 	if (current_state == IDLE_ATTACK) {
 
-		data_entity.current_animation = &data_player.idle_attack;
-		//LOG("%i", data_entity.canjump);
+		current_animation = &data_player.idle_attack;
+		//LOG("%i", canjump);
 		data_player.TimeAttack = true;
-		if (data_entity.current_animation->AnimFinished() == true) {
+		if (current_animation->AnimFinished() == true) {
 			
 			data_player.TimeAttack = false;
 			
@@ -576,10 +571,10 @@ void j1Player::State(float dt) {
 
 	if (current_state == DEATH) {	
 		
-		data_entity.die = true;	//Sets the die to true
-		LOG("GLOBAL: %d", data_entity.globaltime);
-		LOG("PRE: %d", data_entity.pretimer);
-		if (data_entity.die == true) {
+		die = true;	//Sets the die to true
+		LOG("GLOBAL: %d", globaltime);
+		LOG("PRE: %d", pretimer);
+		if (die == true) {
 
 			if (App->scene->current_map == "Map.tmx") {	//If player is in map 1
 				
@@ -588,10 +583,10 @@ void j1Player::State(float dt) {
 
 					
 					//Sets the Position that player goes when he dies
-					data_entity.position.x = 100;	//Set Player X	
-					data_entity.position.y = 300;	//Set Player Y
+					position.x = 100;	//Set Player X	
+					position.y = 300;	//Set Player Y
 					current_state = JUMP_FALL;	//Sets the Animation when he reapears
-					data_entity.death.Reset();
+					death.Reset();
 				}
 
 			}
@@ -601,13 +596,13 @@ void j1Player::State(float dt) {
 				
 
 				if (PreTime (20)) {	//Do a timer to stop the game during the Death Animation
-					data_entity.current_animation = &data_entity.death;	//Current Animation is Death
+					current_animation = &death;	//Current Animation is Death
 					App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 					//Sets the Position that player goes when he dies
-					data_entity.position.x = 55;	//Set Player X	
-					data_entity.position.y = 10;	//Set Player Y
+					position.x = 55;	//Set Player X	
+					position.y = 10;	//Set Player Y
 					current_state = JUMP_FALL;	//Sets the Animation when he reapears
-					data_entity.death.Reset();
+					death.Reset();
 
 				}
 
@@ -615,7 +610,7 @@ void j1Player::State(float dt) {
 
 					
 		}
-		data_entity.die = false;
+		die = false;
 
 	}
 	
@@ -627,38 +622,38 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 
 		if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_FLOOR) {	//If player collide with floor
 
-			if (data_entity.preposition.y < c2->rect.y || data_entity.position.y == c2->rect.y - data_entity.entity_colliders->rect.h) {	//Checks that player collider from above
+			if (preposition.y < c2->rect.y || position.y == c2->rect.y - entity_colliders->rect.h) {	//Checks that player collider from above
 
-				data_entity.position.y = c2->rect.y - data_entity.entity_colliders->rect.h;
-				data_entity.grounded = true;	//Sets that player is touching the floor
+				position.y = c2->rect.y - entity_colliders->rect.h;
+				grounded = true;	//Sets that player is touching the floor
 				data_player.canjump = true;		//Sets tha player can jump
 
 				if (data_player.injump == true) {
 					data_player.jump.Reset();
 				}
-				if (data_entity.grounded == true) {
+				if (grounded == true) {
 					data_player.jumpCounter = 2;
 				}
 
 			}
 
-			else if (data_entity.preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
+			else if (preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
 			
-				data_entity.position.y = c2->rect.y + c2->rect.h;
+				position.y = c2->rect.y + c2->rect.h;
 				current_state = JUMP_FALL;	//Sets the animation 
 
 			}
 		
-			else if ((data_entity.position.x < c2->rect.x + c2->rect.w && data_entity.position.x > c2->rect.x) ||(data_entity.position.x + data_entity.entity_colliders->rect.w < c2->rect.x + c2->rect.w && data_entity.position.x + data_entity.entity_colliders->rect.w > c2->rect.x)) {	//Checks that player collider from sides
+			else if ((position.x < c2->rect.x + c2->rect.w && position.x > c2->rect.x) ||(position.x + entity_colliders->rect.w < c2->rect.x + c2->rect.w && position.x + entity_colliders->rect.w > c2->rect.x)) {	//Checks that player collider from sides
 			
-				if ((data_entity.position.x + data_entity.entity_colliders->rect.w) < (c2->rect.x + c2->rect.w)) { //Checks that player collides from left
+				if ((position.x + entity_colliders->rect.w) < (c2->rect.x + c2->rect.w)) { //Checks that player collides from left
 				
-					data_entity.position.x = c2->rect.x - data_entity.entity_colliders->rect.w;
+					position.x = c2->rect.x - entity_colliders->rect.w;
 
 				}
-				else if (data_entity.position.x < (c2->rect.x + c2->rect.w)) {	//Checks that player collides from right
+				else if (position.x < (c2->rect.x + c2->rect.w)) {	//Checks that player collides from right
 				
-					data_entity.position.x = c2->rect.x + c2->rect.w;
+					position.x = c2->rect.x + c2->rect.w;
 
 				}
 			}
@@ -667,22 +662,22 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 
 		if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_PLATFORM) {		//Checks that player collides with platform
 
-			if (data_entity.preposition.y < c2->rect.y || data_entity.position.y == c2->rect.y - data_entity.entity_colliders->rect.h) {	//Checks that player collider from above
+			if (preposition.y < c2->rect.y || position.y == c2->rect.y - entity_colliders->rect.h) {	//Checks that player collider from above
 
-				data_entity.position.y = c2->rect.y - data_entity.entity_colliders->rect.h;
-				data_entity.grounded = true;	//Sets that player is touching the floor
+				position.y = c2->rect.y - entity_colliders->rect.h;
+				grounded = true;	//Sets that player is touching the floor
 				data_player.canjump = true;		//Sets tha player can jump
 
-				if (data_entity.grounded == true) {
+				if (grounded == true) {
 				
 					data_player.jumpCounter = 2;
 
 				}
 
 			}
-			else if ((data_entity.position.y >= data_entity.preposition.y) && (data_entity.preposition.y + data_entity.entity_colliders->rect.h) < c2->rect.y) {	//Checks that player collider from below
+			else if ((position.y >= preposition.y) && (preposition.y + entity_colliders->rect.h) < c2->rect.y) {	//Checks that player collider from below
 			
-				data_entity.position.y = c2->rect.y - data_entity.entity_colliders->rect.h;
+				position.y = c2->rect.y - entity_colliders->rect.h;
 
 			}
 
@@ -692,29 +687,29 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 
 			//PreTime = SDL_GetTicks();	//Sets the PreTime to death timer
 		
-			if (data_entity.preposition.y < c2->rect.y || data_entity.position.y == c2->rect.y - data_entity.entity_colliders->rect.h) {	//Checks that player collider from above
+			if (preposition.y < c2->rect.y || position.y == c2->rect.y - entity_colliders->rect.h) {	//Checks that player collider from above
 			
-				data_entity.current_animation = &data_entity.death;	//Current Animation is Death
+				current_animation = &death;	//Current Animation is Death
 				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
-				data_entity.position.y = c2->rect.y - data_entity.entity_colliders->rect.h;
+				position.y = c2->rect.y - entity_colliders->rect.h;
 				current_state = DEATH;	//Sets player to Death state
 			
-				data_entity.grounded = true;	//Sets that player is touching the floor
+				grounded = true;	//Sets that player is touching the floor
 				data_player.canjump = false;	//Sets tha player can jump
 				//die = true;	//Sets die bool to true for timer start
 
 			}
 
-			else if (data_entity.preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
+			else if (preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
 			
-				data_entity.current_animation = &data_entity.death;	//Current Animation is Death
+				current_animation = &death;	//Current Animation is Death
 				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 				//PreTime = SDL_GetTicks();	//Sets the PreTime to death timer
 
 				//data_entity.position.y = c2->rect.y + c2->rect.h;
 				current_state = DEATH;	//Sets player to Death state
 
-				data_entity.grounded = true;	//Sets that player is touching the floor
+				grounded = true;	//Sets that player is touching the floor
 				data_player.canjump = false;	//Sets tha player can jump
 				//die = true;	//Sets die bool to true for timer start
 
@@ -724,20 +719,20 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 
 		if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_NEXT) {
 
-			if (data_entity.preposition.y < c2->rect.y || data_entity.position.y == c2->rect.y - data_entity.entity_colliders->rect.h) {	//Checks that player collider from above	
+			if (preposition.y < c2->rect.y || position.y == c2->rect.y - entity_colliders->rect.h) {	//Checks that player collider from above	
 				App->scene->SecondMap();	//Pass to next map
 			}
 		
-			else if (data_entity.preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
+			else if (preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
 				App->scene->SecondMap();	//Pass to next map
 			}
 		
-			else if ((data_entity.position.x < c2->rect.x + c2->rect.w && data_entity.position.x > c2->rect.x) || (data_entity.position.x + data_entity.entity_colliders->rect.w < c2->rect.x + c2->rect.w && data_entity.position.x + data_entity.entity_colliders->rect.w > c2->rect.x)) {	//Checks that player collider from sides
+			else if ((position.x < c2->rect.x + c2->rect.w && position.x > c2->rect.x) || (position.x + entity_colliders->rect.w < c2->rect.x + c2->rect.w && position.x + entity_colliders->rect.w > c2->rect.x)) {	//Checks that player collider from sides
 			
-				if ((data_entity.position.x + data_entity.entity_colliders->rect.w) < (c2->rect.x + c2->rect.w)) {		//Checks that player collides from left
+				if ((position.x + entity_colliders->rect.w) < (c2->rect.x + c2->rect.w)) {		//Checks that player collides from left
 					App->scene->SecondMap();	//Pass to next map
 				}
-				else if (data_entity.position.x < (c2->rect.x + c2->rect.w)) {	//Checks that player collides from right
+				else if (position.x < (c2->rect.x + c2->rect.w)) {	//Checks that player collides from right
 					App->scene->SecondMap();	//Pass to next map
 				}
 			}
@@ -752,20 +747,20 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 
 void j1Player::Reset() {	//Reset All Player Animations
 
-	data_entity.death.Reset();
+	death.Reset();
 	data_player.jump.Reset();
-	data_entity.walk.Reset();
+	walk.Reset();
 	data_player.walk2.Reset();
-	data_entity.idle.Reset();
-	data_entity.fall.Reset();
+	idle.Reset();
+	fall.Reset();
 	data_player.running.Reset();
-	data_entity.die = false;
+	die = false;
 }
 
 bool j1Player::PreTime(float sec)
 {
 	bool ret = false;
-	data_entity.pretimer++;
-	if (data_entity.pretimer >= sec) { ret = true; data_entity.pretimer = 0; }
+	pretimer++;
+	if (pretimer >= sec) { ret = true; pretimer = 0; }
 	return ret;
 }

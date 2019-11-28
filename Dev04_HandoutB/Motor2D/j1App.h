@@ -19,9 +19,7 @@ class j1EntityManager;
 class j1Collider;
 class j1PathFinding;
 class j1FadeToBlack;
-class j1Golem1;
-class j1Golem2;
-//class j1Entity;
+
 
 
 class j1App
@@ -97,9 +95,7 @@ public:
 	j1Collider*			collider;
 	j1PathFinding*		pathfinding;
 	j1FadeToBlack*		fade;
-	j1Golem1*			golem1;
-	j1Golem2*			golem2;
-	//j1EntityManager*	entitymanager;
+	
 
 private:
 
@@ -118,7 +114,6 @@ private:
 	mutable p2SString	save_game;
 
 	j1PerfTimer			ptimer;
-	//j1PerfTimer			delaytimer;
 	uint64				frame_count = 0;
 	j1Timer				startup_time;
 	j1Timer				frame_time;

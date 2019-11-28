@@ -58,15 +58,6 @@ j1Collider::j1Collider()
 j1Collider::~j1Collider()
 {}
 
-bool j1Collider::Awake() {
-	
-	return true;
-}
-
-bool j1Collider::Start() {
-	return true;
-}
-
 bool j1Collider::PreUpdate(float dt)
 {
 	// Remove all colliders scheduled for deletion
@@ -194,7 +185,7 @@ bool j1Collider::CleanUp()
 	return true;
 }
 
-Collider* j1Collider::AddCollider(SDL_Rect* rect, ColliderType type, j1Entity* callback)
+Collider* j1Collider::AddCollider(SDL_Rect* rect, ColliderType type, j1Module* callback)
 {
 	Collider* ret = nullptr;
 
