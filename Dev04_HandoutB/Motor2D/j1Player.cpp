@@ -511,10 +511,10 @@ void j1Player::State(float dt) {
 		//data_player.injump = true;
 		current_animation = &data_player.jump;
 
-		if ((data_player.jumpenergy) <= (data_player.gravity)) {									//character will jump up until it do not accomplish this condition 
+		if ((data_player.jumpenergy) <= (gravity)) {									//character will jump up until it do not accomplish this condition 
 
 			data_player.jumpenergy += 1 * dt * LIMIT_TIMER;														// jump up increments 0.5 each time
-			data_player.position.y += (data_player.jumpenergy);		// y position increments 0.5 each time
+			position.y += (data_player.jumpenergy);		// y position increments 0.5 each time
 
 		}
 		else {
