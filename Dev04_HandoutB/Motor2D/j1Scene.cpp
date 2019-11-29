@@ -150,7 +150,6 @@ bool j1Scene::Update(float dt)
 		}
 
 		App->map->Load(current_map.GetString());
-		//App->player->Start();
 		App->map->Draw();
 		
 		//App->player->data_entity.position.x = 100;
@@ -180,7 +179,6 @@ bool j1Scene::Update(float dt)
 
 		App->map->Load(current_map.GetString());
 		
-		//App->player->Start();
 		App->map->Draw();
 		
 		//charge map 2 position when F2 is pressed
@@ -228,15 +226,7 @@ bool j1Scene::Update(float dt)
 	 // Show player and map colliders
 	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)						
 	{
-		/*if (App->player->data_entity.showcolliders == false)
-		{
-			//App->player->data_entity.showcolliders = true;
-
-		}*/
-		/*else if (App->player->data_entity.showcolliders == true)
-		{
-			App->player->data_entity.showcolliders = false;
-		}*/
+	
 	}
 
 
@@ -291,7 +281,6 @@ bool j1Scene::Load(pugi::xml_node& data)
 	current_map.create(data.child("scene").attribute("name").as_string());					//check which map have to be loaded and load it
 	App->map->Load(current_map.GetString());
 	App->collider->Start();
-	//App->player->Start();
 	
 	return true;
 }
@@ -329,25 +318,17 @@ void j1Scene::SecondMap() {
 
 	if (current_map == "Map.tmx") {
 
-		//App->player->data_entity.position.x = 100;
-		//App->player->data_entity.position.y = 500;
-
 		App->audio->PlayMusic("audio/music/map1_music.ogg");
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-		//App->player->Start();
 	}
 
 	//charge map 2 position when player completes level 1
 	else if (current_map == "map2.tmx") {
 
-		//App->player->data_entity.position.x = 55;
-		//App->player->data_entity.position.y = 10;
-
 		App->audio->PlayMusic("audio/music/map2_music.ogg");
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-		//App->player->Start();
 	}
 
 
@@ -358,8 +339,10 @@ bool j1Scene::CreateEntities() {
 
 	bool ret = true;
 
-
+	
 	App->entity->DrawEntity(100, 100, j1Entity::entity_type::PLAYER);
+	App->entity->DrawEntity(200, 100, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
+	//App->entity->DrawEntity(300, 100, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
 
 	return ret;
 }

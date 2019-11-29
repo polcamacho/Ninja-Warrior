@@ -17,7 +17,6 @@
 
 j1Player::j1Player(int x, int y) : j1Entity(entity_type::PLAYER)
 {
-	//name.create("player");
 	data_player.ipos.x = x;
 	data_player.ipos.y = y;
 }
@@ -31,12 +30,6 @@ bool j1Player::Awake(pugi::xml_node& config) {
 	bool ret = true;
 
 	//Load All Player Features from Config
-
-	//folder.create(config.child("folder").child_value());	
-	//texture = config.child("texture").attribute("source").as_string();
-
-	//position.x = config.child("playerposition").attribute("x").as_int();
-	//position.y = config.child("playerposition").attribute("y").as_int();
 
 	data_player.jumpvel = config.child("jump_velocity").attribute("jumpvel").as_int();
 	   

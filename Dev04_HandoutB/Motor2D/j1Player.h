@@ -42,8 +42,7 @@ struct PlayerData
 
 	int jumpCounter = 2;
 
-	iPoint a;	//Acceleration (x,y)
-		//Velocity of the jump (x,y)
+
 	iPoint			colOffset;
 	SDL_Texture*	Tex_Player;
 	

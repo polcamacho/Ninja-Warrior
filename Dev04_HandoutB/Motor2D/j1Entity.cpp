@@ -34,16 +34,6 @@ bool j1Entity::Save(pugi::xml_node& data) const {
 	return true;
 }
 
-/*bool j1Entity::DrawEntity(int x, int y, entity_type type) {
-	
-	bool ret = false;
-	if (data_entity.current_animation != nullptr)
-	{
-		App->render->Blit(data_entity.texture, data_entity.position.x, data_entity.position.y, &(data_entity.current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL);
-		ret = true;
-	}
-	return ret;
-}*/
 
 void j1Entity::DrawCollider() {
 

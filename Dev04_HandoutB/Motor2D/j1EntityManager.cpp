@@ -5,6 +5,8 @@
 #include "j1Audio.h"
 #include "j1Textures.h"
 #include "j1Player.h"
+#include "j1Golem1.h"
+#include "j1Golem2.h"
 #include "j1Entity.h"
 #include "j1Window.h"
 #include "j1Map.h"
@@ -61,7 +63,7 @@ bool j1EntityManager::PreUpdate(float dt)
 
 bool j1EntityManager::Update(float dt)
 {
-	BROFILER_CATEGORY("PreUpdate Entity Manager", Profiler::Color::Coral);
+	//BROFILER_CATEGORY("PreUpdate Entity Manager", Profiler::Color::Coral);
 	p2List_item<j1Entity*>* item = entities.start;
 
 	while (item != nullptr)
@@ -120,19 +122,19 @@ j1Entity* j1EntityManager::DrawEntity(int x, int y, j1Entity::entity_type type)
 			break;
 		}
 
-		/*case GOLEM_GRASS_ENEMY:
+		case j1Entity::entity_type::GOLEM_GRASS_ENEMY:
 		{
 			ret = new j1Golem1(x, y);
 			entities.add(ret);
 			break;
 		}
-
-		case GOLEM_ROCK_ENEMY:
+		
+		case j1Entity::entity_type::GOLEM_ROCK_ENEMY:
 		{
-			ret = new Golem2(x, y);
-			entities.add(ret);
+			//ret = new j1Golem2(x, y);
+			//entities.add(ret);
 			break;
-		}*/
+		}
 
 		/*case FLYING_EYE_ENEMY:
 		{
