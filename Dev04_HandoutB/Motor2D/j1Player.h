@@ -74,19 +74,18 @@ public:
 	bool PreUpdate(float dt);
 	bool Update(float dt);
 	bool PostUpdate(float dt);
-
+	bool CleanUp();
 	// Called before render is available
 	bool Awake(pugi::xml_node& conf);
 		
 	// Called each loop iteration
-	
-	void DrawPlayer();
 
 	//Called to start the player at initial pos
 	//void Restart();
 	
 	//Change the sound depending the animation
 	
+	void Camera();
 	
 	//Puts the camera on player and follows
 	

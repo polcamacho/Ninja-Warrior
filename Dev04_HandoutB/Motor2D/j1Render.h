@@ -4,8 +4,8 @@
 #include "SDL/include/SDL.h"
 #include "p2Point.h"
 #include "j1Module.h"
-
 struct PlayerData;
+class j1Entity;
 
 enum RENDER_PIVOT
 {

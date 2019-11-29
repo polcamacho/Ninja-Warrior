@@ -17,7 +17,7 @@
 
 j1Player::j1Player(int x, int y) : j1Entity(entity_type::PLAYER)
 {
-	name.create("player");
+	//name.create("player");
 	data_player.ipos.x = x;
 	data_player.ipos.y = y;
 }
@@ -35,8 +35,8 @@ bool j1Player::Awake(pugi::xml_node& config) {
 	//folder.create(config.child("folder").child_value());	
 	//texture = config.child("texture").attribute("source").as_string();
 
-	position.x = config.child("playerposition").attribute("x").as_int();
-	position.y = config.child("playerposition").attribute("y").as_int();
+	//position.x = config.child("playerposition").attribute("x").as_int();
+	//position.y = config.child("playerposition").attribute("y").as_int();
 
 	data_player.jumpvel = config.child("jump_velocity").attribute("jumpvel").as_int();
 	   
@@ -54,20 +54,6 @@ bool j1Player::Awake(pugi::xml_node& config) {
 
 }
 
-void j1Player::DrawPlayer()
-{
-	
-	BROFILER_CATEGORY("DrawPlayer", Profiler::Color::Orange);
-
-	if (flip) {
-		App->render->Blit(App->entity->Tex_Player, position.x, position.y, &(current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL, 0);	//Draw Player Flipped
-	}
-	else {
-		App->render->Blit(App->entity->Tex_Player, position.x, position.y, &(current_animation->GetCurrentFrame()), SDL_FLIP_NONE, 0);	//Draw Player Normal
-	}
-
-
-}
 
 bool j1Player::Start() {
 
@@ -102,9 +88,10 @@ bool j1Player::PreUpdate(float dt) {
 
 bool j1Player::Update(float dt) {
 
-	BROFILER_CATEGORY("DrawPlayer", Profiler::Color::Red);
+	BROFILER_CATEGORY("Update player", Profiler::Color::Red);
 	current_animation = &idle;
 	LOG("%d %d %d %d", position.x, position.y, v.x, data_player.velrun);
+	
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 
 		if (godmode == false)	//If godmode is false sets None Collider to player for he can fly around map and not collide
@@ -117,7 +104,7 @@ bool j1Player::Update(float dt) {
 		else if (godmode == true)
 		{
 
-			gravity = 20;	//Sets normal gravity to player 
+			gravity = 15;	//Sets normal gravity to player 
 			godmode = false;
 			
 		}
@@ -138,9 +125,10 @@ bool j1Player::Update(float dt) {
 			position.x += (int)(20 * dt * LIMIT_TIMER);
 	}
 	
-	position.y += gravity * dt * LIMIT_TIMER;
+	position.y += gravity;
 	preposition = position;
 	
+	Camera();
 	CheckState(dt);	//Checks the state where is the player
 	State(dt);	//Set the animation relationed with the state that he is
 	DrawCollider();
@@ -168,15 +156,15 @@ bool j1Player::PostUpdate(float dt) {
 }
 
 // Called before quitting
-/*bool j1Player::CleanUp()
+bool j1Player::CleanUp()
 {
 	LOG("Unloading player");
-
+	j1Entity::CleanUp();
 	App->tex->UnLoad(App->entity->Tex_Player);	//Unload The Player texture
 	App->collider->CleanUp();	//Unload the Player collider
 	
 	return true;
-}*/
+}
 
 /*bool j1Player::Load(pugi::xml_node& node) {
 
@@ -767,4 +755,29 @@ bool j1Player::PreTime(float sec)
 	pretimer++;
 	if (pretimer >= sec) { ret = true; pretimer = 0; }
 	return ret;
+}
+
+void j1Player::Camera() {
+
+	if (App->scene->current_map == "Map.tmx") {
+
+		App->render->camera.x = -(position.x) + (App->win->width / 2);
+		App->render->camera.y = -(position.y) + (App->win->height / 1.40);
+	}
+	else {
+
+		App->render->camera.x = -(position.x) + (App->win->width / 2);
+		App->render->camera.y = -(position.y) + (App->win->height / 1.9);
+	}
+
+	//Set Camera Limits
+	if (App->render->camera.x > 0) {	//Left
+
+		App->render->camera.x = 0;
+	}
+
+	if (App->render->camera.y > 0) {	//Above
+
+		App->render->camera.y = 0;
+	}
 }

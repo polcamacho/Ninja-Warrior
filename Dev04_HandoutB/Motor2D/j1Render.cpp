@@ -4,11 +4,11 @@
 #include "j1Window.h"
 #include "j1Render.h"
 #include "j1Player.h"
+#include "j1EntityManager.h"
 #include "j1Entity.h"
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "..//Brofiler/Brofiler.h"
-
 
 #define VSYNC true
 
@@ -80,28 +80,7 @@ bool j1Render::Update(float dt)
 {
 	BROFILER_CATEGORY("Update Render", Profiler::Color::Yellow);
 
-	if(App->scene->current_map=="Map.tmx"){
 	
-		camera.x = /*-(App->player->data_player.position.x)*/ + (App->win->width / 2);
-		camera.y = /*-(App->player->data_entity.position.y)*/ + (App->win->height / 1.40);
-
-	}
-	else {
-		
-		camera.x = /*-(App->player->data_entity.position.x)*/ + (App->win->width / 2);
-		camera.y = /*-(App->player->data_entity.position.y)*/ + (App->win->height / 1.9);
-	}
-	
-	//Set Camera Limits
-	if (camera.x > 0) {	//Left
-		
-		camera.x = 0;
-	}
-		
-	if (camera.y > 0) {	//Above
-		
-		camera.y = 0;
-	}
 
 	//velcamera = App->player->data_entity.v.x;
 

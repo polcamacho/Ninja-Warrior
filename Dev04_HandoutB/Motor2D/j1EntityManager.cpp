@@ -30,12 +30,14 @@ j1EntityManager::~j1EntityManager() {
 
 bool j1EntityManager::Awake(pugi::xml_node& config)
 {
-	folder.create(config.child("folder").child_value());
-	texture1 = config.child("texture").attribute("source1").as_string();
-	texture2 = config.child("texture").attribute("source2").as_string();
+	
+	node = config;
+	folder.create(node.child("folder").child_value());
+	texture1 = node.child("texture").attribute("source1").as_string();
+	texture2 = node.child("texture").attribute("source2").as_string();
 
-	bool ret = true;
-	return ret;
+	
+	return true;
 }
 
 bool j1EntityManager::Start()
@@ -68,7 +70,6 @@ bool j1EntityManager::Update(float dt)
 		item = item->next;
 	}
 
-	DeleteEntity();
 	return true;
 }
 
@@ -152,11 +153,12 @@ j1Entity* j1EntityManager::DrawEntity(int x, int y, j1Entity::entity_type type)
 
 
 	}
+
 	
 	if (ret != nullptr) {
 		entities.add(ret);
-		entities.end->data->Awake(node);
 		entities.end->data->Start();
+		entities.end->data->Awake(node);
 
 	}
 	return ret;

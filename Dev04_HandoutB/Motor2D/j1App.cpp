@@ -18,6 +18,7 @@
 #include "j1Golem1.h"
 #include "j1Golem2.h"
 #include "j1EntityManager.h"
+#include "j1Entity.h"
 #include "..//Brofiler/Brofiler.h"
 
 

@@ -359,7 +359,7 @@ bool j1Scene::CreateEntities() {
 	bool ret = true;
 
 
-	App->entity->DrawEntity(100, 500, j1Entity::entity_type::PLAYER);
+	App->entity->DrawEntity(100, 100, j1Entity::entity_type::PLAYER);
 
 	return ret;
 }
