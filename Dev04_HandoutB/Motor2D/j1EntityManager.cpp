@@ -154,6 +154,13 @@ j1Entity* j1EntityManager::DrawEntity(int x, int y, j1Entity::entity_type type)
 
 	}
 
+
+	if (ret != nullptr) {
+		entities.add(ret);
+		entities.end->data->Start();
+		entities.end->data->Awake(node);
+
+	}
 	
 	return ret;
 }
