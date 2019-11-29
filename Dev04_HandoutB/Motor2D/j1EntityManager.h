@@ -8,7 +8,7 @@
 #include "p2DynArray.h"
 #include "j1Entity.h"
 #include "p2List.h"
-#define LIMIT_TIMER 60
+#define LIMIT_TIMER 50
 
 struct SDL_Texture;
 

@@ -17,7 +17,8 @@ struct Collider;
 
 enum states_player {
 	IDLE,
-	WALK,
+	WALK_FORWARD,
+	WALK_BACKWARD,
 	RUN,
 	JUMP_UP,
 	JUMP_FALL,

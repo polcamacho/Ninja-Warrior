@@ -1,13 +1,12 @@
 #ifndef __j1ENTITY_H__
 #define __j1ENTITY_H__
 
-#define LIMIT_TIMER 60
-
 #include "PugiXml/src/pugixml.hpp"
 #include "SDL/include/SDL.h"
 #include "j1Module.h"
 #include "p2Point.h"
 #include "p2Animation.h"
+
 
 struct Collider;
 struct SDL_Texture;

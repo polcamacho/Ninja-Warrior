@@ -104,7 +104,7 @@ bool j1Player::Update(float dt) {
 		else if (godmode == true)
 		{
 
-			gravity = 15;	//Sets normal gravity to player 
+			gravity = 20;	//Sets normal gravity to player 
 			godmode = false;
 			
 		}
@@ -282,157 +282,119 @@ void j1Player::Pushbacks() {
 void j1Player::CheckState(float dt)
 {
 	
-	if(godmode==false){
-		
-		
-		//LOG("VEL: %i VELRUN: %f", data_entity.v.x, data_entity.velrun);
+	if (godmode == false) {
+
+		current_state = IDLE;
+		//LOG("VEL: %i VELRUN: %f", data_player.v.x, data_player.velrun);
 
 		//if "D" is pressed animation walk forward 
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && data_player.canjump == true) {
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 
-			current_state = WALK;
-			position.x += (v.x*dt * LIMIT_TIMER);
-			flip = false;
-			LOG("%f", dt);
+			current_state = WALK_FORWARD;
 
-			//if  "SPACE" is pressed when "D" is pressed, the player jumps forward
-			if (App->input->GetKey(SDL_SCANCODE_SPACE)==KEY_DOWN) {		
+			/*//if "SPACE" is pressed the player jumps
+			if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && data_player.canjump == true) {		//counter needs to be !=0, if not cannot do double jump
 
-				data_player.jumpenergy = (data_player.jumpvel);
-
+				data_player.right = false;
+				data_player.left = false;
 				current_state = JUMP_WALK;
-				App->audio->PlayFx(App->scene->jump_FX);
-				LOG("%f", dt);
 
-				//decrease the jump counter
-				data_player.jumpCounter--;
-
-				//when the character do the double jump, reset jump animation
-				if (data_player.jumpCounter == 0) {
-					data_player.jump.Reset();
-				}
-
-			}
+			}*/
 
 			//if  "LSHIFT" is pressed when "D" is pressed, the player runs forward
-			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {		
-				position.x += (data_player.velrun*dt * LIMIT_TIMER);
+			/*else if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
 
-				current_state = RUN;
-				
-				flip = false;
+				data_player.player_flip = false;
 
 				//if "SPACE" is pressed when "LSHIFT" is pressed, and when "D" is pressed, the player jumps running forward
-				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		
-					
-					data_player.jumpCounter = 2;					//reset counter. If we dont do it, character cannot do the double jump while running
+				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 
 					data_player.right = true;						//player can jump forward
-					data_player.left = false;
-					App->audio->PlayFx(App->scene->jump_FX);
-
-
 					current_state = JUMP_RUN;
-					LOG("%f", dt);
 
-					//decrease the jump counter
-					data_player.jumpCounter--;
-
-					//when the character do the double jump, reset jump animation
-					if (data_player.jumpCounter == 0) {
-						data_player.jump.Reset();
-					}
+				}
+				else {
+					data_player.position.x += (data_player.velrun * dt * LIMIT_TIMER);
+					current_state = RUN;
 				}
 
-			}
+
+			}*/
+
+			/*else {
+				data_player.position.x += data_player.v.x * (dt * LIMIT_TIMER);
+				data_player.player_flip = false;
+				current_state = WALK;
+			}*/
+
 		}
 
 		//if "A" is pressed animation walk backward actives flips to the Blit
-		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && data_player.canjump == true) {
+		else if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 
-			current_state = WALK;
-			position.x -= (v.x*dt * LIMIT_TIMER);
-			flip = true;
-			LOG("%f", dt);
+			current_state = WALK_BACKWARD;
+			/*//if "SPACE" is pressed the player jumps
+			if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && data_player.canjump == true) {		//counter needs to be !=0, if not cannot do double jump
 
-			
-			//if "SPACE" is pressed when "A" is pressed, the player jumps backward
-			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		
-
-				data_player.jumpenergy = (data_player.jumpvel);
-
+				data_player.right = false;
+				data_player.left = false;
 				current_state = JUMP_WALK;
-				LOG("%f", dt);
 
-				
-				data_player.jumpCounter--;
-				App->audio->PlayFx(App->scene->jump_FX);
+			}*/
 
-				if (data_player.jumpCounter == 0) {
-					data_player.jump.Reset();
-				}
-			}
+			/*//if  "LSHIFT" is pressed when "D" is pressed, the player runs forward
+			else if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
 
-			//if  "LSHIFT" is pressed when "A" is pressed, the player runs backward
-			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
-				
-				current_state = RUN;
-				position.x -= (data_player.velrun * dt*LIMIT_TIMER);
-			
-				flip = true;
+				data_player.player_flip = false;
 
-				//if "SPACE" is pressed when "LSHIFT" is pressed, and when "A" is pressed, the player jumps running backward
-				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {		 
+				//if "SPACE" is pressed when "LSHIFT" is pressed, and when "D" is pressed, the player jumps running forward
+				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 
-					data_player.jumpCounter = 2;			//reset counter. If we dont do it, character cannot do the double jump while running
-					data_player.left = true;				//player can jump backward
-					data_player.right = false;
-
+					data_player.left = true;						//player can jump forward
 					current_state = JUMP_RUN;
-					LOG("%f", dt);
 
-					data_player.jumpCounter--;
-					App->audio->PlayFx(App->scene->jump_FX);
-
-					if (data_player.jumpCounter == 0) {
-						data_player.jump.Reset();
-					}
+				}
+				else {
+					data_player.position.x -= (data_player.velrun * dt * LIMIT_TIMER);
+					current_state = RUN;
 				}
 			}
-		}
 
-		//if "SPACE" is pressed the player jumps
-		else if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && (data_player.jumpCounter!=0)) {		//counter needs to be !=0, if not cannot do double jump
-			
-		data_player.jumpenergy = (data_player.jumpvel);
-				current_state = JUMP_UP;
-				flip = false;
-				data_player.jumpCounter--;
-				App->audio->PlayFx(App->scene->jump_FX);
-				LOG("%f", dt);
-
-				
-				if(data_player.jumpCounter==0){
-					data_player.jump.Reset();
-				}
+			else {
+				data_player.position.x -= data_player.v.x * (dt * LIMIT_TIMER);
+				data_player.player_flip = false;
+				current_state = WALK;
+			}*/
 
 		}
 
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 
-		if ((App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) && data_player.canjump == true || (data_player.TimeAttack == false)) {
-						
+			current_state = JUMP_UP;
+
+		}
+
+		/*if ((App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) && data_player.canjump == true || (data_player.TimeAttack == false)) {
+
 			current_state = IDLE_ATTACK;
-			
-		}
 
-		
+		}*/
+
 		//If any key pressed animation idle
-		else if(data_player.canjump==true && App->input->GetKey(SDL_SCANCODE_SPACE) == NULL && App->input->GetKey(SDL_SCANCODE_A) == NULL && App->input->GetKey(SDL_SCANCODE_D) == NULL && App->input->GetKey(SDL_SCANCODE_P)==NULL){
-			
-			current_state = IDLE;
-			flip = false;
+		/*else if (data_player.canjump == true && App->input->GetKey(SDL_SCANCODE_SPACE) == NULL && App->input->GetKey(SDL_SCANCODE_A) == NULL && App->input->GetKey(SDL_SCANCODE_D) == NULL && App->input->GetKey(SDL_SCANCODE_P) == NULL && App->input->GetKey(SDL_SCANCODE_LSHIFT) == NULL) {
 
-		}
+			current_state = IDLE;
+			data_player.player_flip = false;
+
+			if (App->input->GetKey(SDL_SCANCODE_SPACE && data_player.canjump == true) == KEY_DOWN) {
+
+				data_player.left = false;
+				data_player.right = false;
+				current_state = JUMP_UP;
+
+			}
+
+		}*/
 	}
 
 }
@@ -440,171 +402,200 @@ void j1Player::CheckState(float dt)
 void j1Player::State(float dt) {
 
 	if (current_state == IDLE) {
-		
-		current_animation = &idle;				
-		data_player.jump.Reset();
-		fall.Reset();
-		data_player.idle_attack.Reset();
+
+		current_animation = &idle;
+		//data_player.jump.Reset();
+		//fall.Reset();
+		//data_player.idle_attack.Reset();
 	}
 
-	if (current_state == WALK) {
+	if (current_state == WALK_FORWARD) {
 
-		current_animation = &walk;		
-		data_player.jump.Reset();
-		fall.Reset();
-		data_player.idle_attack.Reset();
+		current_animation = &walk;
+		position.x += (int)(v.x * dt * LIMIT_TIMER);
+		flip = false;
+
+		//data_player.jump.Reset();
+		//fall.Reset();
+		//data_player.idle_attack.Reset();
+
 	}
-	if(current_state==JUMP_WALK){
 
-		current_state = JUMP_UP;
+	if (current_state == WALK_BACKWARD) {
+
+		current_animation = &walk;
+		position.x -= (int)(v.x * dt * LIMIT_TIMER);
+		flip = true;
+
+		//data_player.jump.Reset();
+		//fall.Reset();
+		//data_player.idle_attack.Reset();
 
 	}
+	/*if (current_state == JUMP_WALK) {
 
-	if (current_state == JUMP_RUN) {
-		
+		data_player.jumpenergy = (data_player.jumpvel * dt * LIMIT_TIMER);
+		App->audio->PlayFx(App->scene->jump_FX);
+
+		//decrease the jump counter
+		data_player.jumpCounter--;
+
+		//when the character do the double jump, reset jump animation
+		if (data_player.jumpCounter == 0) {
+			data_player.jump.Reset();
+		}
+
+		data_player.injump = true;
+		data_player.current_animation = &data_player.jump;
+
+		if ((data_player.jumpenergy) <= (data_player.gravity)) {	//character will jump up until it do not accomplish this condition 
+
+			data_player.jumpenergy += 1 * dt * LIMIT_TIMER;			// jump up increments 0.5 each time
+			data_player.position.y += (data_player.jumpenergy);		// y position increments 0.5 each time
+
+		}
+
+	}*/
+
+	/*if (current_state == JUMP_RUN) {
+
+		data_player.jumpCounter = 2;					//reset counter. If we dont do it, character cannot do the double jump while running
+
+		App->audio->PlayFx(App->scene->jump_FX);
+
 		//If left = true, jump running backward
 		if (data_player.left == true) {
-			
-			position.x -= (data_player.velrun*dt * LIMIT_TIMER);
+
+			data_player.position.x -= (data_player.velrun * dt * LIMIT_TIMER);
 		}
 
 		//If right = true, jump running forward
 		else if (data_player.right == true) {
-			
-			position.x += (data_player.velrun*dt * LIMIT_TIMER);
+
+			data_player.position.x += (data_player.velrun * dt * LIMIT_TIMER);
 		}
 
-		data_player.canjump = false;
+		//decrease the jump counter
+		data_player.jumpCounter--;
+
+		//when the character do the double jump, reset jump animation
+		if (data_player.jumpCounter == 0) {
+			data_player.jump.Reset();
+		}
+
 		data_player.injump = true;
-		current_animation = &data_player.jump;
+		data_player.current_animation = &data_player.jump;
 
-		if ((data_player.jumpenergy) <= (gravity)) {								//character will jump up until it do not accomplish this condition 
-			
-			data_player.jumpenergy += 1*dt * LIMIT_TIMER;													// jump up increments 0.5 each time
-			position.y += (data_player.jumpenergy);		// y position increments 0.5 each time
+		if ((data_player.jumpenergy) <= (data_player.gravity)) {								//character will jump up until it do not accomplish this condition 
+
+			data_player.jumpenergy += 1 * dt * LIMIT_TIMER;													// jump up increments 0.5 each time
+			data_player.position.y += (data_player.jumpenergy);		// y position increments 0.5 each time
 
 		}
 
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-		{
-			position.x -= v.x*(dt * LIMIT_TIMER);
-			flip = true;
-		}
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		{
-			position.x += v.x*(dt * LIMIT_TIMER);
-			flip = false;
-		}
+		data_player.right = false;						//player can jump forward
+		data_player.left = false;
 
-	}
-		
-	if (current_state == RUN) {
-		current_animation = &data_player.walk2;
+	}*/
+
+	/*if (current_state == RUN) {
+
+		data_player.current_animation = &data_player.walk2;
 		data_player.jump.Reset();
-		fall.Reset();
+		data_player.fall.Reset();
 		data_player.idle_attack.Reset();
-	}
+	}*/
 
 	if (current_state == JUMP_UP) {
 
-		data_player.canjump = false;
-		data_player.injump = true;
+		//data_player.injump = true;
 		current_animation = &data_player.jump;
 
-		if ((data_player.jumpenergy) <= (gravity)) {									//character will jump up until it do not accomplish this condition 
-			
-			data_player.jumpenergy += 1*dt * LIMIT_TIMER;														// jump up increments 0.5 each time
-			position.y += (data_player.jumpenergy);		// y position increments 0.5 each time
+		if ((data_player.jumpenergy) <= (data_player.gravity)) {									//character will jump up until it do not accomplish this condition 
+
+			data_player.jumpenergy += 1 * dt * LIMIT_TIMER;														// jump up increments 0.5 each time
+			data_player.position.y += (data_player.jumpenergy);		// y position increments 0.5 each time
 
 		}
+		else {
+			current_state = JUMP_FALL;
+		}
 
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-		{
-			position.x -= v.x*(dt * LIMIT_TIMER);
-			flip = true;
-		}
-		
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		{
-			position.x += v.x*(dt * LIMIT_TIMER);
-			flip = false;
-		}
-		
 	}
-	
-	if (current_state == JUMP_FALL) {
 
-		current_animation = &fall;
+	/*if (current_state == JUMP_FALL) {
+
+		data_player.current_animation = &data_player.fall;
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			position.x -= v.x*(dt * LIMIT_TIMER);
-			flip = true;
+			data_player.position.x -= data_player.v.x * (dt * LIMIT_TIMER);
+			data_player.player_flip = true;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
-			position.x += v.x*(dt * LIMIT_TIMER);
-			flip = false;
-			
+			data_player.position.x += data_player.v.x * (dt * LIMIT_TIMER);
+			data_player.player_flip = false;
+
 		}
-	}
+	}*/
 
-	if (current_state == IDLE_ATTACK) {
+	/*if (current_state == IDLE_ATTACK) {
 
-		current_animation = &data_player.idle_attack;
-		//LOG("%i", canjump);
+		data_player.current_animation = &data_player.idle_attack;
+		//LOG("%i", data_player.canjump);
 		data_player.TimeAttack = true;
-		if (current_animation->AnimFinished() == true) {
-			
-			data_player.TimeAttack = false;
-			
-		}
-		
-	}
+		if (data_player.current_animation->AnimFinished() == true) {
 
-	if (current_state == DEATH) {	
-		
+			data_player.TimeAttack = false;
+
+		}
+
+	}*/
+
+	/*if (current_state == DEATH) {
+
 		die = true;	//Sets the die to true
 		LOG("GLOBAL: %d", globaltime);
 		LOG("PRE: %d", pretimer);
 		if (die == true) {
 
 			if (App->scene->current_map == "Map.tmx") {	//If player is in map 1
-				
-				if (PreTime (20)) {	//Do a timer to stop the game during the Death animation
-					
 
-					
+				if (pretime(20)) {	//Do a timer to stop the game during the Death animation
+
+
+
 					//Sets the Position that player goes when he dies
-					position.x = 100;	//Set Player X	
-					position.y = 500;	//Set Player Y
+					data_player.position.x = 100;	//Set Player X	
+					data_player.position.y = 300;	//Set Player Y
 					current_state = JUMP_FALL;	//Sets the Animation when he reapears
-					death.Reset();
+					data_player.death.Reset();
 				}
 
 			}
 
 			else {	//If player is not in map 1 is in map 2
 
-				
 
-				if (PreTime (20)) {	//Do a timer to stop the game during the Death Animation
-					current_animation = &death;	//Current Animation is Death
+
+				if (pretime(20)) {	//Do a timer to stop the game during the Death Animation
+					data_player.current_animation = &data_player.death;	//Current Animation is Death
 					App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 					//Sets the Position that player goes when he dies
-					position.x = 55;	//Set Player X	
-					position.y = 10;	//Set Player Y
+					data_player.position.x = 55;	//Set Player X	
+					data_player.position.y = 10;	//Set Player Y
 					current_state = JUMP_FALL;	//Sets the Animation when he reapears
-					death.Reset();
+					data_player.death.Reset();
 
 				}
 
 			}
 
-					
+
 		}
 		die = false;
 
-	}
+	}*/
 	
 }
 

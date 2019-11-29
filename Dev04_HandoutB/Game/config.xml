@@ -38,7 +38,7 @@
     <jump_velocity jumpvel="-45" />
     <velocity x="5"/>
     <velrun x="3"/>
-    <gravity grav="15" />
+    <gravity grav="20" />
     <colOffset x="11" y="8" />
 
   </entitymanager>
