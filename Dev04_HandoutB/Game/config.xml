@@ -24,36 +24,38 @@
 	<map>
 		<folder>maps/</folder>
 	</map>
-  
-	
-	<player>
-    <position x="100" y="500" />
-    <jump_velocity jumpvel="-45" />
-    <velocity x="5"/>
-    <velrun x="3"/>
-    <gravity grav="20" />
-    <colOffset x="11" y="8" />
-	</player>
-  
-	<enemy>
-    <position x="150" y="350" />
-    <gravity grav="15" />
-    <velocity x="5"/>
-  </enemy>
 
-  <golem2>
-    <position x="150" y="350" />
-    <gravity grav="15" />
-  </golem2>
+  <scene>
+    <map name="Map.tmx" />
+    <map name="map2.tmx" />
+  </scene>
+	
 
   <entitymanager>
     <folder>textures/</folder>
-    <texture source1="rogue_spritesheed.png" />
-    <texture source2="golems.png" />
+    <texture source1="rogue_spritesheed.png" source2="golems.png" />
+    
+    <player>
+      <playerposition x="100" y="500" />
+      <jump_velocity jumpvel="-45" />
+      <velocity x="5"/>
+      <velrun x="3"/>
+      <gravity grav="20" />
+      <colOffset x="11" y="8" />
+    </player>
+   
+
+    <enemy>
+      <position x="150" y="350" />
+      <gravity grav="15" />
+      <velocity x="5"/>
+    </enemy>
+
+    <golem2>
+      <position x="150" y="350" />
+      <gravity grav="15" />
+    </golem2>
   </entitymanager>
   
-	<scene>
-		<map name="Map.tmx" />
-		<map name="map2.tmx" />
-	</scene>
+	
 </config>

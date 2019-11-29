@@ -49,6 +49,8 @@ bool j1Scene::Awake(pugi::xml_node& config)
 // Loads map and audio
 bool j1Scene::Start()
 {
+	
+	CreateEntities();
 	LOG("LOADING MAP");
 	current_map = maps.start->data;
 	
@@ -248,7 +250,7 @@ bool j1Scene::Update(float dt)
 	App->render->Blit(debug_tex, p.x, p.y);
 
 	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
-	LOG("%d", path->Count());
+	//LOG("%d", path->Count());
 
 	for (uint i = 0; i < path->Count(); ++i)
 	{

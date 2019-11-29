@@ -18,7 +18,8 @@
 j1Player::j1Player(int x, int y) : j1Entity(entity_type::PLAYER)
 {
 	name.create("player");
-	
+	data_player.ipos.x = x;
+	data_player.ipos.y = y;
 }
 
 // Destructor
@@ -31,11 +32,11 @@ bool j1Player::Awake(pugi::xml_node& config) {
 
 	//Load All Player Features from Config
 
-	folder.create(config.child("folder").child_value());	
-	texture = config.child("texture").attribute("source").as_string();
+	//folder.create(config.child("folder").child_value());	
+	//texture = config.child("texture").attribute("source").as_string();
 
-	position.x = config.child("position").attribute("x").as_int();
-	position.y = config.child("position").attribute("y").as_int();
+	position.x = config.child("playerposition").attribute("x").as_int();
+	position.y = config.child("playerposition").attribute("y").as_int();
 
 	data_player.jumpvel = config.child("jump_velocity").attribute("jumpvel").as_int();
 	   
@@ -47,7 +48,7 @@ bool j1Player::Awake(pugi::xml_node& config) {
 	
 	gravity = config.child("gravity").attribute("grav").as_int();
 
-	
+	LOG("%d %d %d %d", position.x, position.y, v.x, data_player.velrun);
 
 	return ret;
 
@@ -73,9 +74,12 @@ bool j1Player::Start() {
 	pretimer = 0;
 	//globaltime = SDL_GetTicks();	//Sets the Global time to the death timer
 	
+	position.x = data_player.ipos.x;
+	position.y = data_player.ipos.y;
+
 	Pushbacks();	//Call all the Pushback of animations
 	
-	
+	current_animation = &idle;
 	SDL_Rect c;
 	c.x = position.x;
 	c.y = position.y;
@@ -100,7 +104,7 @@ bool j1Player::Update(float dt) {
 
 	BROFILER_CATEGORY("DrawPlayer", Profiler::Color::Red);
 	current_animation = &idle;
-
+	LOG("%d %d %d %d", position.x, position.y, v.x, data_player.velrun);
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 
 		if (godmode == false)	//If godmode is false sets None Collider to player for he can fly around map and not collide
@@ -134,7 +138,7 @@ bool j1Player::Update(float dt) {
 			position.x += (int)(20 * dt * LIMIT_TIMER);
 	}
 	
-	position.y += gravity;
+	position.y += gravity * dt * LIMIT_TIMER;
 	preposition = position;
 	
 	CheckState(dt);	//Checks the state where is the player
@@ -584,7 +588,7 @@ void j1Player::State(float dt) {
 					
 					//Sets the Position that player goes when he dies
 					position.x = 100;	//Set Player X	
-					position.y = 300;	//Set Player Y
+					position.y = 500;	//Set Player Y
 					current_state = JUMP_FALL;	//Sets the Animation when he reapears
 					death.Reset();
 				}

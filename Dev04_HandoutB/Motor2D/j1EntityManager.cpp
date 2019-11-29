@@ -46,6 +46,17 @@ bool j1EntityManager::Start()
 	return true;
 }
 
+
+bool j1EntityManager::PreUpdate(float dt)
+{
+	p2List_item<j1Entity*>* item = entities.start;
+	while (item!=nullptr) {
+		item->data->PreUpdate(dt);
+		item = item->next;
+	}
+	return true;
+}
+
 bool j1EntityManager::Update(float dt)
 {
 	BROFILER_CATEGORY("PreUpdate Entity Manager", Profiler::Color::Coral);
@@ -61,12 +72,14 @@ bool j1EntityManager::Update(float dt)
 	return true;
 }
 
-bool j1EntityManager::PreUpdate(float dt)
-{
-	return true;
-}
 
 bool j1EntityManager::PostUpdate(float dt) {
+
+	p2List_item<j1Entity*>* item = entities.start;
+	while (item!=nullptr) {
+		item->data->PostUpdate(dt);
+		item = item->next;
+	}
 	return true;
 }
 
@@ -137,13 +150,15 @@ j1Entity* j1EntityManager::DrawEntity(int x, int y, j1Entity::entity_type type)
 		}
 		*/
 
-		default:
-		{
-			break;
-		}
 
 	}
+	
+	if (ret != nullptr) {
+		entities.add(ret);
+		entities.end->data->Awake(node);
+		entities.end->data->Start();
 
+	}
 	return ret;
 }
 
