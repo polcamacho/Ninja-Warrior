@@ -16,8 +16,7 @@ enum states_entity {
 	
 	IDLE,
 	IDLE_ATTACK,
-	WALK_FORWARD,
-	WALK_BACKWARD,
+	WALK,
 	DEATH,
 	NONE
 
