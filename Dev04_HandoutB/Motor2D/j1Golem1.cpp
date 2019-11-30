@@ -281,7 +281,7 @@ void j1Golem1::State(float dt) {
 		
 	}
 
-	if (current_stateE == WALK_FORWARD) {
+	if (current_stateE == WALK) {
 
 		current_animation = &walk;
 		///data_enemy.jump.Reset();

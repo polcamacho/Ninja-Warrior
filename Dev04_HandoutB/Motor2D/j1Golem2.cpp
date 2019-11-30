@@ -280,7 +280,7 @@ void j1Golem2::State(float dt) {
 
 	}
 
-	if (current_stateE == WALK_FORWARD) {
+	if (current_stateE == WALK) {
 
 		current_animation = &walk;
 		fall.Reset();
