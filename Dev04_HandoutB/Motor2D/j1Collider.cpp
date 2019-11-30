@@ -15,6 +15,7 @@ j1Collider::j1Collider()
 	matrix[COLLIDER_FLOOR][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_FLOOR][COLLIDER_DEAD] = false;
 	matrix[COLLIDER_FLOOR][COLLIDER_PLATFORM] = false;
+	matrix[COLLIDER_FLOOR][COLLIDER_PLATFORM] = false;
 	matrix[COLLIDER_FLOOR][COLLIDER_NEXT] = false;
 	matrix[COLLIDER_FLOOR][COLLIDER_ENEMY] = true;
 
@@ -159,7 +160,7 @@ void j1Collider::DebugDraw()
 			break;
 
 		case COLLIDER_ENEMY: // Set Collider Color violet
-			App->render->DrawQuad(colliders[i]->rect, 100, 100, 100, alpha);
+			App->render->DrawQuad(colliders[i]->rect, 255, 200, 20, alpha);
 			break;
 		
 		default:

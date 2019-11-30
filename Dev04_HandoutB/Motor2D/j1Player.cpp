@@ -47,7 +47,6 @@ bool j1Player::Awake(pugi::xml_node& config) {
 
 }
 
-
 bool j1Player::Start() {
 
 	pretimer = 0;
@@ -604,13 +603,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 				position.y = c2->rect.y - entity_colliders->rect.h;
 				grounded = true;	//Sets that player is touching the floor
 				data_player.canjump = true;		//Sets tha player can jump
-
-				if (data_player.injump == true) {
-					data_player.jump.Reset();
-				}
-				if (grounded == true) {
-					data_player.jumpCounter = 2;
-				}
+				InJump();
 
 			}
 
@@ -765,4 +758,16 @@ void j1Player::Camera() {
 
 		App->render->camera.y = 0;
 	}
+}
+
+void j1Player::InJump() {
+	
+	if (data_player.injump == true) {
+		data_player.jump.Reset();
+	}
+
+	if (grounded == true) {
+		data_player.jumpCounter = 2;
+	}
+
 }

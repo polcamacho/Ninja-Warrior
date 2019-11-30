@@ -183,7 +183,7 @@ j1Entity* j1EntityManager::GetPlayer() {
 
 	p2List_item<j1Entity*>* entities_list = entities.start;
 	while (entities_list != nullptr) {
-		
+
 		if (entities_list->data->type == j1Entity::entity_type::PLAYER) {
 			return entities_list->data;
 		}

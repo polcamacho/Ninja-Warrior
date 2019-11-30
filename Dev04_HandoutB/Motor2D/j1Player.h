@@ -73,7 +73,8 @@ public:
 	bool CleanUp();
 	// Called before render is available
 	bool Awake(pugi::xml_node& conf);
-		
+	
+
 	// Called each loop iteration
 
 	//Called to start the player at initial pos
@@ -89,6 +90,7 @@ public:
 	void State(float dt);	//Check animations
 	void Pushbacks();	//Load the frame animations
 	void Reset();
+	void InJump();
 	bool PreTime(float sec);
 
 	// Collisions

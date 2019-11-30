@@ -11,7 +11,7 @@
 #define LIMIT_TIMER 50
 
 struct SDL_Texture;
-
+class j1Player;
 class j1EntityManager :public j1Module {
 
 public:
@@ -36,6 +36,7 @@ public:
 public:
 
 	p2List<j1Entity*>	entities;
+	j1Player* player;
 	SDL_Texture*	Tex_Player = nullptr;
 	SDL_Texture*	Tex_Golems = nullptr;
 	

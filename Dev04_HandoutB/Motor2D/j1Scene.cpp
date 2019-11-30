@@ -55,14 +55,14 @@ bool j1Scene::Start()
 	current_map = maps.start->data;
 	
 	if (App->map->Load(current_map.GetString()) == true) {
-	int w, h;
-	uchar* data = NULL;
-	if (App->map->CreateWalkabilityMap(w, h, &data)) {
-		App->pathfinding->SetMap(w, h, data);
-		LOG("%d %d %d 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", w, h, data);
-	}
+		int w, h;
+		uchar* data = NULL;
+		if (App->map->CreateWalkabilityMap(w, h, &data)) {
+			App->pathfinding->SetMap(w, h, data);
+			LOG("%d %d %d 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", w, h, data);
+		}
 
-	RELEASE_ARRAY(data);
+		RELEASE_ARRAY(data);
 	}	
 
 	//load audio from map 1
@@ -337,12 +337,9 @@ void j1Scene::SecondMap() {
 
 bool j1Scene::CreateEntities() {
 
-	bool ret = true;
-
-	
 	App->entity->DrawEntity(100, 100, j1Entity::entity_type::PLAYER);
-	App->entity->DrawEntity(200, 100, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
+	App->entity->DrawEntity(600, 100, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
 	App->entity->DrawEntity(300, 100, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
 
-	return ret;
+	return true;
 }

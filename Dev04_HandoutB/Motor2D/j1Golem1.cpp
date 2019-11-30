@@ -11,6 +11,8 @@
 #include "j1Collider.h"
 #include "j1Scene.h"
 #include "j1EntityManager.h"
+#include "j1Player.h"
+#include "j1Pathfinding.h"
 #include <math.h>
 #include "..//Brofiler/Brofiler.h"
 
@@ -19,7 +21,8 @@ j1Golem1::j1Golem1(int x, int y) : j1Entity(entity_type::PLAYER)
 {
 	data_golem.ipos.x = x;
 	data_golem.ipos.y = y;
-	
+	pathT = App->tex->Load("maps/cross.png");
+
 }
 
 // Destructor
@@ -80,6 +83,18 @@ bool j1Golem1::Update(float dt) {
 	
 	CheckState(dt);	//Checks the state where is the player
 	State(dt);	//Set the animation relationed with the state that he is
+	LOG("%i", App->entity->GetPlayer()->position.x);
+	LOG("%i", position.x);
+	LOG("%i", App->entity->GetPlayer()->position.y);
+	LOG("%i", position.y);
+
+	if (App->entity->GetPlayer()->position.x > position.x - 400 && App->entity->GetPlayer()->position.x < position.x + 400 && App->entity->GetPlayer()->position.y + 100 && App->entity->GetPlayer()->position.y - 100) {
+		
+		if (data_golem.pathfinding == true) {
+			Pathfinding(dt);
+		}
+	}
+
 	DrawCollider();
 	//Player Draw
 	if (flip) {
@@ -94,7 +109,7 @@ bool j1Golem1::Update(float dt) {
 		//current_state = JUMP_FALL2;
 
 	}
-		
+
 	return true;
 
 }
@@ -113,7 +128,6 @@ bool j1Golem1::CleanUp()
 	
 	return true;
 }
-
 
 /*bool j1Golem1::Load(pugi::xml_node& node) {
 
@@ -445,8 +459,6 @@ void j1Golem1::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 
 }
 
-
-
 void j1Golem1::Reset() {	//Reset All Player Animations
 
 	data_golem.death.Reset();
@@ -464,3 +476,61 @@ bool j1Golem1::PreTime(float sec)
 	if (pretimer >= sec) { ret = true; pretimer = 0; }
 	return ret;
 }
+
+bool j1Golem1::Pathfinding(float dt) {
+
+	v.x = 0;
+	v.y = 0;
+
+	iPoint origin;
+	bool origin_selected = false;
+	int x, y;
+	App->input->GetMousePosition(x, y);
+	iPoint p = App->entity->GetPlayer()->position;
+	p = App->map->WorldToMap(p.x+10, p.y+10);
+
+	origin = App->map->WorldToMap(position.x+10, position.y+10);
+	App->pathfinding->CreatePath(origin, p);
+
+	current_stateE == WALK_FORWARD;
+
+	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+
+	if (path->At(1) != NULL)
+	{
+
+		iPoint path_position = iPoint(path->At(0)->x, path->At(0)->y);
+
+		if (path->At(1)->x < origin.x) {
+			position.x -= 2 * LIMIT_TIMER * dt;
+			flip = true;
+		}
+
+		if (path->At(1)->x > origin.x) {
+			position.x += 2 * LIMIT_TIMER * dt;
+			flip = false;
+		}
+
+		if (path->At(1)->y < origin.y) {
+			position.y -= 2 * LIMIT_TIMER * dt;
+		}
+
+		if (path->At(1)->y > origin.y) {
+			position.y += 2 * LIMIT_TIMER * dt;
+		}
+	}
+
+	if (App->collider->debug)
+	{		
+		for (uint i = 0; i < path->Count(); ++i)
+		{
+			iPoint next_position = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+			App->render->Blit(App->scene->debug_tex, next_position.x, next_position.y);
+		}
+	}
+
+
+
+	return true;
+}
+

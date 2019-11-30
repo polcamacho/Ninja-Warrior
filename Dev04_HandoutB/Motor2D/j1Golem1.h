@@ -31,7 +31,12 @@ struct GolemData
 		   
 	iPoint		ipos;
 
+	iPoint golem_grass_pos;
+	iPoint player_pos;
+	iPoint player_position;
+	iPoint next_position;
 
+	bool pathfinding = true;
 };
 
 // ----------------------------------------------------
@@ -63,7 +68,7 @@ public:
 
 	//Called to start the player at initial pos
 	void Restart();
-	
+	bool Pathfinding(float dt);
 	//Change the sound depending the animation
 	
 	

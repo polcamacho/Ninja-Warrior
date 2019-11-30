@@ -43,9 +43,9 @@ public:
 	bool CreateEntities();
 
 private:
-	SDL_Texture* debug_tex;
-public:
 	
+public:
+	SDL_Texture* debug_tex;
 	int jump_FX;
 	int death_FX;
 

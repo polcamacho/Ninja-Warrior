@@ -76,7 +76,7 @@ public:
 	Animation  death;
 
 	SDL_Texture* texture;	//TEXTURE
-	SDL_Texture* path_texture = nullptr;
+	SDL_Texture* pathT = nullptr;
 
 	bool				grounded = false;
 	bool				platformdrop;
@@ -93,6 +93,7 @@ public:
 	bool destroy = false;
 	
 	states_entity		current_stateE;
+
 
 };
 
