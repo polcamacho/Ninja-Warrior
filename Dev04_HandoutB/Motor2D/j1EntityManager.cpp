@@ -7,6 +7,7 @@
 #include "j1Player.h"
 #include "j1Golem1.h"
 #include "j1Golem2.h"
+#include "j1Bat.h"
 #include "j1Entity.h"
 #include "j1Window.h"
 #include "j1Map.h"
@@ -37,7 +38,7 @@ bool j1EntityManager::Awake(pugi::xml_node& config)
 	folder.create(node.child("folder").child_value());
 	texture1 = node.child("texture").attribute("source1").as_string();
 	texture2 = node.child("texture").attribute("source2").as_string();
-
+	texture3 = node.child("texture").attribute("source3").as_string();
 	
 	return true;
 }
@@ -46,6 +47,7 @@ bool j1EntityManager::Start()
 {
 	Tex_Player = App->tex->Load(PATH(folder.GetString(), texture1.GetString()));	//Load The Texture of player
 	Tex_Golems = App->tex->Load(PATH(folder.GetString(), texture2.GetString()));	//Load The Texture of golems
+	Tex_Bat = App->tex->Load(PATH(folder.GetString(), texture3.GetString()));	//Load The Texture of bat
 
 	return true;
 }
@@ -154,18 +156,19 @@ j1Entity* j1EntityManager::DrawEntity(int x, int y, j1Entity::entity_type type)
 			entities.end->data->Awake(node);
 			entities.end->data->Start();
 			break;
-		}
+		}*/
 
-		case BAT_ENEMY:
+		case j1Entity::entity_type::BAT_ENEMY:
 		{
-			Coin* coin = new Coin(x, y, COIN);
-			entities.add(coin);
-			entities.end->data->Awake(node);
-			entities.end->data->Start();
-	
+			ret = new j1Bat(x, y);
+			if (ret != nullptr) {
+				entities.add(ret);
+				entities.end->data->Awake(node);
+				entities.end->data->Start();
+			}
 			break;
 		}
-		*/
+		
 
 
 	}

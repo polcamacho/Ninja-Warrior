@@ -221,16 +221,9 @@ bool j1Scene::Update(float dt)
 		
 	//load player position in every map
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)						
-	App->LoadGame();
+		App->LoadGame();
 
-	 // Show player and map colliders
-	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN)						
-	{
-	
-	}
-
-
-	// Debug pathfinding ------------------------------
+	/*// Debug pathfinding ------------------------------
 	int x = 0, y = 0;
 	App->input->GetMousePosition(x, y);
 	iPoint p = App->render->ScreenToWorld(x, y);
@@ -246,7 +239,7 @@ bool j1Scene::Update(float dt)
 	{
 		iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
 		App->render->Blit(debug_tex, pos.x, pos.y);
-	}
+	}*/
 	
 
 	return true;
@@ -340,6 +333,7 @@ bool j1Scene::CreateEntities() {
 	App->entity->DrawEntity(100, 100, j1Entity::entity_type::PLAYER);
 	App->entity->DrawEntity(600, 100, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
 	App->entity->DrawEntity(300, 100, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
+	App->entity->DrawEntity(300, 200, j1Entity::entity_type::BAT_ENEMY);
 
 	return true;
 }

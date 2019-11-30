@@ -46,7 +46,7 @@ bool j1Golem1::Awake(pugi::xml_node& config) {
 bool j1Golem1::Start() {
 
 	pretimer = 0;
-	//globaltime = SDL_GetTicks();	//Sets the Global time to the death timer
+	globaltime = SDL_GetTicks();	//Sets the Global time to the death timer
 	position.x = data_golem.ipos.x;
 	position.y = data_golem.ipos.y;
 
@@ -76,6 +76,8 @@ bool j1Golem1::PreUpdate(float dt) {
 
 bool j1Golem1::Update(float dt) {
 
+	BROFILER_CATEGORY("UPDATEGOLEM", Profiler::Color::DarkGray);
+
 	current_animation = &idle;
 
 	position.y += gravity;
@@ -83,10 +85,6 @@ bool j1Golem1::Update(float dt) {
 	
 	CheckState(dt);	//Checks the state where is the player
 	State(dt);	//Set the animation relationed with the state that he is
-	LOG("%i", App->entity->GetPlayer()->position.x);
-	LOG("%i", position.x);
-	LOG("%i", App->entity->GetPlayer()->position.y);
-	LOG("%i", position.y);
 
 	if (App->entity->GetPlayer()->position.x > position.x - 400 && App->entity->GetPlayer()->position.x < position.x + 400 && App->entity->GetPlayer()->position.y + 100 && App->entity->GetPlayer()->position.y - 100) {
 		
@@ -105,11 +103,39 @@ bool j1Golem1::Update(float dt) {
 
 		if (data_golem.pathfinding == true) {
 			
-			Pathfinding(dt);
+			v = { 0, 0 };
+
+			iPoint origin;
+			iPoint player_pos = App->entity->GetPlayer()->position;
+
+			player_pos = App->map->WorldToMap(player_pos.x + 10, player_pos.y + 10);
+			origin = App->map->WorldToMap(position.x + 10, position.y + 10);
+
+			App->pathfinding->CreatePath(origin, player_pos);
+
+			if (path->Count() > 0)
+			{
+
+				iPoint path_position = iPoint(path->At(0)->x, path->At(0)->y);
+
+				if (path_position.x < origin.x) {
+					current_stateE2 == WALK2;
+					position.x -= 4 * LIMIT_TIMER * dt;
+					flip = true;
+				}
+
+				if (path_position.x > origin.x) {
+					current_stateE2 == WALK2;
+					position.x += 4 * LIMIT_TIMER * dt;
+					flip = false;
+				}
+
+			}
 		}
 	}
 
 	DrawCollider();
+
 	//Player Draw
 	if (flip) {
 		App->render->Blit(App->entity->Tex_Golems, position.x, position.y, &(current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL, 1.0);	//Draw Player Flipped
@@ -132,6 +158,7 @@ bool j1Golem1::PostUpdate(float dt) {
 
 	return true;
 }
+
 // Called before quitting
 bool j1Golem1::CleanUp()
 {
@@ -302,50 +329,34 @@ void j1Golem1::CheckState(float dt)
 void j1Golem1::State(float dt) {
 
 	if (current_stateE2 == IDLE2) {
-		
 		current_animation = &idle;
-		//data_enemy.jump.Reset();
-		//data_enemy.fall.Reset();
-		
 	}
 
 	if (current_stateE2 == WALK2) {
-
 		current_animation = &walk;
-		///data_enemy.jump.Reset();
-		//data_enemy.fall.Reset();
-		
 	}
 	
 	if (current_stateE2 == DEATH2) {	
 		
 		die = true;	//Sets the die to true
-		LOG("GLOBAL: %d", globaltime);
-		LOG("PRE: %d", pretimer);
-		if (die == true) {
 
-			if (App->scene->current_map == "Map.tmx") {	//If player is in map 1
+		if (App->scene->current_map == "Map.tmx") {	//If player is in map 1
 				
-				
-
-				if (PreTime (20)) {	//Do a timer to stop the game during the Death animation
-					
-
+			if (PreTime (20)) {	//Do a timer to stop the game during the Death animation
 					
 					//Sets the Position that player goes when he dies
 					position.x = 100;	//Set Player X	
 					position.y = 300;	//Set Player Y
 					
 					data_golem.death.Reset();
-				}
-
 			}
 
-			else {	//If player is not in map 1 is in map 2
+		}
 
+		else {	//If player is not in map 1 is in map 2
 				
-
-				if (PreTime (20)) {	//Do a timer to stop the game during the Death Animation
+			if (PreTime (20)) {	//Do a timer to stop the game during the Death Animation
+					
 					current_animation = &data_golem.death;	//Current Animation is Death
 					App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 					//Sets the Position that player goes when he dies
@@ -354,12 +365,10 @@ void j1Golem1::State(float dt) {
 					
 					data_golem.death.Reset();
 
-				}
-
 			}
 
-					
 		}
+
 		die = false;
 
 	}
@@ -367,8 +376,6 @@ void j1Golem1::State(float dt) {
 }
 
 void j1Golem1::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player collides with something
-
-	
 
 		if (c1->type == ColliderType::COLLIDER_ENEMY && c2->type == ColliderType::COLLIDER_FLOOR) {	//If player collide with floor
 
@@ -420,7 +427,7 @@ void j1Golem1::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 
 		if (c1->type == ColliderType::COLLIDER_ENEMY && c2->type == ColliderType::COLLIDER_DEAD) {		//Checks that player collides with something that he can die
 
-			//PreTime = SDL_GetTicks();	//Sets the PreTime to death timer
+			pretimer = SDL_GetTicks();	//Sets the PreTime to death timer
 		
 			if (preposition.y < c2->rect.y || position.y == c2->rect.y - entity_colliders->rect.h) {	//Checks that player collider from above
 			
@@ -428,7 +435,6 @@ void j1Golem1::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 				position.y = c2->rect.y - entity_colliders->rect.h;
 				current_stateE2 = DEATH2;	//Sets player to Death state
-			
 				grounded = true;	//Sets that player is touching the floor
 
 
@@ -438,37 +444,11 @@ void j1Golem1::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 			
 				current_animation = &data_golem.death;	//Current Animation is Death
 				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
-				//PreTime = SDL_GetTicks();	//Sets the PreTime to death timer
-
-				//data_entity.position.y = c2->rect.y + c2->rect.h;
 				current_stateE2 = DEATH2;	//Sets player to Death state
-
 				grounded = true;	//Sets that player is touching the floor
 				
-
 			}
 
-		}
-
-		if (c1->type == ColliderType::COLLIDER_ENEMY && c2->type == ColliderType::COLLIDER_NEXT) {
-
-			if (preposition.y < c2->rect.y || position.y == c2->rect.y - entity_colliders->rect.h) {	//Checks that player collider from above	
-				App->scene->SecondMap();	//Pass to next map
-			}
-		
-			else if (preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
-				App->scene->SecondMap();	//Pass to next map
-			}
-		
-			else if ((position.x < c2->rect.x + c2->rect.w && position.x > c2->rect.x) || (position.x + entity_colliders->rect.w < c2->rect.x + c2->rect.w && position.x + entity_colliders->rect.w > c2->rect.x)) {	//Checks that player collider from sides
-			
-				if ((position.x + entity_colliders->rect.w) < (c2->rect.x + c2->rect.w)) {		//Checks that player collides from left
-					App->scene->SecondMap();	//Pass to next map
-				}
-				else if (position.x < (c2->rect.x + c2->rect.w)) {	//Checks that player collides from right
-					App->scene->SecondMap();	//Pass to next map
-				}
-			}
 		}
 
 }
@@ -493,37 +473,6 @@ bool j1Golem1::PreTime(float sec)
 
 bool j1Golem1::Pathfinding(float dt) {
 
-	v.x = 0;
-	v.y = 0;
-
-	iPoint origin;
-	bool origin_selected = false;
-	int x, y;
-	App->input->GetMousePosition(x, y);
-	iPoint p = App->entity->GetPlayer()->position;
-	p = App->map->WorldToMap(p.x+10, p.y+10);
-
-	origin = App->map->WorldToMap(position.x+10, position.y+10);
-	App->pathfinding->CreatePath(origin, p);
-
-	current_stateE2 == WALK2;
-
-	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
-
-	if (path->At(1) != NULL)
-	{
-
-		iPoint path_position = iPoint(path->At(0)->x, path->At(0)->y);
-
-		if (path->At(1)->x < origin.x) {
-			position.x -= 2 * LIMIT_TIMER * dt;
-			flip = true;
-		}
-
-		if (path->At(1)->x > origin.x) {
-			position.x += 2 * LIMIT_TIMER * dt;
-			flip = false;
-		}
 
 		/*if (path->At(1)->y < origin.y) {
 			position.y -= 2 * LIMIT_TIMER * dt;
@@ -532,7 +481,7 @@ bool j1Golem1::Pathfinding(float dt) {
 		if (path->At(1)->y > origin.y) {
 			position.y += 2 * LIMIT_TIMER * dt;
 		}*/
-	}
+	
 
 	return true;
 }

@@ -42,7 +42,6 @@ public:
 	bool Load(pugi::xml_node&);
 
 	//void OnCollision(Collider* c1, Collider* c2);
-
 	void State(float dt);	//Check animations
 	void Pushbacks() {};
 	void Reset() {};

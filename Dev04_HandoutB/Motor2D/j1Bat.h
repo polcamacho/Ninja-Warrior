@@ -1,5 +1,5 @@
-#ifndef __j1GOLEM2_H__
-#define __j1GOLEM2_H__
+#ifndef __j1Bat_H__
+#define __j1Bat_H__
 
 #define LIMIT_TIMER 50
 
@@ -13,17 +13,17 @@
 struct MapObject;
 struct Collider;
 
-enum states_entity3 {
+enum states_entity4 {
 
-	IDLE3,
-	IDLE_ATTACK3,
-	WALK3,
-	DEATH3,
-	NONE3
+	IDLE4,
+	IDLE_ATTACK4,
+	WALK4,
+	DEATH4,
+	NONE4
 
 };
 
-struct GolemData2
+struct BatData
 {
 
 	Animation		hurt;
@@ -46,15 +46,15 @@ struct GolemData2
 };
 
 // ----------------------------------------------------
-class j1Golem2 : public j1Entity
+class j1Bat : public j1Entity
 {
 public:
 
 	//Constructor
-	j1Golem2(int x, int y);
+	j1Bat(int x, int y);
 
 	// Destructor
-	~j1Golem2();
+	~j1Bat();
 
 	//Called at first
 	bool Start();
@@ -94,8 +94,8 @@ private:
 
 public:
 
-	GolemData2			data_golem2;
-	states_entity3		current_stateE3;
+	BatData				data_bat;
+	states_entity4		current_stateE3;
 
 private:
 

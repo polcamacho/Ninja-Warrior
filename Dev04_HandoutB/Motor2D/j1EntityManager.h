@@ -36,15 +36,16 @@ public:
 public:
 
 	p2List<j1Entity*>	entities;
-	j1Player* player;
 	SDL_Texture*	Tex_Player = nullptr;
 	SDL_Texture*	Tex_Golems = nullptr;
-	
+	SDL_Texture*	Tex_Bat = nullptr;
+
 	pugi::xml_node node;
 
 	p2SString		folder;
 	p2SString		texture1;
 	p2SString		texture2;
+	p2SString		texture3;
 
 };
 

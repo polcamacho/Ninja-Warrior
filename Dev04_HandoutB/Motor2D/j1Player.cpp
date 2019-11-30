@@ -533,17 +533,15 @@ void j1Player::State(float dt) {
 
 	if (current_stateP == DEATH1) {
 
-		die = true;	//Sets the die to true
 		LOG("GLOBAL: %d", globaltime);
 		LOG("PRE: %d", pretimer);
-		if (die == true) {
-
-			if (App->scene->current_map == "Map.tmx") {	//If player is in map 1
-
-
+		if (App->scene->current_map == "Map.tmx") {	//If player is in map 1
 
 				if (PreTime(20)) {	//Do a timer to stop the game during the Death animation
 					
+					current_animation = &death;	//Current Animation is Death
+					App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
+
 					//Sets the Position that player goes when he dies
 					position.x = 100;	//Set Player X	
 					position.y = 300;	//Set Player Y
@@ -551,14 +549,16 @@ void j1Player::State(float dt) {
 					death.Reset();
 				}
 
-			}
+		}
 
-			else {	//If player is not in map 1 is in map 2
+		else {	//If player is not in map 1 is in map 2
 
 				if (PreTime(20)) {	//Do a timer to stop the game during the Death Animation
+					
 					current_animation = &death;	//Current Animation is Death
 					App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
-					//Sets the Position that player goes when he dies
+					
+																//Sets the Position that player goes when he dies
 					position.x = 55;	//Set Player X	
 					position.y = 10;	//Set Player Y
 					current_stateP = JUMP_FALL1;	//Sets the Animation when he reapears
@@ -566,15 +566,15 @@ void j1Player::State(float dt) {
 
 				}
 
-			}
-
-
 		}
-		die = false;
+
 
 	}
 	
+
 }
+	
+
 
 void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player collides with something
 
@@ -647,33 +647,95 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 
 		if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_DEAD) {		//Checks that player collides with something that he can die
 
-			//PreTime = SDL_GetTicks();	//Sets the PreTime to death timer
-		
+			pretimer = SDL_GetTicks();	//Sets the PreTime to death timer
+			
 			if (preposition.y < c2->rect.y || position.y == c2->rect.y - entity_colliders->rect.h) {	//Checks that player collider from above
 			
-				current_animation = &death;	//Current Animation is Death
-				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 				position.y = c2->rect.y - entity_colliders->rect.h;
-				current_stateP = DEATH1;	//Sets player to Death state
-			
 				grounded = true;	//Sets that player is touching the floor
 				data_player.canjump = false;	//Sets tha player can jump
-				die = true;	//Sets die bool to true for timer start
+				current_animation = &death;	//Current Animation is Death
+				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
+				//TIMER
+				{
+					if (App->scene->current_map == "Map.tmx") {	//If player is in map 1
+
+						if (PreTime(40)) {	//Do a timer to stop the game during the Death animation
+
+							current_animation = &death;	//Current Animation is Death
+							App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
+
+							//Sets the Position that player goes when he dies
+							position.x = 100;	//Set Player X	
+							position.y = 300;	//Set Player Y
+							current_stateP = JUMP_FALL1;	//Sets the Animation when he reapears
+							death.Reset();
+						}
+
+					}
+
+					else {	//If player is not in map 1 is in map 2
+
+						if (PreTime(20)) {	//Do a timer to stop the game during the Death Animation
+
+							current_animation = &death;	//Current Animation is Death
+							App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
+
+																		//Sets the Position that player goes when he dies
+							position.x = 55;	//Set Player X	
+							position.y = 10;	//Set Player Y
+							current_stateP = JUMP_FALL1;	//Sets the Animation when he reapears
+							death.Reset();
+
+						}
+
+					}
+				}
 
 			}
 
 			else if (preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
 			
-				current_animation = &death;	//Current Animation is Death
-				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
-				pretimer = SDL_GetTicks();	//Sets the PreTime to death timer
-
 				position.y = c2->rect.y + c2->rect.h;
-				current_stateP = DEATH1;	//Sets player to Death state
-
 				grounded = true;	//Sets that player is touching the floor
 				data_player.canjump = false;	//Sets tha player can jump
-				die = true;	//Sets die bool to true for timer start
+				current_animation = &death;	//Current Animation is Death
+				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
+				//TIMER
+				{
+				if (App->scene->current_map == "Map.tmx") {	//If player is in map 1
+
+					if (PreTime(40)) {	//Do a timer to stop the game during the Death animation
+
+						current_animation = &death;	//Current Animation is Death
+						App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
+
+						//Sets the Position that player goes when he dies
+						position.x = 100;	//Set Player X	
+						position.y = 300;	//Set Player Y
+						current_stateP = JUMP_FALL1;	//Sets the Animation when he reapears
+						death.Reset();
+					}
+
+				}
+
+				else {	//If player is not in map 1 is in map 2
+
+					if (PreTime(20)) {	//Do a timer to stop the game during the Death Animation
+
+						current_animation = &death;	//Current Animation is Death
+						App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
+
+																	//Sets the Position that player goes when he dies
+						position.x = 55;	//Set Player X	
+						position.y = 10;	//Set Player Y
+						current_stateP = JUMP_FALL1;	//Sets the Animation when he reapears
+						death.Reset();
+
+					}
+
+				}
+				}
 
 			}
 
@@ -721,10 +783,10 @@ void j1Player::Reset() {	//Reset All Player Animations
 
 bool j1Player::PreTime(float sec)
 {
-	bool ret = false;
+
 	pretimer++;
-	if (pretimer >= sec) { ret = true; pretimer = 0; }
-	return ret;
+	if (pretimer >= sec) { pretimer = 0; }
+	return true;
 }
 
 void j1Player::Camera() {
