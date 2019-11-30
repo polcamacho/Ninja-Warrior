@@ -2,7 +2,6 @@
 #ifndef __j1GOLEM1_H__
 #define __j1GOLEM1_H__
 
-#define LIMIT_TIMER 50
 
 #include "PugiXml/src/pugixml.hpp"
 #include "p2List.h"
@@ -13,20 +12,6 @@
 
 struct MapObject;
 struct Collider;
-
-enum states_golem {
-	IDLE2,
-	WALK2,
-	RUN2,
-	JUMP_UP2,
-	JUMP_FALL2,
-	JUMP_WALK2,
-	JUMP_RUN2,
-	DOUBLE_JUMP2,
-	IDLE_ATTACK2,
-	DEATH2,
-	NONE2
-};
 
 struct GolemData
 {
@@ -103,8 +88,6 @@ public:
 
 private:
 
-	
-	states_golem		current_state;
 	p2SString			folder;
 	p2SString			texture;
 

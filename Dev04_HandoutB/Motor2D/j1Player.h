@@ -16,18 +16,14 @@ struct MapObject;
 struct Collider;
 
 enum states_player {
-	IDLE,
-	WALK_FORWARD,
-	WALK_BACKWARD,
+
 	RUN,
 	JUMP_UP,
 	JUMP_FALL,
 	JUMP_WALK,
 	JUMP_RUN,
 	DOUBLE_JUMP,
-	IDLE_ATTACK,
-	DEATH,
-	NONE
+
 };
 
 struct PlayerData
@@ -111,8 +107,8 @@ public:
 
 private:
 
-	
-	states_player		current_state;
+
+	states_player		current_stateP;
 	p2SString			folder;
 	p2SString			texture;
 

@@ -10,7 +10,8 @@
 #include "j1Collider.h"
 #include "j1EntityManager.h"
 #include "j1Player.h"
-
+#include "j1Golem1.h"
+#include "j1Golem2.h"
 j1Entity::j1Entity(entity_type type) : type(type){
 }
 

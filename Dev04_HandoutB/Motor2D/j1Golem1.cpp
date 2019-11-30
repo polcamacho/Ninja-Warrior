@@ -91,7 +91,7 @@ bool j1Golem1::Update(float dt) {
 
 	if (grounded == false) {	//Sets that if the player is not touching the ground puts the fall animation
 
-		current_state = JUMP_FALL2;
+		//current_state = JUMP_FALL2;
 
 	}
 		
@@ -273,7 +273,7 @@ void j1Golem1::CheckState(float dt)
 
 void j1Golem1::State(float dt) {
 
-	if (current_state == IDLE2) {
+	if (current_stateE == IDLE) {
 		
 		current_animation = &idle;
 		//data_enemy.jump.Reset();
@@ -281,7 +281,7 @@ void j1Golem1::State(float dt) {
 		
 	}
 
-	if (current_state == WALK2) {
+	if (current_stateE == WALK_FORWARD) {
 
 		current_animation = &walk;
 		///data_enemy.jump.Reset();
@@ -289,7 +289,7 @@ void j1Golem1::State(float dt) {
 		
 	}
 	
-	if (current_state == DEATH2) {	
+	if (current_stateE == DEATH) {	
 		
 		die = true;	//Sets the die to true
 		LOG("GLOBAL: %d", globaltime);
@@ -307,7 +307,7 @@ void j1Golem1::State(float dt) {
 					//Sets the Position that player goes when he dies
 					position.x = 100;	//Set Player X	
 					position.y = 300;	//Set Player Y
-					current_state = JUMP_FALL2;	//Sets the Animation when he reapears
+					
 					data_golem.death.Reset();
 				}
 
@@ -323,7 +323,7 @@ void j1Golem1::State(float dt) {
 					//Sets the Position that player goes when he dies
 					position.x = 55;	//Set Player X	
 					position.y = 10;	//Set Player Y
-					current_state = JUMP_FALL2;	//Sets the Animation when he reapears
+					
 					data_golem.death.Reset();
 
 				}
@@ -354,8 +354,7 @@ void j1Golem1::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 			else if (preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
 			
 				position.y = c2->rect.y + c2->rect.h;
-				current_state = JUMP_FALL2;	//Sets the animation 
-
+				
 			}
 		
 			else if ((position.x < c2->rect.x + c2->rect.w && position.x > c2->rect.x) ||(position.x + entity_colliders->rect.w < c2->rect.x + c2->rect.w && position.x + entity_colliders->rect.w > c2->rect.x)) {	//Checks that player collider from sides
@@ -400,7 +399,7 @@ void j1Golem1::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 				current_animation = &data_golem.death;	//Current Animation is Death
 				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 				position.y = c2->rect.y - entity_colliders->rect.h;
-				current_state = DEATH2;	//Sets player to Death state
+				current_stateE = DEATH;	//Sets player to Death state
 			
 				grounded = true;	//Sets that player is touching the floor
 
@@ -414,7 +413,7 @@ void j1Golem1::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 				//PreTime = SDL_GetTicks();	//Sets the PreTime to death timer
 
 				//data_entity.position.y = c2->rect.y + c2->rect.h;
-				current_state = DEATH2;	//Sets player to Death state
+				current_stateE = DEATH;	//Sets player to Death state
 
 				grounded = true;	//Sets that player is touching the floor
 				

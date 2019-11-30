@@ -12,6 +12,17 @@ struct Collider;
 struct SDL_Texture;
 struct Animation;
 
+enum states_entity {
+	
+	IDLE,
+	IDLE_ATTACK,
+	WALK_FORWARD,
+	WALK_BACKWARD,
+	DEATH,
+	NONE
+
+};
+
 class j1Entity: public j1Module
 {
 
@@ -29,7 +40,7 @@ public:
 
 	};
 
-	entity_type type;
+	entity_type			type;
 
 	j1Entity(entity_type type);
 
@@ -80,6 +91,8 @@ public:
 
 	Collider *entity_colliders;
 	bool destroy = false;
+	
+	states_entity		current_stateE;
 
 };
 

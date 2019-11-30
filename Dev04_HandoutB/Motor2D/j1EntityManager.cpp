@@ -131,8 +131,8 @@ j1Entity* j1EntityManager::DrawEntity(int x, int y, j1Entity::entity_type type)
 		
 		case j1Entity::entity_type::GOLEM_ROCK_ENEMY:
 		{
-			//ret = new j1Golem2(x, y);
-			//entities.add(ret);
+			ret = new j1Golem2(x, y);
+			entities.add(ret);
 			break;
 		}
 

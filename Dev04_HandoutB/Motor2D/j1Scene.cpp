@@ -342,7 +342,7 @@ bool j1Scene::CreateEntities() {
 	
 	App->entity->DrawEntity(100, 100, j1Entity::entity_type::PLAYER);
 	App->entity->DrawEntity(200, 100, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
-	//App->entity->DrawEntity(300, 100, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
+	App->entity->DrawEntity(300, 100, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
 
 	return ret;
 }
