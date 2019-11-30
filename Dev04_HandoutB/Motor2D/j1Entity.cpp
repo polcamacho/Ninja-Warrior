@@ -12,12 +12,13 @@
 #include "j1Player.h"
 #include "j1Golem1.h"
 #include "j1Golem2.h"
+#include "j1Scene.h"
 j1Entity::j1Entity(entity_type type) : type(type){
 }
 
 j1Entity::~j1Entity()
 {
-	
+	App->tex->UnLoad(App->scene->debug_tex);
 }
 
 bool j1Entity::CleanUp() {

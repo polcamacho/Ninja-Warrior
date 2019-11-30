@@ -13,6 +13,16 @@
 struct MapObject;
 struct Collider;
 
+enum states_entity2 {
+
+	IDLE2,
+	IDLE_ATTACK2,
+	WALK2,
+	DEATH2,
+	NONE2
+
+};
+
 struct GolemData
 {
 
@@ -89,7 +99,7 @@ private:
 public:
 
 	GolemData			data_golem;
-	
+	states_entity2		current_stateE2;
 
 private:
 

@@ -113,11 +113,13 @@ j1Entity* j1EntityManager::DrawEntity(int x, int y, j1Entity::entity_type type)
 	switch (type)
 	{
 		
-	case j1Entity::entity_type::PLAYER:
+		case j1Entity::entity_type::PLAYER:
 		{
 			ret = new j1Player(x, y);
 			if (ret != nullptr) {
 				entities.add(ret);
+				entities.end->data->Awake(node);
+				entities.end->data->Start();
 			}
 			break;
 		}
@@ -125,14 +127,22 @@ j1Entity* j1EntityManager::DrawEntity(int x, int y, j1Entity::entity_type type)
 		case j1Entity::entity_type::GOLEM_GRASS_ENEMY:
 		{
 			ret = new j1Golem1(x, y);
-			entities.add(ret);
+			if (ret != nullptr) {
+				entities.add(ret);
+				entities.end->data->Awake(node);
+				entities.end->data->Start();
+			}
 			break;
 		}
 		
 		case j1Entity::entity_type::GOLEM_ROCK_ENEMY:
 		{
 			ret = new j1Golem2(x, y);
-			entities.add(ret);
+			if (ret != nullptr) {
+				entities.add(ret);
+				entities.end->data->Awake(node);
+				entities.end->data->Start();
+			}
 			break;
 		}
 
@@ -141,6 +151,8 @@ j1Entity* j1EntityManager::DrawEntity(int x, int y, j1Entity::entity_type type)
 			Coin* coin = new Coin(x, y, COIN);
 			entities.add(coin);
 			ret = true;
+			entities.end->data->Awake(node);
+			entities.end->data->Start();
 			break;
 		}
 
@@ -148,7 +160,9 @@ j1Entity* j1EntityManager::DrawEntity(int x, int y, j1Entity::entity_type type)
 		{
 			Coin* coin = new Coin(x, y, COIN);
 			entities.add(coin);
-			ret = true;
+			entities.end->data->Awake(node);
+			entities.end->data->Start();
+	
 			break;
 		}
 		*/
@@ -156,13 +170,6 @@ j1Entity* j1EntityManager::DrawEntity(int x, int y, j1Entity::entity_type type)
 
 	}
 
-
-	if (ret != nullptr) {
-		entities.add(ret);
-		entities.end->data->Start();
-		entities.end->data->Awake(node);
-
-	}
 	
 	return ret;
 }

@@ -17,12 +17,17 @@ struct Collider;
 
 enum states_player {
 
-	RUN,
-	JUMP_UP,
-	JUMP_FALL,
-	JUMP_WALK,
-	JUMP_RUN,
-	DOUBLE_JUMP,
+	IDLE1,
+	IDLE_ATTACK1,
+	WALK1,
+	DEATH1,
+	NONE1,
+	RUN1,
+	JUMP_UP1,
+	JUMP_FALL1,
+	JUMP_WALK1,
+	JUMP_RUN1,
+	DOUBLE_JUMP1,
 
 };
 

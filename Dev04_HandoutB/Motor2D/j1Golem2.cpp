@@ -273,21 +273,21 @@ void j1Golem2::CheckState(float dt)
 
 void j1Golem2::State(float dt) {
 
-	if (current_stateE == IDLE) {
+	if (current_stateE3 == IDLE3) {
 
 		current_animation = &idle;
 		fall.Reset();
 
 	}
 
-	if (current_stateE == WALK) {
+	if (current_stateE3 == WALK3) {
 
 		current_animation = &walk;
 		fall.Reset();
 
 	}
 
-	if (current_stateE == DEATH) {
+	if (current_stateE3 == DEATH3) {
 
 		die = true;	//Sets the die to true
 		LOG("GLOBAL: %d", globaltime);
@@ -410,7 +410,7 @@ void j1Golem2::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 			pretimer = SDL_GetTicks();	//Sets the PreTime to death timer
 
 			//data_entity.position.y = c2->rect.y + c2->rect.h;
-			current_stateE = DEATH;	//Sets player to Death state
+			current_stateE3 = DEATH3;	//Sets player to Death state
 
 			grounded = true;	//Sets that player is touching the floor
 

@@ -90,7 +90,21 @@ bool j1Golem1::Update(float dt) {
 
 	if (App->entity->GetPlayer()->position.x > position.x - 400 && App->entity->GetPlayer()->position.x < position.x + 400 && App->entity->GetPlayer()->position.y + 100 && App->entity->GetPlayer()->position.y - 100) {
 		
+		const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
+
+		if (App->collider->debug == true)
+		{
+			for (uint i = 0; i < path->Count(); ++i)
+			{
+				iPoint next_position = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+				App->render->Blit(App->scene->debug_tex, next_position.x, next_position.y);
+
+			}
+
+		}
+
 		if (data_golem.pathfinding == true) {
+			
 			Pathfinding(dt);
 		}
 	}
@@ -287,7 +301,7 @@ void j1Golem1::CheckState(float dt)
 
 void j1Golem1::State(float dt) {
 
-	if (current_stateE == IDLE) {
+	if (current_stateE2 == IDLE2) {
 		
 		current_animation = &idle;
 		//data_enemy.jump.Reset();
@@ -295,7 +309,7 @@ void j1Golem1::State(float dt) {
 		
 	}
 
-	if (current_stateE == WALK) {
+	if (current_stateE2 == WALK2) {
 
 		current_animation = &walk;
 		///data_enemy.jump.Reset();
@@ -303,7 +317,7 @@ void j1Golem1::State(float dt) {
 		
 	}
 	
-	if (current_stateE == DEATH) {	
+	if (current_stateE2 == DEATH2) {	
 		
 		die = true;	//Sets the die to true
 		LOG("GLOBAL: %d", globaltime);
@@ -413,7 +427,7 @@ void j1Golem1::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 				current_animation = &data_golem.death;	//Current Animation is Death
 				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 				position.y = c2->rect.y - entity_colliders->rect.h;
-				current_stateE = DEATH;	//Sets player to Death state
+				current_stateE2 = DEATH2;	//Sets player to Death state
 			
 				grounded = true;	//Sets that player is touching the floor
 
@@ -427,7 +441,7 @@ void j1Golem1::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 				//PreTime = SDL_GetTicks();	//Sets the PreTime to death timer
 
 				//data_entity.position.y = c2->rect.y + c2->rect.h;
-				current_stateE = DEATH;	//Sets player to Death state
+				current_stateE2 = DEATH2;	//Sets player to Death state
 
 				grounded = true;	//Sets that player is touching the floor
 				
@@ -492,7 +506,7 @@ bool j1Golem1::Pathfinding(float dt) {
 	origin = App->map->WorldToMap(position.x+10, position.y+10);
 	App->pathfinding->CreatePath(origin, p);
 
-	current_stateE == WALK_FORWARD;
+	current_stateE2 == WALK2;
 
 	const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
 
@@ -511,25 +525,14 @@ bool j1Golem1::Pathfinding(float dt) {
 			flip = false;
 		}
 
-		if (path->At(1)->y < origin.y) {
+		/*if (path->At(1)->y < origin.y) {
 			position.y -= 2 * LIMIT_TIMER * dt;
 		}
 
 		if (path->At(1)->y > origin.y) {
 			position.y += 2 * LIMIT_TIMER * dt;
-		}
+		}*/
 	}
-
-	if (App->collider->debug)
-	{		
-		for (uint i = 0; i < path->Count(); ++i)
-		{
-			iPoint next_position = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-			App->render->Blit(App->scene->debug_tex, next_position.x, next_position.y);
-		}
-	}
-
-
 
 	return true;
 }
