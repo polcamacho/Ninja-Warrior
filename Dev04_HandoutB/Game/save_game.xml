@@ -8,9 +8,7 @@
 	<scene>
 		<scene name="Map.tmx" />
 	</scene>
-	<:anonymous />
 	<pathfinding />
-	<:anonymous />
 	<entitymanager>
 		<playerposition x="3268" y="1109" />
 		<golem1position x="1917" y="978" />
