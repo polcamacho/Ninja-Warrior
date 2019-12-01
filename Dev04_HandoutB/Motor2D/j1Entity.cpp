@@ -14,6 +14,7 @@
 #include "j1Golem2.h"
 #include "j1Bat.h"
 #include "j1Scene.h"
+
 j1Entity::j1Entity(entity_type type) : type(type){
 }
 
@@ -25,6 +26,7 @@ j1Entity::~j1Entity()
 bool j1Entity::CleanUp() {
 
 	entity_colliders->to_delete = true;
+	
 	return true;
 
 }

@@ -36,9 +36,9 @@ bool j1Golem1::Awake(pugi::xml_node& config) {
 
 	//Load All Player Features from Config
 
-	v.x = config.child("golem_grass").child("velocity").attribute("x").as_int();
+	v.x = config.child("golem_grass").child("velocity").attribute("x").as_int(3);
 		
-	gravity = config.child("golem_grass").child("gravity").attribute("grav").as_float();
+	gravity = config.child("golem_grass").child("gravity").attribute("grav").as_float(20);
 
 	return ret;
 
@@ -50,8 +50,7 @@ bool j1Golem1::Start() {
 	globaltime = SDL_GetTicks();	//Sets the Global time to the death timer
 	position.x = data_golem.ipos.x;
 	position.y = data_golem.ipos.y;
-	v.x = 5;
-	gravity = 15;
+	LOG("%d", v.x);
 	Pushbacks();	//Call all the Pushback of animations
 	
 	current_animation = &idle;
@@ -162,15 +161,13 @@ bool j1Golem1::PostUpdate(float dt) {
 }
 
 // Called before quitting
-/*bool j1Golem1::CleanUp()
+bool j1Golem1::CleanUpGolem1()
 {
 	LOG("Unloading player");
 	j1Entity::CleanUp();
-	App->tex->UnLoad(App->entity->Tex_Golems);	//Unload The Player texture
-	App->collider->CleanUp();	//Unload the Player collider
-	
+
 	return true;
-}*/
+}
 
 bool j1Golem1::Load(pugi::xml_node& node) {
 
@@ -431,8 +428,8 @@ void j1Golem1::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 				position.y = c2->rect.y - entity_colliders->rect.h;
 				current_stateE2 = DEATH2;	//Sets player to Death state
 				grounded = true;	//Sets that player is touching the floor
-				entity_colliders->to_delete = true;
-				App->tex->UnLoad(App->entity->Tex_Golems_Grass);	//Unload The Player texture
+				CleanUpGolem1();
+			
 			}
 
 			else if (preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
@@ -441,8 +438,8 @@ void j1Golem1::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 				pretimer = SDL_GetTicks();	//Sets the PreTime to death timer
 				current_stateE2 = DEATH2;	//Sets player to Death state
 				grounded = true;	//Sets that player is touching the floor
-				entity_colliders->to_delete = true;
-				App->tex->UnLoad(App->entity->Tex_Golems_Grass);	//Unload The Player texture
+				CleanUpGolem1();
+
 			}
 
 		}

@@ -33,7 +33,7 @@ bool j1Bat::Awake(pugi::xml_node& config) {
 	bool ret = true;
 
 	//Load All Player Features from Config
-	v.x = config.child("bat").child("velocity").attribute("x").as_int();
+	v.x = config.child("bat").child("velocity").attribute("x").as_int(2);
 	LOG("%d", v.x);
 	return ret;
 
@@ -80,7 +80,7 @@ bool j1Bat::Update(float dt) {
 	State(dt);	//Set the animation relationed with the state that he is
 
 
-	if (App->entity->GetPlayer()->position.x > position.x - 400 && App->entity->GetPlayer()->position.x < position.x + 400 && App->entity->GetPlayer()->position.y + 100 && App->entity->GetPlayer()->position.y - 100) {
+	if (App->entity->GetPlayer()->position.x > position.x - 500 && App->entity->GetPlayer()->position.x < position.x + 500 && App->entity->GetPlayer()->position.y + 150 && App->entity->GetPlayer()->position.y - 150) {
 
 		const p2DynArray<iPoint>* path = App->pathfinding->GetLastPath();
 
@@ -164,12 +164,10 @@ bool j1Bat::PostUpdate(float dt) {
 	return true;
 }
 // Called before quitting
-bool j1Bat::CleanUp()
+bool j1Bat::CleanUpBat()
 {
 	LOG("Unloading player");
 	j1Entity::CleanUp();
-	App->tex->UnLoad(App->entity->Tex_Bat);	//Unload The Player texture
-	App->collider->CleanUp();	//Unload the Player collider
 
 	return true;
 }
@@ -280,12 +278,8 @@ void j1Bat::State(float dt) {
 			if (App->scene->current_map == "Map.tmx") {	//If player is in map 1
 
 				if (PreTime(20)) {	//Do a timer to stop the game during the Death animation
-
-
-
+					
 					//Sets the Position that player goes when he dies
-					position.x = 100;	//Set Player X	
-					position.y = 300;	//Set Player Y
 					data_bat.death.Reset();
 				}
 
@@ -295,10 +289,7 @@ void j1Bat::State(float dt) {
 
 				if (PreTime(20)) {	//Do a timer to stop the game during the Death Animation
 					current_animation = &data_bat.death;	//Current Animation is Death
-					App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 					//Sets the Position that player goes when he dies
-					position.x = 55;	//Set Player X	
-					position.y = 10;	//Set Player Y
 					data_bat.death.Reset();
 
 				}
@@ -371,50 +362,23 @@ void j1Bat::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player coll
 		if (preposition.y < c2->rect.y || position.y == c2->rect.y - entity_colliders->rect.h) {	//Checks that player collider from above
 
 			current_animation = &data_bat.death;	//Current Animation is Death
-			App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 			position.y = c2->rect.y - entity_colliders->rect.h;
-			//current_state = DEATH2;	//Sets player to Death state
-
+			current_stateE3 = DEATH4;	//Sets player to Death state
 			grounded = true;	//Sets that player is touching the floor
-
+			CleanUpBat();
 
 		}
 
 		else if (preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
 
 			current_animation = &data_bat.death;	//Current Animation is Death
-			App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 			pretimer = SDL_GetTicks();	//Sets the PreTime to death timer
-
-			//data_entity.position.y = c2->rect.y + c2->rect.h;
 			current_stateE3 = DEATH4;	//Sets player to Death state
-
 			grounded = true;	//Sets that player is touching the floor
-
+			CleanUpBat();
 
 		}
 
-	}
-
-	if (c1->type == ColliderType::COLLIDER_ENEMY && c2->type == ColliderType::COLLIDER_NEXT) {
-
-		if (preposition.y < c2->rect.y || position.y == c2->rect.y - entity_colliders->rect.h) {	//Checks that player collider from above	
-			App->scene->SecondMap();	//Pass to next map
-		}
-
-		else if (preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
-			App->scene->SecondMap();	//Pass to next map
-		}
-
-		else if ((position.x < c2->rect.x + c2->rect.w && position.x > c2->rect.x) || (position.x + entity_colliders->rect.w < c2->rect.x + c2->rect.w && position.x + entity_colliders->rect.w > c2->rect.x)) {	//Checks that player collider from sides
-
-			if ((position.x + entity_colliders->rect.w) < (c2->rect.x + c2->rect.w)) {		//Checks that player collides from left
-				App->scene->SecondMap();	//Pass to next map
-			}
-			else if (position.x < (c2->rect.x + c2->rect.w)) {	//Checks that player collides from right
-				App->scene->SecondMap();	//Pass to next map
-			}
-		}
 	}
 
 }
