@@ -29,18 +29,16 @@ j1Player::~j1Player()
 bool j1Player::Awake(pugi::xml_node& config) {
 
 	//Load All Player Features from Config
-	data_player.jumpvel = config.child("player").child("jump_velocity").attribute("jumpvel").as_int();
+	data_player.jumpvel = config.child("player").child("jump_velocity").attribute("jumpvel").as_int(-24);
 	 
-	v.x = config.child("player").child("velocity").attribute("x").as_int();
-	data_player.velrun = config.child("player").child("velrun").attribute("x").as_float();
+	v.x = config.child("player").child("velocity").attribute("x").as_int(5);
+	data_player.velrun = config.child("player").child("velrun").attribute("x").as_float(3);
 	
 	data_player.colOffset.x = config.child("player").child("colOffset").attribute("x").as_int();
 	data_player.colOffset.y = config.child("player").child("colOffset").attribute("y").as_int();
 	
-	gravity = config.child("player").child("gravity").attribute("grav").as_int();
-
-	LOG("%d %d %d %d %d", position.x, position.y, v.x, data_player.velrun, gravity);
-
+	gravity = config.child("player").child("gravity").attribute("grav").as_int(20);
+	
 	return true;
 
 }
@@ -49,11 +47,6 @@ bool j1Player::Start() {
 
 	pretimer = 0;
 	globaltime = SDL_GetTicks();	//Sets the Global time to the death timer
-	
-	data_player.jumpvel = -45;
-	v.x = 5;
-	data_player.velrun = 3;
-	gravity = 15;
 
 	position.x = data_player.ipos.x;
 	position.y = data_player.ipos.y;
@@ -275,11 +268,11 @@ void j1Player::Pushbacks() {
 
 void j1Player::CheckState(float dt)
 {
-
 	if (godmode == false) {
 
-		current_stateP = IDLE1;
-
+		//current_stateP = IDLE1;
+		//data_player.velrun = v.x + 0.25;
+		
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && data_player.canjump == true) {
 
 			current_stateP= WALK1;
@@ -288,12 +281,11 @@ void j1Player::CheckState(float dt)
 
 			//if  "SPACE" is pressed when "D" is pressed, the player jumps forward
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
-				data_player.jumpenergy = data_player.jumpvel;
+				
 
 				current_stateP = JUMP_WALK1;
 				App->audio->PlayFx(App->scene->jump_FX);
-
-
+				data_player.jumpenergy = data_player.jumpvel;
 
 				//decrease the jump counter
 				data_player.jumpCounter--;
@@ -306,7 +298,7 @@ void j1Player::CheckState(float dt)
 			}
 
 			//if  "LSHIFT" is pressed when "D" is pressed, the player runs forward
-			else if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
+			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
 
 				current_stateP = RUN1;
 				position.x += data_player.velrun*dt*LIMIT_TIMER;
@@ -314,7 +306,8 @@ void j1Player::CheckState(float dt)
 
 				//if "SPACE" is pressed when "LSHIFT" is pressed, and when "D" is pressed, the player jumps running forward
 				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
-					data_player.jumpenergy = data_player.jumpvel;
+					
+					
 					data_player.jumpCounter = 2;					//reset counter. If we dont do it, character cannot do the double jump while running
 
 					data_player.right = true;						//player can jump forward
@@ -346,10 +339,10 @@ void j1Player::CheckState(float dt)
 
 			//if "SPACE" is pressed when "A" is pressed, the player jumps backward
 			if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
-				data_player.jumpenergy = data_player.jumpvel;
+				
 				current_stateP = JUMP_WALK1;
 
-				
+				data_player.jumpenergy = data_player.jumpvel;
 				data_player.jumpCounter--;
 				App->audio->PlayFx(App->scene->jump_FX);
 
@@ -359,7 +352,7 @@ void j1Player::CheckState(float dt)
 			}
 
 			//if  "LSHIFT" is pressed when "A" is pressed, the player runs backward
-			else if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
+			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT) {
 
 				current_stateP = RUN1;
 				position.x -= data_player.velrun*dt*LIMIT_TIMER;
@@ -368,7 +361,7 @@ void j1Player::CheckState(float dt)
 
 				//if "SPACE" is pressed when "LSHIFT" is pressed, and when "A" is pressed, the player jumps running backward
 				if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
-					data_player.jumpenergy = data_player.jumpvel;
+				
 					data_player.jumpCounter = 2;			//reset counter. If we dont do it, character cannot do the double jump while running
 					data_player.left = true;				//player can jump backward
 					data_player.right = false;
@@ -388,10 +381,11 @@ void j1Player::CheckState(float dt)
 		//if "SPACE" is pressed the player jumps
 		else if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && (data_player.jumpCounter != 0)) {		//counter needs to be !=0, if not cannot do double jump
 			
-			data_player.jumpenergy = data_player.jumpvel;
+			
 
 			current_stateP = JUMP_UP1;
 			flip = false;
+			data_player.jumpenergy = data_player.jumpvel;
 			data_player.jumpCounter--;
 			App->audio->PlayFx(App->scene->jump_FX);
 
@@ -408,6 +402,10 @@ void j1Player::CheckState(float dt)
 
 		}
 
+		else if (data_player.canjump == true && App->input->GetKey(SDL_SCANCODE_SPACE) == NULL && App->input->GetKey(SDL_SCANCODE_A) == NULL && App->input->GetKey(SDL_SCANCODE_D&& App->input->GetKey(SDL_SCANCODE_P) == NULL) == NULL) {
+			current_stateP = IDLE1;
+			
+		}
 	}
 
 }
@@ -418,6 +416,7 @@ void j1Player::State(float dt) {
 
 		current_animation = &idle;
 		data_player.jump.Reset();
+		fall.Reset();
 		
 	}
 
@@ -425,6 +424,8 @@ void j1Player::State(float dt) {
 
 		current_animation = &walk;
 		data_player.jump.Reset();
+		fall.Reset();
+
 
 	}
 	if (current_stateP == JUMP_WALK1) {
@@ -454,18 +455,18 @@ void j1Player::State(float dt) {
 		if (data_player.jumpenergy <= gravity) {								//character will jump up until it do not accomplish this condition 
 
 			data_player.jumpenergy += 0.5;													// jump up increments 0.5 each time
-			position.y += data_player.jumpenergy*dt*LIMIT_TIMER;		// y position increments 0.5 each time
+			position.y = position.y + data_player.jumpenergy*dt*LIMIT_TIMER;		// y position increments 0.5 each time
 
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 		{
-			position.x -= data_player.velrun*dt*LIMIT_TIMER;
+			position.x -= v.x*dt*LIMIT_TIMER;
 			flip = true;
 		}
 		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 		{
-			position.x += data_player.velrun *dt*LIMIT_TIMER;
+			position.x += v.x *dt*LIMIT_TIMER;
 			flip = false;
 		}
 
@@ -487,7 +488,7 @@ void j1Player::State(float dt) {
 		if (data_player.jumpenergy <= gravity) {									//character will jump up until it do not accomplish this condition 
 
 			data_player.jumpenergy += 0.5;														// jump up increments 0.5 each time
-			position.y += data_player.jumpenergy*dt*LIMIT_TIMER;			// y position increments 0.5 each time
+			position.y = position.y + data_player.jumpenergy*dt*LIMIT_TIMER;			// y position increments 0.5 each time
 
 		}
 
@@ -590,6 +591,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 				position.y = c2->rect.y - entity_colliders->rect.h;
 				grounded = true;	//Sets that player is touching the floor
 				data_player.canjump = true;		//Sets tha player can jump
+				
 				if (data_player.injump == true) {
 					data_player.jump.Reset();
 				}
@@ -603,8 +605,8 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 			else if (preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
 			
 				position.y = c2->rect.y + c2->rect.h;
-				grounded = true;	//Sets that player is touching the floor
-				//current_stateP = JUMP_FALL;	//Sets the animation 
+				//grounded = true;	//Sets that player is touching the floor
+				current_stateP = JUMP_FALL1;	//Sets the animation 
 
 			}
 		
@@ -656,9 +658,10 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 			
 				position.y = c2->rect.y - entity_colliders->rect.h;
 				grounded = true;	//Sets that player is touching the floor
+				current_stateP = DEATH1;
 				data_player.canjump = false;	//Sets tha player can jump
-				current_animation = &death;	//Current Animation is Death
-				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
+				//current_animation = &death;	//Current Animation is Death
+				//App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 				//TIMER
 				{
 					if (App->scene->current_map == "Map.tmx") {	//If player is in map 1
@@ -701,6 +704,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 			
 				position.y = c2->rect.y + c2->rect.h;
 				grounded = true;	//Sets that player is touching the floor
+				current_stateP = DEATH1;
 				data_player.canjump = false;	//Sets tha player can jump
 				current_animation = &death;	//Current Animation is Death
 				App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio

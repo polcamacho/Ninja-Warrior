@@ -6,13 +6,13 @@
 	<audio />
 	<map />
 	<scene>
-		<scene name="map2.tmx" />
+		<scene name="Map.tmx" />
 	</scene>
 	<:anonymous />
 	<pathfinding />
 	<:anonymous />
 	<entitymanager />
 	<renderer>
-		<camera x="0" y="-7686" />
+		<camera x="-5328" y="-635" />
 	</renderer>
 </game_state>
