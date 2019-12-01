@@ -54,8 +54,10 @@ struct PlayerData
 	bool left=false;	//If left = true, jump running backward
 	bool right=false;	//If right = true, jump running forward
 	bool TimeAttack = false;
-	iPoint		ipos;
+	bool checkpoint = false;
 
+	iPoint		ipos;
+		
 	float velrun;			//velocity while running
 };
 

@@ -541,11 +541,7 @@ void j1Player::State(float dt) {
 					
 					current_animation = &death;	//Current Animation is Death
 					App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
-
-					//Sets the Position that player goes when he dies
-					position.x = 100;	//Set Player X	
-					position.y = 300;	//Set Player Y
-					current_stateP = JUMP_FALL1;	//Sets the Animation when he reapears
+					
 					death.Reset();
 				}
 
@@ -558,10 +554,6 @@ void j1Player::State(float dt) {
 					current_animation = &death;	//Current Animation is Death
 					App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 					
-																//Sets the Position that player goes when he dies
-					position.x = 55;	//Set Player X	
-					position.y = 10;	//Set Player Y
-					current_stateP = JUMP_FALL1;	//Sets the Animation when he reapears
 					death.Reset();
 
 				}
@@ -654,7 +646,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 			
 				position.y = c2->rect.y - entity_colliders->rect.h;
 				grounded = true;	//Sets that player is touching the floor
-				current_stateP = DEATH1;
+				//current_stateP = DEATH1;
 				data_player.canjump = false;	//Sets tha player can jump
 				//current_animation = &death;	//Current Animation is Death
 				//App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
@@ -667,10 +659,21 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 							current_animation = &death;	//Current Animation is Death
 							App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 
-							//Sets the Position that player goes when he dies
-							position.x = 100;	//Set Player X	
-							position.y = 300;	//Set Player Y
-							current_stateP = JUMP_FALL1;	//Sets the Animation when he reapears
+							if (data_player.checkpoint == true) {
+							
+								App->LoadGame();
+								LOG("%i %i", position.x, position.y);
+							}
+
+							else if (data_player.checkpoint == false) {
+
+								//Sets the Position that player goes when he dies
+								position.x = 100;	//Set Player X	
+								position.y = 300;	//Set Player Y
+								current_stateP = JUMP_FALL1;	//Sets the Animation when he reapears
+
+							}
+
 							death.Reset();
 						}
 
@@ -683,10 +686,20 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 							current_animation = &death;	//Current Animation is Death
 							App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 
-																		//Sets the Position that player goes when he dies
-							position.x = 55;	//Set Player X	
-							position.y = 10;	//Set Player Y
-							current_stateP = JUMP_FALL1;	//Sets the Animation when he reapears
+							if (data_player.checkpoint == true) {
+			
+								App->LoadGame();
+							}
+
+							else if (data_player.checkpoint == false) {
+
+								//Sets the Position that player goes when he dies
+								position.x = 55;	//Set Player X	
+								position.y = 10;	//Set Player Y
+								current_stateP = JUMP_FALL1;	//Sets the Animation when he reapears
+
+							}
+
 							death.Reset();
 
 						}
@@ -761,6 +774,28 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 				}
 				else if (position.x < (c2->rect.x + c2->rect.w)) {	//Checks that player collides from right
 					App->scene->SecondMap();	//Pass to next map
+				}
+			}
+		}
+
+		if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_CHECKPOINT) {
+			
+			data_player.checkpoint = true;
+
+			if (preposition.y < c2->rect.y || position.y == c2->rect.y - entity_colliders->rect.h) {	//Checks that player collider from above	
+				
+				App->SaveGame();
+			}
+
+			else if ((position.x < c2->rect.x + c2->rect.w && position.x > c2->rect.x) || (position.x + entity_colliders->rect.w < c2->rect.x + c2->rect.w && position.x + entity_colliders->rect.w > c2->rect.x)) {	//Checks that player collider from sides
+
+				if ((position.x + entity_colliders->rect.w) < (c2->rect.x + c2->rect.w)) {		//Checks that player collides from left
+					
+					App->SaveGame();
+				}
+				else if (position.x < (c2->rect.x + c2->rect.w)) {	//Checks that player collides from right
+					
+					App->SaveGame();
 				}
 			}
 		}
