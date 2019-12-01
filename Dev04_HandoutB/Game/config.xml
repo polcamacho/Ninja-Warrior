@@ -35,54 +35,13 @@
    
     <folder>textures/</folder>
     <texture source1="rogue_spritesheed.png" source2="golems.png" source3="bat.png"/>
-    
-    <player>
-      
-      <jump_velocity jumpvel="-45" />
-      <velocity x="5"/>
-      <velrun x="3"/>
-      <gravity grav="15" />
-      <colOffset x="11" y="8" />
-      
-    </player>
-    
-    <golem_grass>
-      
-      <velocity x="5"/>
-      <gravity grav="15" />
-      <colOffset x="11" y="8" />
-      
-    </golem_grass>
-    
-    <golem_rock>
-      
-      <velocity x="5"/>
-      <gravity grav="15" />
-      <colOffset x="11" y="8" />
-      
-    </golem_rock>
-    
-    <bat>
-      
-      <velocity x="5"/>
-      <colOffset x="11" y="8" />
-    
-    </bat>
+
+    <jump_velocity jumpvel="-45" />
+    <velocity x="5"/>
+    <velrun x="3"/>
+    <gravity grav="15" />
+    <colOffset x="11" y="8" />
 
   </entitymanager>
- 
-   
-
-    <enemy>
-      <position x="150" y="350" />
-      <gravity grav="10" />
-      <velocity x="5"/>
-    </enemy>
-
-    <golem2>
-      <position x="150" y="350" />
-      <gravity grav="10" />
-    </golem2>
-  
 	
 </config>

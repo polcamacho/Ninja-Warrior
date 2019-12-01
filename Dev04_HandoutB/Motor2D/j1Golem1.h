@@ -60,17 +60,11 @@ public:
 	bool Load(pugi::xml_node&);
 	bool Save(pugi::xml_node&) const;
 
-	// Called before quitting
-	
-
 	//Called to start the player at initial pos
-	void Restart();
 	bool Pathfinding(float dt);
-	//Change the sound depending the animation
 	
 	
 	//Puts the camera on player and follows
-	
 	void CheckState(float dt);	//Load keys to check states
 	void State(float dt);	//Check animations
 	void Pushbacks();	//Load the frame animations

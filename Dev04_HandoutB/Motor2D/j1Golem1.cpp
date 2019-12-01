@@ -19,7 +19,7 @@
 
 j1Golem1::j1Golem1(int x, int y) : j1Entity(entity_type::GOLEM_GRASS_ENEMY)
 {
-	name.create("golem_grass");
+
 	data_golem.ipos.x = x;
 	data_golem.ipos.y = y;
 	pathT = App->tex->Load("maps/cross.png");
@@ -36,9 +36,9 @@ bool j1Golem1::Awake(pugi::xml_node& config) {
 
 	//Load All Player Features from Config
 
-	v.x = config.child("golem_grass").child("velocity").attribute("x").as_int(3);
+	v.x = config.child("velocity").attribute("x").as_int(3);
 		
-	gravity = config.child("golem_grass").child("gravity").attribute("grav").as_float(20);
+	gravity = config.child("gravity").attribute("grav").as_float(20);
 
 	return ret;
 

@@ -17,7 +17,6 @@
 
 j1Player::j1Player(int x, int y) : j1Entity(entity_type::PLAYER)
 {
-	name.create("player");
 	data_player.ipos.x = x;
 	data_player.ipos.y = y;
 }
@@ -29,15 +28,15 @@ j1Player::~j1Player()
 bool j1Player::Awake(pugi::xml_node& config) {
 
 	//Load All Player Features from Config
-	data_player.jumpvel = config.child("player").child("jump_velocity").attribute("jumpvel").as_int(-24);
+	data_player.jumpvel = config.child("jump_velocity").attribute("jumpvel").as_int(-24);
 	 
-	v.x = config.child("player").child("velocity").attribute("x").as_int(5);
-	data_player.velrun = config.child("player").child("velrun").attribute("x").as_float(3);
+	v.x = config.child("velocity").attribute("x").as_int(5);
+	data_player.velrun = config.child("velrun").attribute("x").as_float(3);
 	
-	data_player.colOffset.x = config.child("player").child("colOffset").attribute("x").as_int();
-	data_player.colOffset.y = config.child("player").child("colOffset").attribute("y").as_int();
+	data_player.colOffset.x = config.child("colOffset").attribute("x").as_int();
+	data_player.colOffset.y = config.child("colOffset").attribute("y").as_int();
 	
-	gravity = config.child("player").child("gravity").attribute("grav").as_int(20);
+	gravity = config.child("gravity").attribute("grav").as_int(20);
 	return true;
 
 }
