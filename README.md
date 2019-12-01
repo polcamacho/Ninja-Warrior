@@ -83,7 +83,7 @@ F11: Framerate cap ON/OFF.
 
 ### Advertisement
 
-When you press P for killing an enemy, you mustn't touch it when it dies or you will die too.
+When you press P for killing an enemy, you mustn't touch it when it dies or you will die too. Also, enemies can suicide themselves if you attract them to spikes using platforms.
 
 ## Credits
 
