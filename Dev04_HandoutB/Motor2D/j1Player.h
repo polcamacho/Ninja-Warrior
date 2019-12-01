@@ -98,8 +98,7 @@ public:
 	void State(float dt);	//Check animations
 	void Pushbacks();	//Load the frame animations
 	void Reset();
-	void InJump();
-	bool PreTime(float sec);
+	//bool PreTime(float sec);
 
 	// Collisions
 	void OnCollision(Collider* c1, Collider* c2);

@@ -47,7 +47,8 @@ bool j1Golem1::Awake(pugi::xml_node& config) {
 bool j1Golem1::Start() {
 
 	pretimer = 0;
-	globaltime = SDL_GetTicks();	//Sets the Global time to the death timer
+	destroy = false;
+	data_golem.dead = false;
 	position.x = data_golem.ipos.x;
 	position.y = data_golem.ipos.y;
 	LOG("%d", v.x);
@@ -337,32 +338,17 @@ void j1Golem1::State(float dt) {
 	
 	if (current_stateE2 == DEATH2) {	
 		
-		die = true;	//Sets the die to true
 
 		if (App->scene->current_map == "Map.tmx") {	//If player is in map 1
 				
-			if (PreTime (20)) {	//Do a timer to stop the game during the Death animation
-					
-					//Sets the Position that player goes when he dies
-					data_golem.death.Reset();
-			}
-
+					current_animation = &data_golem.death;	//Current Animation is Death
 		}
 
 		else {	//If player is not in map 1 is in map 2
 				
-			if (PreTime (20)) {	//Do a timer to stop the game during the Death Animation
-					
 					current_animation = &data_golem.death;	//Current Animation is Death
-					//Sets the Position that player goes when he dies
-					data_golem.death.Reset();
-
-			}
-
-		}
-
-		die = false;
-
+		}	
+		
 	}
 	
 }
@@ -419,27 +405,20 @@ void j1Golem1::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 		
 		if (c1->type == ColliderType::COLLIDER_ENEMY && c2->type == ColliderType::COLLIDER_DEAD) {		//Checks that player collides with something that he can die
 
-			pretimer = SDL_GetTicks();	//Sets the PreTime to death timer
-		
 			if (preposition.y < c2->rect.y || position.y == c2->rect.y - entity_colliders->rect.h) {	//Checks that player collider from above
-			
-				current_animation = &data_golem.death;	//Current Animation is Death
+				
 				pretimer = SDL_GetTicks();	//Sets the PreTime to death timer
-				position.y = c2->rect.y - entity_colliders->rect.h;
-				current_stateE2 = DEATH2;	//Sets player to Death state
-				grounded = true;	//Sets that player is touching the floor
-				CleanUpGolem1();
-			
+				data_golem.dead = true;
+				data_golem.pathfinding = false;
+				current_stateE2 = DEATH2;
 			}
 
 			else if (preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
-			
-				current_animation = &data_golem.death;	//Current Animation is Death
+				current_stateE2 = DEATH2;
 				pretimer = SDL_GetTicks();	//Sets the PreTime to death timer
-				current_stateE2 = DEATH2;	//Sets player to Death state
-				grounded = true;	//Sets that player is touching the floor
-				CleanUpGolem1();
-
+				data_golem.dead = true;
+				data_golem.pathfinding = false;
+				current_stateE2 = DEATH2;
 			}
 
 		}
@@ -464,18 +443,5 @@ bool j1Golem1::PreTime(float sec)
 	return ret;
 }
 
-bool j1Golem1::Pathfinding(float dt) {
 
-
-		/*if (path->At(1)->y < origin.y) {
-			position.y -= 2 * LIMIT_TIMER * dt;
-		}
-
-		if (path->At(1)->y > origin.y) {
-			position.y += 2 * LIMIT_TIMER * dt;
-		}*/
-	
-
-	return true;
-}
 

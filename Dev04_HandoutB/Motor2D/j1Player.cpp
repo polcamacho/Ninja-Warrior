@@ -74,7 +74,6 @@ bool j1Player::PreUpdate(float dt) {
 bool j1Player::Update(float dt) {
 
 	BROFILER_CATEGORY("Update player", Profiler::Color::Red);
-	LOG("%d %d %d %d %d", position.x, position.y, v.x, data_player.velrun, gravity);
 	
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 
@@ -520,7 +519,6 @@ void j1Player::State(float dt) {
 	if (current_stateP == IDLE_ATTACK1) {
 
 		current_animation = &data_player.idle_attack;
-		//LOG("%i", data_player.canjump);
 		data_player.TimeAttack = true;
 		if (current_animation->AnimFinished() == true) {
 
@@ -533,8 +531,6 @@ void j1Player::State(float dt) {
 
 	if (current_stateP == DEATH1) {
 
-		LOG("GLOBAL: %d", globaltime);
-		LOG("PRE: %d", pretimer);
 		if (App->scene->current_map == "Map.tmx") {	//If player is in map 1
 
 				if (PreTime(20)) {	//Do a timer to stop the game during the Death animation
@@ -640,39 +636,36 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 
 		if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_DEAD) {		//Checks that player collides with something that he can die
 
-			pretimer = SDL_GetTicks();	//Sets the PreTime to death timer
 			
 			if (preposition.y < c2->rect.y || position.y == c2->rect.y - entity_colliders->rect.h) {	//Checks that player collider from above
 			
 				position.y = c2->rect.y - entity_colliders->rect.h;
 				grounded = true;	//Sets that player is touching the floor
-				//current_stateP = DEATH1;
 				data_player.canjump = false;	//Sets tha player can jump
-				//current_animation = &death;	//Current Animation is Death
-				//App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 				//TIMER
 				{
 					if (App->scene->current_map == "Map.tmx") {	//If player is in map 1
-
+						
+						current_animation = &death;	//Current Animation is Death
 						if (PreTime(40)) {	//Do a timer to stop the game during the Death animation
-
-							current_animation = &death;	//Current Animation is Death
+														
 							App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
-
-							if (data_player.checkpoint == true) {
 							
-								App->LoadGame();
-								LOG("%i %i", position.x, position.y);
-							}
+								if (data_player.checkpoint == true) {
+							
+									App->LoadGame();
+									LOG("%i %i", position.x, position.y);
+								}
 
-							else if (data_player.checkpoint == false) {
+								else if (data_player.checkpoint == false) {
 
-								//Sets the Position that player goes when he dies
-								position.x = 100;	//Set Player X	
-								position.y = 300;	//Set Player Y
-								current_stateP = JUMP_FALL1;	//Sets the Animation when he reapears
+									//Sets the Position that player goes when he dies
+									position.x = 100;	//Set Player X	
+									position.y = 300;	//Set Player Y
+									current_stateP = JUMP_FALL1;	//Sets the Animation when he reapears
 
-							}
+								}
+							
 
 							death.Reset();
 						}
@@ -681,7 +674,9 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 
 					else {	//If player is not in map 1 is in map 2
 
-						if (PreTime(20)) {	//Do a timer to stop the game during the Death Animation
+						current_animation = &death;	//Current Animation is Death
+
+						if (PreTime(40)) {	//Do a timer to stop the game during the Death Animation
 
 							current_animation = &death;	//Current Animation is Death
 							App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
@@ -735,22 +730,22 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 
 				}
 
-				else {	//If player is not in map 1 is in map 2
+					else {	//If player is not in map 1 is in map 2
 
-					if (PreTime(20)) {	//Do a timer to stop the game during the Death Animation
+						if (PreTime(20)) {	//Do a timer to stop the game during the Death Animation
 
-						current_animation = &death;	//Current Animation is Death
-						App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
+							current_animation = &death;	//Current Animation is Death
+							App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 
-																	//Sets the Position that player goes when he dies
-						position.x = 55;	//Set Player X	
-						position.y = 10;	//Set Player Y
-						current_stateP = JUMP_FALL1;	//Sets the Animation when he reapears
-						death.Reset();
+																		//Sets the Position that player goes when he dies
+							position.x = 55;	//Set Player X	
+							position.y = 10;	//Set Player Y
+							current_stateP = JUMP_FALL1;	//Sets the Animation when he reapears
+							death.Reset();
+
+						}
 
 					}
-
-				}
 				}
 
 			}
@@ -819,7 +814,7 @@ void j1Player::Reset() {	//Reset All Player Animations
 	die = false;
 }
 
-bool j1Player::PreTime(float sec)
+bool j1Entity::PreTime(float sec)
 {
 
 	pretimer++;
@@ -850,10 +845,4 @@ void j1Player::Camera() {
 
 		App->render->camera.y = 0;
 	}
-}
-
-void j1Player::InJump() {
-	
-
-
 }
