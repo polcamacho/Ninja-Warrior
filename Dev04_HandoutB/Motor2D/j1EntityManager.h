@@ -29,8 +29,8 @@ public:
 
 
 	// Called each loop iteration
-	//bool Save(pugi::xml_node&) const;
-	//bool Load(pugi::xml_node&);
+	bool Save(pugi::xml_node&) const;
+	bool Load(pugi::xml_node&);
 	j1Entity* GetPlayer();
 	j1Entity* DrawEntity(int x, int y, j1Entity::entity_type type);
 	
