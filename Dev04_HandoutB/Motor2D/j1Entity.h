@@ -36,10 +36,10 @@ public:
 	virtual ~j1Entity();
 
 	bool CleanUp();
-	
+
 	// Called each loop iteration
-	bool Save(pugi::xml_node&) const;
-	bool Load(pugi::xml_node&);
+	//bool Save(pugi::xml_node&) const;
+	//bool Load(pugi::xml_node&);
 
 	//void OnCollision(Collider* c1, Collider* c2);
 	void State(float dt);	//Check animations

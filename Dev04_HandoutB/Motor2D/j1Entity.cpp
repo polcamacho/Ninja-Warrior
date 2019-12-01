@@ -29,15 +29,6 @@ bool j1Entity::CleanUp() {
 
 }
 
-bool j1Entity::Load(pugi::xml_node& data) {
-	return true;
-}
-
-bool j1Entity::Save(pugi::xml_node& data) const {
-	return true;
-}
-
-
 void j1Entity::DrawCollider() {
 
 	entity_colliders->SetPos(position.x, position.y);

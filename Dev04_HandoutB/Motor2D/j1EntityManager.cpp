@@ -181,8 +181,32 @@ j1Entity* j1EntityManager::DrawEntity(int x, int y, j1Entity::entity_type type)
 	return ret;
 }
 
-void j1EntityManager::DeleteEntity() {
+//bool j1EntityManager::Load(pugi::xml_node& data) {
+//
+//	p2List_item<j1Entity*>* item = entities.start;
+//	while (item != nullptr) {
+//
+//		item->data->Load(data);
+//		item = item->next;
+//
+//	}
+//	return true;
+//}
 
+//bool j1EntityManager::Save(pugi::xml_node& data) const {
+//
+//	p2List_item<j1Entity*>* item = entities.start;
+//	while (item!=nullptr) {
+//		
+//			item->data->Save(data);
+//			item = item->next;
+//
+//	}
+//	return true;
+//}
+
+void j1EntityManager::DeleteEntity() {
+	
 	p2List_item<j1Entity*>* item = entities.start;
 	while (item != nullptr) {
 		if (item->data->destroy == true) {

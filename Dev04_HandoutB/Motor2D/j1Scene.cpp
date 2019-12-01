@@ -262,11 +262,12 @@ bool j1Scene::Load(pugi::xml_node& data)
 {
 	LOG("Loading Scene state");
 	App->map->CleanUp();
-	App->collider->CleanUp();																//cleans the colliders and map
+	App->collider->CleanUp();   //cleans the colliders and map and entities
+	App->entity->CleanEntity();
 	current_map.create(data.child("scene").attribute("name").as_string());					//check which map have to be loaded and load it
 	App->map->Load(current_map.GetString());
 	App->collider->Start();
-	
+	CreateEntities();
 	return true;
 }
 
