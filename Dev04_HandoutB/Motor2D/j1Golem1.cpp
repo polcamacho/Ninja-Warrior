@@ -59,8 +59,8 @@ bool j1Golem1::Start() {
 	SDL_Rect c;
 	c.x = position.x;
 	c.y = position.y;
-	c.w = 39;
-	c.h = 53;
+	c.w = 45;
+	c.h = 55;
 
 	entity_colliders = App->collider->AddCollider(&c, COLLIDER_ENEMY, this);	//Sets The Collider Type and Dimensions to Player
 	
@@ -419,6 +419,19 @@ void j1Golem1::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 				data_golem.dead = true;
 				data_golem.pathfinding = false;
 				current_stateE2 = DEATH2;
+			}
+
+		}
+
+		if (c1->type == ColliderType::COLLIDER_ENEMY && c2->type == ColliderType::COLLIDER_PLAYER) {		//Checks that player collides with something that he can die
+
+			if (preposition.y < (c2->rect.y + c2->rect.h) && App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {	//Checks that player collider from above
+
+				pretimer = SDL_GetTicks();	//Sets the PreTime to death timer
+				current_stateE2 = DEATH2;
+				data_golem.pathfinding = false;
+				data_golem.dead = true;
+
 			}
 
 		}

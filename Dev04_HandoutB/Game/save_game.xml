@@ -8,14 +8,15 @@
 	<scene>
 		<scene name="Map.tmx" />
 	</scene>
+	<:anonymous />
 	<pathfinding />
+	<:anonymous />
 	<entitymanager>
-		<playerposition x="3268" y="1109" />
-		<golem1position x="1917" y="978" />
-		<golem2position x="1878" y="978" />
-		<batposition x="2104" y="983" />
+		<playerposition x="5839" y="1167" />
+		<golem2position x="550" y="141" />
+		<batposition x="606" y="140" />
 	</entitymanager>
 	<renderer>
-		<camera x="-2743" y="-560" />
+		<camera x="-5319" y="-630" />
 	</renderer>
 </game_state>
