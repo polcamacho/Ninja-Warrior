@@ -15,12 +15,14 @@ https://github.com/polcamacho/Platformer2D
 Github link: https://github.com/polcamacho
 
 Responsability: Map 2 creation, colliders creation in Tiled, animations, state machine, audio, cleaning code, and readme.
+Also enemies spritesheet, golems animations, UMLfor entities, module entities and load and save reimplementation for enemies and player.
 
 ### Christian Piña López
 
 Github link: https://github.com/christianpi4
 
 Responsability: Map 1 creation and Map 2 improved, collider implementor, load and save map, god mode, restart, change map, death animation and cleaning code.
+Also pathfindig, framerate cap, module entities, checkpoint collider, player jump redo, death state for player and enemies, bat animations and parallax.
 
 ## How to play
 
@@ -29,6 +31,7 @@ The main goal is simple: arrive to the end of the map! But be carefull, some par
 ## Innovation
 
 Double jump and run mechanics implemented.
+Check point autosave.
 
 ## Controls
 
@@ -66,13 +69,15 @@ F2: Change to map 2.
 
 F3: Start from the beginning of the current level.
 
-F5: Save current state.
+F5: Save current state (player and enemies).
 
-F6: Load current state.
+F6: Load current state (player and enemies).
 
 F9: View colliders and logic.
 
 F10: God mode.
+
+F11: Framerate cap ON/OFF.
 
 ## Credits
 
@@ -83,8 +88,6 @@ Map assets: https://anokolisa.itch.io/forest-game-assets-20
 Map 1 music: https://www.youtube.com/watch?v=iQIz5LmRuKE
 
 Map 2 music: https://www.youtube.com/watch?v=vBatUCjxSrQ&list=PL06diOotXAJLPta6SgpLj9YEgp7VmGr4g
-
-Both walk FX: https://es.audioblocks.com/royalty-free-audio/sound-effects?search-origin=top_nav
 
 Death FX: https://audiojungle.net/item/8bit-death-sounds/6327314
 
