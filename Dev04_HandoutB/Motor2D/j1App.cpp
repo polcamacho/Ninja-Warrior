@@ -391,7 +391,6 @@ void j1App::SaveGame() const
 {
 	// we should be checking if that file actually exist
 	// from the "GetSaveGames" list ... should we overwrite ?
-
 	want_to_save = true;
 }
 
@@ -464,8 +463,11 @@ bool j1App::SavegameNow() const
 
 	if(ret == true)
 	{
+		std::stringstream stream;
+		data.save(stream);
+
 		data.save_file(save_game.GetString());
-		LOG("... finished saving", );
+		LOG("... finished saving", save_game.GetString());
 	}
 	else
 		LOG("Save process halted from an error in module %s", (item != NULL) ? item->data->name.GetString() : "unknown");

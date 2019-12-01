@@ -79,7 +79,8 @@ public:
 	// Called before render is available
 	bool Awake(pugi::xml_node& conf);
 	
-
+	bool Load(pugi::xml_node& data);
+	bool Save(pugi::xml_node& data) const;
 	// Called each loop iteration
 
 	//Called to start the player at initial pos

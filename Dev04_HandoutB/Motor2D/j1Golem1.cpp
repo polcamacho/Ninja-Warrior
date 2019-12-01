@@ -169,39 +169,39 @@ bool j1Golem1::CleanUpGolem1()
 	return true;
 }
 
-/*bool j1Golem1::Load(pugi::xml_node& node) {
+bool j1Golem1::Load(pugi::xml_node& node) {
 
-	if (!node.child("position").empty())	//Load the valors if save_confign file is empty link
+	if (!node.child("golem1position").empty())	//Load the valors if save_confign file is empty link
 	{
 
-		data_golem.position.x = node.child("position").attribute("x").as_int();	//Load Player X
-		data_golem.position.y = node.child("position").attribute("y").as_int();	//Load Player Y
+		position.x = node.child("golem1position").attribute("x").as_int();	//Load Player X
+		position.y = node.child("golem1position").attribute("y").as_int();	//Load Player Y
 	}
 
-	else {	
-		data_golem.position.x = data_golem.position.x;	//Load Player X
-		data_golem.position.y = data_golem.position.y;	//Load Player Y
+	else {
+		position.x = position.x;	//Load Player X
+		position.y = position.y;	//Load Player Y
 	}
 	return true;
 
 }
 bool j1Golem1::Save(pugi::xml_node& node) const {
 
-	if (node.child("position").empty())	//Save The Position Valors in the save_config file
+	if (node.child("golem1position").empty())	//Save The Position Valors in the save_config file
 	{
-		pugi::xml_node&  save = node.append_child("position");	
-		save.append_attribute("x").set_value(data_golem.position.x);	//Save Player X
-		save.append_attribute("y").set_value(data_golem.position.y);	//Save Player Y
+		pugi::xml_node&  save = node.append_child("golem1position");
+		save.append_attribute("x").set_value(position.x);	//Save Player X
+		save.append_attribute("y").set_value(position.y);	//Save Player Y
 	}
 	else
 	{
-		node.child("position").attribute("x").set_value(data_golem.position.x);	//Save Player X
-		node.child("position").attribute("y").set_value(data_golem.position.y);	//Save Player Y
+		node.child("golem1position").attribute("x").set_value(position.x);	//Save Player X
+		node.child("golem1position").attribute("y").set_value(position.y);	//Save Player Y
 	}
-	
+
 	return true;
 
-}*/
+}
 
 void j1Golem1::Pushbacks() {
 

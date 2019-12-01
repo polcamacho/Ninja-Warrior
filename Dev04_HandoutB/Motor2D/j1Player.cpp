@@ -150,39 +150,39 @@ bool j1Player::CleanUp()
 	return true;
 }
 
-/*bool j1Player::Load(pugi::xml_node& node) {
+bool j1Player::Load(pugi::xml_node& node) {
 
-	if (!node.child("position").empty())	//Load the valors if save_confign file is empty link
+	if (!node.child("playerposition").empty())	//Load the valors if save_confign file is empty link
 	{
 
-		data_entity.position.x = node.child("position").attribute("x").as_int();	//Load Player X
-		data_entity.position.y = node.child("position").attribute("y").as_int();	//Load Player Y
+		position.x = node.child("playerposition").attribute("x").as_int();	//Load Player X
+		position.y = node.child("playerposition").attribute("y").as_int();	//Load Player Y
 	}
 
 	else {	
-		data_entity.position.x = data_entity.position.x;	//Load Player X
-		data_entity.position.y = data_entity.position.y;	//Load Player Y
+		position.x = position.x;	//Load Player X
+		position.y = position.y;	//Load Player Y
 	}
 	return true;
 
 }
 bool j1Player::Save(pugi::xml_node& node) const {
 
-	if (node.child("position").empty())	//Save The Position Valors in the save_config file
+	if (node.child("playerposition").empty())	//Save The Position Valors in the save_config file
 	{
-		pugi::xml_node&  save = node.append_child("position");	
-		save.append_attribute("x").set_value(data_entity.position.x);	//Save Player X
-		save.append_attribute("y").set_value(data_entity.position.y);	//Save Player Y
+		pugi::xml_node&  save = node.append_child("playerposition");	
+		save.append_attribute("x").set_value(position.x);	//Save Player X
+		save.append_attribute("y").set_value(position.y);	//Save Player Y
 	}
 	else
 	{
-		node.child("position").attribute("x").set_value(data_entity.position.x);	//Save Player X
-		node.child("position").attribute("y").set_value(data_entity.position.y);	//Save Player Y
+		node.child("playerposition").attribute("x").set_value(position.x);	//Save Player X
+		node.child("playerposition").attribute("y").set_value(position.y);	//Save Player Y
 	}
 	
 	return true;
 
-}*/
+}
 
 void j1Player::Pushbacks() {
 
