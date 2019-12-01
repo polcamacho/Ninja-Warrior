@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="235" height="50" tilewidth="32" tileheight="32" nextobjectid="180">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="235" height="50" tilewidth="32" tileheight="32" nextobjectid="181">
  <tileset firstgid="1" name="Assets" tilewidth="32" tileheight="32" tilecount="2304" columns="48">
   <image source="Assets.png" width="1536" height="1536"/>
  </tileset>
  <tileset firstgid="2305" name="walkability" tilewidth="32" tileheight="32" tilecount="1" columns="1">
   <image source="walkability.png" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="2306" name="flag" tilewidth="32" tileheight="32" tilecount="1" columns="1">
+  <image source="flag.png" width="32" height="32"/>
  </tileset>
  <layer name="Sky" width="235" height="50">
   <properties>
@@ -78879,7 +78882,7 @@
    <tile gid="0"/>
    <tile gid="973"/>
    <tile gid="973"/>
-   <tile gid="973"/>
+   <tile gid="2306"/>
    <tile gid="973"/>
    <tile gid="973"/>
    <tile gid="973"/>
@@ -94064,7 +94067,6 @@
   </data>
  </layer>
  <objectgroup name="colisions">
-
   <object id="5" name="floor" x="0" y="674" width="1792" height="414"/>
   <object id="6" name="floor" x="2144" y="668.75" width="294.667" height="387.25"/>
   <object id="7" name="floor" x="1792" y="1011.33" width="352" height="44.6686"/>
@@ -94151,5 +94153,6 @@
   <object id="177" name="enemy_fly" x="924" y="403" width="40" height="54"/>
   <object id="178" name="enemy_grass" x="666" y="483" width="40" height="54"/>
   <object id="179" name="player" x="259" y="492" width="40" height="54"/>
+  <object id="180" name="checkpoint" x="3232" y="1117.38" width="32" height="35.8977"/>
  </objectgroup>
 </map>
