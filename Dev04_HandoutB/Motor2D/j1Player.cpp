@@ -38,7 +38,6 @@ bool j1Player::Awake(pugi::xml_node& config) {
 	data_player.colOffset.y = config.child("player").child("colOffset").attribute("y").as_int();
 	
 	gravity = config.child("player").child("gravity").attribute("grav").as_int(20);
-	
 	return true;
 
 }
@@ -147,9 +146,7 @@ bool j1Player::CleanUp()
 {
 	LOG("Unloading player");
 	j1Entity::CleanUp();
-	App->tex->UnLoad(App->entity->Tex_Player);	//Unload The Player texture
-	App->collider->CleanUp();	//Unload the Player collider
-	
+		
 	return true;
 }
 

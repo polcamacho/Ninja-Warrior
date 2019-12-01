@@ -34,9 +34,9 @@ bool j1Golem2::Awake(pugi::xml_node& config) {
 
 	//Load All Player Features from Config
 
-	v.x = config.child("golem_rock").child("velocity").attribute("x").as_int();
+	v.x = config.child("golem_rock").child("velocity").attribute("x").as_int(3);
 
-	gravity = config.child("golem_rock").child("gravity").attribute("grav").as_float();
+	gravity = config.child("golem_rock").child("gravity").attribute("grav").as_float(20);
 
 	return ret;
 
@@ -48,9 +48,7 @@ bool j1Golem2::Start() {
 	//globaltime = SDL_GetTicks();	//Sets the Global time to the death timer
 	position.x = data_golem2.ipos.x;
 	position.y = data_golem2.ipos.y;
-	v.x = 5;
-	gravity = 15;
-
+	LOG("%d", v.x);
 	Pushbacks();	//Call all the Pushback of animations
 
 	current_animation = &idle;
@@ -158,15 +156,13 @@ bool j1Golem2::PostUpdate(float dt) {
 	return true;
 }
 // Called before quitting
-/*bool j1Golem2::CleanUp()
+bool j1Golem2::CleanUpGolem2()
 {
 	LOG("Unloading player");
 	j1Entity::CleanUp();
-	App->tex->UnLoad(App->entity->Tex_Golems);	//Unload The Player texture
-	App->collider->CleanUp();	//Unload the Player collider
 
 	return true;
-}*/
+}
 
 
 /*bool j1Golem2::Load(pugi::xml_node& node) {
@@ -442,8 +438,7 @@ void j1Golem2::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 			current_animation = &data_golem2.death;	//Current Animation is Death
 			current_stateE3 = DEATH3;	//Sets player to Death state
 			grounded = true;	//Sets that player is touching the floor
-			entity_colliders->to_delete = true;
-			App->tex->UnLoad(App->entity->Tex_Golems_Rock);	//Unload The Player texture
+			CleanUpGolem2();
 
 		}
 
@@ -453,34 +448,11 @@ void j1Golem2::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 			pretimer = SDL_GetTicks();	//Sets the PreTime to death timer
 			//data_entity.position.y = c2->rect.y + c2->rect.h;
 			current_stateE3 = DEATH3;	//Sets player to Death state
-
+			CleanUpGolem2();
 			grounded = true;	//Sets that player is touching the floor
-			entity_colliders->to_delete = true;
-			App->tex->UnLoad(App->entity->Tex_Golems_Rock);	//Unload The Player texture
 
 		}
 
-	}
-
-	if (c1->type == ColliderType::COLLIDER_ENEMY && c2->type == ColliderType::COLLIDER_NEXT) {
-
-		if (preposition.y < c2->rect.y || position.y == c2->rect.y - entity_colliders->rect.h) {	//Checks that player collider from above	
-			App->scene->SecondMap();	//Pass to next map
-		}
-
-		else if (preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
-			App->scene->SecondMap();	//Pass to next map
-		}
-
-		else if ((position.x < c2->rect.x + c2->rect.w && position.x > c2->rect.x) || (position.x + entity_colliders->rect.w < c2->rect.x + c2->rect.w && position.x + entity_colliders->rect.w > c2->rect.x)) {	//Checks that player collider from sides
-
-			if ((position.x + entity_colliders->rect.w) < (c2->rect.x + c2->rect.w)) {		//Checks that player collides from left
-				App->scene->SecondMap();	//Pass to next map
-			}
-			else if (position.x < (c2->rect.x + c2->rect.w)) {	//Checks that player collides from right
-				App->scene->SecondMap();	//Pass to next map
-			}
-		}
 	}
 
 }

@@ -171,13 +171,8 @@ j1Entity* j1EntityManager::DrawEntity(int x, int y, j1Entity::entity_type type)
 			break;
 		}
 
-
-		
-
-
 	}
 
-	
 	return ret;
 }
 
