@@ -26,13 +26,10 @@ enum states_entity4 {
 struct BatData
 {
 
-	Animation		hurt;
 	Animation		death;
-	Animation		attack;
 
-	bool			move = false;
-	bool			TimeAttack = false;
 	bool			pathfinding = true;
+	bool			dead = false;
 
 	int				jumpCounter = 2;
 

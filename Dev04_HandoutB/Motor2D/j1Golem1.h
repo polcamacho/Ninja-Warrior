@@ -29,9 +29,11 @@ struct GolemData
 	Animation		death;
 	
 	bool			pathfinding = true;
-
+	bool			dead = false;
+	
 	iPoint			colOffset;
 	iPoint			ipos;
+
 
 };
 

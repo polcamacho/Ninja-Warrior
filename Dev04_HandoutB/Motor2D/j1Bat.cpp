@@ -235,8 +235,8 @@ void j1Bat::CheckState(float dt)
 		current_animation = &walk;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_REPEAT) {
-		current_animation = &data_bat.attack;
-		data_bat.attack.Reset();
+		//current_animation = &data_bat.attack;
+		//data_bat.attack.Reset();
 	}
 	if (App->input->GetKey(SDL_SCANCODE_V) == KEY_REPEAT) {
 		current_animation = &data_bat.death;
@@ -244,8 +244,8 @@ void j1Bat::CheckState(float dt)
 
 	}
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) {
-		current_animation = &data_bat.hurt;
-		data_bat.hurt.Reset();
+		//current_animation = &data_bat.hurt;
+		//data_bat.hurt.Reset();
 
 	}
 
@@ -269,35 +269,15 @@ void j1Bat::State(float dt) {
 
 	if (current_stateE3 == DEATH4) {
 
-		die = true;	//Sets the die to true
-		LOG("GLOBAL: %d", globaltime);
-		LOG("PRE: %d", pretimer);
-		if (die == true) {
+		if (App->scene->current_map == "Map.tmx") {	//If player is in map 1
 
-			if (App->scene->current_map == "Map.tmx") {	//If player is in map 1
-
-				if (PreTime(20)) {	//Do a timer to stop the game during the Death animation
-					
-					//Sets the Position that player goes when he dies
-					data_bat.death.Reset();
-				}
-
-			}
-
-			else {	//If player is not in map 1 is in map 2
-
-				if (PreTime(20)) {	//Do a timer to stop the game during the Death Animation
-					current_animation = &data_bat.death;	//Current Animation is Death
-					//Sets the Position that player goes when he dies
-					data_bat.death.Reset();
-
-				}
-
-			}
-
-
+			current_animation = &data_bat.death;	//Current Animation is Death
 		}
-		die = false;
+
+		else {	//If player is not in map 1 is in map 2
+
+			current_animation = &data_bat.death;	//Current Animation is Death
+		}
 
 	}
 
@@ -356,26 +336,20 @@ void j1Bat::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player coll
 
 	if (c1->type == ColliderType::COLLIDER_ENEMY && c2->type == ColliderType::COLLIDER_DEAD) {		//Checks that player collides with something that he can die
 
-		//PreTime = SDL_GetTicks();	//Sets the PreTime to death timer
-
 		if (preposition.y < c2->rect.y || position.y == c2->rect.y - entity_colliders->rect.h) {	//Checks that player collider from above
 
-			current_animation = &data_bat.death;	//Current Animation is Death
-			position.y = c2->rect.y - entity_colliders->rect.h;
-			current_stateE3 = DEATH4;	//Sets player to Death state
-			grounded = true;	//Sets that player is touching the floor
-			CleanUpBat();
-
+			pretimer = SDL_GetTicks();	//Sets the PreTime to death timer
+			data_bat.dead = true;
+			data_bat.pathfinding = false;
+			current_stateE3 = DEATH4;
 		}
 
 		else if (preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
-
-			current_animation = &data_bat.death;	//Current Animation is Death
+			current_stateE3 = DEATH4;
 			pretimer = SDL_GetTicks();	//Sets the PreTime to death timer
-			current_stateE3 = DEATH4;	//Sets player to Death state
-			grounded = true;	//Sets that player is touching the floor
-			CleanUpBat();
-
+			data_bat.dead = true;
+			data_bat.pathfinding = false;
+			current_stateE3 = DEATH4;
 		}
 
 	}

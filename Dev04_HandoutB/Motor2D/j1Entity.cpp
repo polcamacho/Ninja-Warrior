@@ -25,6 +25,7 @@ j1Entity::~j1Entity()
 
 bool j1Entity::CleanUp() {
 
+	if(entity_colliders!=false)
 	entity_colliders->to_delete = true;
 	
 	return true;
