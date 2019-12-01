@@ -10,12 +10,12 @@
 	</scene>
 	<pathfinding />
 	<entitymanager>
-		<playerposition x="3250" y="1109" />
-		<golem1position x="843" y="641" />
-		<golem2position x="1234" y="641" />
-		<batposition x="598" y="600" />
+		<playerposition x="1149" y="641" />
+		<golem1position x="1001" y="621" />
+		<golem2position x="1144" y="641" />
+		<batposition x="1146" y="634" />
 	</entitymanager>
 	<renderer>
-		<camera x="-2738" y="-560" />
+		<camera x="-637" y="-92" />
 	</renderer>
 </game_state>

@@ -667,18 +667,10 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 							current_animation = &death;	//Current Animation is Death
 							App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 
-							
-							if (data_player.checkpoint == true) {
-								App->LoadGame();
-								position.x -= 10;
-							}
-							else {
-								position.x = 100;	//Set Player X	
-								position.y = 300;	//Set Player Y
-								current_stateP = JUMP_FALL1;	//Sets the Animation when he reapears
-							}
 							//Sets the Position that player goes when he dies
-							
+							position.x = 100;	//Set Player X	
+							position.y = 300;	//Set Player Y
+							current_stateP = JUMP_FALL1;	//Sets the Animation when he reapears
 							death.Reset();
 						}
 
@@ -748,32 +740,6 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 				}
 				}
 
-			}
-
-		}
-
-		if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_FLOOR) {	//If player collide with floor
-			data_player.checkpoint = true;
-			if (preposition.y < c2->rect.y || position.y == c2->rect.y - entity_colliders->rect.h) {	//Checks that player collider from above
-
-				
-				App->SaveGame();
-
-			}
-
-			else if ((position.x < c2->rect.x + c2->rect.w && position.x > c2->rect.x) || (position.x + entity_colliders->rect.w < c2->rect.x + c2->rect.w && position.x + entity_colliders->rect.w > c2->rect.x)) {	//Checks that player collider from sides
-
-				if ((position.x + entity_colliders->rect.w) < (c2->rect.x + c2->rect.w)) { //Checks that player collides from left
-
-					
-					App->SaveGame();
-
-				}
-				else if (position.x < (c2->rect.x + c2->rect.w)) {	//Checks that player collides from right
-
-					
-					App->SaveGame();
-				}
 			}
 
 		}
