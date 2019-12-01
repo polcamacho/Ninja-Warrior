@@ -39,7 +39,7 @@ bool j1EntityManager::Awake(pugi::xml_node& config)
 	texture1 = node.child("texture").attribute("source1").as_string();
 	texture2 = node.child("texture").attribute("source2").as_string();
 	texture3 = node.child("texture").attribute("source3").as_string();
-	
+	texture4 = node.child("texture").attribute("source2").as_string();
 
 	return true;
 }
@@ -47,9 +47,9 @@ bool j1EntityManager::Awake(pugi::xml_node& config)
 bool j1EntityManager::Start()
 {
 	Tex_Player = App->tex->Load(PATH(folder.GetString(), texture1.GetString()));	//Load The Texture of player
-	Tex_Golems = App->tex->Load(PATH(folder.GetString(), texture2.GetString()));	//Load The Texture of golems
+	Tex_Golems_Grass = App->tex->Load(PATH(folder.GetString(), texture2.GetString()));	//Load The Texture of golems grass
 	Tex_Bat = App->tex->Load(PATH(folder.GetString(), texture3.GetString()));	//Load The Texture of bat
-
+	Tex_Golems_Rock = App->tex->Load(PATH(folder.GetString(), texture2.GetString()));	//Load The Texture of golems rocks
 	return true;
 }
 
@@ -92,8 +92,9 @@ bool j1EntityManager::PostUpdate(float dt) {
 bool j1EntityManager::CleanUp()
 {
 	App->tex->UnLoad(App->entity->Tex_Player);
-	App->tex->UnLoad(App->entity->Tex_Golems);
-
+	App->tex->UnLoad(App->entity->Tex_Golems_Grass);
+	App->tex->UnLoad(App->entity->Tex_Golems_Rock);
+	App->tex->UnLoad(App->entity->Tex_Bat);
 	return true;
 }
 

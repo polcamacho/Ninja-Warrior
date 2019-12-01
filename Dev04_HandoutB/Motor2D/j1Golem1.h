@@ -51,7 +51,7 @@ public:
 	bool PreUpdate(float dt);
 	bool Update(float dt);
 	bool PostUpdate(float dt);
-	bool CleanUp();
+	//bool CleanUp();
 	// Called before render is available
 	
 	bool Awake(pugi::xml_node& conf);

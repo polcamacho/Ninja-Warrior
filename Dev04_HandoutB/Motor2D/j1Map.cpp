@@ -7,7 +7,7 @@
 #include "j1Map.h"
 #include "j1Collider.h"
 #include "j1Player.h"
-//#include "j1Enemy.h"
+#include "j1EntityManager.h"
 #include "j1Window.h"
 #include <math.h>
 #include "..//Brofiler/Brofiler.h"
@@ -204,7 +204,6 @@ bool j1Map::CleanUp()
 	map_file.reset();
 
 	App->collider->CleanUp();
-	//App->player->CleanUp();
 
 	return true;
 }

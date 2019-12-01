@@ -53,8 +53,8 @@ bool j1Bat::Start() {
 	SDL_Rect c;
 	c.x = position.x;
 	c.y = position.y;
-	c.w = 39;
-	c.h = 53;
+	c.w = 37;
+	c.h = 28;
 
 	entity_colliders = App->collider->AddCollider(&c, COLLIDER_ENEMY, this);	//Sets The Collider Type and Dimensions to Player
 

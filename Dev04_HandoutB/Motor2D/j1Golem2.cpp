@@ -137,10 +137,10 @@ bool j1Golem2::Update(float dt) {
 	DrawCollider();
 	//Player Draw
 	if (flip) {
-		App->render->Blit(App->entity->Tex_Golems, position.x, position.y, &(current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL, 1.0);	//Draw Player Flipped
+		App->render->Blit(App->entity->Tex_Golems_Rock, position.x, position.y, &(current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL, 1.0);	//Draw Player Flipped
 	}
 	else {
-		App->render->Blit(App->entity->Tex_Golems, position.x, position.y, &(current_animation->GetCurrentFrame()), SDL_FLIP_NONE, 1.0);	//Draw Player Normal
+		App->render->Blit(App->entity->Tex_Golems_Rock, position.x, position.y, &(current_animation->GetCurrentFrame()), SDL_FLIP_NONE, 1.0);	//Draw Player Normal
 	}
 
 	if (grounded == false) {	//Sets that if the player is not touching the ground puts the fall animation
@@ -158,7 +158,7 @@ bool j1Golem2::PostUpdate(float dt) {
 	return true;
 }
 // Called before quitting
-bool j1Golem2::CleanUp()
+/*bool j1Golem2::CleanUp()
 {
 	LOG("Unloading player");
 	j1Entity::CleanUp();
@@ -166,7 +166,7 @@ bool j1Golem2::CleanUp()
 	App->collider->CleanUp();	//Unload the Player collider
 
 	return true;
-}
+}*/
 
 
 /*bool j1Golem2::Load(pugi::xml_node& node) {
@@ -354,11 +354,6 @@ void j1Golem2::State(float dt) {
 
 				if (PreTime(20)) {	//Do a timer to stop the game during the Death animation
 
-
-
-					//Sets the Position that player goes when he dies
-					position.x = 100;	//Set Player X	
-					position.y = 300;	//Set Player Y
 					data_golem2.death.Reset();
 				}
 
@@ -366,14 +361,9 @@ void j1Golem2::State(float dt) {
 
 			else {	//If player is not in map 1 is in map 2
 
-
-
 				if (PreTime(20)) {	//Do a timer to stop the game during the Death Animation
+					
 					current_animation = &data_golem2.death;	//Current Animation is Death
-					App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
-					//Sets the Position that player goes when he dies
-					position.x = 55;	//Set Player X	
-					position.y = 10;	//Set Player Y
 					data_golem2.death.Reset();
 
 				}
@@ -446,28 +436,27 @@ void j1Golem2::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 		//PreTime = SDL_GetTicks();	//Sets the PreTime to death timer
 
 		if (preposition.y < c2->rect.y || position.y == c2->rect.y - entity_colliders->rect.h) {	//Checks that player collider from above
-
-			current_animation = &data_golem2.death;	//Current Animation is Death
-			App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
+			
 			position.y = c2->rect.y - entity_colliders->rect.h;
-			//current_state = DEATH2;	//Sets player to Death state
-
+			pretimer = SDL_GetTicks();	//Sets the PreTime to death timer
+			current_animation = &data_golem2.death;	//Current Animation is Death
+			current_stateE3 = DEATH3;	//Sets player to Death state
 			grounded = true;	//Sets that player is touching the floor
-
+			entity_colliders->to_delete = true;
+			App->tex->UnLoad(App->entity->Tex_Golems_Rock);	//Unload The Player texture
 
 		}
 
 		else if (preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
 
 			current_animation = &data_golem2.death;	//Current Animation is Death
-			App->audio->PlayFx(App->scene->death_FX);	//Sets the Death Audio
 			pretimer = SDL_GetTicks();	//Sets the PreTime to death timer
-
 			//data_entity.position.y = c2->rect.y + c2->rect.h;
 			current_stateE3 = DEATH3;	//Sets player to Death state
 
 			grounded = true;	//Sets that player is touching the floor
-
+			entity_colliders->to_delete = true;
+			App->tex->UnLoad(App->entity->Tex_Golems_Rock);	//Unload The Player texture
 
 		}
 

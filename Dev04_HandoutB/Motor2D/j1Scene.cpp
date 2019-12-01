@@ -183,7 +183,7 @@ bool j1Scene::Update(float dt)
 
 	else {
 
-
+		
 		App->map->Draw();		//draws the correspondant map
 
 
@@ -206,7 +206,7 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN){
 		App->LoadGame();
 	}
-	// Debug pathfinding ------------------------------
+	/*// Debug pathfinding ------------------------------
 	int x = 0, y = 0;
 	App->input->GetMousePosition(x, y);
 	iPoint p = App->render->ScreenToWorld(x, y);
@@ -222,7 +222,7 @@ bool j1Scene::Update(float dt)
 	{
 		iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
 		App->render->Blit(debug_tex, pos.x, pos.y);
-	}
+	}*/
 	
 	/*if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
 		if (App->frame_cap == false) {
@@ -254,7 +254,6 @@ bool j1Scene::PostUpdate(float dt)
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
-	App->tex->UnLoad(debug_tex);
 	return true;
 }
 
@@ -329,10 +328,25 @@ void j1Scene::SecondMap() {
 
 bool j1Scene::CreateEntities() {
 
-	App->entity->DrawEntity(100, 500, j1Entity::entity_type::PLAYER);
-	App->entity->DrawEntity(600, 100, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
-	App->entity->DrawEntity(300, 100, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
-	App->entity->DrawEntity(300, 200, j1Entity::entity_type::BAT_ENEMY);
+	if (current_map == "Map.tmx") {
+
+		App->entity->DrawEntity(100, 500, j1Entity::entity_type::PLAYER);
+		App->entity->DrawEntity(650, 631, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
+		App->entity->DrawEntity(1000, 631, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
+		App->entity->DrawEntity(500, 500, j1Entity::entity_type::BAT_ENEMY);
+
+	}
+
+	else if (current_map == "map2.tmx") {
+
+		App->entity->DrawEntity(55, 100, j1Entity::entity_type::PLAYER);
+		App->entity->DrawEntity(600, 100, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
+		App->entity->DrawEntity(650, 100, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
+		App->entity->DrawEntity(700, 100, j1Entity::entity_type::BAT_ENEMY);
+		
+	}
+
+
 
 	return true;
 }
