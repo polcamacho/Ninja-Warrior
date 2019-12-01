@@ -95,6 +95,10 @@ public:
 	j1Collider*			collider;
 	j1PathFinding*		pathfinding;
 	j1FadeToBlack*		fade;
+	bool				cap = false;
+	p2SString			vsync;
+
+	p2SString			framerate_cap;
 	
 
 private:
@@ -106,8 +110,8 @@ private:
 
 	p2SString			title;
 	p2SString			organization;
-	uint32				framerate;
 
+	uint32				framerate;
 	mutable bool		want_to_save;
 	bool				want_to_load;
 	p2SString			load_game;

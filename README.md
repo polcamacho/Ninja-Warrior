@@ -15,18 +15,18 @@ https://github.com/polcamacho/Platformer2D
 Github link: https://github.com/polcamacho
 
 Responsability: Map 2 creation, colliders creation in Tiled, animations, state machine, audio, cleaning code, and readme.
-Also enemies spritesheet, golems animations, UMLfor entities, module entities and load and save reimplementation for enemies and player.
+Also enemies spritesheet, golems animations, UMLfor entities, module entities, load and save reimplementation for enemies and player and F11 debug.
 
 ### Christian Piña López
 
 Github link: https://github.com/christianpi4
 
 Responsability: Map 1 creation and Map 2 improved, collider implementor, load and save map, god mode, restart, change map, death animation and cleaning code.
-Also pathfindig, framerate cap, module entities, checkpoint collider, player jump redo, death state for player and enemies, bat animations and parallax.
+Also pathfindig, framerate cap, module entities, checkpoint collider, player jump redo, death state for player and enemies, bat animations, parallax and kill enemy system.
 
 ## How to play
 
-The main goal is simple: arrive to the end of the map! But be carefull, some parts of the map are not easy.
+The main goal is simple: arrive to the end of the map! But be carefull, some parts of the map are not easy and there are some angry enemies!
 
 ## Innovation
 
@@ -48,6 +48,8 @@ A+LSHIFT: Run backward.
 D+LSHIFT+SPACE: Jump while running forward.
 
 A+LSHIFT+SPACE: Jump while running backward.
+
+P: Kill enemie.
 
 ### Double jump!
 
@@ -78,6 +80,10 @@ F9: View colliders and logic.
 F10: God mode.
 
 F11: Framerate cap ON/OFF.
+
+### Advertisement
+
+When you press P for killing an enemy, you mustn't touch it when it dies or you will die too. Also, enemies can suicide themselves if you attract them to spikes using platforms.
 
 ## Credits
 
