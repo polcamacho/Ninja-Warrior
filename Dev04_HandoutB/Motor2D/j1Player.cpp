@@ -17,6 +17,7 @@
 
 j1Player::j1Player(int x, int y) : j1Entity(entity_type::PLAYER)
 {
+	name.create("player");
 	data_player.ipos.x = x;
 	data_player.ipos.y = y;
 }
@@ -27,23 +28,20 @@ j1Player::~j1Player()
 
 bool j1Player::Awake(pugi::xml_node& config) {
 
-	bool ret = true;
-
 	//Load All Player Features from Config
-
-	data_player.jumpvel = config.child("jump_velocity").attribute("jumpvel").as_int();
-	   
-	v.x = config.child("velocity").attribute("x").as_int();
-	data_player.velrun = config.child("velrun").attribute("x").as_float();
+	data_player.jumpvel = config.child("player").child("jump_velocity").attribute("jumpvel").as_int();
+	 
+	v.x = config.child("player").child("velocity").attribute("x").as_int();
+	data_player.velrun = config.child("player").child("velrun").attribute("x").as_float();
 	
-	data_player.colOffset.x = config.child("colOffset").attribute("x").as_int();
-	data_player.colOffset.y = config.child("colOffset").attribute("y").as_int();
+	data_player.colOffset.x = config.child("player").child("colOffset").attribute("x").as_int();
+	data_player.colOffset.y = config.child("player").child("colOffset").attribute("y").as_int();
 	
-	gravity = config.child("gravity").attribute("grav").as_int();
+	gravity = config.child("player").child("gravity").attribute("grav").as_int();
 
-	LOG("%d %d %d %d", position.x, position.y, v.x, data_player.velrun);
+	LOG("%d %d %d %d %d", position.x, position.y, v.x, data_player.velrun, gravity);
 
-	return ret;
+	return true;
 
 }
 
@@ -52,6 +50,11 @@ bool j1Player::Start() {
 	pretimer = 0;
 	globaltime = SDL_GetTicks();	//Sets the Global time to the death timer
 	
+	data_player.jumpvel = -45;
+	v.x = 5;
+	data_player.velrun = 3;
+	gravity = 15;
+
 	position.x = data_player.ipos.x;
 	position.y = data_player.ipos.y;
 
@@ -80,7 +83,7 @@ bool j1Player::PreUpdate(float dt) {
 bool j1Player::Update(float dt) {
 
 	BROFILER_CATEGORY("Update player", Profiler::Color::Red);
-	LOG("%d %d %d %d", position.x, position.y, v.x, data_player.velrun);
+	LOG("%d %d %d %d %d", position.x, position.y, v.x, data_player.velrun, gravity);
 	
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 

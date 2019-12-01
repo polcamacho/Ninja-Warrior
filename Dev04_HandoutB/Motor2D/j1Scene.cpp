@@ -13,8 +13,7 @@
 #include "j1EntityManager.h"
 #include "j1Entity.h"
 #include "j1Pathfinding.h"
-
-#include <string>
+#include "p2SString.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -50,40 +49,31 @@ bool j1Scene::Awake(pugi::xml_node& config)
 bool j1Scene::Start()
 {
 	
-	CreateEntities();
 	LOG("LOADING MAP");
 	current_map = maps.start->data;
 	
 	if (App->map->Load(current_map.GetString()) == true) {
+		
 		int w, h;
 		uchar* data = NULL;
 		if (App->map->CreateWalkabilityMap(w, h, &data)) {
 			App->pathfinding->SetMap(w, h, data);
-			LOG("%d %d %d 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", w, h, data);
 		}
 
 		RELEASE_ARRAY(data);
 	}	
 
+	CreateEntities();
+
 	//load audio from map 1
 	if (current_map == "Map.tmx") {
-
 		App->audio->PlayMusic("audio/music/map1_music.ogg");
 		jump_FX= App->audio->LoadFx("audio/fx/Jump.wav");
 		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-
 	}
 
 	//load audio from map 2
 	else if(current_map=="map2.tmx") {
-		
-		/*int w, h;
-		uchar* data = NULL;
-		if (App->map->CreateWalkabilityMap(w, h, &data))
-			App->pathfinding->SetMap(w, h, data);
-
-		RELEASE_ARRAY(data);*/
-		
 		App->audio->PlayMusic("audio/music/map2_music.ogg");
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
@@ -97,7 +87,6 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate(float dt)
 {
-	
 	// debug pathfing ------------------
 	static iPoint origin;
 	static bool origin_selected = false;
@@ -136,10 +125,9 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
 
 
-		current_map.create("Map.tmx");				// it starts in map 1 
-
 		App->map->CleanUp();
-		//App->player->CleanUp();						//clean all map and player stuff 
+		current_map.create("Map.tmx");				// it starts in map 1 
+		App->map->Load(current_map.GetString());
 
 		if (current_map == "Map.tmx") {												//load audio from map 1
 
@@ -149,11 +137,16 @@ bool j1Scene::Update(float dt)
 
 		}
 
-		App->map->Load(current_map.GetString());
+		int w, h;
+		uchar* data = NULL;
+		if (App->map->CreateWalkabilityMap(w, h, &data))
+			App->pathfinding->SetMap(w, h, data);
+		RELEASE_ARRAY(data);
+
+		App->entity->CleanEntity();
+		CreateEntities();
+				
 		App->map->Draw();
-		
-		//App->player->data_entity.position.x = 100;
-		//App->player->data_entity.position.y = 300;				// initial position in map 1 by default
 
 	}
 
@@ -162,11 +155,9 @@ bool j1Scene::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
 
 
-		current_map.create("map2.tmx");								// it starts in map 1 
-
 		App->map->CleanUp();
-		
-		//App->player->CleanUp();
+		current_map.create("map2.tmx");								// it starts in map 1 
+		App->map->Load(current_map.GetString());
 
 		//charge map 2 position when player presses F2
 		if (current_map == "map2.tmx") {
@@ -177,13 +168,16 @@ bool j1Scene::Update(float dt)
 
 		}
 
-		App->map->Load(current_map.GetString());
+		int w, h;
+		uchar* data = NULL;
+		if (App->map->CreateWalkabilityMap(w, h, &data))
+			App->pathfinding->SetMap(w, h, data);
+		RELEASE_ARRAY(data);
+
+		App->entity->CleanEntity();
+		CreateEntities();
 		
 		App->map->Draw();
-		
-		//charge map 2 position when F2 is pressed
-		//App->player->data_entity.position.x = 55;
-		//App->player->data_entity.position.y = 10;
 
 	}
 
@@ -198,32 +192,21 @@ bool j1Scene::Update(float dt)
 	//restart map and puts the player at the beginning of it
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
 	{
-		if(current_map=="Map.tmx"){
-		//App->player->data_entity.position.x = 100;
-		//App->player->data_entity.position.y = 300;
-		//App->player->data_entity.player_flip = SDL_FLIP_NONE;
-		}
-
-		else {
-			//App->player->data_entity.position.x = 55;
-			//App->player->data_entity.position.y = 10;
-			//App->player->data_entity.player_flip = SDL_FLIP_NONE;
-		}
+		App->entity->CleanEntity();
+		CreateEntities();
 	}
 
 	//save player position in every map
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
 		
 		App->SaveGame();
-
-		//App->player->data_entity.position.y -= 20;
 	}
 		
 	//load player position in every map
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN)						
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN){
 		App->LoadGame();
-
-	/*// Debug pathfinding ------------------------------
+	}
+	// Debug pathfinding ------------------------------
 	int x = 0, y = 0;
 	App->input->GetMousePosition(x, y);
 	iPoint p = App->render->ScreenToWorld(x, y);
@@ -239,8 +222,18 @@ bool j1Scene::Update(float dt)
 	{
 		iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
 		App->render->Blit(debug_tex, pos.x, pos.y);
-	}*/
+	}
 	
+	/*if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
+		if (App->frame_cap == false) {
+			App->frame_cap = true;
+			App->framecap.create("ON");
+		}
+		else {
+			App->cap = false;
+			App->frame_cap.create("OFF");
+		}
+	}*/
 
 	return true;
 }
@@ -261,6 +254,7 @@ bool j1Scene::PostUpdate(float dt)
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
+	App->tex->UnLoad(debug_tex);
 	return true;
 }
 
@@ -270,14 +264,12 @@ bool j1Scene::Load(pugi::xml_node& data)
 	LOG("Loading Scene state");
 	App->map->CleanUp();
 	App->collider->CleanUp();																//cleans the colliders and map
-	
 	current_map.create(data.child("scene").attribute("name").as_string());					//check which map have to be loaded and load it
 	App->map->Load(current_map.GetString());
 	App->collider->Start();
 	
 	return true;
 }
-
 
 bool j1Scene::Save(pugi::xml_node& data) const
 {
@@ -307,6 +299,13 @@ void j1Scene::SecondMap() {
 	App->map->Draw();
 	App->collider->Start();
 
+	int w, h;
+	uchar* data = NULL;
+	if (App->map->CreateWalkabilityMap(w, h, &data))
+		App->pathfinding->SetMap(w, h, data);
+	App->SaveGame();
+	RELEASE_ARRAY(data);
+
 	//charge map 1 position when initialize the game
 
 	if (current_map == "Map.tmx") {
@@ -330,7 +329,7 @@ void j1Scene::SecondMap() {
 
 bool j1Scene::CreateEntities() {
 
-	App->entity->DrawEntity(100, 100, j1Entity::entity_type::PLAYER);
+	App->entity->DrawEntity(100, 500, j1Entity::entity_type::PLAYER);
 	App->entity->DrawEntity(600, 100, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
 	App->entity->DrawEntity(300, 100, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
 	App->entity->DrawEntity(300, 200, j1Entity::entity_type::BAT_ENEMY);

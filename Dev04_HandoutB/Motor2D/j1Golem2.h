@@ -26,22 +26,12 @@ enum states_entity3 {
 struct GolemData2
 {
 
-	Animation		hurt;
 	Animation		death;
-	Animation		attack;
 
-	bool			move = false;
-	bool			TimeAttack = false;
 	bool			pathfinding = true;
-
-	int				jumpCounter = 2;
 
 	iPoint			colOffset;
 	iPoint			ipos;
-
-	SDL_Texture*	Tex_Golem;
-	
-	
 
 };
 

@@ -25,17 +25,17 @@ j1Map::~j1Map()
 bool j1Map::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Map Parser");
-	bool ret = true;
-
+	
 	folder.create(config.child("folder").child_value());
 	
-	return ret;
+	return true;
 }
 // ----------------------------------------------------
 void j1Map::Draw()
 {
 	BROFILER_CATEGORY("Draw Map",Profiler::Color::Chocolate)
-	if (map_loaded == false)
+	
+		if (map_loaded == false)
 		return;
 
 	//Loop all tilesets and layers and Blit
@@ -610,11 +610,6 @@ bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 				if (tile_id != 0)
 				{
 					map[i] = 0;
-					/*TileType* ts = tileset->GetTileType(tile_id);
-					if(ts != NULL)
-					{
-						map[i] = ts->properties.Get("walkable", 1);
-					}*/
 				}
 			}
 		}

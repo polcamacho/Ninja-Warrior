@@ -17,8 +17,9 @@
 #include "..//Brofiler/Brofiler.h"
 
 
-j1Golem1::j1Golem1(int x, int y) : j1Entity(entity_type::PLAYER)
+j1Golem1::j1Golem1(int x, int y) : j1Entity(entity_type::GOLEM_GRASS_ENEMY)
 {
+	name.create("golem_grass");
 	data_golem.ipos.x = x;
 	data_golem.ipos.y = y;
 	pathT = App->tex->Load("maps/cross.png");
@@ -35,9 +36,9 @@ bool j1Golem1::Awake(pugi::xml_node& config) {
 
 	//Load All Player Features from Config
 
-	v.x = config.child("velocity").attribute("x").as_int();
+	v.x = config.child("golem_grass").child("velocity").attribute("x").as_int();
 		
-	gravity = config.child("gravity").attribute("grav").as_float();
+	gravity = config.child("golem_grass").child("gravity").attribute("grav").as_float();
 
 	return ret;
 
@@ -49,7 +50,8 @@ bool j1Golem1::Start() {
 	globaltime = SDL_GetTicks();	//Sets the Global time to the death timer
 	position.x = data_golem.ipos.x;
 	position.y = data_golem.ipos.y;
-
+	v.x = 5;
+	gravity = 15;
 	Pushbacks();	//Call all the Pushback of animations
 	
 	current_animation = &idle;
@@ -255,7 +257,7 @@ void j1Golem1::Pushbacks() {
 	walk.loop = true;
 
 	//Sets the Attack Animation
-	data_golem.attack.PushBack({ 0,152,44,63 }, 0.3, 0, 0);
+	/*data_golem.attack.PushBack({ 0,152,44,63 }, 0.3, 0, 0);
 	data_golem.attack.PushBack({ 46,152,45,63 }, 0.3, 0, 0);
 	data_golem.attack.PushBack({ 95,152,69,65 }, 0.3, 0, 0);
 	data_golem.attack.PushBack({ 168,152,67,66 }, 0.3, 0, 0);
@@ -267,10 +269,10 @@ void j1Golem1::Pushbacks() {
 	data_golem.attack.PushBack({ 593,152,64,65 }, 0.3, 0, 0);
 	data_golem.attack.PushBack({ 662,152,61,65 }, 0.3, 0, 0);
 	data_golem.attack.PushBack({ 729,152,64,64 }, 0.3, 0, 0);
-	data_golem.attack.loop = false;
+	data_golem.attack.loop = false;*/
 
 	//Sets the Hurt Animation
-	data_golem.hurt.PushBack({ 0,228,42,64 }, 0.3, 0, 0);
+	/*data_golem.hurt.PushBack({ 0,228,42,64 }, 0.3, 0, 0);
 	data_golem.hurt.PushBack({ 47,228,44,65 }, 0.3, 0, 0);
 	data_golem.hurt.PushBack({ 97,228,44,66 }, 0.3, 0, 0);
 	data_golem.hurt.PushBack({ 147,228,45,64 }, 0.3, 0, 0);
@@ -282,7 +284,7 @@ void j1Golem1::Pushbacks() {
 	data_golem.hurt.PushBack({ 484,228,45,62 }, 0.3, 0, 0);
 	data_golem.hurt.PushBack({ 535,228,44,61 }, 0.3, 0, 0);
 	data_golem.hurt.PushBack({ 585,228,43,62 }, 0.3, 0, 0);
-	data_golem.hurt.loop = false;
+	data_golem.hurt.loop = false;*/
 
 	//Sets the Death Animation
 	data_golem.death.PushBack({ 0,305,42,64 }, 0.3, 0, 0);
@@ -310,8 +312,8 @@ void j1Golem1::CheckState(float dt)
 		current_animation = &walk;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_REPEAT) {
-		current_animation = &data_golem.attack;
-		data_golem.attack.Reset();
+		//current_animation = &data_golem.attack;
+		//data_golem.attack.Reset();
 	}
 	if (App->input->GetKey(SDL_SCANCODE_V) == KEY_REPEAT) {
 		current_animation = &data_golem.death;
@@ -319,8 +321,8 @@ void j1Golem1::CheckState(float dt)
 
 	}
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) {
-		current_animation = &data_golem.hurt;
-		data_golem.hurt.Reset();
+		//current_animation = &data_golem.hurt;
+		//data_golem.hurt.Reset();
 
 	}
 

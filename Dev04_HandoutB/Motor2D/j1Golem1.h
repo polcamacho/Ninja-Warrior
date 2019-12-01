@@ -26,27 +26,13 @@ enum states_entity2 {
 struct GolemData
 {
 
-	Animation		hurt;
 	Animation		death;
-	Animation		attack;
 	
-	bool			move=false;
-
-	int jumpCounter = 2;
+	bool			pathfinding = true;
 
 	iPoint			colOffset;
-	SDL_Texture*	Tex_Golem;
-	
-	bool TimeAttack = false;
-		   
-	iPoint		ipos;
+	iPoint			ipos;
 
-	iPoint golem_grass_pos;
-	iPoint player_pos;
-	iPoint player_position;
-	iPoint next_position;
-
-	bool pathfinding = true;
 };
 
 // ----------------------------------------------------

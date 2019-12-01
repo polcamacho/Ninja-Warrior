@@ -26,7 +26,7 @@
 j1EntityManager::j1EntityManager()
 {
 	name.create("entitymanager");
-}
+}				
 
 j1EntityManager::~j1EntityManager() {
 }
@@ -40,6 +40,7 @@ bool j1EntityManager::Awake(pugi::xml_node& config)
 	texture2 = node.child("texture").attribute("source2").as_string();
 	texture3 = node.child("texture").attribute("source3").as_string();
 	
+
 	return true;
 }
 
@@ -168,6 +169,8 @@ j1Entity* j1EntityManager::DrawEntity(int x, int y, j1Entity::entity_type type)
 			}
 			break;
 		}
+
+
 		
 
 
