@@ -6,17 +6,17 @@
 	<audio />
 	<map />
 	<scene>
-		<scene name="Map.tmx" />
+		<scene name="map2.tmx" />
 	</scene>
 	<:anonymous />
 	<pathfinding />
 	<:anonymous />
 	<entitymanager>
-		<playerposition x="5839" y="1167" />
-		<golem2position x="550" y="141" />
-		<batposition x="606" y="140" />
+		<playerposition x="6645" y="222" />
+		<golem1position x="5287" y="638" />
+		<batposition x="621" y="308" />
 	</entitymanager>
 	<renderer>
-		<camera x="-5319" y="-630" />
+		<camera x="-6125" y="0" />
 	</renderer>
 </game_state>

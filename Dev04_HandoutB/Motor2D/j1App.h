@@ -95,8 +95,8 @@ public:
 	j1Collider*			collider;
 	j1PathFinding*		pathfinding;
 	j1FadeToBlack*		fade;
-	bool				cap = false;
-	p2SString			vsync;
+	bool				is_cap = false;
+	p2SString			vsync_value;
 
 	p2SString			framerate_cap;
 	

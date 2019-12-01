@@ -92,7 +92,7 @@ bool j1App::Awake()
 {
 	PERF_START(ptimer);
 
-	vsync.create("FALSE");
+	vsync_value.create("FALSE");
 	framerate_cap.create("ON");
 
 	pugi::xml_document	config_file;
@@ -100,7 +100,7 @@ bool j1App::Awake()
 	pugi::xml_node		app_config;
 
 	bool ret = false;
-	cap = true;
+	is_cap = true;
 	config = LoadConfig(config_file);
 
 	if(config.empty() == false)
@@ -240,7 +240,7 @@ void j1App::FinishUpdate()
 
 	static char title[256];
 	sprintf_s(title, 256, "NINJA WARRIOR( Av.FPS: %.2f Last Frame Ms: %02u Last sec frames: %i  Time since startup: %.3f Vsync: %s FrameCap: %s )",
-		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, vsync.GetString(), framerate_cap.GetString());
+		avg_fps, last_frame_ms, frames_on_last_update, seconds_since_startup, vsync_value.GetString(), framerate_cap.GetString());
 	App->win->SetTitle(title);
 
 	// TODO 2: Use SDL_Delay to make sure you get your capped framerate

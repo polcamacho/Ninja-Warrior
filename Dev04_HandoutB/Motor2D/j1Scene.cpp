@@ -293,7 +293,10 @@ bool j1Scene::Save(pugi::xml_node& data) const
 
 void j1Scene::SecondMap() {
 
+
 	App->map->CleanUp();
+	App->entity->CleanEntity();
+	
 	p2List_item<p2SString>* iterator;
 	for (iterator = maps.start; iterator->data != current_map.GetString(); iterator = iterator->next) {
 	}
@@ -306,7 +309,29 @@ void j1Scene::SecondMap() {
 	uchar* data = NULL;
 	if (App->map->CreateWalkabilityMap(w, h, &data))
 		App->pathfinding->SetMap(w, h, data);
-	App->SaveGame();
+	App->map->Draw();
+
+	if (current_map == "Map.tmx") {
+
+		App->entity->DrawEntity(100, 500, j1Entity::entity_type::PLAYER);
+		App->entity->DrawEntity(2550, 200, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
+		App->entity->DrawEntity(5250, 400, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
+		App->entity->DrawEntity(4000, 200, j1Entity::entity_type::BAT_ENEMY);
+		App->entity->DrawEntity(700, 200, j1Entity::entity_type::BAT_ENEMY);
+
+	}
+
+	else if (current_map == "map2.tmx") {
+
+		App->entity->DrawEntity(55, 100, j1Entity::entity_type::PLAYER);
+		App->entity->DrawEntity(1500, 500, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
+		App->entity->DrawEntity(500, 100, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
+		App->entity->DrawEntity(700, 100, j1Entity::entity_type::BAT_ENEMY);
+		App->entity->DrawEntity(2000, 1000, j1Entity::entity_type::BAT_ENEMY);
+
+
+
+	}
 	RELEASE_ARRAY(data);
 
 	//charge map 1 position when initialize the game
