@@ -544,10 +544,6 @@ bool j1Map::LoadObject(pugi::xml_node& objectnode, ObjectGroup* objectgroup) {
 			{
 				App->collider->AddCollider(&objectgroup->object[i], COLLIDER_NEXT);
 			}
-			if (type == "checkpoint")
-			{
-				App->collider->AddCollider(&objectgroup->object[i], COLLIDER_CHECKPOINT);
-			}
 			
 			objectid = objectid.next_sibling("object");
 
