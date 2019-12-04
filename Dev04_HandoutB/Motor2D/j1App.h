@@ -19,7 +19,8 @@ class j1EntityManager;
 class j1Collider;
 class j1PathFinding;
 class j1FadeToBlack;
-
+class j1Fonts;
+class j1Gui;
 
 
 class j1App
@@ -95,6 +96,9 @@ public:
 	j1Collider*			collider;
 	j1PathFinding*		pathfinding;
 	j1FadeToBlack*		fade;
+	j1Fonts*			fonts;
+	j1Gui*				gui;
+	
 	bool				is_cap = false;
 	p2SString			vsync_value;
 

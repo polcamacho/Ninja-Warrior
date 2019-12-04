@@ -30,7 +30,6 @@
     <map name="map2.tmx" />
   </scene>
 	
-
   <entitymanager>
    
     <folder>textures/</folder>
@@ -43,5 +42,9 @@
     <colOffset x="11" y="8" />
 
   </entitymanager>
+
+  <gui>
+    <atlas file="gui/atlas.png"/>
+  </gui>
 	
 </config>

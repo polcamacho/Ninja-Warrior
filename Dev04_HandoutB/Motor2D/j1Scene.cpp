@@ -13,6 +13,8 @@
 #include "j1EntityManager.h"
 #include "j1Entity.h"
 #include "j1Pathfinding.h"
+#include "j1Fonts.h"
+#include "j1Gui.h"
 #include "p2SString.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -80,6 +82,10 @@ bool j1Scene::Start()
 	}
 	
 	debug_tex = App->tex->Load("maps/cross.png");
+
+	// TODO 3: Create the banner (rect {485, 829, 328, 103}) as a UI element
+	// TODO 4: Create the text "Hello World" as a UI element
+	
 
 	return true;
 }
@@ -305,13 +311,20 @@ void j1Scene::SecondMap() {
 	current_map = iterator->data;
 
 	App->map->Load(current_map.GetString());
+	
 	int w, h;
 	uchar* data = NULL;
 	if (App->map->CreateWalkabilityMap(w, h, &data))
 		App->pathfinding->SetMap(w, h, data);
+	RELEASE_ARRAY(data);
+
 	App->map->Draw();
 
 	if (current_map == "Map.tmx") {
+
+		App->audio->PlayMusic("audio/music/map1_music.ogg");
+		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
+		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
 
 		App->entity->DrawEntity(100, 500, j1Entity::entity_type::PLAYER);
 		App->entity->DrawEntity(2550, 200, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
@@ -323,35 +336,17 @@ void j1Scene::SecondMap() {
 
 	else if (current_map == "map2.tmx") {
 
+		App->audio->PlayMusic("audio/music/map2_music.ogg");
+		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
+		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
+
 		App->entity->DrawEntity(55, 100, j1Entity::entity_type::PLAYER);
 		App->entity->DrawEntity(1500, 500, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
 		App->entity->DrawEntity(500, 100, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
 		App->entity->DrawEntity(700, 100, j1Entity::entity_type::BAT_ENEMY);
 		App->entity->DrawEntity(2000, 1000, j1Entity::entity_type::BAT_ENEMY);
 
-
-
 	}
-	RELEASE_ARRAY(data);
-
-	//charge map 1 position when initialize the game
-
-	if (current_map == "Map.tmx") {
-
-		App->audio->PlayMusic("audio/music/map1_music.ogg");
-		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
-		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-	}
-
-	//charge map 2 position when player completes level 1
-	else if (current_map == "map2.tmx") {
-
-		App->audio->PlayMusic("audio/music/map2_music.ogg");
-		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
-		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-	}
-
-
 
 }
 
@@ -374,12 +369,8 @@ bool j1Scene::CreateEntities() {
 		App->entity->DrawEntity(500, 100, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
 		App->entity->DrawEntity(700, 100, j1Entity::entity_type::BAT_ENEMY);
 		App->entity->DrawEntity(2000, 1000, j1Entity::entity_type::BAT_ENEMY);
-	
-
 		
 	}
-
-
 
 	return true;
 }
