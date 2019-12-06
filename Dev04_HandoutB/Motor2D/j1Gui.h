@@ -7,10 +7,27 @@
 
 // TODO 1: Create your structure of classes
 
-enum class GuiType {
+enum Type_GUI {
+	NONE,
 	BUTTON,
-	TEXT,
-	IMAGE
+	ST_IMG,
+	ST_TXT,
+	ET_TXT,
+};
+
+struct GUI {
+	GUI(SDL_Rect& rect);
+	virtual ~GUI() {};
+	iPoint pos;
+	SDL_Rect dimensions;
+	int type;
+	virtual void Update() {};
+};
+
+struct button : GUI {
+	button(SDL_Rect& rect);
+	bool Pushed();
+	void Update(float dt);
 };
 
 // ---------------------------------------------------
@@ -30,10 +47,10 @@ public:
 	bool Start();
 
 	// Called before all Updates
-	bool PreUpdate();
+	bool PreUpdate(float dt);
 
 	// Called after all Updates
-	bool PostUpdate();
+	bool PostUpdate(float dt);
 
 	// Called before quitting
 	bool CleanUp();
@@ -41,13 +58,14 @@ public:
 	// TODO 2: Create the factory methods
 
 	// Gui creation functions
-	bool AddButton(int x, int y, SDL_Rect rect);
+	void AddElement(Type_GUI type, SDL_Rect& dimensions);
 	const SDL_Texture* GetAtlas() const;
-
+	SDL_Texture* atlas = nullptr;
 private:
 
-	SDL_Texture* atlas = nullptr;
+
 	p2SString atlas_file_name;
+	p2List<GUI*> type_list;
 };
 
 #endif // __j1GUI_H__
