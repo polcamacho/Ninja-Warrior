@@ -12,6 +12,15 @@ j1Gui::j1Gui() : j1Module()
 	name.create("gui");
 }
 
+GUI::GUI(SDL_Rect& rect) {
+	dimensions.x = rect.x;
+	dimensions.y = rect.y;
+	dimensions.w = rect.w;
+	dimensions.h = rect.h;
+	pos.x = 100;
+	pos.y = 100;
+}
+
 // Destructor
 j1Gui::~j1Gui()
 {}
@@ -47,12 +56,18 @@ bool j1Gui::PreUpdate(float dt)
 	return true;
 }
 
+bool j1Gui::Update(float dt) {
+
+	return true;
+}
+
 // Called after all Updates
 bool j1Gui::PostUpdate(float dt)
 {
-	type_list.start->data->Update();
+	
 	return true;
 }
+
 
 // Called before quitting
 bool j1Gui::CleanUp()
@@ -75,6 +90,7 @@ void j1Gui::AddElement(Type_GUI type, SDL_Rect& measures) {
 		break;
 	case BUTTON:
 		type_list.add(but);
+		but->UpdateButton();
 		break;
 	case ST_IMG:
 
@@ -86,15 +102,6 @@ void j1Gui::AddElement(Type_GUI type, SDL_Rect& measures) {
 
 		break;
 	}
-}
-
-GUI::GUI(SDL_Rect& rect) {
-	dimensions.x = rect.x;
-	dimensions.y = rect.y;
-	dimensions.w = rect.w;
-	dimensions.h = rect.h;
-	pos.x = 50;
-	pos.y = 50;
 }
 
 button::button(SDL_Rect& rect) : GUI(rect) {
@@ -111,10 +118,11 @@ bool button::Pushed() {
 	return false;
 }
 
-void button::Update(float dt) {
+void button::UpdateButton() {
 	if (Pushed() == false) {
 		dimensions.x = 416;
 		App->render->Blit(App->gui->atlas, pos.x, pos.y, &dimensions);
+		LOG("GGGGGGGG");
 	}
 	else {
 		dimensions.x = 647;

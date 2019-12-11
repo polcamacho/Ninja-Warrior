@@ -21,13 +21,13 @@ struct GUI {
 	iPoint pos;
 	SDL_Rect dimensions;
 	int type;
-	virtual void Update() {};
 };
 
 struct button : GUI {
 	button(SDL_Rect& rect);
 	bool Pushed();
-	void Update(float dt);
+	void UpdateButton();
+	
 };
 
 // ---------------------------------------------------
@@ -48,6 +48,8 @@ public:
 
 	// Called before all Updates
 	bool PreUpdate(float dt);
+
+	bool Update(float dt);
 
 	// Called after all Updates
 	bool PostUpdate(float dt);
