@@ -15,6 +15,7 @@
 #include "j1Pathfinding.h"
 #include "j1Fonts.h"
 #include "j1Gui.h"
+#include "j1MainMenu.h"
 #include "p2SString.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -30,6 +31,9 @@ j1Scene::~j1Scene()
 bool j1Scene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
+
+	App->map->Enable();
+
 	pugi::xml_node map;
 	for (map= config.child("map"); map; map = map.next_sibling("map"))
 	{
@@ -50,43 +54,45 @@ bool j1Scene::Awake(pugi::xml_node& config)
 // Loads map and audio
 bool j1Scene::Start()
 {
-	
-	LOG("LOADING MAP");
-	current_map = maps.start->data;
-	
-	if (App->map->Load(current_map.GetString()) == true) {
+	if (App->map->active==true) {
+
 		
-		int w, h;
-		uchar* data = NULL;
-		if (App->map->CreateWalkabilityMap(w, h, &data)) {
-			App->pathfinding->SetMap(w, h, data);
+		LOG("LOADING MAP");
+		current_map = maps.start->data;
+	
+		if (App->map->Load(current_map.GetString()) == true) {
+		
+			int w, h;
+			uchar* data = NULL;
+			if (App->map->CreateWalkabilityMap(w, h, &data)) {
+				App->pathfinding->SetMap(w, h, data);
+			}
+
+			RELEASE_ARRAY(data);
+		}	
+
+		CreateEntities();
+
+		//load audio from map 1
+		if (current_map == "Map.tmx") {
+			App->audio->PlayMusic("audio/music/map1_music.ogg");
+			jump_FX= App->audio->LoadFx("audio/fx/Jump.wav");
+			death_FX = App->audio->LoadFx("audio/fx/Death.wav");
 		}
 
-		RELEASE_ARRAY(data);
-	}	
-
-	CreateEntities();
-
-	//load audio from map 1
-	if (current_map == "Map.tmx") {
-		App->audio->PlayMusic("audio/music/map1_music.ogg");
-		jump_FX= App->audio->LoadFx("audio/fx/Jump.wav");
-		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-	}
-
-	//load audio from map 2
-	else if(current_map=="map2.tmx") {
-		App->audio->PlayMusic("audio/music/map2_music.ogg");
-		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
-		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-	}
+		//load audio from map 2
+		else if(current_map=="map2.tmx") {
+			App->audio->PlayMusic("audio/music/map2_music.ogg");
+			jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
+			death_FX = App->audio->LoadFx("audio/fx/Death.wav");
+		}
 	
-	debug_tex = App->tex->Load("maps/cross.png");
+		debug_tex = App->tex->Load("maps/cross.png");
 
-	// TODO 3: Create the banner (rect {485, 829, 328, 103}) as a UI element
-	// TODO 4: Create the text "Hello World" as a UI element
+		// TODO 3: Create the banner (rect {485, 829, 328, 103}) as a UI element
+		// TODO 4: Create the text "Hello World" as a UI element
 	
-
+	}
 	return true;
 }
 

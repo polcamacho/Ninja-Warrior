@@ -16,6 +16,7 @@
 j1Map::j1Map() : j1Module(), map_loaded(false)
 {
 	name.create("map");	
+
 }
 // ----------------------------------------------------
 // Destructor
@@ -27,7 +28,7 @@ bool j1Map::Awake(pugi::xml_node& config)
 	LOG("Loading Map Parser");
 	
 	folder.create(config.child("folder").child_value());
-	
+
 	return true;
 }
 // ----------------------------------------------------

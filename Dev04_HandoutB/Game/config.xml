@@ -44,6 +44,7 @@
   </entitymanager>
 
   <gui>
+    <background file="gui/bg.png"/>
     <atlas file="gui/atlas.png"/>
   </gui>
   

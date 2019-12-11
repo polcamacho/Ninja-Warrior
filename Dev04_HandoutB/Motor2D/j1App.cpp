@@ -21,6 +21,7 @@
 #include "j1Entity.h"
 #include "j1Fonts.h"
 #include "j1Gui.h"
+#include "j1MainMenu.h"
 #include "..//Brofiler/Brofiler.h"
 
 
@@ -39,6 +40,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	tex = new j1Textures();
 	audio = new j1Audio();
 	scene = new j1Scene();
+	main_menu = new j1MainMenu();
 	map = new j1Map();
 	collider = new j1Collider();
 	pathfinding = new j1PathFinding();
@@ -54,6 +56,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win);
 	AddModule(tex);
 	AddModule(audio);
+	AddModule(main_menu);
 	AddModule(map);
 	AddModule(scene);
 	AddModule(collider);
@@ -150,12 +153,18 @@ bool j1App::Start()
 	p2List_item<j1Module*>* item;
 	item = modules.start;
 
+	entity->Disable();
+	//map->Disable();
+	pathfinding->Disable();
+
 	while(item != NULL && ret == true)
 	{
 		ret = item->data->Start();
 		item = item->next;
 	}
 	//startup_time.Start();
+
+
 
 	PERF_PEEK(ptimer);
 

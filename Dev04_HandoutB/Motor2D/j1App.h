@@ -21,7 +21,7 @@ class j1PathFinding;
 class j1FadeToBlack;
 class j1Fonts;
 class j1Gui;
-
+class j1MainMenu;
 
 class j1App
 {
@@ -98,6 +98,7 @@ public:
 	j1FadeToBlack*		fade;
 	j1Fonts*			fonts;
 	j1Gui*				gui;
+	j1MainMenu*			main_menu;
 	
 	bool				is_cap = false;
 	p2SString			vsync_value;

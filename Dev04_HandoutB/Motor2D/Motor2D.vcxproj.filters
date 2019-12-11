@@ -73,6 +73,9 @@
     <ClCompile Include="j1Fonts.cpp">
       <Filter>Desenvolupament  ========\Modules\Code</Filter>
     </ClCompile>
+    <ClCompile Include="j1MainMenu.cpp">
+      <Filter>Desenvolupament  ========\Modules\Code</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h">
@@ -166,6 +169,9 @@
       <Filter>Desenvolupament  ========\Modules\Header</Filter>
     </ClInclude>
     <ClInclude Include="j1Fonts.h">
+      <Filter>Desenvolupament  ========\Modules\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="j1MainMenu.h">
       <Filter>Desenvolupament  ========\Modules\Header</Filter>
     </ClInclude>
   </ItemGroup>
