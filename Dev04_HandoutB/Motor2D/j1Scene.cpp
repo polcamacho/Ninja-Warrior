@@ -32,7 +32,6 @@ bool j1Scene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
 
-	App->map->Enable();
 
 	pugi::xml_node map;
 	for (map= config.child("map"); map; map = map.next_sibling("map"))
@@ -103,7 +102,7 @@ bool j1Scene::PreUpdate(float dt)
 	static iPoint origin;
 	static bool origin_selected = false;
 
-	int x, y;
+	/*int x, y;
 	App->input->GetMousePosition(x, y);
 	iPoint p = App->render->ScreenToWorld(x, y);
 	p = App->map->WorldToMap(p.x, p.y);
@@ -123,7 +122,7 @@ bool j1Scene::PreUpdate(float dt)
 		
 			origin_selected = true;
 		}
-	}
+	}*/
 
 	return true;
 }

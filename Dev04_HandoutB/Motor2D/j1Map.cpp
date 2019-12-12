@@ -26,7 +26,6 @@ j1Map::~j1Map()
 bool j1Map::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Map Parser");
-	
 	folder.create(config.child("folder").child_value());
 
 	return true;

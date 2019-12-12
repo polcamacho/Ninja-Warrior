@@ -2,9 +2,10 @@
 #include "j1MainMenu.h"
 #include "j1Textures.h"
 #include "j1Render.h"
-#include "j1Player.h"
+#include "j1EntityManager.h"
 #include "j1Input.h"
 #include "j1FadeToBlack.h"
+#include "j1Pathfinding.h"
 #include "j1Audio.h"
 #include "j1Map.h"
 #include "p2Log.h"
@@ -43,7 +44,6 @@ bool j1MainMenu::Start()
 	rec.y = 172;
 	rec.w = 218;
 	rec.h = 58;
-	App->render->Blit(App->main_menu->introTexture, 50, 50);
 
 	LOG("START MAIN MENU");
 
@@ -52,7 +52,7 @@ bool j1MainMenu::Start()
 	//welcomeScreenMusic = App->audio->PlayMusic("media/Music/welcomescreen.ogg");
 
 	//App->audio->PlayMusic(welcomeScreenMusic);
-	App->map->Disable();
+
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;
 	LOG("MAIN MENU");
@@ -74,11 +74,14 @@ bool j1MainMenu::CleanUp()
 
 bool j1MainMenu::Update(float dt)
 {
-	
+	App->render->Blit(App->main_menu->introTexture, 10, 10);
+
 	// TODO 2: make so pressing SPACE the KEN stage is loaded
 	if (App->input->GetKey(SDL_SCANCODE_SPACE)==KEY_DOWN)
 	{
 		App->fade->FadeToBlack(App->main_menu, App->map, 2);
+		App->map->Enable();
+
 	}
 
 	return true;
