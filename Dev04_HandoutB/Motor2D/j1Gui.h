@@ -1,10 +1,15 @@
+#pragma once
+#include "j1Module.h"
+#include "p2List.h"
+
 #ifndef __j1GUI_H__
 #define __j1GUI_H__
 
-#include "j1Module.h"
-#include "UI_element.h"
-
 #define CURSOR_WIDTH 2
+
+struct SDL_Texture;
+struct SDL_Rect;
+class UI_element;
 
 // TODO 1: Create your structure of classes
 
@@ -46,7 +51,7 @@ public:
 	// TODO 2: Create the factory methods
 
 	// Gui creation functions
-	void CreateButton(SDL_Rect& dimensions);
+	UI_element* CreateButton(SDL_Rect& dimensions);
 	void CreateImage(SDL_Rect& dimensions);
 	void CreateText(SDL_Rect& dimensions);
 	void CreateSlider(SDL_Rect& dimensions);
@@ -61,7 +66,7 @@ private:
 
 	SDL_Texture* atlas = nullptr;
 	p2SString atlas_file_name;
-	p2List<j1GUI*> type_list;
+	p2List<j1Gui*> type_list;
 };
 
 #endif // __j1GUI_H__
