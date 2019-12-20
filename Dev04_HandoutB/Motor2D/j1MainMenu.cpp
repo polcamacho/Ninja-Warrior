@@ -2,12 +2,10 @@
 #include "j1MainMenu.h"
 #include "j1Textures.h"
 #include "j1Render.h"
-#include "j1EntityManager.h"
 #include "j1Input.h"
 #include "j1FadeToBlack.h"
-#include "j1Pathfinding.h"
 #include "j1Audio.h"
-#include "j1Map.h"
+#include "j1Scene.h"
 #include "p2Log.h"
 
 
@@ -55,6 +53,7 @@ bool j1MainMenu::Start()
 
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;
+
 	LOG("MAIN MENU");
 
 	return ret;
@@ -63,7 +62,7 @@ bool j1MainMenu::Start()
 bool j1MainMenu::CleanUp()
 {
 
-	LOG("Unloading honda stage");
+	LOG("Unloading main menu");
 	App->tex->UnLoad(graphics);
 	App->tex->UnLoad(introTexture);
 
@@ -74,13 +73,13 @@ bool j1MainMenu::CleanUp()
 
 bool j1MainMenu::Update(float dt)
 {
-	App->render->Blit(App->main_menu->introTexture, 10, 10);
 
+	App->render->Blit(App->main_menu->introTexture, 0, 0);
 	// TODO 2: make so pressing SPACE the KEN stage is loaded
 	if (App->input->GetKey(SDL_SCANCODE_SPACE)==KEY_DOWN)
 	{
-		App->fade->FadeToBlack(App->main_menu, App->map, 2);
-		App->map->Enable();
+		App->fade->FadeToBlack(App->main_menu, App->scene, 2);
+		App->scene->Enable();
 
 	}
 

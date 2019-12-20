@@ -51,10 +51,10 @@ public:
 	// TODO 2: Create the factory methods
 
 	// Gui creation functions
-	UI_element* CreateButton(SDL_Rect& dimensions);
-	void CreateImage(SDL_Rect& dimensions);
+	UI_element* CreateButton(int x, int y, SDL_Rect& dimensions, j1Module* Observer);
+	/*void CreateImage(SDL_Rect& dimensions);
 	void CreateText(SDL_Rect& dimensions);
-	void CreateSlider(SDL_Rect& dimensions);
+	void CreateSlider(SDL_Rect& dimensions);*/
 
 	const SDL_Texture* GetAtlas() const;
 

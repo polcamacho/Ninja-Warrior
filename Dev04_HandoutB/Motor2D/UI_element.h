@@ -14,7 +14,7 @@ class UI_element
 public:
 
 	UI_element();
-	UI_element(int x, int y, UI_element* parent, j1Module* CallBack);
+	UI_element(int x, int y, UI_element* parent, j1Module* Observer);
 
 	//Destructor
 	virtual ~UI_element() {}
@@ -23,21 +23,32 @@ public:
 	virtual bool Update(float dt);
 
 	// Called each loop iteration
-	virtual bool Draw();
+	virtual bool DrawUI();
 
 	// Called before quitting
 	virtual bool CleanUp();
 
+	bool IsIntersection();
+
 
 public:
+
+	//UI elements position and dimensions
 	iPoint pos;
 	SDL_Rect dimensions;
-	int type;
+
+	iPoint mouse_pos;
+	//int type;
+
 
 	SDL_Texture* atlas = nullptr;
-	UI_element*	element_UI;
 
-	j1Module* callback = nullptr;
+	j1Module* Observer = nullptr;
+
+	bool destroy = false;
+
+	//pointer to an element
+	UI_element*	element_UI;
 };
 
 

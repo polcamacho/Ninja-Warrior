@@ -73,9 +73,9 @@ bool j1Gui::CleanUp()
 // const getter for atlas
 const SDL_Texture* j1Gui::GetAtlas() const { return atlas; }
 
-// class Gui ---------------------------------------------------
+// class Gui
 
-UI_element* j1Gui::CreateButton(SDL_Rect& measures) {
+UI_element* j1Gui::CreateButton(int x, int y, SDL_Rect& dimensions, j1Module* Observer) {
 	/*button* but = new button(measures);
 	switch (type) {
 	case NONE:
