@@ -67,14 +67,17 @@
     <ClCompile Include="j1Bat.cpp">
       <Filter>Desenvolupament  ========\Modules\Entities\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="j1Gui.cpp">
-      <Filter>Desenvolupament  ========\Modules\Code</Filter>
-    </ClCompile>
     <ClCompile Include="j1Fonts.cpp">
       <Filter>Desenvolupament  ========\Modules\Code</Filter>
     </ClCompile>
     <ClCompile Include="j1MainMenu.cpp">
       <Filter>Desenvolupament  ========\Modules\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Gui.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_element.cpp">
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -165,14 +168,17 @@
     <ClInclude Include="j1Bat.h">
       <Filter>Desenvolupament  ========\Modules\Entities\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="j1Gui.h">
-      <Filter>Desenvolupament  ========\Modules\Header</Filter>
-    </ClInclude>
     <ClInclude Include="j1Fonts.h">
       <Filter>Desenvolupament  ========\Modules\Header</Filter>
     </ClInclude>
     <ClInclude Include="j1MainMenu.h">
       <Filter>Desenvolupament  ========\Modules\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Gui.h">
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_element.h">
+      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -211,6 +217,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\Modules\Header">
       <UniqueIdentifier>{545c9193-7568-4733-8f6c-9d1ed102230f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\GUI">
+      <UniqueIdentifier>{e72010b6-2be1-4fdc-8cfb-5fa78bfec6c8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
