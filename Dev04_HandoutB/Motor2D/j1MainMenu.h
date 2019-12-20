@@ -22,7 +22,6 @@ public:
 
 	SDL_Texture* graphics = nullptr;
 	SDL_Texture* introTexture = nullptr;
-	//int welcomeScreenMusic = 0;
 
 private:
 	p2SString background_image;

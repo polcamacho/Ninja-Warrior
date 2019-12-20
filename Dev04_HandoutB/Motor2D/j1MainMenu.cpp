@@ -49,7 +49,7 @@ bool j1MainMenu::Start()
 	//introTexture = App->tex->Load("media/WelcomeScreen/introtitle.png");
 	//welcomeScreenMusic = App->audio->PlayMusic("media/Music/welcomescreen.ogg");
 
-	//App->audio->PlayMusic(welcomeScreenMusic);
+	App->audio->PlayMusic("audio/music/main_menu_music.ogg");
 
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;
@@ -65,8 +65,7 @@ bool j1MainMenu::CleanUp()
 	LOG("Unloading main menu");
 	App->tex->UnLoad(graphics);
 	App->tex->UnLoad(introTexture);
-
-	//App->audio->CleanUp();
+	App->audio->CleanUp();
 
 	return true;
 }
