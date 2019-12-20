@@ -2,33 +2,19 @@
 #define __j1GUI_H__
 
 #include "j1Module.h"
+#include "UI_element.h"
 
 #define CURSOR_WIDTH 2
 
 // TODO 1: Create your structure of classes
 
-enum Type_GUI {
-	NONE,
-	BUTTON,
-	ST_IMG,
-	ST_TXT,
-	ET_TXT,
-};
-
-struct GUI {
-	GUI(SDL_Rect& rect);
-	virtual ~GUI() {};
-	iPoint pos;
-	SDL_Rect dimensions;
-	int type;
-};
-
-struct button : GUI {
-	button(SDL_Rect& rect);
-	bool Pushed();
-	void UpdateButton();
-	
-};
+//enum UI_type {
+//	NONE,
+//	BUTTON,
+//	ST_IMG,
+//	ST_TXT,
+//	ET_TXT,
+//};
 
 // ---------------------------------------------------
 class j1Gui : public j1Module
@@ -60,14 +46,22 @@ public:
 	// TODO 2: Create the factory methods
 
 	// Gui creation functions
-	void AddElement(Type_GUI type, SDL_Rect& dimensions);
+	void CreateButton(SDL_Rect& dimensions);
+	void CreateImage(SDL_Rect& dimensions);
+	void CreateText(SDL_Rect& dimensions);
+	void CreateSlider(SDL_Rect& dimensions);
+
 	const SDL_Texture* GetAtlas() const;
-	SDL_Texture* atlas = nullptr;
+
+public:
+
+	UI_element* element;
+
 private:
 
-
+	SDL_Texture* atlas = nullptr;
 	p2SString atlas_file_name;
-	p2List<GUI*> type_list;
+	p2List<j1GUI*> type_list;
 };
 
 #endif // __j1GUI_H__

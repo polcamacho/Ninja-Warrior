@@ -12,14 +12,6 @@ j1Gui::j1Gui() : j1Module()
 	name.create("gui");
 }
 
-GUI::GUI(SDL_Rect& rect) {
-	dimensions.x = rect.x;
-	dimensions.y = rect.y;
-	dimensions.w = rect.w;
-	dimensions.h = rect.h;
-	pos.x = 100;
-	pos.y = 100;
-}
 
 // Destructor
 j1Gui::~j1Gui()
@@ -45,7 +37,7 @@ bool j1Gui::Start()
 	rec.y = 172;
 	rec.w = 218;
 	rec.h = 58;
-	AddElement(BUTTON, rec);
+	//AddElement(BUTTON, rec);
 
 	return true;
 }
@@ -83,8 +75,8 @@ const SDL_Texture* j1Gui::GetAtlas() const { return atlas; }
 
 // class Gui ---------------------------------------------------
 
-void j1Gui::AddElement(Type_GUI type, SDL_Rect& measures) {
-	button* but = new button(measures);
+void j1Gui::CreateButton(SDL_Rect& measures) {
+	/*button* but = new button(measures);
 	switch (type) {
 	case NONE:
 		break;
@@ -101,31 +93,31 @@ void j1Gui::AddElement(Type_GUI type, SDL_Rect& measures) {
 	case ET_TXT:
 
 		break;
-	}
+	}*/
 }
 
-button::button(SDL_Rect& rect) : GUI(rect) {
-	type = BUTTON;
-};
-
-bool button::Pushed() {
-	iPoint posi;
-	int aux;
-	App->input->GetMousePosition(posi.x, posi.y);
-	if (posi.x >= pos.x && posi.x <= pos.x + dimensions.w && posi.y >= pos.y && posi.y <= pos.y + dimensions.h && App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == 2) {
-		return true;
-	}
-	return false;
-}
-
-void button::UpdateButton() {
-	if (Pushed() == false) {
-		dimensions.x = 416;
-		App->render->Blit(App->gui->atlas, pos.x, pos.y, &dimensions);
-		LOG("GGGGGGGG");
-	}
-	else {
-		dimensions.x = 647;
-		App->render->Blit(App->gui->atlas, pos.x, pos.y, &dimensions);
-	}
-}
+//button::button(SDL_Rect& rect) : GUI(rect) {
+//	type = BUTTON;
+//};
+//
+//bool button::Pushed() {
+//	iPoint posi;
+//	int aux;
+//	App->input->GetMousePosition(posi.x, posi.y);
+//	if (posi.x >= pos.x && posi.x <= pos.x + dimensions.w && posi.y >= pos.y && posi.y <= pos.y + dimensions.h && App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == 2) {
+//		return true;
+//	}
+//	return false;
+//}
+//
+//void button::UpdateButton() {
+//	if (Pushed() == false) {
+//		dimensions.x = 416;
+//		App->render->Blit(App->gui->atlas, pos.x, pos.y, &dimensions);
+//		LOG("GGGGGGGG");
+//	}
+//	else {
+//		dimensions.x = 647;
+//		App->render->Blit(App->gui->atlas, pos.x, pos.y, &dimensions);
+//	}
+//}
