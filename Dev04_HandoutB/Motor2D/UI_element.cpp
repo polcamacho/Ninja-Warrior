@@ -1,4 +1,7 @@
 #include "UI_element.h"
+#include "j1App.h"
+#include "j1Render.h"
+#include "j1Gui.h"
 
 UI_element::UI_element()
 {
@@ -7,7 +10,12 @@ UI_element::UI_element()
 
 UI_element::UI_element(int x, int y, UI_element * parent, j1Module * Observer)
 {
+	texture = nullptr;
+	observer = nullptr;
+	destroy = false;
 
+	observer = Observer;
+	this->element_UI = parent;
 }
 
 bool UI_element::Update(float dt)
@@ -22,7 +30,9 @@ bool UI_element::CleanUp()
 
 bool UI_element::DrawUI()
 {
-
+	if (texture != nullptr) {
+		App->render->Blit(texture, pos.x, pos.y, &dimensions);
+	}
 	return false;
 }
 
