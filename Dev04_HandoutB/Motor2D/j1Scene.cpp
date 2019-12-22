@@ -14,6 +14,7 @@
 #include "j1Entity.h"
 #include "j1Pathfinding.h"
 #include "j1Fonts.h"
+#include "j1Image.h"
 #include "j1Gui.h"
 #include "j1MainMenu.h"
 #include "p2SString.h"

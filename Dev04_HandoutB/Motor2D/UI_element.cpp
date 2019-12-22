@@ -3,19 +3,15 @@
 #include "j1Render.h"
 #include "j1Gui.h"
 
-UI_element::UI_element()
+
+UI_element::UI_element(int x, int y, UI_element * parent, j1Module * Observer) : pos(x, y)
 {
 
-}
 
-UI_element::UI_element(int x, int y, UI_element * parent, j1Module * Observer)/* : position(x, y)*/
-{
-	texture = nullptr;
-	observer = nullptr;
-	destroy = false;
-
-	observer = Observer;
+	texture = App->gui->GetTexture();
 	this->element_UI = parent;
+	observer = Observer;
+
 }
 
 bool UI_element::Update(float dt)

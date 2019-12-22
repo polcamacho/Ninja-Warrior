@@ -49,15 +49,16 @@ public:
 	void CreateText(SDL_Rect& dimensions);
 	void CreateSlider(SDL_Rect& dimensions);*/
 
-	const SDL_Texture* GetAtlas() const;
+	SDL_Texture* GetTexture() const;
 
 public:
 	
 	p2List<UI_element*> ui_element;
+	j1Module* observer = nullptr;
 
 private:
 
-	SDL_Texture* UI_texture;
+	SDL_Texture* texture;
 	p2SString UI_file_name;
 };
 

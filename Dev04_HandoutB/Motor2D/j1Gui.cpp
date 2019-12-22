@@ -6,13 +6,13 @@
 #include "j1Fonts.h"
 #include "j1Input.h"
 #include "j1Gui.h"
+#include "j1Image.h"
 #include "UI_element.h"
 #include "UI_Button.h"
 
 j1Gui::j1Gui() : j1Module()
 {
 	name.create("gui");
-	UI_texture = nullptr;
 }
 
 // Destructor
@@ -25,7 +25,7 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 	LOG("Loading GUI atlas");
 	bool ret = true;
 
-	UI_file_name = conf.child("button").attribute("file1").as_string("");
+	UI_file_name = conf.child("button").attribute("file1").as_string("gui/UI_Elements.png");
 
 	return ret;
 }
@@ -33,13 +33,12 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 // Called before the first frame
 bool j1Gui::Start()
 {
-	UI_texture = App->tex->Load(UI_file_name.GetString());
-	SDL_Rect rec;
+	texture = App->tex->Load(UI_file_name.GetString());
+	/*SDL_Rect rec;
 	rec.x = 416;
 	rec.y = 172;
 	rec.w = 218;
-	rec.h = 58;
-
+	rec.h = 58;*/
 	return true;
 }
 
@@ -51,12 +50,14 @@ bool j1Gui::PreUpdate(float dt)
 
 bool j1Gui::Update(float dt) {
 
-	p2List_item<UI_element*>* element = ui_element.start;
+	for (int i = 0; i < ui_element.count(); i++) {
 
-	while (element != nullptr) {
-		element->data->Update(dt);
-		element->data->Draw();
-		element = element->next;
+		if (ui_element.At(i) != nullptr) {
+
+			ui_element.At(i)->data->Draw();
+			ui_element.At(i)->data->Update(dt);
+
+		}
 	}
 
 	return true;
@@ -99,6 +100,12 @@ UI_element* j1Gui::CreateButton(int x, int y, SDL_Rect idle, SDL_Rect hover, SDL
 	ui_element.add(button);
 
 	return button;
+}
+
+SDL_Texture* j1Gui::GetTexture() const {
+
+	return texture;
+
 }
 /*UI_element* CreateButton(int x, int y, SDL_Rect& dimensions, j1Module* Observer) {
 	*button* but = new button(measures);

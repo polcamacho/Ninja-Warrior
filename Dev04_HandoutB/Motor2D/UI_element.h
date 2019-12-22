@@ -13,7 +13,6 @@ class UI_element
 {
 public:
 
-	UI_element();
 	UI_element(int x, int y, UI_element* parent, j1Module* Observer);
 
 	//Destructor
@@ -36,10 +35,14 @@ public:
 	//UI elements position and dimensions
 	iPoint pos;
 	SDL_Rect dimensions;
-	SDL_Texture* texture;
+	
+	SDL_Texture* texture = nullptr;
+
+	SDL_Texture* texture_element;
+
 	iPoint mouse_pos;
 
-	j1Module* observer;
+	j1Module* observer = nullptr;
 
 	bool destroy;
 

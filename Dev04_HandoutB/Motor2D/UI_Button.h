@@ -3,6 +3,7 @@
 #include "j1App.h"
 #include "j1Render.h"
 #include "j1Input.h"
+#include "j1Image.h"
 
 #ifndef __UI_BUTTON__
 #define __UI_BUTTON__
@@ -13,7 +14,6 @@ class UI_Button : public UI_element
 {
 public:
 
-	UI_Button();
 	UI_Button(int x, int y, SDL_Rect idle, SDL_Rect hover, SDL_Rect click, UI_element* parent, j1Module* Observer);
 
 	//Destructor
