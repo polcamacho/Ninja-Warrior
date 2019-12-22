@@ -44,7 +44,7 @@ public:
 	// TODO 2: Create the factory methods
 
 	// Gui creation functions
-	UI_element* CreateButton(int x, int y, SDL_Rect& dimensions, j1Module* Observer);
+	UI_element* CreateButton(int x, int y, SDL_Rect idle, SDL_Rect hover, SDL_Rect click, UI_element* parent, j1Module* Observer);
 	/*void CreateImage(SDL_Rect& dimensions);
 	void CreateText(SDL_Rect& dimensions);
 	void CreateSlider(SDL_Rect& dimensions);*/

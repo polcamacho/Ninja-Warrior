@@ -7,13 +7,13 @@
 #include "j1Input.h"
 #include "j1Gui.h"
 #include "UI_element.h"
+#include "UI_Button.h"
 
 j1Gui::j1Gui() : j1Module()
 {
 	name.create("gui");
 	UI_texture = nullptr;
 }
-
 
 // Destructor
 j1Gui::~j1Gui()
@@ -25,7 +25,7 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 	LOG("Loading GUI atlas");
 	bool ret = true;
 
-	UI_file_name = conf.child("atlas").attribute("file").as_string("");
+	UI_file_name = conf.child("button").attribute("file1").as_string("");
 
 	return ret;
 }
@@ -54,9 +54,9 @@ bool j1Gui::Update(float dt) {
 	p2List_item<UI_element*>* element = ui_element.start;
 
 	while (element != nullptr) {
-		ui_element.At->data->Update(dt);
-		ui_element.At->data->DrawUI();
-
+		element->data->Update(dt);
+		element->data->Draw();
+		element = element->next;
 	}
 
 	return true;
@@ -92,26 +92,13 @@ const SDL_Texture* j1Gui::GetAtlas() const { /*return atlas;*/ }
 
 // class Gui
 
-UI_element* CreateButton(int x, int y, SDL_Rect& dimensions, j1Module* Observer) {
-	/**button* but = new button(measures);
-	switch (type) {
-	case NONE:
-		break;
-	case BUTTON:
-		type_list.add(but);
-		but->UpdateButton();
-		break;
-	case ST_IMG:
+UI_element* j1Gui::CreateButton(int x, int y, SDL_Rect idle, SDL_Rect hover, SDL_Rect click, UI_element* parent, j1Module* Observer) {
+	
+	UI_Button* button = new UI_Button(x, y, idle, hover, click, parent, Observer);
 
-		break;
-	case ST_TXT:
+	ui_element.add(button);
 
-		break;
-	case ET_TXT:
-
-		break;
-	}*/
-
+	return button;
 }
 
 //button::button(SDL_Rect& rect) : GUI(rect) {

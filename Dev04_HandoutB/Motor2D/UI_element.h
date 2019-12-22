@@ -23,7 +23,7 @@ public:
 	virtual bool Update(float dt);
 
 	// Called each loop iteration
-	virtual bool DrawUI();
+	virtual bool Draw();
 
 	// Called before quitting
 	virtual bool CleanUp();

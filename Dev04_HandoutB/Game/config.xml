@@ -45,6 +45,7 @@
 
   <gui>
     <background file="gui/Image_main_menu.png"/>
+    <button file1="gui/UI_Elements.png"/>
     <atlas file="gui/atlas.png"/>
   </gui>
   

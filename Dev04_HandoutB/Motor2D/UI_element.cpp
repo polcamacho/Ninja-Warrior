@@ -8,7 +8,7 @@ UI_element::UI_element()
 
 }
 
-UI_element::UI_element(int x, int y, UI_element * parent, j1Module * Observer)
+UI_element::UI_element(int x, int y, UI_element * parent, j1Module * Observer)/* : position(x, y)*/
 {
 	texture = nullptr;
 	observer = nullptr;
@@ -20,20 +20,20 @@ UI_element::UI_element(int x, int y, UI_element * parent, j1Module * Observer)
 
 bool UI_element::Update(float dt)
 {
-	return false;
+	return true;
 }
 
 bool UI_element::CleanUp()
 {
-	return false;
+	return true;
 }
 
-bool UI_element::DrawUI()
+bool UI_element::Draw()
 {
 	if (texture != nullptr) {
-		App->render->Blit(texture, pos.x, pos.y, &dimensions);
+		App->render->Blit(texture, pos.x, pos.y, &dimensions, SDL_FLIP_NONE, 0.0f);
 	}
-	return false;
+	return true;
 }
 
 bool UI_element::IsIntersection() {

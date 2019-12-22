@@ -74,16 +74,19 @@
       <Filter>Desenvolupament  ========\Modules\Code</Filter>
     </ClCompile>
     <ClCompile Include="j1Gui.cpp">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
+      <Filter>Desenvolupament  ========\Modules\UI\Main_UI</Filter>
     </ClCompile>
     <ClCompile Include="UI_element.cpp">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
+      <Filter>Desenvolupament  ========\Modules\UI\Main_UI</Filter>
     </ClCompile>
     <ClCompile Include="j1Coin.cpp">
       <Filter>Desenvolupament  ========\Modules\Entities\UI</Filter>
     </ClCompile>
     <ClCompile Include="j1Heart.cpp">
       <Filter>Desenvolupament  ========\Modules\Entities\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Button.cpp">
+      <Filter>Desenvolupament  ========\Modules\UI\UI_Elements</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,16 +184,19 @@
       <Filter>Desenvolupament  ========\Modules\Header</Filter>
     </ClInclude>
     <ClInclude Include="j1Gui.h">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
+      <Filter>Desenvolupament  ========\Modules\UI\Main_UI</Filter>
     </ClInclude>
     <ClInclude Include="UI_element.h">
-      <Filter>Desenvolupament  ========\Modules\GUI</Filter>
+      <Filter>Desenvolupament  ========\Modules\UI\Main_UI</Filter>
     </ClInclude>
     <ClInclude Include="j1Coin.h">
       <Filter>Desenvolupament  ========\Modules\Entities\UI</Filter>
     </ClInclude>
     <ClInclude Include="j1Heart.h">
       <Filter>Desenvolupament  ========\Modules\Entities\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Button.h">
+      <Filter>Desenvolupament  ========\Modules\UI\UI_Elements</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -230,11 +236,17 @@
     <Filter Include="Desenvolupament  ========\Modules\Header">
       <UniqueIdentifier>{545c9193-7568-4733-8f6c-9d1ed102230f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Desenvolupament  ========\Modules\GUI">
-      <UniqueIdentifier>{e72010b6-2be1-4fdc-8cfb-5fa78bfec6c8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Desenvolupament  ========\Modules\Entities\UI">
       <UniqueIdentifier>{4fab73d6-d19c-408f-8c32-49d175e50853}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\UI">
+      <UniqueIdentifier>{89d7bc37-da1f-4e49-a0f3-d019fd8c158b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\UI\Main_UI">
+      <UniqueIdentifier>{e72010b6-2be1-4fdc-8cfb-5fa78bfec6c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\UI\UI_Elements">
+      <UniqueIdentifier>{94c5aec6-166c-40ee-8308-9178a9f9216a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

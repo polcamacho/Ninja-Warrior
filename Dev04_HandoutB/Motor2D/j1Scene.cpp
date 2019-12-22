@@ -71,6 +71,7 @@ bool j1Scene::Start()
 		}	
 
 		CreateEntities();
+		App->gui->CreateButton(12, 12, { 337, 0, 79, 77 }, { 236, 0, 79, 77 }, { 431, 0, 79, 77 }, NULL, this);
 
 		//load audio from map 1
 		if (current_map == "Map.tmx") {
