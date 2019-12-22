@@ -54,9 +54,9 @@ bool j1Gui::Update(float dt) {
 	p2List_item<UI_element*>* element = ui_element.start;
 
 	while (element != nullptr) {
-		ui_element.At->data->Update(dt);
-		ui_element.At->data->DrawUI();
-
+		element->data->Update(dt);
+		element->data->DrawUI();
+		element = element->next;
 	}
 
 	return true;
@@ -88,12 +88,12 @@ bool j1Gui::CleanUp()
 }
 
 // const getter for atlas
-const SDL_Texture* j1Gui::GetAtlas() const { /*return atlas;*/ }
+/*const SDL_Texture* j1Gui::GetAtlas() const { /*return atlas; }*/
 
 // class Gui
 
-UI_element* CreateButton(int x, int y, SDL_Rect& dimensions, j1Module* Observer) {
-	/**button* but = new button(measures);
+/*UI_element* CreateButton(int x, int y, SDL_Rect& dimensions, j1Module* Observer) {
+	*button* but = new button(measures);
 	switch (type) {
 	case NONE:
 		break;
@@ -110,9 +110,9 @@ UI_element* CreateButton(int x, int y, SDL_Rect& dimensions, j1Module* Observer)
 	case ET_TXT:
 
 		break;
-	}*/
+	}
 
-}
+}*/
 
 //button::button(SDL_Rect& rect) : GUI(rect) {
 //	type = BUTTON;

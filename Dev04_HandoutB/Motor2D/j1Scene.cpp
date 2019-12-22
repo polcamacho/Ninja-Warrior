@@ -130,13 +130,12 @@ bool j1Scene::PreUpdate(float dt)
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-	LOG("%f", App->audio->Music_Volume);
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN) {
-		App->audio->Change_Volume(0.05, 1);
+		App->audio->Change_Volume(0.1, 1);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN) {
-		App->audio->Change_Volume(0.05, 0);
+	else if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN) {
+		App->audio->Change_Volume(0.1, 0);
 	}
 
 	p2List_item<p2SString>* i = maps.start;

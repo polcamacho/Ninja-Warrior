@@ -29,17 +29,17 @@ j1Player::~j1Player()
 bool j1Player::Awake(pugi::xml_node& config) {
 
 	//Load All Player Features from Config
-	data_player.jumpvel = config.child("jump_velocity").attribute("jumpvel").as_int();
+	data_player.jumpvel = config.child("jump_velocity").attribute("jumpvel").as_int(-24);
 	 
-	v.x = config.child("velocity").attribute("x").as_int();
-	data_player.velrun = config.child("velrun").attribute("x").as_float();
+	v.x = config.child("velocity").attribute("x").as_int(5);
+	data_player.velrun = config.child("velrun").attribute("x").as_float(3);
 	
-	data_player.colOffset.x = config.child("colOffset").attribute("x").as_int();
-	data_player.colOffset.y = config.child("colOffset").attribute("y").as_int();
+	data_player.colOffset.x = config.child("colOffset").attribute("x").as_int(11);
+	data_player.colOffset.y = config.child("colOffset").attribute("y").as_int(8);
 	
-	gravity = config.child("gravity").attribute("grav").as_int();
+	gravity = config.child("gravity").attribute("grav").as_int(20);
 
-	//LOG("%i %i %f %i %i %i", data_player.jumpvel, v.x, data_player.velrun, data_player.colOffset.x, data_player.colOffset.y, gravity);
+	LOG("%i %i %f %i %i %i", data_player.jumpvel, v.x, data_player.velrun, data_player.colOffset.x, data_player.colOffset.y, gravity);
 
 	return true;
 
