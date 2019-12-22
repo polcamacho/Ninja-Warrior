@@ -36,21 +36,23 @@
 	
   <entitymanager>
    
-    <folder>textures/</folder>
-    <texture source1="rogue_spritesheed.png" source2="golems.png" source3="bat.png" source4="gui_game.png"/>
-
     <jump_velocity jumpvel="-24" />
     <velocity x="5"/>
     <velrun x="3"/>
     <gravity grav="20" />
     <colOffset x="11" y="8" />
 
+    <folder>textures/</folder>
+    <texture source1="rogue_spritesheed.png" source2="golems.png" source3="bat.png" source4="gui_game.png"/>
+
   </entitymanager>
 
   <gui>
-    <background file="gui/Image_main_menu.png"/>
-    <button file1="gui/UI_Elements.png"/>
-    <atlas file="gui/atlas.png"/>
+	
+	<folder>gui/</folder>
+	<background file="Image_main_menu.png"/>
+	<button file1="UI_Elements.png"/>	
+   
   </gui>
   
 	

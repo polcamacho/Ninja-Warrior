@@ -45,6 +45,7 @@ public:
 
 	// Gui creation functions
 	UI_element* CreateButton(int x, int y, SDL_Rect idle, SDL_Rect hover, SDL_Rect click, UI_element* parent, j1Module* Observer);
+	UI_element* AddImage(int x, int y, SDL_Rect rect, UI_element* parent, j1Module* CallBack);
 	/*void CreateImage(SDL_Rect& dimensions);
 	void CreateText(SDL_Rect& dimensions);
 	void CreateSlider(SDL_Rect& dimensions);*/
@@ -59,6 +60,7 @@ public:
 private:
 
 	SDL_Texture* texture;
+	p2SString		folder;
 	p2SString UI_file_name;
 };
 

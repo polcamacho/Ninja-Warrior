@@ -24,8 +24,8 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 {
 	LOG("Loading GUI atlas");
 	bool ret = true;
-
-	UI_file_name = conf.child("button").attribute("file1").as_string("gui/UI_Elements.png");
+	folder.create(conf.child("folder").child_value());
+	UI_file_name = conf.child("button").attribute("file1").as_string();
 
 	return ret;
 }
@@ -33,7 +33,7 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 // Called before the first frame
 bool j1Gui::Start()
 {
-	texture = App->tex->Load(UI_file_name.GetString());
+	texture = App->tex->Load(PATH(folder.GetString(), UI_file_name.GetString()));
 	/*SDL_Rect rec;
 	rec.x = 416;
 	rec.y = 172;
@@ -100,6 +100,15 @@ UI_element* j1Gui::CreateButton(int x, int y, SDL_Rect idle, SDL_Rect hover, SDL
 	ui_element.add(button);
 
 	return button;
+}
+
+UI_element* j1Gui::AddImage(int x, int y, SDL_Rect rect, UI_element* parent, j1Module* CallBack)
+{
+	j1Image* image = new j1Image(x, y, rect, parent, CallBack);
+
+	ui_element.add(image);
+
+	return image;
 }
 
 SDL_Texture* j1Gui::GetTexture() const {
