@@ -36,16 +36,12 @@ public:
 	//UI elements position and dimensions
 	iPoint pos;
 	SDL_Rect dimensions;
-
+	SDL_Texture* texture;
 	iPoint mouse_pos;
-	//int type;
 
+	j1Module* observer;
 
-	SDL_Texture* atlas = nullptr;
-
-	j1Module* Observer = nullptr;
-
-	bool destroy = false;
+	bool destroy;
 
 	//pointer to an element
 	UI_element*	element_UI;

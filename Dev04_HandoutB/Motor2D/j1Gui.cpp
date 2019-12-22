@@ -6,10 +6,12 @@
 #include "j1Fonts.h"
 #include "j1Input.h"
 #include "j1Gui.h"
+#include "UI_element.h"
 
 j1Gui::j1Gui() : j1Module()
 {
 	name.create("gui");
+	UI_texture = nullptr;
 }
 
 
@@ -23,7 +25,7 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 	LOG("Loading GUI atlas");
 	bool ret = true;
 
-	atlas_file_name = conf.child("atlas").attribute("file").as_string("");
+	UI_file_name = conf.child("atlas").attribute("file").as_string("");
 
 	return ret;
 }
@@ -31,13 +33,12 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 // Called before the first frame
 bool j1Gui::Start()
 {
-	atlas = App->tex->Load(atlas_file_name.GetString());
+	UI_texture = App->tex->Load(UI_file_name.GetString());
 	SDL_Rect rec;
 	rec.x = 416;
 	rec.y = 172;
 	rec.w = 218;
 	rec.h = 58;
-	//AddElement(BUTTON, rec);
 
 	return true;
 }
@@ -49,6 +50,14 @@ bool j1Gui::PreUpdate(float dt)
 }
 
 bool j1Gui::Update(float dt) {
+
+	p2List_item<UI_element*>* element = ui_element.start;
+
+	while (element != nullptr) {
+		ui_element.At->data->Update(dt);
+		ui_element.At->data->DrawUI();
+
+	}
 
 	return true;
 }
@@ -65,18 +74,26 @@ bool j1Gui::PostUpdate(float dt)
 bool j1Gui::CleanUp()
 {
 	LOG("Freeing GUI");
-	type_list.clear();
+	
+	p2List_item<UI_element*>* element = ui_element.start;
+	
+	while (element != nullptr)
+	{
+		ui_element.del(element);
+		delete element->data;
+		element = element->next;
+	} 
 
 	return true;
 }
 
 // const getter for atlas
-const SDL_Texture* j1Gui::GetAtlas() const { return atlas; }
+const SDL_Texture* j1Gui::GetAtlas() const { /*return atlas;*/ }
 
 // class Gui
 
-/*UI_element* j1Gui::CreateButton(int x, int y, SDL_Rect& dimensions, j1Module* Observer) {
-	*button* but = new button(measures);
+UI_element* CreateButton(int x, int y, SDL_Rect& dimensions, j1Module* Observer) {
+	/**button* but = new button(measures);
 	switch (type) {
 	case NONE:
 		break;
@@ -93,9 +110,9 @@ const SDL_Texture* j1Gui::GetAtlas() const { return atlas; }
 	case ET_TXT:
 
 		break;
-	}
+	}*/
 
-}*/
+}
 
 //button::button(SDL_Rect& rect) : GUI(rect) {
 //	type = BUTTON;

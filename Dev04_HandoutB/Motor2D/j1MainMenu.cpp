@@ -13,9 +13,6 @@ j1MainMenu::j1MainMenu()
 {
 	name.create("gui");
 
-//	Welcomeimage.PushBack({ 35, 22, 304, 224 }, 0.1, 0, 0, 0, 0);
-//	Welcomeimage.PushBack({ 344, 22, 304, 224 }, 0.1, 0, 0, 0, 0);
-//	//Welcomeimage.speed = 0.05f;
 }
 
 j1MainMenu::~j1MainMenu()
@@ -44,10 +41,6 @@ bool j1MainMenu::Start()
 	rec.h = 58;
 
 	LOG("START MAIN MENU");
-
-	//graphics = App->tex->Load("media/WelcomeScreen/welcomescreen.png");
-	//introTexture = App->tex->Load("media/WelcomeScreen/introtitle.png");
-	//welcomeScreenMusic = App->audio->PlayMusic("media/Music/welcomescreen.ogg");
 
 	App->audio->PlayMusic("audio/music/main_menu_music.ogg");
 
@@ -78,7 +71,6 @@ bool j1MainMenu::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_SPACE)==KEY_DOWN)
 	{
 		App->fade->FadeToBlack(App->main_menu, App->scene, 2);
-		App->scene->Enable();
 
 	}
 

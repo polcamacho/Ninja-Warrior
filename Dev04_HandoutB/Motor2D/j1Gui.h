@@ -13,13 +13,6 @@ class UI_element;
 
 // TODO 1: Create your structure of classes
 
-//enum UI_type {
-//	NONE,
-//	BUTTON,
-//	ST_IMG,
-//	ST_TXT,
-//	ET_TXT,
-//};
 
 // ---------------------------------------------------
 class j1Gui : public j1Module
@@ -59,14 +52,13 @@ public:
 	const SDL_Texture* GetAtlas() const;
 
 public:
-
-	UI_element* element;
+	
+	p2List<UI_element*> ui_element;
 
 private:
 
-	SDL_Texture* atlas = nullptr;
-	p2SString atlas_file_name;
-	p2List<j1Gui*> type_list;
+	SDL_Texture* UI_texture;
+	p2SString UI_file_name;
 };
 
 #endif // __j1GUI_H__
