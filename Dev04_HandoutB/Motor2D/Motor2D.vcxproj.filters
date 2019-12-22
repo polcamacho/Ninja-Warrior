@@ -79,6 +79,12 @@
     <ClCompile Include="UI_element.cpp">
       <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="j1Coin.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Heart.cpp">
+      <Filter>Desenvolupament  ========\Modules\Entities\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h">
@@ -180,6 +186,12 @@
     <ClInclude Include="UI_element.h">
       <Filter>Desenvolupament  ========\Modules\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="j1Coin.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Heart.h">
+      <Filter>Desenvolupament  ========\Modules\Entities\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">
@@ -220,6 +232,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\Modules\GUI">
       <UniqueIdentifier>{e72010b6-2be1-4fdc-8cfb-5fa78bfec6c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Modules\Entities\UI">
+      <UniqueIdentifier>{4fab73d6-d19c-408f-8c32-49d175e50853}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

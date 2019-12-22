@@ -336,7 +336,8 @@ void j1Scene::SecondMap() {
 		App->entity->DrawEntity(5250, 400, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
 		App->entity->DrawEntity(4000, 200, j1Entity::entity_type::BAT_ENEMY);
 		App->entity->DrawEntity(700, 200, j1Entity::entity_type::BAT_ENEMY);
-
+		App->entity->DrawEntity(200, 500, j1Entity::entity_type::HEART);
+		App->entity->DrawEntity(200, 600, j1Entity::entity_type::COIN);
 	}
 
 	else if (current_map == "map2.tmx") {
@@ -364,6 +365,9 @@ bool j1Scene::CreateEntities() {
 		App->entity->DrawEntity(5250, 400, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
 		App->entity->DrawEntity(4000, 200, j1Entity::entity_type::BAT_ENEMY);
 		App->entity->DrawEntity(700, 200, j1Entity::entity_type::BAT_ENEMY);
+		App->entity->DrawEntity(200, 500, j1Entity::entity_type::HEART);
+		App->entity->DrawEntity(200, 600, j1Entity::entity_type::COIN);
+
 
 	}
 

@@ -12,6 +12,8 @@
 #include "j1Player.h"
 #include "j1Golem1.h"
 #include "j1Golem2.h"
+#include "j1Coin.h"
+#include "j1Heart.h"
 #include "j1Bat.h"
 #include "j1Scene.h"
 

@@ -18,7 +18,10 @@ enum ColliderType	//Set Type of Colliders
 	COLLIDER_PLAYER,
 	COLLIDER_ENEMY,
 	COLLIDER_CHECKPOINT,
+	COLLIDER_HEART,
+	COLLIDER_COIN,
 	COLLIDER_MAX
+
 };
 
 struct Collider

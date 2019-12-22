@@ -42,6 +42,8 @@ public:
 	SDL_Texture*	Tex_Golems_Grass = nullptr;
 	SDL_Texture*	Tex_Golems_Rock = nullptr;
 	SDL_Texture*	Tex_Bat = nullptr;
+	SDL_Texture*	Tex_Coin = nullptr;
+	SDL_Texture*	Tex_Heart = nullptr;
 
 	pugi::xml_node node;
 
@@ -50,6 +52,9 @@ public:
 	p2SString		texture2;
 	p2SString		texture3;
 	p2SString		texture4;
+	p2SString		texture5;
+	p2SString		texture6;
+
 };
 
 

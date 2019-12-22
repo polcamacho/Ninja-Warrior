@@ -11,6 +11,8 @@
 #include "j1Entity.h"
 #include "j1Window.h"
 #include "j1Map.h"
+#include "j1Heart.h"
+#include "j1Coin.h"
 #include "j1EntityManager.h"
 #include "p2Log.h"
 #include "j1Scene.h"
@@ -39,7 +41,7 @@ bool j1EntityManager::Awake(pugi::xml_node& config)
 	texture1 = node.child("texture").attribute("source1").as_string();
 	texture2 = node.child("texture").attribute("source2").as_string();
 	texture3 = node.child("texture").attribute("source3").as_string();
-	texture4 = node.child("texture").attribute("source2").as_string();
+	texture4 = node.child("texture").attribute("source4").as_string();
 
 	return true;
 }
@@ -50,6 +52,9 @@ bool j1EntityManager::Start()
 	Tex_Golems_Grass = App->tex->Load(PATH(folder.GetString(), texture2.GetString()));	//Load The Texture of golems grass
 	Tex_Bat = App->tex->Load(PATH(folder.GetString(), texture3.GetString()));	//Load The Texture of bat
 	Tex_Golems_Rock = App->tex->Load(PATH(folder.GetString(), texture2.GetString()));	//Load The Texture of golems rocks
+	Tex_Coin = App->tex->Load(PATH(folder.GetString(), texture4.GetString()));	//Load The Texture of golems rocks
+	Tex_Heart = App->tex->Load(PATH(folder.GetString(), texture4.GetString()));	//Load The Texture of golems rocks
+
 	return true;
 }
 
@@ -95,6 +100,8 @@ bool j1EntityManager::CleanUp()
 	App->tex->UnLoad(App->entity->Tex_Golems_Grass);
 	App->tex->UnLoad(App->entity->Tex_Golems_Rock);
 	App->tex->UnLoad(App->entity->Tex_Bat);
+	App->tex->UnLoad(App->entity->Tex_Heart);
+	App->tex->UnLoad(App->entity->Tex_Coin);
 	return true;
 }
 
@@ -150,19 +157,31 @@ j1Entity* j1EntityManager::DrawEntity(int x, int y, j1Entity::entity_type type)
 			break;
 		}
 
-		/*case FLYING_EYE_ENEMY:
-		{
-			Coin* coin = new Coin(x, y, COIN);
-			entities.add(coin);
-			ret = true;
-			entities.end->data->Awake(node);
-			entities.end->data->Start();
-			break;
-		}*/
-
 		case j1Entity::entity_type::BAT_ENEMY:
 		{
 			ret = new j1Bat(x, y);
+			if (ret != nullptr) {
+				entities.add(ret);
+				entities.end->data->Awake(node);
+				entities.end->data->Start();
+			}
+			break;
+		}
+
+		case j1Entity::entity_type::COIN:
+		{
+			ret = new j1Coin(x, y);
+			if (ret != nullptr) {
+				entities.add(ret);
+				entities.end->data->Awake(node);
+				entities.end->data->Start();
+			}
+			break;
+		}
+
+		case j1Entity::entity_type::HEART:
+		{
+			ret = new j1Heart(x, y);
 			if (ret != nullptr) {
 				entities.add(ret);
 				entities.end->data->Awake(node);

@@ -19,6 +19,8 @@ j1Collider::j1Collider()
 	matrix[COLLIDER_FLOOR][COLLIDER_NEXT] = false;
 	matrix[COLLIDER_FLOOR][COLLIDER_ENEMY] = true;
 	matrix[COLLIDER_FLOOR][COLLIDER_CHECKPOINT] = false;
+	matrix[COLLIDER_FLOOR][COLLIDER_COIN] = false;
+	matrix[COLLIDER_FLOOR][COLLIDER_HEART] = false;
 
 	//Set the Collider Events of Player
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
@@ -28,6 +30,8 @@ j1Collider::j1Collider()
 	matrix[COLLIDER_PLAYER][COLLIDER_NEXT] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_CHECKPOINT] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_COIN] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_HEART] = true;
 
 	//Set the Collider Events of Enemy
 	matrix[COLLIDER_ENEMY][COLLIDER_ENEMY] = false;
@@ -37,6 +41,8 @@ j1Collider::j1Collider()
 	matrix[COLLIDER_ENEMY][COLLIDER_NEXT] = true;
 	matrix[COLLIDER_ENEMY][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_ENEMY][COLLIDER_CHECKPOINT] = false;
+	matrix[COLLIDER_ENEMY][COLLIDER_COIN] = false;
+	matrix[COLLIDER_ENEMY][COLLIDER_HEART] = false;
 
 	//Set the Collider Events of Dead
 	matrix[COLLIDER_DEAD][COLLIDER_DEAD] = false;
@@ -46,6 +52,8 @@ j1Collider::j1Collider()
 	matrix[COLLIDER_DEAD][COLLIDER_NEXT] = false;
 	matrix[COLLIDER_DEAD][COLLIDER_ENEMY] = true;
 	matrix[COLLIDER_DEAD][COLLIDER_CHECKPOINT] = false;
+	matrix[COLLIDER_DEAD][COLLIDER_COIN] = false;
+	matrix[COLLIDER_DEAD][COLLIDER_HEART] = false;
 
 	//Set the Collider Events of Next
 	matrix[COLLIDER_NEXT][COLLIDER_NEXT] = false;
@@ -55,8 +63,10 @@ j1Collider::j1Collider()
 	matrix[COLLIDER_NEXT][COLLIDER_PLATFORM] = false;
 	matrix[COLLIDER_NEXT][COLLIDER_ENEMY] = false;
 	matrix[COLLIDER_NEXT][COLLIDER_CHECKPOINT] = false;
+	matrix[COLLIDER_NEXT][COLLIDER_COIN] = false;
+	matrix[COLLIDER_NEXT][COLLIDER_HEART] = false;
 
-	//Set the Collider Events of Next
+	//Set the Collider Events of Checkpoint
 	matrix[COLLIDER_CHECKPOINT][COLLIDER_CHECKPOINT] = false;
 	matrix[COLLIDER_CHECKPOINT][COLLIDER_DEAD] = false;
 	matrix[COLLIDER_CHECKPOINT][COLLIDER_FLOOR] = false;
@@ -64,8 +74,27 @@ j1Collider::j1Collider()
 	matrix[COLLIDER_CHECKPOINT][COLLIDER_PLATFORM] = false;
 	matrix[COLLIDER_CHECKPOINT][COLLIDER_ENEMY] = false;
 	matrix[COLLIDER_CHECKPOINT][COLLIDER_NEXT] = false;
+	matrix[COLLIDER_CHECKPOINT][COLLIDER_COIN] = false;
+	matrix[COLLIDER_CHECKPOINT][COLLIDER_HEART] = false;
 
-	
+	//Set the Collider Events of HEART
+	matrix[COLLIDER_HEART][COLLIDER_CHECKPOINT] = false;
+	matrix[COLLIDER_HEART][COLLIDER_DEAD] = false;
+	matrix[COLLIDER_HEART][COLLIDER_FLOOR] = false;
+	matrix[COLLIDER_HEART][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_HEART][COLLIDER_PLATFORM] = false;
+	matrix[COLLIDER_HEART][COLLIDER_ENEMY] = false;
+	matrix[COLLIDER_HEART][COLLIDER_NEXT] = false;
+
+	//Set the Collider Events of Coin
+	matrix[COLLIDER_COIN][COLLIDER_CHECKPOINT] = false;
+	matrix[COLLIDER_COIN][COLLIDER_DEAD] = false;
+	matrix[COLLIDER_COIN][COLLIDER_FLOOR] = false;
+	matrix[COLLIDER_COIN][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_COIN][COLLIDER_PLATFORM] = false;
+	matrix[COLLIDER_COIN][COLLIDER_ENEMY] = false;
+	matrix[COLLIDER_COIN][COLLIDER_NEXT] = false;
+	matrix[COLLIDER_COIN][COLLIDER_HEART] = false;
 	
 }
 
@@ -178,6 +207,12 @@ void j1Collider::DebugDraw()
 			break;
 		case COLLIDER_CHECKPOINT: // Set Collider Color violet
 			App->render->DrawQuad(colliders[i]->rect, 100, 255, 100, alpha);
+			break;
+		case COLLIDER_HEART: // Set Collider Color violet
+			App->render->DrawQuad(colliders[i]->rect, 255, 0, 255, alpha);
+			break;
+		case COLLIDER_COIN: // Set Collider Color violet
+			App->render->DrawQuad(colliders[i]->rect, 100, 100, 100, alpha);
 			break;
 		
 		default:

@@ -26,6 +26,8 @@ public:
 		MINOTAUR_ENEMY,
 		FLYING_EYE_ENEMY,
 		BAT_ENEMY,
+		HEART,
+		COIN,
 
 	};
 
@@ -38,11 +40,7 @@ public:
 	bool CleanUp();
 
 	// Called each loop iteration
-	//bool Save(pugi::xml_node&) const;
-	//bool Load(pugi::xml_node&);
 
-	//void OnCollision(Collider* c1, Collider* c2);
-	void State(float dt);	//Check animations
 	void Pushbacks() {};
 	void Reset() {};
 	bool PreTime(float sec);

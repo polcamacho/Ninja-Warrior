@@ -75,8 +75,8 @@ const SDL_Texture* j1Gui::GetAtlas() const { return atlas; }
 
 // class Gui
 
-UI_element* j1Gui::CreateButton(int x, int y, SDL_Rect& dimensions, j1Module* Observer) {
-	/*button* but = new button(measures);
+/*UI_element* j1Gui::CreateButton(int x, int y, SDL_Rect& dimensions, j1Module* Observer) {
+	*button* but = new button(measures);
 	switch (type) {
 	case NONE:
 		break;
@@ -93,8 +93,9 @@ UI_element* j1Gui::CreateButton(int x, int y, SDL_Rect& dimensions, j1Module* Ob
 	case ET_TXT:
 
 		break;
-	}*/
-}
+	}
+
+}*/
 
 //button::button(SDL_Rect& rect) : GUI(rect) {
 //	type = BUTTON;

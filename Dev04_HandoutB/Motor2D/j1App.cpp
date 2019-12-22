@@ -152,10 +152,10 @@ bool j1App::Start()
 	bool ret = true;
 	p2List_item<j1Module*>* item;
 	item = modules.start;
-	App->map->Disable();
-	App->entity->Disable();
-	App->pathfinding->Disable();
-	App->main_menu->Enable();
+	//App->map->Enable();
+	//App->entity->Disable();
+	//App->pathfinding->Disable();
+	//App->main_menu->Enable();
 
 	while(item != NULL && ret == true)
 	{

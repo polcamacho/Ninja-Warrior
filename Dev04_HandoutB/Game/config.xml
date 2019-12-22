@@ -33,7 +33,7 @@
   <entitymanager>
    
     <folder>textures/</folder>
-    <texture source1="rogue_spritesheed.png" source2="golems.png" source3="bat.png"/>
+    <texture source1="rogue_spritesheed.png" source2="golems.png" source3="bat.png" source4="gui_game.png"/>
 
     <jump_velocity jumpvel="-45" />
     <velocity x="5"/>
