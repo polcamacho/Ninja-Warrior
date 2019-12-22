@@ -19,6 +19,7 @@ j1Player::j1Player(int x, int y) : j1Entity(entity_type::PLAYER)
 {
 	data_player.ipos.x = x;
 	data_player.ipos.y = y;
+	name.create("entitymanager");
 }
 
 // Destructor
@@ -33,10 +34,13 @@ bool j1Player::Awake(pugi::xml_node& config) {
 	v.x = config.child("velocity").attribute("x").as_int(5);
 	data_player.velrun = config.child("velrun").attribute("x").as_float(3);
 	
-	data_player.colOffset.x = config.child("colOffset").attribute("x").as_int();
-	data_player.colOffset.y = config.child("colOffset").attribute("y").as_int();
+	data_player.colOffset.x = config.child("colOffset").attribute("x").as_int(11);
+	data_player.colOffset.y = config.child("colOffset").attribute("y").as_int(8);
 	
 	gravity = config.child("gravity").attribute("grav").as_int(20);
+
+	LOG("%i %i %f %i %i %i", data_player.jumpvel, v.x, data_player.velrun, data_player.colOffset.x, data_player.colOffset.y, gravity);
+
 	return true;
 
 }

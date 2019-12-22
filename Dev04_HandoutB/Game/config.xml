@@ -8,6 +8,10 @@
 	<renderer>
 		<vsync value="false" />
   </renderer>
+
+  <audio>
+    <volume_music value="0.4" />
+  </audio>
 	
 	<window>
 		<resolution width="1024" height="768" scale="1" />
@@ -35,10 +39,10 @@
     <folder>textures/</folder>
     <texture source1="rogue_spritesheed.png" source2="golems.png" source3="bat.png" source4="gui_game.png"/>
 
-    <jump_velocity jumpvel="-45" />
+    <jump_velocity jumpvel="-24" />
     <velocity x="5"/>
     <velrun x="3"/>
-    <gravity grav="15" />
+    <gravity grav="20" />
     <colOffset x="11" y="8" />
 
   </entitymanager>

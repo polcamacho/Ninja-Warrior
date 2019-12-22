@@ -88,7 +88,7 @@ bool j1Gui::CleanUp()
 }
 
 // const getter for atlas
-const SDL_Texture* j1Gui::GetAtlas() const { /*return atlas;*/ }
+/*const SDL_Texture* j1Gui::GetAtlas() const { /*return atlas; }*/
 
 // class Gui
 
@@ -100,6 +100,27 @@ UI_element* j1Gui::CreateButton(int x, int y, SDL_Rect idle, SDL_Rect hover, SDL
 
 	return button;
 }
+/*UI_element* CreateButton(int x, int y, SDL_Rect& dimensions, j1Module* Observer) {
+	*button* but = new button(measures);
+	switch (type) {
+	case NONE:
+		break;
+	case BUTTON:
+		type_list.add(but);
+		but->UpdateButton();
+		break;
+	case ST_IMG:
+
+		break;
+	case ST_TXT:
+
+		break;
+	case ET_TXT:
+
+		break;
+	}
+
+}*/
 
 //button::button(SDL_Rect& rect) : GUI(rect) {
 //	type = BUTTON;
