@@ -52,6 +52,8 @@ bool j1Audio::Awake(pugi::xml_node& config)
 		ret = true;
 	}
 
+	Music_Volume = config.child("volume_music").attribute("value").as_float();
+
 	return ret;
 }
 
@@ -177,3 +179,22 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 
 	return ret;
 }
+
+void j1Audio::Change_Volume(float change_volume, bool up) {
+	
+	if (up==1){
+
+		Music_Volume += change_volume;
+		LOG("%f", Music_Volume);
+	}
+	
+	else if(up==0){
+
+		Music_Volume -= change_volume;
+		LOG("%f", Music_Volume);
+	}
+
+
+	Mix_VolumeMusic(128 * Music_Volume);
+}
+
