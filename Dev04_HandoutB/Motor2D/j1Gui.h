@@ -1,9 +1,8 @@
-#pragma once
-#include "j1Module.h"
-#include "p2List.h"
-
 #ifndef __j1GUI_H__
 #define __j1GUI_H__
+
+#include "j1Module.h"
+#include "p2List.h"
 
 #define CURSOR_WIDTH 2
 
@@ -22,7 +21,7 @@ public:
 	j1Gui();
 
 	// Destructor
-	virtual ~j1Gui();
+	~j1Gui();
 
 	// Called when before render is available
 	bool Awake(pugi::xml_node&);
@@ -41,6 +40,8 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	SDL_Texture* GetAtlas() const;
+
 	// TODO 2: Create the factory methods
 
 	// Gui creation functions
@@ -50,18 +51,16 @@ public:
 	void CreateText(SDL_Rect& dimensions);
 	void CreateSlider(SDL_Rect& dimensions);*/
 
-	SDL_Texture* GetTexture() const;
 
 public:
 	
 	p2List<UI_element*> ui_element;
-	j1Module* observer = nullptr;
 
 private:
-
+	pugi::xml_node node;
 	SDL_Texture* texture;
-	p2SString		folder;
 	p2SString UI_file_name;
+	p2SString folder;
 };
 
 #endif // __j1GUI_H__

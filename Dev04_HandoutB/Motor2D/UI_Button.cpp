@@ -1,6 +1,7 @@
 #include "UI_Button.h"
 #include "j1Gui.h"
 #include "UI_element.h"
+#include "j1Render.h"
 
 UI_Button::UI_Button(int x, int y, SDL_Rect idle, SDL_Rect hover, SDL_Rect click, UI_element * parent, j1Module * Observer) : UI_element(x, y, parent, Observer)
 {

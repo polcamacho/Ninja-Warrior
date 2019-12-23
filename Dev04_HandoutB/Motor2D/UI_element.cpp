@@ -6,9 +6,7 @@
 
 UI_element::UI_element(int x, int y, UI_element * parent, j1Module * Observer) : pos(x, y)
 {
-
-
-	texture = App->gui->GetTexture();
+	texture = App->gui->GetAtlas();
 	this->element_UI = parent;
 	observer = Observer;
 
