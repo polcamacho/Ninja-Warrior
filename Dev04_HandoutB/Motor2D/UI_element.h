@@ -1,11 +1,10 @@
-#pragma once
+#ifndef __UI_ELEMENT__
+#define __UI_ELEMENT__
+
 #include "j1Gui.h"
 #include "j1App.h"
 #include "j1Render.h"
 #include "j1Input.h"
-
-#ifndef __UI_ELEMENT__
-#define __UI_ELEMENT__
 
 struct SDL_Texture;
 

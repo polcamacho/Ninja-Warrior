@@ -20,12 +20,13 @@ j1Gui::~j1Gui()
 {}
 
 // Called before render is available
-bool j1Gui::Awake(pugi::xml_node& conf)
+bool j1Gui::Awake(pugi::xml_node& config)
 {
 	LOG("Loading GUI atlas");
 	bool ret = true;
-	folder.create(conf.child("folder").child_value());
-	UI_file_name = conf.child("button").attribute("file1").as_string();
+	node = config;
+	folder.create(node.child("folder").child_value());
+	UI_file_name = config.child("button").attribute("file1").as_string();
 
 	return ret;
 }
@@ -33,7 +34,7 @@ bool j1Gui::Awake(pugi::xml_node& conf)
 // Called before the first frame
 bool j1Gui::Start()
 {
-	texture = App->tex->Load(PATH(folder.GetString(), UI_file_name.GetString()));
+	texture = App->tex->Load(PATH(folder.GetString(),UI_file_name.GetString()));
 	/*SDL_Rect rec;
 	rec.x = 416;
 	rec.y = 172;
@@ -89,7 +90,7 @@ bool j1Gui::CleanUp()
 }
 
 // const getter for atlas
-/*const SDL_Texture* j1Gui::GetAtlas() const { /*return atlas; }*/
+SDL_Texture* j1Gui::GetAtlas() const { return texture; }
 
 // class Gui
 
@@ -111,11 +112,6 @@ UI_element* j1Gui::AddImage(int x, int y, SDL_Rect rect, UI_element* parent, j1M
 	return image;
 }
 
-SDL_Texture* j1Gui::GetTexture() const {
-
-	return texture;
-
-}
 /*UI_element* CreateButton(int x, int y, SDL_Rect& dimensions, j1Module* Observer) {
 	*button* but = new button(measures);
 	switch (type) {

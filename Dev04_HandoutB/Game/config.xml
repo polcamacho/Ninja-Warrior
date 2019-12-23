@@ -48,10 +48,10 @@
   </entitymanager>
 
   <gui>
-	
-	<folder>gui/</folder>
-	<background file="Image_main_menu.png"/>
-	<button file1="UI_Elements.png"/>	
+
+    <folder>gui/</folder>
+	  <background file="Image_main_menu.png"/>
+	  <button file1="UI_Elements.png"/>	
    
   </gui>
   
