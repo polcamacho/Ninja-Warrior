@@ -9,9 +9,11 @@ j1Image::~j1Image() {}
 
 bool j1Image::Draw() {
 	
+	texture = App->gui->GetAtlas();
+
 	if (texture != nullptr)
 	{
-		App->render->Blit(texture, pos.x, pos.y, &dimensions, SDL_FLIP_NONE, 0.0f);
+		App->render->Blit(texture, pos.x, pos.y, &dimensions, SDL_FLIP_NONE, 1.0f);
 	}
 	return true;
 }

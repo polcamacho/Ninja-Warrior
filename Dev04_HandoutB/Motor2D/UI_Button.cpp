@@ -26,8 +26,9 @@ bool UI_Button::Draw()
 
 	if (texture != nullptr)
 	{
-		App->render->Blit(texture, pos.x, pos.y, &dimensions, SDL_FLIP_NONE, 0.0f);
+		App->render->Blit(texture, pos.x, pos.y, &dimensions, SDL_FLIP_NONE, 1.0f);
 	}
+
 	return true;
 }
 
