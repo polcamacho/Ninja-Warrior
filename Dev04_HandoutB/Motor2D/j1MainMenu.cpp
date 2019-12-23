@@ -22,7 +22,8 @@ bool j1MainMenu::Awake(pugi::xml_node& conf)
 {
 	LOG("Loading GUI atlas");
 	bool ret = true;
-
+	node = conf;
+	folder.create(node.child("folder").child_value());
 	background_image = conf.child("background").attribute("file").as_string("");
 
 	return ret;
@@ -32,7 +33,7 @@ bool j1MainMenu::Start()
 {
 	LOG("Loading background assets");
 	bool ret = true;
-	introTexture = App->tex->Load(background_image.GetString());
+	introTexture = App->tex->Load(PATH(folder.GetString(), background_image.GetString()));
 
 	SDL_Rect rec;
 	rec.x = 416;

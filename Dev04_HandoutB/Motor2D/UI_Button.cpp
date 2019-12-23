@@ -22,6 +22,8 @@ bool UI_Button::CleanUp()
 
 bool UI_Button::Draw()
 {
+	texture = App->gui->GetAtlas();
+
 	if (texture != nullptr)
 	{
 		App->render->Blit(texture, pos.x, pos.y, &dimensions, SDL_FLIP_NONE, 0.0f);
@@ -31,7 +33,6 @@ bool UI_Button::Draw()
 
 bool UI_Button::Update(float dt)
 {
-
 	if (IsIntersection() == true) {
 		dimensions = Button_hover;
 
@@ -46,5 +47,7 @@ bool UI_Button::Update(float dt)
 	else {
 		dimensions = Button_idle;
 	}
+
 	return true;
+
 }

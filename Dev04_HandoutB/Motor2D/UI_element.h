@@ -35,7 +35,7 @@ public:
 	iPoint pos;
 	SDL_Rect dimensions;
 	
-	SDL_Texture* texture = nullptr;
+	SDL_Texture* texture;
 
 	SDL_Texture* texture_element;
 

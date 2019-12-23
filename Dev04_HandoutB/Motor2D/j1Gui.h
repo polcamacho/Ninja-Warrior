@@ -58,9 +58,10 @@ public:
 
 private:
 	pugi::xml_node node;
+	p2SString folder;
 	SDL_Texture* texture;
 	p2SString UI_file_name;
-	p2SString folder;
+
 };
 
 #endif // __j1GUI_H__

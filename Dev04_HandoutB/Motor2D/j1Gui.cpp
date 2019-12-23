@@ -35,11 +35,7 @@ bool j1Gui::Awake(pugi::xml_node& config)
 bool j1Gui::Start()
 {
 	texture = App->tex->Load(PATH(folder.GetString(),UI_file_name.GetString()));
-	/*SDL_Rect rec;
-	rec.x = 416;
-	rec.y = 172;
-	rec.w = 218;
-	rec.h = 58;*/
+
 	return true;
 }
 
@@ -112,50 +108,3 @@ UI_element* j1Gui::AddImage(int x, int y, SDL_Rect rect, UI_element* parent, j1M
 	return image;
 }
 
-/*UI_element* CreateButton(int x, int y, SDL_Rect& dimensions, j1Module* Observer) {
-	*button* but = new button(measures);
-	switch (type) {
-	case NONE:
-		break;
-	case BUTTON:
-		type_list.add(but);
-		but->UpdateButton();
-		break;
-	case ST_IMG:
-
-		break;
-	case ST_TXT:
-
-		break;
-	case ET_TXT:
-
-		break;
-	}
-
-}*/
-
-//button::button(SDL_Rect& rect) : GUI(rect) {
-//	type = BUTTON;
-//};
-//
-//bool button::Pushed() {
-//	iPoint posi;
-//	int aux;
-//	App->input->GetMousePosition(posi.x, posi.y);
-//	if (posi.x >= pos.x && posi.x <= pos.x + dimensions.w && posi.y >= pos.y && posi.y <= pos.y + dimensions.h && App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == 2) {
-//		return true;
-//	}
-//	return false;
-//}
-//
-//void button::UpdateButton() {
-//	if (Pushed() == false) {
-//		dimensions.x = 416;
-//		App->render->Blit(App->gui->atlas, pos.x, pos.y, &dimensions);
-//		LOG("GGGGGGGG");
-//	}
-//	else {
-//		dimensions.x = 647;
-//		App->render->Blit(App->gui->atlas, pos.x, pos.y, &dimensions);
-//	}
-//}

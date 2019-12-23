@@ -25,7 +25,8 @@ public:
 
 private:
 	p2SString background_image;
-
+	pugi::xml_node node;
+	p2SString folder;
 };
 
 #endif // __J1MAINMENU_H__
