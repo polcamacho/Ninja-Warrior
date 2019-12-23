@@ -42,7 +42,8 @@ struct PlayerData
 	bool			move=false;
 
 	int jumpCounter = 2;
-
+	float D_Timer = 0;
+	float D2_Timer = 0;
 
 	iPoint			colOffset;
 	SDL_Texture*	Tex_Player;
@@ -111,6 +112,7 @@ public:
 	PlayerData			data_player;
 	
 	bool godmode = false;
+	int count = 0;
 
 	p2SString			name;
 

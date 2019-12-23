@@ -9,6 +9,7 @@
 #include "j1Entity.h"
 #include "p2List.h"
 #define LIMIT_TIMER 50
+#define TIMER_DEAD 10000000
 
 struct SDL_Texture;
 class j1Player;
