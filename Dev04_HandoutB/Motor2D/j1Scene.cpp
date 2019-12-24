@@ -70,15 +70,10 @@ bool j1Scene::Start()
 			}
 
 			RELEASE_ARRAY(data);
-		}	
+		}
 
 		CreateEntities();
-		App->gui->CreateButton(200, 500, { 337, 0, 79, 77 }, { 236, 0, 79, 77 }, { 431, 0, 79, 77 }, NULL, this);
-		App->gui->CreateButton(250, 500, { 337, 0, 79, 77 }, { 236, 0, 79, 77 }, { 431, 0, 79, 77 }, NULL, this);
 
-		App->gui->CreateImage(12, 12, { 0, 0, 648, 480 }, NULL, this);
-
-		App->gui->CreateSlider(100, 500, { 136,55,113,85 }, NULL, this);
 		//load audio from map 1
 		if (current_map == "Map.tmx") {
 			App->audio->PlayMusic("audio/music/map1_music.ogg");
@@ -108,7 +103,7 @@ bool j1Scene::PreUpdate(float dt)
 	// debug pathfing ------------------
 	static iPoint origin;
 	static bool origin_selected = false;
-
+	
 	/*int x, y;
 	App->input->GetMousePosition(x, y);
 	iPoint p = App->render->ScreenToWorld(x, y);
@@ -137,7 +132,6 @@ bool j1Scene::PreUpdate(float dt)
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN) {
 		App->audio->Change_Volume(0.1, 1);
 	}
@@ -279,6 +273,10 @@ bool j1Scene::PostUpdate(float dt)
 {
 	bool ret = true;
 
+	App->entity->Enable();
+	App->audio->Enable();
+	App->collider->Enable();
+	App->pathfinding->Enable();
 
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;

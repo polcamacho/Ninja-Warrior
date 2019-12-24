@@ -8,8 +8,11 @@
 #include "j1Collider.h"
 #include "j1Player.h"
 #include "j1EntityManager.h"
+#include "j1Audio.h"
+#include "j1Pathfinding.h"
 #include "j1Window.h"
 #include <math.h>
+#include "j1Gui.h"
 #include "..//Brofiler/Brofiler.h"
 
 // ----------------------------------------------------
@@ -27,15 +30,16 @@ bool j1Map::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Map Parser");
 	folder.create(config.child("folder").child_value());
-
+	
 	return true;
 }
 // ----------------------------------------------------
 void j1Map::Draw()
 {
 	BROFILER_CATEGORY("Draw Map",Profiler::Color::Chocolate)
+		
 	
-		if (map_loaded == false)
+	if (map_loaded == false)
 		return;
 
 	//Loop all tilesets and layers and Blit

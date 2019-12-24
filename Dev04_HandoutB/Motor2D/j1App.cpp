@@ -61,11 +61,10 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(scene);
 	AddModule(collider);
 	AddModule(pathfinding);
-	AddModule(fade);
 	AddModule(entity);
 	AddModule(gui);
 	AddModule(fonts);
-
+	AddModule(fade);
 
 	// render last to swap buffer
 	AddModule(render);
@@ -153,16 +152,18 @@ bool j1App::Start()
 	p2List_item<j1Module*>* item;
 	item = modules.start;
 	//App->map->Enable();
-	//App->entity->Disable();
-	//App->pathfinding->Disable();
-	//App->main_menu->Enable();
+	App->scene->Disable();
+	App->entity->Disable();
+	App->pathfinding->Disable();
+	App->collider->Disable();
+	App->main_menu->Enable();
 
 	while(item != NULL && ret == true)
 	{
 		ret = item->data->Start();
 		item = item->next;
 	}
-	//startup_time.Start();
+	startup_time.Start();
 
 
 
