@@ -46,7 +46,9 @@ public:
 
 	// Gui creation functions
 	UI_element* CreateButton(int x, int y, SDL_Rect idle, SDL_Rect hover, SDL_Rect click, UI_element* parent, j1Module* Observer);
-	UI_element* AddImage(int x, int y, SDL_Rect rect, UI_element* parent, j1Module* CallBack);
+	UI_element* CreateImage(int x, int y, SDL_Rect rect, UI_element* parent, j1Module* CallBack);
+	UI_element* CreateSlider(int x, int y, SDL_Rect rect, UI_element* parent, j1Module* CallBack);
+
 	/*void CreateImage(SDL_Rect& dimensions);
 	void CreateText(SDL_Rect& dimensions);
 	void CreateSlider(SDL_Rect& dimensions);*/

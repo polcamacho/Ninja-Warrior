@@ -15,6 +15,7 @@
 #include "j1Pathfinding.h"
 #include "j1Fonts.h"
 #include "j1Image.h"
+#include "UI_Slider.h"
 #include "j1Gui.h"
 #include "j1MainMenu.h"
 #include "p2SString.h"
@@ -75,7 +76,9 @@ bool j1Scene::Start()
 		App->gui->CreateButton(200, 500, { 337, 0, 79, 77 }, { 236, 0, 79, 77 }, { 431, 0, 79, 77 }, NULL, this);
 		App->gui->CreateButton(250, 500, { 337, 0, 79, 77 }, { 236, 0, 79, 77 }, { 431, 0, 79, 77 }, NULL, this);
 
-		App->gui->AddImage(12, 12, { 0, 0, 648, 480 }, NULL, this);
+		App->gui->CreateImage(12, 12, { 0, 0, 648, 480 }, NULL, this);
+
+		App->gui->CreateSlider(100, 500, { 136,55,113,85 }, NULL, this);
 		//load audio from map 1
 		if (current_map == "Map.tmx") {
 			App->audio->PlayMusic("audio/music/map1_music.ogg");
