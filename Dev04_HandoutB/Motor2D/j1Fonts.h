@@ -4,7 +4,7 @@
 #include "j1Module.h"
 #include "SDL\include\SDL_pixels.h"
 
-#define DEFAULT_FONT "fonts/Complex_v15_Free.ttf"
+#define DEFAULT_FONT "fonts/PligNova-mpov.ttf"
 #define DEFAULT_FONT_SIZE 30
 
 struct SDL_Texture;
