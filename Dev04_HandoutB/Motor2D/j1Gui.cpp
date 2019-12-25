@@ -120,9 +120,9 @@ UI_element* j1Gui::CreateSlider(int x, int y, SDL_Rect rect, UI_element* parent,
 }
 
 
-UI_element* j1Gui::CreateLabel(int x, int y, SDL_Rect rect, char* text_input, UI_element* parent, j1Module* Observer)
+UI_element* j1Gui::CreateLabel(int x, int y, char* text_input, UI_element* parent, j1Module* Observer)
 {
-	UI_Label* label = new UI_Label(x, y, rect, text_input, parent, Observer);
+	UI_Label* label = new UI_Label(x, y, text_input, parent, Observer);
 
 	ui_element.add(label);
 
