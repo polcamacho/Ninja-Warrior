@@ -49,6 +49,8 @@ bool j1MainMenu::Start()
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;
 
+	
+
 	App->gui->CreateImage(525, 225, { 796, 9, 399, 488 }, NULL, this);
 	App->gui->CreateButton(625, 350, { 819,514,92,92 }, { 692,513,92,92 }, { 692, 395, 92, 92 } , NULL, this);
 	App->gui->CreateButton(725, 350, { 819,514,92,92 }, { 692,513,92,92 }, { 692, 395, 92, 92 }, NULL, this);
@@ -72,7 +74,6 @@ bool j1MainMenu::CleanUp()
 	LOG("Unloading main menu");
 	App->tex->UnLoad(graphics);
 	App->tex->UnLoad(introTexture);
-	App->audio->CleanUp();
 	App->gui->CleanUp();
 
 	return true;
@@ -82,6 +83,7 @@ bool j1MainMenu::Update(float dt)
 {
 
 	App->render->Blit(App->main_menu->introTexture, 0, 0);
+
 	// TODO 2: make so pressing SPACE the KEN stage is loaded
 	if (App->input->GetKey(SDL_SCANCODE_LEFT)==KEY_DOWN)
 	{
