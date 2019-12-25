@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<game_state>
+	<input />
+	<window />
+	<textures />
+	<audio />
+	<gui />
+	<map />
+	<scene>
+		<scene name="Map.tmx" />
+	</scene>
+	<:anonymous />
+	<pathfinding />
+	<entitymanager>
+		<playerposition x="3276" y="1109" />
+		<golem1position x="5250" y="638" />
+		<batposition x="688" y="630" />
+	</entitymanager>
+	<gui />
+	<fonts />
+	<:anonymous />
+	<renderer>
+		<camera x="-2748" y="-560" />
+	</renderer>
+</game_state>
