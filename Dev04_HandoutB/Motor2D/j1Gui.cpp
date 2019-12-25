@@ -10,6 +10,7 @@
 #include "UI_Slider.h"
 #include "UI_element.h"
 #include "UI_Button.h"
+#include "UI_Label.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -100,29 +101,31 @@ UI_element* j1Gui::CreateButton(int x, int y, SDL_Rect idle, SDL_Rect hover, SDL
 	return button;
 }
 
-UI_element* j1Gui::CreateImage(int x, int y, SDL_Rect rect, UI_element* parent, j1Module* CallBack)
+UI_element* j1Gui::CreateImage(int x, int y, SDL_Rect rect, UI_element* parent, j1Module* Observer)
 {
-	j1Image* image = new j1Image(x, y, rect, parent, CallBack);
+	j1Image* image = new j1Image(x, y, rect, parent, Observer);
 
 	ui_element.add(image);
 
 	return image;
 }
 
-UI_element* j1Gui::CreateSlider(int x, int y, SDL_Rect rect, UI_element* parent, j1Module* CallBack)
+UI_element* j1Gui::CreateSlider(int x, int y, SDL_Rect rect, UI_element* parent, j1Module* Observer)
 {
-	UI_Slider* slider = new UI_Slider(x, y, rect, parent, CallBack);
+	UI_Slider* slider = new UI_Slider(x, y, rect, parent, Observer);
 
 	ui_element.add(slider);
 
 	return slider;
 }
 
-/*UI_element* j1Gui::CreateLabel(int x, int y, SDL_Rect rect, UI_element* parent, j1Module* CallBack)
+
+UI_element* j1Gui::CreateLabel(int x, int y, SDL_Rect rect, char* text_input, UI_element* parent, j1Module* Observer)
 {
-	UI_Slider* slider = new UI_Slider(x, y, rect, parent, CallBack);
+	UI_Label* label = new UI_Label(x, y, rect, text_input, parent, Observer);
 
-	ui_element.add(slider);
+	ui_element.add(label);
 
-	return slider;
-}*/
+	return label;
+}
+

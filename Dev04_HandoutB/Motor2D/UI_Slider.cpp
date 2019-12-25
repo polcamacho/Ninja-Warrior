@@ -22,14 +22,14 @@ bool UI_Slider::Draw() {
 
 /*bool UI_Slider::Dragable() {
 
-	new_mouse_pos = App->input->GetMousePosition(mouse_pos);
+	/*new_mouse_pos = App->input->GetMousePosition(mouse_pos);
 	new_mouse_pos.y = App->input->GetMousePosition(mouse_pos.y);
 
 	bool ret=false;
 
 	if (IsIntersection() == true) {
 
-		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && new_mouse_pos) {
+		/*if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && new_mouse_pos) {
 			slider_ball.x+=
 			ret = true;
 			LOG("%i %i %i", mouse_pos.x, mouse_pos.y);

@@ -55,6 +55,9 @@ bool j1MainMenu::Start()
 	App->gui->CreateButton(625, 450, { 819,514,92,92 }, { 692,513,92,92 }, { 692, 395, 92, 92 }, NULL, this);
 	App->gui->CreateButton(725, 450, { 819,514,92,92 }, { 692,513,92,92 }, { 692, 395, 92, 92 }, NULL, this);
 
+
+	App->gui->CreateLabel(100, 100, { 0,0,0,0 }, "HOLA", NULL, this);
+
 	//App->gui->CreateButton(250, 500, { 337, 0, 79, 77 }, { 236, 0, 79, 77 }, { 431, 0, 79, 77 }, NULL, this);
 	//App->gui->CreateSlider(100, 500, { 136,55,113,85 }, NULL, this);
 	
