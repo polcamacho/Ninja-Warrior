@@ -23,7 +23,7 @@ public:
 public:
 
 	p2SString text;
-	SDL_Texture* text_texture;
+	SDL_Texture* text_texture=nullptr;
 };
 
 #endif //_!_UI_LABEL__

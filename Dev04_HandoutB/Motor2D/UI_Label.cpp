@@ -28,14 +28,19 @@ bool UI_Label::CleanUp()
 bool UI_Label::SetLabelText(const char * text_input)
 {
 	bool ret = false;
-	texture = App->gui->GetAtlas();
-
-	texture= text_texture = App->fonts->Print(text_input, { 255,255,255,255 }, App->fonts->fonts.start->data);
+	//texture = App->gui->GetAtlas();
+	if (texture != nullptr)
+	{
+		App->tex->UnLoad(texture);
+	}
+	text_texture = App->fonts->Print(text_input, { 0,0,0,0 }, App->fonts->fonts.start->data);
 	
 	if (text_texture != nullptr)
 	{
 		uint w = 0, h = 0;
+
 		App->tex->GetSize(text_texture, w, h);
+
 		SDL_Rect rect = {0,0,(int)w,(int)h};
 
 		texture = text_texture;
@@ -51,7 +56,6 @@ bool UI_Label::SetLabelText(const char * text_input)
 
 bool UI_Label::Draw()
 {
-	texture = App->gui->GetAtlas();
 	if (texture != nullptr) {
 		App->render->Blit(texture, pos.x, pos.y, &dimensions, SDL_FLIP_NONE, 1.0f);
 	}

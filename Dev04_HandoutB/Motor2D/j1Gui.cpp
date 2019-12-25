@@ -124,6 +124,7 @@ UI_element* j1Gui::CreateLabel(int x, int y, char* text_input, UI_element* paren
 {
 	UI_Label* label = new UI_Label(x, y, text_input, parent, Observer);
 
+	label->SetLabelText(text_input);
 	ui_element.add(label);
 
 	return label;
