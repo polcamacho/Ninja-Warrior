@@ -66,13 +66,15 @@ void j1Map::Draw()
 						//App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);	//Blit with parallax velocity
 
 						//Blit every tile inside camera limits and colliders if blitcolliders is active ----------------------------------------------
-						//if (position.x >= 1 * ((App->render->camera.x - 64)) * layer->parallax && position.y >= -1 * (App->render->camera.y + 32)) {
-							//if (position.x <= -5 * (App->render->camera.x)*layer->parallax + App->win->width && position.y <= -1 * (App->render->camera.y - 32) + App->win->height) {
+						if (position.x >= 1 * ((App->render->camera.x - 64)) * layer->parallax && position.y >= -1 * (App->render->camera.y + 32)) {
+							if (position.x <= -5 * (App->render->camera.x)*layer->parallax + App->win->width && position.y <= -1 * (App->render->camera.y - 32) + App->win->height) {
+								
 								App->render->Blit(texture, position.x, position.y, sect, SDL_FLIP_NONE, l->parallax);
-							//}
-						//}
+														
+							}
+												
+						}
 						
-
 					}
 				}
 			}

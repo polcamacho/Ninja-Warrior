@@ -5,7 +5,7 @@
 		<organization>UPC</organization>
 	</app>
 	
-	<renderer>
+<renderer>
 		<vsync value="false" />
   </renderer>
 
@@ -36,10 +36,10 @@
 	
   <entitymanager>
    
-    <jump_velocity jumpvel="-24" />
+    <jump_velocity jumpvel="-45" />
     <velocity x="5"/>
     <velrun x="3"/>
-    <gravity grav="20" />
+    <gravity grav="1" />
     <colOffset x="11" y="8" />
 
     <folder>textures/</folder>

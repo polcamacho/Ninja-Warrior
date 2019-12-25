@@ -243,27 +243,7 @@ bool j1Scene::Update(float dt)
 		App->render->Blit(debug_tex, pos.x, pos.y);
 	}*/
 	
-	//if F11 is press, it changes framerate cap and vsync
-	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
 
-		if (App->is_cap==false) {
-
-			App->is_cap = true;
-
-			App->vsync_value.create("FALSE");
-			App->framerate_cap.create("ON");
-
-		}
-
-		else if (App->is_cap == true) {
-
-			App->is_cap = false;
-
-			App->vsync_value.create("TRUE");
-			App->framerate_cap.create("OFF");
-
-		}
-	}
 
 	return true;
 }

@@ -1,10 +1,10 @@
 #include "UI_Slider.h"
 #include "p2Log.h"
 
-UI_Slider::UI_Slider(int x, int y, SDL_Rect ball, UI_element* parent, j1Module* CallBack) : UI_element(x, y, parent, CallBack)
+UI_Slider::UI_Slider(int x, int y, SDL_Rect slider, UI_element* parent, j1Module* CallBack) : UI_element(x, y, parent, CallBack)
 {
-	slider_ball = ball;
-
+	slider_ball = slider;
+	
 }
 
 UI_Slider::~UI_Slider() {}
@@ -22,10 +22,20 @@ bool UI_Slider::Draw() {
 
 bool UI_Slider::Dragable() {
 
+	new_mouse_pos = App->input->GetMousePosition(mouse_pos);
+	new_mouse_pos.y = App->input->GetMousePosition(mouse_pos.y);
+
 	bool ret=false;
-	if (App->input->GetMouseButtonDown(1) && (new_mouse_pos.x == mouse_pos.x + 1 || new_mouse_pos.x == mouse_pos.x - 1)) {
-		ret = true;
-		LOG("%i %i %i", mouse_pos.x, mouse_pos.y);
+
+	if (IsIntersection() == true) {
+
+		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT && new_mouse_pos) {
+			slider_ball.x+=
+			ret = true;
+			LOG("%i %i %i", mouse_pos.x, mouse_pos.y);
+		}
+
 	}
+	
 	return ret;
 }

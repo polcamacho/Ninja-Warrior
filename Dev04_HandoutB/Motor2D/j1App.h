@@ -100,23 +100,23 @@ public:
 	j1Gui*				gui;
 	j1MainMenu*			main_menu;
 	
-	bool				is_cap = false;
-	p2SString			vsync_value;
-
-	p2SString			framerate_cap;
+	bool vsync = false;
+	bool cap_enabled = true;
+	bool pause = false;
 	
 
 private:
 
 	p2List<j1Module*>	modules;
 	uint				frames;
+	float				dt;
 	int					argc;
 	char**				args;
 
 	p2SString			title;
 	p2SString			organization;
+	uint32				framerate_cap;
 
-	uint32				framerate;
 	mutable bool		want_to_save;
 	bool				want_to_load;
 	p2SString			load_game;
@@ -129,9 +129,6 @@ private:
 	j1Timer				last_sec_frame_time;
 	uint32				last_sec_frame_count = 0;
 	uint32				prev_last_sec_frame_count = 0;
-
-	int					time;
-	float				dt;
 
 };
 
