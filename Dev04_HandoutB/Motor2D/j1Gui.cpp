@@ -118,11 +118,11 @@ UI_element* j1Gui::CreateSlider(int x, int y, SDL_Rect rect, UI_element* parent,
 	return slider;
 }
 
-UI_element* j1Gui::CreateLabel(int x, int y, SDL_Rect rect, UI_element* parent, j1Module* CallBack)
+/*UI_element* j1Gui::CreateLabel(int x, int y, SDL_Rect rect, UI_element* parent, j1Module* CallBack)
 {
 	UI_Slider* slider = new UI_Slider(x, y, rect, parent, CallBack);
 
 	ui_element.add(slider);
 
 	return slider;
-}
+}*/

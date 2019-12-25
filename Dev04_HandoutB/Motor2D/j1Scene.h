@@ -43,7 +43,8 @@ public:
 	bool CreateEntities();
 
 private:
-	
+
+	p2SString			folder;
 public:
 	SDL_Texture* debug_tex;
 	int jump_FX;

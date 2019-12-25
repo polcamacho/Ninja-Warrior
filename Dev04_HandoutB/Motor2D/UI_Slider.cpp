@@ -20,7 +20,7 @@ bool UI_Slider::Draw() {
 	return true;
 }
 
-bool UI_Slider::Dragable() {
+/*bool UI_Slider::Dragable() {
 
 	new_mouse_pos = App->input->GetMousePosition(mouse_pos);
 	new_mouse_pos.y = App->input->GetMousePosition(mouse_pos.y);
@@ -38,4 +38,4 @@ bool UI_Slider::Dragable() {
 	}
 	
 	return ret;
-}
+}*/

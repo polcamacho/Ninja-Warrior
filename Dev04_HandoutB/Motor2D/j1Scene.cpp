@@ -34,7 +34,6 @@ bool j1Scene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
 
-
 	pugi::xml_node map;
 	for (map= config.child("map"); map; map = map.next_sibling("map"))
 	{
