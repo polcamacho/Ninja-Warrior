@@ -36,9 +36,9 @@ bool j1Golem1::Awake(pugi::xml_node& config) {
 
 	//Load All Player Features from Config
 
-	v.x = config.child("velocity").attribute("x").as_int(3);
+	v.x = 3;// config.child("velocity").attribute("x").as_int(3);
 		
-	gravity = config.child("gravity").attribute("grav").as_float(20);
+	gravity = 20;// config.child("gravity").attribute("grav").as_float(20);
 
 	return ret;
 

@@ -32,7 +32,7 @@ bool j1Bat::Awake(pugi::xml_node& config) {
 	bool ret = true;
 
 	//Load All Player Features from Config
-	v.x = config.child("velocity").attribute("x").as_int(2);
+	v.x = 2;// config.child("velocity").attribute("x").as_int(2);
 	LOG("%d", v.x);
 	return ret;
 

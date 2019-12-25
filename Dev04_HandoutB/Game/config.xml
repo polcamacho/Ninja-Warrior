@@ -36,7 +36,7 @@
 	
   <entitymanager>
    
-    <jump_velocity jumpvel="-45" />
+    
     <velocity x="5"/>
     <velrun x="3"/>
     <gravity grav="1" />
@@ -49,7 +49,7 @@
 
   <gui>
 
-    <folder>gui/</folder>
+    	<folder>gui/</folder>
 	  <background file="Image_main_menu.png"/>
 	  <button file1="UI_Elements.png"/>	
    
