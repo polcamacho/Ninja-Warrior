@@ -56,14 +56,14 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win);
 	AddModule(tex);
 	AddModule(audio);
-	AddModule(main_menu);
 	AddModule(map);
 	AddModule(scene);
 	AddModule(collider);
 	AddModule(pathfinding);
 	AddModule(entity);
-	AddModule(gui);
 	AddModule(fonts);
+	AddModule(main_menu);
+	AddModule(gui);
 	AddModule(fade);
 
 	// render last to swap buffer
@@ -249,7 +249,7 @@ void j1App::FinishUpdate()
 
 	
 	static char title[256];
-	sprintf_s(title, 256, "The Little Explorer | FPS: %i Av.FPS: %.2f Last Frame Ms: %02.2u | Cap: %s Vsync: %s ",
+	sprintf_s(title, 256, "Ninja Warrior | FPS: %i Av.FPS: %.2f Last Frame Ms: %02.2u | Cap: %s Vsync: %s ",
 		frames_on_last_update, avg_fps, last_frame_ms, cap_string.GetString(), vsync_string.GetString());
 	App->win->SetTitle(title);
 

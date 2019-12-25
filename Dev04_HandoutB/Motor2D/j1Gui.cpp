@@ -10,6 +10,7 @@
 #include "UI_Slider.h"
 #include "UI_element.h"
 #include "UI_Button.h"
+#include "UI_Label.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -118,7 +119,7 @@ UI_element* j1Gui::CreateSlider(int x, int y, SDL_Rect rect, UI_element* parent,
 	return slider;
 }
 
-UI_element* j1Gui::CreateLabel(int x, int y, SDL_Rect rect, UI_element* parent, j1Module* CallBack)
+UI_element* j1Gui::CreateLabel(int x, int y, SDL_Rect rect, char* text_input, UI_element* parent, j1Module* CallBack)
 {
 	UI_Slider* slider = new UI_Slider(x, y, rect, parent, CallBack);
 

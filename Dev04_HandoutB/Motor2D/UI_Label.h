@@ -10,7 +10,7 @@ class UI_Label : public UI_element
 {
 public:
 
-	UI_Label(int x, int y, UI_element* parent, j1Module* CallBack);
+	UI_Label(int x, int y, char* text_input, UI_element* parent, j1Module* CallBack);
 	~UI_Label();
 
 	bool Update(float dt);
@@ -23,7 +23,7 @@ public:
 public:
 
 	p2SString text;
-	SDL_Texture* tex;
+	SDL_Texture* text_texture;
 };
 
 #endif //_!_UI_LABEL__
