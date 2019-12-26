@@ -92,27 +92,27 @@ SDL_Texture* j1Gui::GetAtlas() const { return texture; }
 
 // class Gui
 
-UI_element* j1Gui::CreateButton(int x, int y, SDL_Rect idle, SDL_Rect hover, SDL_Rect click, UI_element* parent, j1Module* Observer) {
+UI_element* j1Gui::CreateButton(int x, int y, UI_Type type, SDL_Rect idle, SDL_Rect hover, SDL_Rect click, UI_element* parent, j1Module* Observer) {
 	
-	UI_Button* button = new UI_Button(x, y, idle, hover, click, parent, Observer);
+	UI_Button* button = new UI_Button(x, y, type, idle, hover, click, parent, Observer);
 
 	ui_element.add(button);
 
 	return button;
 }
 
-UI_element* j1Gui::CreateImage(int x, int y, SDL_Rect rect, UI_element* parent, j1Module* Observer)
+UI_element* j1Gui::CreateImage(int x, int y, UI_Type type, SDL_Rect rect, UI_element* parent, j1Module* Observer)
 {
-	j1Image* image = new j1Image(x, y, rect, parent, Observer);
+	j1Image* image = new j1Image(x, y, type, rect, parent, Observer);
 
 	ui_element.add(image);
 
 	return image;
 }
 
-UI_element* j1Gui::CreateSlider(int x, int y, SDL_Rect scrollbar, SDL_Rect button, UI_element* parent, j1Module* Observer)
+UI_element* j1Gui::CreateSlider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect button, UI_element* parent, j1Module* Observer)
 {
-	UI_Slider* slider = new UI_Slider(x, y, scrollbar, button, parent, Observer);
+	UI_Slider* slider = new UI_Slider(x, y, type, scrollbar, button, parent, Observer);
 
 	ui_element.add(slider);
 
@@ -120,9 +120,9 @@ UI_element* j1Gui::CreateSlider(int x, int y, SDL_Rect scrollbar, SDL_Rect butto
 }
 
 
-UI_element* j1Gui::CreateLabel(int x, int y, char* text_input, UI_element* parent, j1Module* Observer)
+UI_element* j1Gui::CreateLabel(int x, int y, UI_Type type, char* text_input, UI_element* parent, j1Module* Observer)
 {
-	UI_Label* label = new UI_Label(x, y, text_input, parent, Observer);
+	UI_Label* label = new UI_Label(x, y, type, text_input, parent, Observer);
 
 	label->SetLabelText(text_input);
 	ui_element.add(label);

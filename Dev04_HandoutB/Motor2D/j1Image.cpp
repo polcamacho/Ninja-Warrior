@@ -1,6 +1,6 @@
 #include "j1Image.h"
 
-j1Image::j1Image(int x, int y, SDL_Rect image_rect, UI_element* parent, j1Module* CallBack) : UI_element(x, y, parent, CallBack)
+j1Image::j1Image(int x, int y, UI_Type type, SDL_Rect image_rect, UI_element* parent, j1Module* Observer) : UI_element(x, y, type, parent, Observer)
 {
 	dimensions = image_rect;
 }

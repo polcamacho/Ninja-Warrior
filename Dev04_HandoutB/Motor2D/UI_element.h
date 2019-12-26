@@ -8,11 +8,28 @@
 
 struct SDL_Texture;
 
+enum UI_Type {
+
+	Button_play,
+	Button_settings,
+	Button_restart,
+	Button_info,
+	Button_close,
+	Button_slider_music_left,
+	Button_slider_music_right,
+	Button_slider_fx_left,
+	Button_slider_fx_right,
+	Label,
+	Image,
+	Slider_music,
+	Slider_fx,
+};
+
 class UI_element 
 {
 public:
 
-	UI_element(int x, int y, UI_element* parent, j1Module* Observer);
+	UI_element(int x, int y, UI_Type type, UI_element* parent, j1Module* Observer);
 
 	//Destructor
 	virtual ~UI_element() {}
