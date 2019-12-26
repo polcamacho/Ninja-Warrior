@@ -18,6 +18,7 @@
 
 j1Bat::j1Bat(int x, int y) : j1Entity(entity_type::BAT_ENEMY)
 {
+	name.create("bat");
 	data_bat.ipos.x = x;
 	data_bat.ipos.y = y;
 
@@ -32,7 +33,14 @@ bool j1Bat::Awake(pugi::xml_node& config) {
 	bool ret = true;
 
 	//Load All Player Features from Config
-	v.x = 2;// config.child("velocity").attribute("x").as_int(2);
+	pugi::xml_document	config_file;
+	config = App->LoadConfig(config_file);
+	config = config.child("bat");
+
+	folder.create(config.child("folder").child_value());
+
+	v.x = config.child("velocity").attribute("x").as_int(2);
+
 	LOG("%d", v.x);
 	return ret;
 

@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
 <config>
-	<app framerate_cap="30">
+	
+  <app framerate_cap="30">
 		<title>NINJA WARRIOR</title>
 		<organization>UPC</organization>
 	</app>
 	
-<renderer>
+  <renderer>
 		<vsync value="false" />
   </renderer>
 
@@ -36,17 +37,41 @@
 	
   <entitymanager>
    
-    
-    <velocity x="5"/>
-    <velrun x="3"/>
-    <gravity grav="1" />
-    <colOffset x="11" y="8" />
-
     <folder>textures/</folder>
     <texture source1="rogue_spritesheed.png" source2="golems.png" source3="bat.png" source4="gui_game.png"/>
 
   </entitymanager>
 
+  <player>
+
+    <jump_velocity jumpvel="-24"/>
+    <velocity x="5"/>
+    <velrun x="3"/>
+    <gravity grav="20" />
+    <colOffset x="11" y="8" />
+  
+  </player>
+
+  <bat>
+
+    <velocity x="5"/>
+     
+  </bat>
+
+  <golem1>
+
+    <velocity x="5"/>
+    <gravity grav="20" />
+   
+  </golem1>
+
+  <golem2>
+
+    <velocity x="5"/>
+    <gravity grav="20" />
+  
+  </golem2>
+  
   <gui>
 
     	<folder>gui/</folder>

@@ -18,6 +18,7 @@
 
 j1Golem2::j1Golem2(int x, int y) : j1Entity(entity_type::GOLEM_ROCK_ENEMY)
 {
+	name.create("golem2");
 	data_golem2.ipos.x = x;
 	data_golem2.ipos.y = y;
 
@@ -32,10 +33,17 @@ bool j1Golem2::Awake(pugi::xml_node& config) {
 	bool ret = true;
 
 	//Load All Player Features from Config
+	pugi::xml_document	config_file;
+	config = App->LoadConfig(config_file);
+	config = config.child("golem2");
 
-	v.x = 3;// config.child("velocity").attribute("x").as_int(3);
+	folder.create(config.child("folder").child_value());
 
-	gravity = 20;// config.child("gravity").attribute("grav").as_float(20);
+	v.x = config.child("velocity").attribute("x").as_int();
+
+	gravity = config.child("gravity").attribute("grav").as_int();
+
+	LOG("%i %i", v.x, gravity);
 
 	return ret;
 

@@ -19,7 +19,7 @@ j1Player::j1Player(int x, int y) : j1Entity(entity_type::PLAYER)
 {
 	data_player.ipos.x = x;
 	data_player.ipos.y = y;
-	name.create("entitymanager");
+	name.create("player");
 }
 
 // Destructor
@@ -29,16 +29,21 @@ j1Player::~j1Player()
 bool j1Player::Awake(pugi::xml_node& config) {
 
 	//Load All Player Features from Config
+	pugi::xml_document	config_file;
+	config = App->LoadConfig(config_file);
+	config = config.child("player");
 
-	data_player.jumpvel = -24;						//config.child("jump_velocity").attribute("jumpvel").as_int(-24);
+	folder.create(config.child("folder").child_value());
+
+	data_player.jumpvel = config.child("jump_velocity").attribute("jumpvel").as_int();
 	 
-	v.x = 5;										//config.child("velocity").attribute("x").as_int(5);
-	data_player.velrun = 3;							//config.child("velrun").attribute("x").as_float(3);
+	v.x = config.child("velocity").attribute("x").as_int();
+	data_player.velrun = config.child("velrun").attribute("x").as_float();
 	
-	data_player.colOffset.x = 11;					//config.child("colOffset").attribute("x").as_int(11);
-	data_player.colOffset.y = 8;					//config.child("colOffset").attribute("y").as_int(8);
+	data_player.colOffset.x = config.child("colOffset").attribute("x").as_int();
+	data_player.colOffset.y = config.child("colOffset").attribute("y").as_int();
 	
-	gravity = 20;									//config.child("gravity").attribute("grav").as_int(20);
+	gravity = config.child("gravity").attribute("grav").as_int();
 
 	LOG("%i %i %f %i %i %i", data_player.jumpvel, v.x, data_player.velrun, data_player.colOffset.x, data_player.colOffset.y, gravity);
 
