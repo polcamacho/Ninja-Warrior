@@ -339,58 +339,19 @@ bool j1Scene::Save(pugi::xml_node& data) const
 	return true;
 }
 
-/*void j1Scene::SecondMap() {
+void j1Scene::SecondMap() {
 	
-	App->map->CleanUp();
-	App->entity->CleanEntity();
-	CreateEntities();
-	p2List_item<p2SString>* iterator;
-	for (iterator = maps.start; iterator->data != current_map.GetString(); iterator = iterator->next) {
+	if (scene_change == true && is_changed == false) {
+		FirstLevel();
+		is_changed = true;
 	}
-	if (iterator->next != NULL) { iterator = iterator->next; }
-	else { iterator = maps.start; }
-	current_map = iterator->data;
-
-	App->map->Load(current_map.GetString());
-	
-	int w, h;
-	uchar* data = NULL;
-	if (App->map->CreateWalkabilityMap(w, h, &data))
-		App->pathfinding->SetMap(w, h, data);
-	RELEASE_ARRAY(data);
-
-	App->map->Draw();
-
-	/*if (current_map == "Map.tmx") {
-
-		App->audio->PlayMusic("audio/music/map1_music.ogg");
-		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
-		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-
-		App->entity->DrawEntity(100, 500, j1Entity::entity_type::PLAYER);
-		App->entity->DrawEntity(2550, 200, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
-		App->entity->DrawEntity(5250, 400, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
-		App->entity->DrawEntity(4000, 200, j1Entity::entity_type::BAT_ENEMY);
-		App->entity->DrawEntity(700, 200, j1Entity::entity_type::BAT_ENEMY);
-		App->entity->DrawEntity(200, 500, j1Entity::entity_type::HEART);
-		App->entity->DrawEntity(200, 600, j1Entity::entity_type::COIN);
+	if (scene_change == false && is_changed == false) {
+		SecondLevel();
+		is_changed = true;
 	}
+	is_changed = false;
 
-	else if (current_map == "map2.tmx") {
-
-		App->audio->PlayMusic("audio/music/map2_music.ogg");
-		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
-		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-
-		App->entity->DrawEntity(55, 100, j1Entity::entity_type::PLAYER);
-		App->entity->DrawEntity(1500, 500, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
-		App->entity->DrawEntity(500, 100, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
-		App->entity->DrawEntity(700, 100, j1Entity::entity_type::BAT_ENEMY);
-		App->entity->DrawEntity(2000, 1000, j1Entity::entity_type::BAT_ENEMY);
-
-	}
-
-}*/
+}
 
 void j1Scene::RestartCurrentLevel() {
 
@@ -426,7 +387,6 @@ void j1Scene::RestartCurrentLevel() {
 	}
 	
 }
-
 
 void j1Scene::FirstLevel() {
 
