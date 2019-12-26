@@ -5,33 +5,40 @@
 #include "j1Gui.h"
 #include "j1Render.h"
 
-UI_Slider::UI_Slider(int x, int y, SDL_Rect left_button, SDL_Rect right_button, SDL_Rect scrollbar, SDL_Rect button_slider, iPoint slider_pos, UI_element* parent, j1Module* CallBack) : UI_element(x, y, parent, CallBack)
+UI_Slider::UI_Slider(int x, int y, SDL_Rect scrollbar, SDL_Rect button, UI_element* parent, j1Module* Observer) : UI_element(x, y, parent, Observer)
 {
 	texture = App->gui->GetAtlas();
-	dimensions = button_slider;
-	L_button = left_button;
-	R_button = right_button;
-	slider_position.x = slider_pos.x + pos.x;
-
 	Scrollbar = scrollbar;
-
-	movement = 0;
-
-	App->input->GetMousePosition(mouse_pos.x, mouse_pos.y);
+	Button_Scrollbar = button;
+	mouse_position_in_button = { -1,-1 };
+	movement = x;
 }
 
 UI_Slider::~UI_Slider() {}
 
 bool UI_Slider::Update(float dt)
 {
+	SetSliderLimitValues();
 
-	SliderButtons();
-	Button_Slider_Dragable();
+	if (IsIntersection() == true && App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT) {
+
+		if (mouse_position_in_button.x == -1) {
+			App->input->GetMousePosition(new_mouse_pos.x, new_mouse_pos.y);
+			mouse_position_in_button.x = new_mouse_pos.x;
+		}
+
+		Mouse_Is_Moving();
+	}
+		
 	return true;
 }
 
-bool UI_Slider::SliderButtons()
+bool UI_Slider::SetSliderLimitValues()
 {
+
+	min = Scrollbar.x + 3;
+	max = Scrollbar.w - 3;
+
 	/*UI_Button* left_button = new UI_Button(x,y, { 0,163,33,37 }, { 0,163,33,37 },{ 0,163,33,37 },&left_button,this);
 	ui_element.add(left_button);
 	if (IsIntersection() == true) {
@@ -41,38 +48,41 @@ bool UI_Slider::SliderButtons()
 	return true;
 }
 
-bool UI_Slider::Button_Slider_Dragable() {
+bool UI_Slider::Mouse_Is_Moving() {
 
 	App->input->GetMousePosition(new_mouse_pos.x, new_mouse_pos.y);
 
-	bool ret=false;
+	if (new_mouse_pos.x < mouse_position_in_button.x) {
+		movement = mouse_position_in_button.x;
+		return false;
+	}
 
-		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT) {
+	/*if (posi.y > max_point) {
+		current_point = max_point;
+		return false;
+	}*/
+	movement = new_mouse_pos.x;
 
-			if (IsIntersection() == true) {
+	//UI_Button* button;
+	//button->dimensions = Button_Scrollbar;
+	//bool ret = false;
 
-				if (new_mouse_pos.x >= mouse_pos.x && new_mouse_pos.x <= 10) {
+	//	if (new_mouse_pos.x >= mouse_position_in_button.x) {
 
-					App->audio->Change_Volume(0.1, 1);
-					movement = new_mouse_pos.x - mouse_pos.x;
-					slider_position.x += movement;
-				}
-				if (new_mouse_pos.x <= mouse_pos.x && new_mouse_pos.x >= 0) {
+	//		//App->audio->Change_Volume(0.1, 1);
+	//		movement = mouse_position_in_button.x - new_mouse_pos.x;
+	//	}
+	//	if (new_mouse_pos.x <= mouse_position_in_button.x) {
 
-					App->audio->Change_Volume(0.1, 0);
-					movement = new_mouse_pos.x - mouse_pos.x;
-					slider_position.x += movement;
-				}
+	//		//App->audio->Change_Volume(0.1, 0);
+	//		movement = mouse_position_in_button.x - new_mouse_pos.x;
+	//	}
 
-				ret = true;
-				LOG("%i %i", new_mouse_pos.x, new_mouse_pos.y);
-				LOG("%i", slider_position.x);
-			}
-		}
+	//	ret = true;
+	//	LOG("%i %i", new_mouse_pos.x, mouse_position_in_button.x);
 
-	App->input->GetMousePosition(mouse_pos.x, mouse_pos.y);
-	
-	return ret;
+	//App->input->GetMousePosition(new_mouse_pos.x, new_mouse_pos.y);
+	return true;
 }
 
 bool UI_Slider::Draw() {
@@ -83,10 +93,8 @@ bool UI_Slider::Draw() {
 
 	if (texture != nullptr)
 	{
-		App->render->Blit(texture, pos.x-20, pos.y-4, &L_button, SDL_FLIP_NONE, 1.0f);
-		App->render->Blit(texture, pos.x+225, pos.y-7, &R_button, SDL_FLIP_NONE, 1.0f);
 		App->render->Blit(texture, pos.x, pos.y, &Scrollbar, SDL_FLIP_NONE, 1.0f);
-		App->render->Blit(texture, pos.x, pos.y, &dimensions, SDL_FLIP_NONE, 1.0f);
+		App->render->Blit(texture, pos.x, pos.y, &Button_Scrollbar, SDL_FLIP_NONE, 1.0f);
 	}
 	return true;
 

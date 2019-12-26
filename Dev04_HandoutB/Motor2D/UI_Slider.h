@@ -13,28 +13,30 @@ class UI_Slider : public UI_element
 {
 public:
 
-	UI_Slider(int x, int y, SDL_Rect left_button, SDL_Rect right_button, SDL_Rect scrollbar, SDL_Rect image_rect, iPoint slider_pos, UI_element* parent, j1Module* Observer);
+	UI_Slider(int x, int y, SDL_Rect scrollbar, SDL_Rect button, UI_element* parent, j1Module* Observer);
 	~UI_Slider();
 
 	bool Draw();
 
 	bool Update(float dt);
 
-	bool SliderButtons();
+	bool SetSliderLimitValues();
 
-	bool Button_Slider_Dragable();
+	bool Mouse_Is_Moving();
 
 public:
 
 	iPoint new_mouse_pos;
-	iPoint slider_position;
+	iPoint mouse_position_in_button;
+	iPoint Slider_pos;
+	int min, max;
+	int movement;
 
 private:
-	int min=0, max=10;
-	int movement;
-	SDL_Rect L_button;
-	SDL_Rect R_button;
+	
+	SDL_Rect Button_Scrollbar;
 	SDL_Rect Scrollbar;
+
 };
 
 #endif //_!_UI_SLIDER_
