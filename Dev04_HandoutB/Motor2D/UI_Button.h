@@ -40,6 +40,9 @@ public:
 	//click when is clicking
 	SDL_Rect Button_click;
 
+	int click_fx;
+	int hover_fx;
+	int counter;
 
 };
 

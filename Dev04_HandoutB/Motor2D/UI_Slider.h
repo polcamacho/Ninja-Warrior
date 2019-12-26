@@ -31,8 +31,10 @@ public:
 
 private:
 	int min=0, max=10;
+	int movement;
 	SDL_Rect L_button;
 	SDL_Rect R_button;
+	SDL_Rect Scrollbar;
 };
 
 #endif //_!_UI_SLIDER_
