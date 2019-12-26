@@ -57,8 +57,8 @@ bool j1MainMenu::Start()
 	App->gui->CreateButton(625, 350, Button_play, { 819,514,92,92 }, { 692,513,92,92 }, { 692, 395, 92, 92 } , NULL, this);
 	App->gui->CreateButton(725, 350, Button_settings, { 935,512,96,98 }, { 576,513,96,97 }, { 572, 395, 97, 98 }, NULL, this);
 	App->gui->CreateButton(625, 450, Button_info, { 1049,516,92,92 }, { 455,513,92,93 }, { 452, 397, 92, 92 }, NULL, this);
-	App->gui->CreateButton(725, 450, Button_restart, { 0,60,44,44 }, { 116,53,91,93 }, { 228, 58, 91, 91 }, NULL, this);
-	App->gui->CreateButton(775, 300, Button_close, { 0,0,92,92 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);
+	App->gui->CreateButton(725, 450, Button_restart, { 0,60,92,92 }, { 115,58,91,91 }, { 228, 58, 91, 91 }, NULL, this);
+	App->gui->CreateButton(775, 300, Button_close, { 0,0,44,44 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);
 
 	App->gui->CreateLabel(100, 100, Label, "ADIOS", NULL, this);
 
