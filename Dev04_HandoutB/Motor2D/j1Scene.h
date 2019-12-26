@@ -33,19 +33,40 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-	p2List<p2SString> maps;
-	p2SString current_map;
-	
-	void SecondMap();
+	//Debug
+	void FirstLevel();
+	void SecondLevel();
+	void RestartCurrentLevel();
+	void CreateEntities();
+	void Map1Entities();
+	void Map2Entities();
+
 	bool Load(pugi::xml_node &node);
 	bool Save(pugi::xml_node &node)const;
 
-	bool CreateEntities();
+	bool scene_change;
+	bool is_changed;
+	bool first_level;
+
+	int scene_timer;
+	bool scene_change_timer;
+
+	p2SString current_map;
+
+	int cont = 0;
+	
+	
+	//void SecondMap();
+	
+
+	
 
 private:
 
-	p2SString			folder;
+	p2List<p2SString> map_list;
+
 public:
+	
 	SDL_Texture* debug_tex;
 	int jump_FX;
 	int death_FX;

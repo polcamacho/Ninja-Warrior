@@ -103,7 +103,7 @@ bool j1Golem1::Update(float dt) {
 			for (uint i = 0; i < path->Count(); ++i)
 			{
 				iPoint next_position = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-				App->render->Blit(App->scene->debug_tex, next_position.x, next_position.y);
+				//App->render->Blit(App->scene->debug_tex, next_position.x, next_position.y);
 
 			}
 

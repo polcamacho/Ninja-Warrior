@@ -15,6 +15,7 @@
 #include "j1Pathfinding.h"
 #include "j1Fonts.h"
 #include "j1Image.h"
+#include "j1FadeToBlack.h"
 #include "UI_Slider.h"
 #include "j1Gui.h"
 #include "j1MainMenu.h"
@@ -23,6 +24,10 @@
 j1Scene::j1Scene() : j1Module()
 {
 	name.create("scene");
+	scene_change = false;
+	is_changed = false;
+	first_level = false;
+	scene_change_timer = false;
 }
 
 // Destructor
@@ -33,20 +38,19 @@ j1Scene::~j1Scene()
 bool j1Scene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
-
 	pugi::xml_node map;
+
 	for (map= config.child("map"); map; map = map.next_sibling("map"))
 	{
 		p2SString* lvl = new p2SString();
 
 		lvl->create(map.attribute("name").as_string());
-		
-		maps.add(lvl->GetString());
+		map_list.add(lvl->GetString());
+
 	}
 
-	bool ret = true;
+	return true;
 
-	return ret;
 }
 
 // Called before the first frame
@@ -57,18 +61,9 @@ bool j1Scene::Start()
 	if (App->map->active==true) {
 
 		LOG("LOADING MAP");
-		current_map = maps.start->data;
+		current_map = map_list.start->data;
 	
-		if (App->map->Load(current_map.GetString()) == true) {
-		
-			int w, h;
-			uchar* data = NULL;
-			if (App->map->CreateWalkabilityMap(w, h, &data)) {
-				App->pathfinding->SetMap(w, h, data);
-			}
-
-			RELEASE_ARRAY(data);
-		}
+		App->map->Load(current_map.GetString());
 
 		CreateEntities();
 
@@ -86,12 +81,8 @@ bool j1Scene::Start()
 			death_FX = App->audio->LoadFx("audio/fx/Death.wav");
 		}
 	
-		debug_tex = App->tex->Load("maps/cross.png");
-
-		// TODO 3: Create the banner (rect {485, 829, 328, 103}) as a UI element
-		// TODO 4: Create the text "Hello World" as a UI element
-	
 	}
+
 	return true;
 }
 
@@ -99,8 +90,8 @@ bool j1Scene::Start()
 bool j1Scene::PreUpdate(float dt)
 {
 	// debug pathfing ------------------
-	static iPoint origin;
-	static bool origin_selected = false;
+	//static iPoint origin;
+	//static bool origin_selected = false;
 	
 	/*int x, y;
 	App->input->GetMousePosition(x, y);
@@ -130,6 +121,26 @@ bool j1Scene::PreUpdate(float dt)
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
+
+
+
+	int w, h;
+	uchar* data = NULL;
+	if (App->map->CreateWalkabilityMap(w, h, &data))
+		App->pathfinding->SetMap(w, h, data);
+	RELEASE_ARRAY(data);
+
+	//save player position in every map
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
+
+		App->SaveGame();
+	}
+
+	//load player position in every map
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
+		App->LoadGame();
+	}
+
 	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN) {
 		App->audio->Change_Volume(0.1, 1);
 	}
@@ -137,7 +148,26 @@ bool j1Scene::Update(float dt)
 		App->audio->Change_Volume(0.1, 0);
 	}
 
-	p2List_item<p2SString>* i = maps.start;
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
+
+		first_level = true;
+		FirstLevel();
+
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
+
+		SecondLevel();
+
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
+
+		RestartCurrentLevel();
+
+	}
+
+	/*p2List_item<p2SString>* i = maps.start;
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
 
@@ -147,13 +177,13 @@ bool j1Scene::Update(float dt)
 
 		/*App->audio->PlayMusic("audio/music/map1_music.ogg");
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
-		death_FX = App->audio->LoadFx("audio/fx/Death.wav");*/
+		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
 
 		/*int w, h;
 		uchar* data = NULL;
 		if (App->map->CreateWalkabilityMap(w, h, &data))
 			App->pathfinding->SetMap(w, h, data);
-		RELEASE_ARRAY(data);*/
+		RELEASE_ARRAY(data);
 
 		App->entity->CleanEntity();
 		CreateEntities();
@@ -170,13 +200,13 @@ bool j1Scene::Update(float dt)
 
 		/*App->audio->PlayMusic("audio/music/map2_music.ogg");						//load audio from map 1
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
-		death_FX = App->audio->LoadFx("audio/fx/Death.wav");*/
+		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
 
 		/*int w, h;
 		uchar* data = NULL;
 		if (App->map->CreateWalkabilityMap(w, h, &data))
 			App->pathfinding->SetMap(w, h, data);
-		RELEASE_ARRAY(data);*/
+		RELEASE_ARRAY(data);
 
 		App->entity->CleanEntity();
 		CreateEntities();
@@ -204,18 +234,8 @@ bool j1Scene::Update(float dt)
 		else if (current_map == "map2.tmx") {
 			App->map->Load("map2.tmx");
 		}
-	}
-
-	//save player position in every map
-	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN) {
-		
-		App->SaveGame();
-	}
-		
-	//load player position in every map
-	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN){
-		App->LoadGame();
-	}
+	}*/
+	
 	/*// Debug pathfinding ------------------------------
 	int x = 0, y = 0;
 	App->input->GetMousePosition(x, y);
@@ -234,7 +254,7 @@ bool j1Scene::Update(float dt)
 		App->render->Blit(debug_tex, pos.x, pos.y);
 	}*/
 	
-
+	App->map->Draw();
 
 	return true;
 }
@@ -248,6 +268,26 @@ bool j1Scene::PostUpdate(float dt)
 	App->audio->Enable();
 	App->collider->Enable();
 	App->pathfinding->Enable();
+
+	if (cont==0){
+		
+		//load audio from map 1
+		if (App->scene->current_map == "Map.tmx") {
+			App->audio->PlayMusic("audio/music/map1_music.ogg");
+			App->scene->jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
+			App->scene->death_FX = App->audio->LoadFx("audio/fx/Death.wav");
+		}
+
+		//load audio from map 2
+		else if (App->scene->current_map == "map2.tmx") {
+			App->audio->PlayMusic("audio/music/map2_music.ogg");
+			App->scene->jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
+			App->scene->death_FX = App->audio->LoadFx("audio/fx/Death.wav");
+		}
+		
+		cont++;
+
+	}
 
 	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
@@ -266,13 +306,27 @@ bool j1Scene::CleanUp()
 bool j1Scene::Load(pugi::xml_node& data)
 {
 	LOG("Loading Scene state");
-	App->map->CleanUp();
+	current_map = data.child("scene").attribute("name").as_string();					//check which map have to be loaded and load it
+	
+	if (current_map == "Map.tmx") {
+		
+		first_level = true;
+		FirstLevel();
+	}
+	
+	else if (current_map == "map2.tmx") {
+		
+		SecondLevel();
+
+	}
+
+	/*App->map->CleanUp();
 	App->collider->CleanUp();   //cleans the colliders and map and entities
 	App->entity->CleanEntity();
-	current_map.create(data.child("scene").attribute("name").as_string());					//check which map have to be loaded and load it
+	
 	App->map->Load(current_map.GetString());
 	App->collider->Start();
-	CreateEntities();
+	CreateEntities();*/
 	return true;
 }
 
@@ -285,7 +339,7 @@ bool j1Scene::Save(pugi::xml_node& data) const
 	return true;
 }
 
-void j1Scene::SecondMap() {
+/*void j1Scene::SecondMap() {
 	
 	App->map->CleanUp();
 	App->entity->CleanEntity();
@@ -334,11 +388,120 @@ void j1Scene::SecondMap() {
 		App->entity->DrawEntity(700, 100, j1Entity::entity_type::BAT_ENEMY);
 		App->entity->DrawEntity(2000, 1000, j1Entity::entity_type::BAT_ENEMY);
 
-	}*/
+	}
 
+}*/
+
+void j1Scene::RestartCurrentLevel() {
+
+	if (current_map == "Map.tmx") {
+		
+		App->map->CleanUp();
+		App->entity->CleanEntity();
+		Map1Entities();
+		
+		if (current_map == "Map.tmx") {
+			App->map->Load("Map.tmx");
+		}
+		else if (current_map == "map2.tmx") {
+			App->map->Load("map2.tmx");
+		}
+		App->collider->Start();
+	}
+
+	else if (current_map == "map2.tmx") {
+		
+	
+		App->map->CleanUp();
+		App->entity->CleanEntity();
+		Map2Entities();
+
+		if (current_map == "Map.tmx") {
+			App->map->Load("Map.tmx");
+		}
+		else if (current_map == "map2.tmx") {
+			App->map->Load("map2.tmx");
+		}
+		App->collider->Start();
+	}
+	
 }
 
-bool j1Scene::CreateEntities() {
+
+void j1Scene::FirstLevel() {
+
+	if (first_level == true) {
+
+		App->map->CleanUp();
+		current_map.create("Map.tmx");
+		App->map->Load(current_map.GetString());
+		App->collider->Start();
+		App->entity->CleanEntity();
+		CreateEntities();
+		scene_change = false;
+		first_level = false;
+
+		int w, h;
+		uchar* data = NULL;
+		if (App->map->CreateWalkabilityMap(w, h, &data))
+			App->pathfinding->SetMap(w, h, data);
+		RELEASE_ARRAY(data);
+
+		cont = 0;
+
+	}
+
+	else if (first_level == false) {
+
+		if (scene_change == false) {
+
+			scene_change_timer = SDL_GetTicks();
+			App->fade->FadeInScene(2);
+			scene_change = true;
+			cont = 0;
+		}
+
+		if (SDL_GetTicks() - scene_change_timer > 1040) {
+
+			App->map->CleanUp();
+			current_map.create("Map.tmx");
+			App->map->Load(current_map.GetString());
+			App->entity->CleanEntity();
+			App->collider->Start();
+			CreateEntities();
+			scene_change = false;
+			scene_change_timer = false;
+			cont = 0;
+		}
+
+		int w, h;
+		uchar* data = NULL;
+		if (App->map->CreateWalkabilityMap(w, h, &data))
+			App->pathfinding->SetMap(w, h, data);
+		RELEASE_ARRAY(data);
+		cont = 0;
+	}
+}
+
+void j1Scene::SecondLevel() {
+
+	App->map->CleanUp();
+	current_map.create("map2.tmx");
+	App->map->Load(current_map.GetString());
+	App->entity->CleanEntity();
+	App->collider->Start();
+	CreateEntities();
+	scene_change = true;
+
+	int w, h;
+	uchar* data = NULL;
+	if (App->map->CreateWalkabilityMap(w, h, &data))
+		App->pathfinding->SetMap(w, h, data);
+	RELEASE_ARRAY(data);
+	cont = 0;
+}
+
+void j1Scene::CreateEntities() {
 
 	if (current_map == "Map.tmx") {
 
@@ -363,5 +526,30 @@ bool j1Scene::CreateEntities() {
 		
 	}
 
-	return true;
+}
+
+void j1Scene::Map1Entities() {
+
+
+	App->entity->CleanEntity();
+	App->entity->DrawEntity(100, 500, j1Entity::entity_type::PLAYER);
+	App->entity->DrawEntity(2550, 200, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
+	App->entity->DrawEntity(5250, 400, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
+	App->entity->DrawEntity(4000, 200, j1Entity::entity_type::BAT_ENEMY);
+	App->entity->DrawEntity(700, 200, j1Entity::entity_type::BAT_ENEMY);
+	App->entity->DrawEntity(200, 500, j1Entity::entity_type::HEART);
+	App->entity->DrawEntity(200, 600, j1Entity::entity_type::COIN);
+	App->collider->Start();
+}
+
+void j1Scene::Map2Entities() {
+	
+
+	App->entity->CleanEntity();
+	App->entity->DrawEntity(55, 100, j1Entity::entity_type::PLAYER);
+	App->entity->DrawEntity(1500, 500, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
+	App->entity->DrawEntity(500, 100, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
+	App->entity->DrawEntity(700, 100, j1Entity::entity_type::BAT_ENEMY);
+	App->entity->DrawEntity(2000, 1000, j1Entity::entity_type::BAT_ENEMY);
+	App->collider->Start();
 }

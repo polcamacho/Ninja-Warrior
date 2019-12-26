@@ -30,14 +30,15 @@ bool j1Map::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Map Parser");
 	folder.create(config.child("folder").child_value());
-	
+
+
 	return true;
 }
 // ----------------------------------------------------
 void j1Map::Draw()
 {
 	BROFILER_CATEGORY("Draw Map",Profiler::Color::Chocolate)
-		
+
 	
 	if (map_loaded == false)
 		return;
