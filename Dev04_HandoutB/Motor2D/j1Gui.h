@@ -3,6 +3,7 @@
 
 #include "j1Module.h"
 #include "p2List.h"
+#include "p2Point.h"
 
 #define CURSOR_WIDTH 2
 
@@ -47,7 +48,7 @@ public:
 	// Gui creation functions
 	UI_element* CreateButton(int x, int y, SDL_Rect idle, SDL_Rect hover, SDL_Rect click, UI_element* parent, j1Module* Observer);
 	UI_element* CreateImage(int x, int y, SDL_Rect rect, UI_element* parent, j1Module* CallBack);
-	UI_element* CreateSlider(int x, int y, SDL_Rect rect, UI_element* parent, j1Module* CallBack);
+	UI_element* CreateSlider(int x, int y, SDL_Rect left_button, SDL_Rect right_button, SDL_Rect scrollbar, SDL_Rect image_rect, iPoint slider_pos, UI_element* parent, j1Module* Observer);
 	UI_element* CreateLabel(int x, int y, char* text_input, UI_element* parent, j1Module* CallBack);
 
 	/*void CreateImage(SDL_Rect& dimensions);
