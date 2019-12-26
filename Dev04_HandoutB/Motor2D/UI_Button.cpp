@@ -38,6 +38,7 @@ bool UI_Button::Draw()
 bool UI_Button::Update(float dt)
 {
 	counter = 0;
+
 	if (IsIntersection() == true) {
 
 		counter++;

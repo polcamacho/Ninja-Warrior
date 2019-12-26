@@ -110,9 +110,9 @@ UI_element* j1Gui::CreateImage(int x, int y, UI_Type type, SDL_Rect rect, UI_ele
 	return image;
 }
 
-UI_element* j1Gui::CreateSlider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect button, UI_element* parent, j1Module* Observer)
+UI_element* j1Gui::CreateSlider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect button, float width, UI_element* parent, j1Module* Observer)
 {
-	UI_Slider* slider = new UI_Slider(x, y, type, scrollbar, button, parent, Observer);
+	UI_Slider* slider = new UI_Slider(x, y, type, scrollbar, button, width, parent, Observer);
 
 	ui_element.add(slider);
 
