@@ -700,20 +700,20 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 		if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_NEXT) {
 
 			if (preposition.y < c2->rect.y || position.y == c2->rect.y - entity_colliders->rect.h) {	//Checks that player collider from above	
-				//App->scene->SecondMap();	//Pass to next map
+				App->scene->SecondMap();	//Pass to next map
 			}
 		
 			else if (preposition.y > (c2->rect.y + c2->rect.h)) {	//Checks that player collider from below
-				//App->scene->SecondMap();	//Pass to next map
+				App->scene->SecondMap();	//Pass to next map
 			}
 		
 			else if ((position.x < c2->rect.x + c2->rect.w && position.x > c2->rect.x) || (position.x + entity_colliders->rect.w < c2->rect.x + c2->rect.w && position.x + entity_colliders->rect.w > c2->rect.x)) {	//Checks that player collider from sides
 			
 				if ((position.x + entity_colliders->rect.w) < (c2->rect.x + c2->rect.w)) {		//Checks that player collides from left
-					//App->scene->SecondMap();	//Pass to next map
+					App->scene->SecondMap();	//Pass to next map
 				}
 				else if (position.x < (c2->rect.x + c2->rect.w)) {	//Checks that player collides from right
-					//App->scene->SecondMap();	//Pass to next map
+					App->scene->SecondMap();	//Pass to next map
 				}
 			}
 		}

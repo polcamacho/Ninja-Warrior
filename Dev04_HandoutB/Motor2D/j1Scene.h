@@ -34,6 +34,7 @@ public:
 	bool CleanUp();
 
 	//Debug
+	void SecondMap();
 	void FirstLevel();
 	void SecondLevel();
 	void RestartCurrentLevel();
@@ -56,7 +57,7 @@ public:
 	int cont = 0;
 	
 	
-	//void SecondMap();
+	
 	
 
 	
