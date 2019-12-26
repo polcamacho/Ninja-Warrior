@@ -12,7 +12,7 @@ class UI_Button : public UI_element
 {
 public:
 
-	UI_Button(int x, int y, SDL_Rect idle, SDL_Rect hover, SDL_Rect click, UI_element* parent, j1Module* Observer);
+	UI_Button(int x, int y, UI_Type type, SDL_Rect idle, SDL_Rect hover, SDL_Rect click, UI_element* parent, j1Module* Observer);
 
 	//Destructor
 	~UI_Button() {}

@@ -7,6 +7,10 @@
 #include "j1Audio.h"
 #include "j1Scene.h"
 #include "j1Gui.h"
+#include "UI_Button.h"
+#include "UI_Slider.h"
+#include "UI_Label.h"
+#include "j1Image.h"
 #include "p2Log.h"
 
 j1MainMenu::j1MainMenu()
@@ -48,19 +52,21 @@ bool j1MainMenu::Start()
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;
 
-	App->gui->CreateImage(525, 225, { 796, 9, 399, 488 }, NULL, this);
-	App->gui->CreateButton(625, 350, { 819,514,92,92 }, { 692,513,92,92 }, { 692, 395, 92, 92 } , NULL, this);
-	App->gui->CreateButton(725, 350, { 819,514,92,92 }, { 692,513,92,92 }, { 692, 395, 92, 92 }, NULL, this);
-	App->gui->CreateButton(625, 450, { 819,514,92,92 }, { 692,513,92,92 }, { 692, 395, 92, 92 }, NULL, this);
-	App->gui->CreateButton(725, 450, { 819,514,92,92 }, { 692,513,92,92 }, { 692, 395, 92, 92 }, NULL, this);
+	App->gui->CreateImage(525, 225, Image, { 796, 9, 399, 488 }, NULL, this);
 
+	App->gui->CreateButton(625, 350, Button_play, { 819,514,92,92 }, { 692,513,92,92 }, { 692, 395, 92, 92 } , NULL, this);
+	App->gui->CreateButton(725, 350, Button_settings, { 935,512,96,98 }, { 576,513,96,97 }, { 572, 395, 97, 98 }, NULL, this);
+	App->gui->CreateButton(625, 450, Button_info, { 1049,516,92,92 }, { 455,513,92,93 }, { 452, 397, 92, 92 }, NULL, this);
+	App->gui->CreateButton(725, 450, Button_restart, { 0,60,44,44 }, { 116,53,91,93 }, { 228, 58, 91, 91 }, NULL, this);
+	App->gui->CreateButton(775, 300, Button_close, { 0,0,92,92 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);
 
-	App->gui->CreateLabel(100, 100, "ADIOS", NULL, this);
-
-	App->gui->CreateSlider(100, 150, { 38,169,214,24 }, { 125,221,34,36 }, 200 , NULL, this);
+	App->gui->CreateLabel(100, 100, Label, "ADIOS", NULL, this);
 
 	//App->gui->CreateButton(250, 500, { 337, 0, 79, 77 }, { 236, 0, 79, 77 }, { 431, 0, 79, 77 }, NULL, this);
 	//App->gui->CreateSlider(100, 500, { 136,55,113,85 }, NULL, this);
+
+	App->gui->CreateSlider(100, 150, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
+
 	
 	LOG("MAIN MENU");
 

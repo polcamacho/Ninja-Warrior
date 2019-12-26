@@ -5,14 +5,13 @@
 #include "p2List.h"
 #include "p2Point.h"
 
+
 #define CURSOR_WIDTH 2
 
 struct SDL_Texture;
 struct SDL_Rect;
 class UI_element;
-
-// TODO 1: Create your structure of classes
-
+enum UI_Type;
 
 // ---------------------------------------------------
 class j1Gui : public j1Module
@@ -46,10 +45,11 @@ public:
 	// TODO 2: Create the factory methods
 
 	// Gui creation functions
-	UI_element* CreateButton(int x, int y, SDL_Rect idle, SDL_Rect hover, SDL_Rect click, UI_element* parent, j1Module* Observer);
-	UI_element* CreateImage(int x, int y, SDL_Rect rect, UI_element* parent, j1Module* CallBack);
-	UI_element* CreateSlider(int x, int y, SDL_Rect scrollbar, SDL_Rect button, float width, UI_element* parent, j1Module* Observer);
-	UI_element* CreateLabel(int x, int y, char* text_input, UI_element* parent, j1Module* CallBack);
+	UI_element* CreateButton(int x, int y, UI_Type type, SDL_Rect idle, SDL_Rect hover, SDL_Rect click, UI_element* parent, j1Module* Observer);
+	UI_element* CreateImage(int x, int y, UI_Type type, SDL_Rect rect, UI_element* parent, j1Module* CallBack);
+	UI_element* CreateSlider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect button, float width, UI_element* parent, j1Module* Observer);
+	UI_element* CreateLabel(int x, int y, UI_Type type, char* text_input, UI_element* parent, j1Module* CallBack);
+
 
 	/*void CreateImage(SDL_Rect& dimensions);
 	void CreateText(SDL_Rect& dimensions);
@@ -57,7 +57,7 @@ public:
 
 
 public:
-	
+
 	p2List<UI_element*> ui_element;
 
 private:

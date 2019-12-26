@@ -4,7 +4,7 @@
 #include "j1Gui.h"
 
 
-UI_element::UI_element(int x, int y, UI_element * parent, j1Module * Observer) : pos(x, y)
+UI_element::UI_element(int x, int y, UI_Type type, UI_element * parent, j1Module * Observer) : pos(x, y)
 {
 	texture = App->gui->GetAtlas();
 	this->element_UI = parent;

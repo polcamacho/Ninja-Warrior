@@ -5,7 +5,7 @@
 #include "j1Fonts.h"
 #include "UI_element.h"
 
-UI_Label::UI_Label(int x, int y, char* text_input, UI_element * parent, j1Module * Observer) : UI_element(x, y, parent, Observer)
+UI_Label::UI_Label(int x, int y, UI_Type type, char* text_input, UI_element * parent, j1Module * Observer) : UI_element(x, y, type, parent, Observer)
 {
 
 }

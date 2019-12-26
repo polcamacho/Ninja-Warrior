@@ -1,11 +1,11 @@
-#include "UI_Slider.h"
 #include "p2Log.h"
 #include "j1Audio.h"
-#include "UI_Button.h"
 #include "j1Gui.h"
+#include "UI_Button.h"
+#include "UI_Slider.h"
 #include "j1Render.h"
 
-UI_Slider::UI_Slider(int x, int y, SDL_Rect scrollbar, SDL_Rect button, float width, UI_element* parent, j1Module* Observer) : UI_element(x, y, parent, Observer)
+UI_Slider::UI_Slider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect button, float width, UI_element* parent, j1Module* Observer) : UI_element(x, y, type, parent, Observer)
 {
 	texture = App->gui->GetAtlas();
 	

@@ -5,7 +5,7 @@
 #include "j1Render.h"
 #include "j1Audio.h"
 
-UI_Button::UI_Button(int x, int y, SDL_Rect idle, SDL_Rect hover, SDL_Rect click, UI_element * parent, j1Module * Observer) : UI_element(x, y, parent, Observer)
+UI_Button::UI_Button(int x, int y, UI_Type type, SDL_Rect idle, SDL_Rect hover, SDL_Rect click, UI_element * parent, j1Module * Observer) : UI_element(x, y, type, parent, Observer)
 {
 	this->pos.x = x;
 	this->pos.y = y;
