@@ -57,7 +57,7 @@ bool j1MainMenu::Start()
 
 	App->gui->CreateLabel(100, 100, "ADIOS", NULL, this);
 
-	App->gui->CreateSlider(100, 150, { 38,169,214,24 }, { 125,221,34,36 }, NULL, this);
+	App->gui->CreateSlider(100, 150, { 38,169,214,24 }, { 125,221,34,36 }, 200 , NULL, this);
 
 	//App->gui->CreateButton(250, 500, { 337, 0, 79, 77 }, { 236, 0, 79, 77 }, { 431, 0, 79, 77 }, NULL, this);
 	//App->gui->CreateSlider(100, 500, { 136,55,113,85 }, NULL, this);
