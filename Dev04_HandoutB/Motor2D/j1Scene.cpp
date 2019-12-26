@@ -56,7 +56,6 @@ bool j1Scene::Start()
 {
 	if (App->map->active==true) {
 
-		
 		LOG("LOADING MAP");
 		current_map = maps.start->data;
 	
@@ -144,28 +143,21 @@ bool j1Scene::Update(float dt)
 
 
 		App->map->CleanUp();
-		current_map.create("Map.tmx");				// it starts in map 1 
-		App->map->Load(current_map.GetString());
+		App->map->Load("Map.tmx");
 
-		if (current_map == "Map.tmx") {												//load audio from map 1
+		/*App->audio->PlayMusic("audio/music/map1_music.ogg");
+		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
+		death_FX = App->audio->LoadFx("audio/fx/Death.wav");*/
 
-			App->audio->PlayMusic("audio/music/map1_music.ogg");
-			jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
-			death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-
-		}
-
-		int w, h;
+		/*int w, h;
 		uchar* data = NULL;
 		if (App->map->CreateWalkabilityMap(w, h, &data))
 			App->pathfinding->SetMap(w, h, data);
-		RELEASE_ARRAY(data);
+		RELEASE_ARRAY(data);*/
 
 		App->entity->CleanEntity();
 		CreateEntities();
-				
-		App->map->Draw();
-
+		
 	}
 
 	i = i->next;
@@ -174,28 +166,22 @@ bool j1Scene::Update(float dt)
 
 
 		App->map->CleanUp();
-		current_map.create("map2.tmx");								// it starts in map 1 
-		App->map->Load(current_map.GetString());
+		App->map->Load("map2.tmx");
 
-		//charge map 2 position when player presses F2
-		if (current_map == "map2.tmx") {
-
-		App->audio->PlayMusic("audio/music/map2_music.ogg");						//load audio from map 1
+		/*App->audio->PlayMusic("audio/music/map2_music.ogg");						//load audio from map 1
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
-		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
+		death_FX = App->audio->LoadFx("audio/fx/Death.wav");*/
 
-		}
-
-		int w, h;
+		/*int w, h;
 		uchar* data = NULL;
 		if (App->map->CreateWalkabilityMap(w, h, &data))
 			App->pathfinding->SetMap(w, h, data);
-		RELEASE_ARRAY(data);
+		RELEASE_ARRAY(data);*/
 
 		App->entity->CleanEntity();
 		CreateEntities();
 		
-		App->map->Draw();
+		//App->map->Draw();
 
 	}
 
@@ -212,6 +198,12 @@ bool j1Scene::Update(float dt)
 	{
 		App->entity->CleanEntity();
 		CreateEntities();
+		if (current_map == "Map.tmx") {
+			App->map->Load("Map.tmx");
+		}
+		else if (current_map == "map2.tmx") {
+			App->map->Load("map2.tmx");
+		}
 	}
 
 	//save player position in every map
@@ -294,11 +286,10 @@ bool j1Scene::Save(pugi::xml_node& data) const
 }
 
 void j1Scene::SecondMap() {
-
-
+	
 	App->map->CleanUp();
 	App->entity->CleanEntity();
-	
+	CreateEntities();
 	p2List_item<p2SString>* iterator;
 	for (iterator = maps.start; iterator->data != current_map.GetString(); iterator = iterator->next) {
 	}
@@ -316,7 +307,7 @@ void j1Scene::SecondMap() {
 
 	App->map->Draw();
 
-	if (current_map == "Map.tmx") {
+	/*if (current_map == "Map.tmx") {
 
 		App->audio->PlayMusic("audio/music/map1_music.ogg");
 		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
@@ -343,7 +334,7 @@ void j1Scene::SecondMap() {
 		App->entity->DrawEntity(700, 100, j1Entity::entity_type::BAT_ENEMY);
 		App->entity->DrawEntity(2000, 1000, j1Entity::entity_type::BAT_ENEMY);
 
-	}
+	}*/
 
 }
 

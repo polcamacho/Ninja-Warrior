@@ -12,11 +12,11 @@
 j1MainMenu::j1MainMenu()
 {
 	name.create("gui");
-
 }
 
 j1MainMenu::~j1MainMenu()
-{}
+{
+}
 
 bool j1MainMenu::Awake(pugi::xml_node& conf)
 {
@@ -47,8 +47,6 @@ bool j1MainMenu::Start()
 
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;
-
-	
 
 	App->gui->CreateImage(525, 225, { 796, 9, 399, 488 }, NULL, this);
 	App->gui->CreateButton(625, 350, { 819,514,92,92 }, { 692,513,92,92 }, { 692, 395, 92, 92 } , NULL, this);
@@ -90,6 +88,16 @@ bool j1MainMenu::Update(float dt)
 	{
 		App->fade->FadeToBlack(App->main_menu, App->scene, 2);
 
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		return false;
+
+	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN) {
+		App->audio->Change_Volume(0.1, 1);
+	}
+	else if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN) {
+		App->audio->Change_Volume(0.1, 0);
 	}
 
 	return true;
