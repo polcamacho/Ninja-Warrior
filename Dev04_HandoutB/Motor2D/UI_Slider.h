@@ -14,7 +14,7 @@ class UI_Slider : public UI_element
 public:
 
 
-	UI_Slider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect button, SDL_Rect left_button, float width, UI_element* parent, j1Module* Observer);
+	UI_Slider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect button, float width, UI_element* parent, j1Module* Observer);
 
 	~UI_Slider();
 
@@ -37,11 +37,7 @@ private:
 	iPoint last_mouse_pos;
 	SDL_Rect Button_Scrollbar;
 	SDL_Rect Scrollbar;
-
 	float initial, max, actual_pos;
-
-	SDL_Rect L_Button;
-	SDL_Rect R_Button;
 
 };
 

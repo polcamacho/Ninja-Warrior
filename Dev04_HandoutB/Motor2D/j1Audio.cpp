@@ -192,8 +192,9 @@ void j1Audio::Change_Volume(float change_volume, bool up) {
 		Music_Volume -= change_volume;
 	}
 
-
-	Mix_VolumeMusic(128 * Music_Volume);
+	float total_volume = 128 * Music_Volume;
+	Mix_VolumeMusic(total_volume);
+	LOG("%f", total_volume);
 }
 
 void j1Audio::Change_Volume_Music(float value)

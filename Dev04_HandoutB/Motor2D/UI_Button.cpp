@@ -46,7 +46,7 @@ bool UI_Button::Update(float dt)
 
 		//rect is button hover
 		dimensions = Button_hover;
-		LOG("%i", counter);
+		//LOG("%i", counter);
 
 		//only plays fx once
 		if (counter == 1) {
@@ -65,8 +65,24 @@ bool UI_Button::Update(float dt)
 			if (observer) {
 				observer->Callback(this);
 			}
+
+			if (t == Button_slider_music_left) {
+				App->gui->volume_up = 1;
+			}
+
+			else if (t == Button_slider_music_right) {
+				App->gui->volume_up = 2;
+			}
+
+			//LOG("%i", App->gui->volume_up);
+
 		}
-		
+		else {
+			
+			App->gui->volume_up = 0;
+
+		}
+
 	}
 
 	else {

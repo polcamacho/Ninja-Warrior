@@ -5,7 +5,7 @@
 #include "UI_Slider.h"
 #include "j1Render.h"
 
-UI_Slider::UI_Slider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect button, SDL_Rect left_button, float width, UI_element* parent, j1Module* Observer) : UI_element(x, y, type, parent, Observer)
+UI_Slider::UI_Slider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect button, float width, UI_element* parent, j1Module* Observer) : UI_element(x, y, type, parent, Observer)
 {
 	texture = App->gui->GetAtlas();
 	
@@ -16,7 +16,6 @@ UI_Slider::UI_Slider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect bu
 	actual_pos = x + 89;
 	
 	Button_Scrollbar = button;
-	L_Button = left_button;
 
 	mouse_position_in_button = -1;
 	dimensions.w = button.w + 150;
@@ -32,47 +31,54 @@ UI_Slider::~UI_Slider() {
 bool UI_Slider::Update(float dt)
 {
 
-	if (IsIntersection() == true && App->input->GetMouseButtonDown(SDL_BUTTON_LEFT)==KEY_REPEAT) {
+	if (IsIntersection() == true) {
 
-		if (mouse_position_in_button == -1) {
-			App->input->GetMousePosition(new_mouse_pos.x, new_mouse_pos.y);
-			mouse_position_in_button = new_mouse_pos.x;
+		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT) {
 			
-		}
+			if (mouse_position_in_button == -1) {
+				
+				App->input->GetMousePosition(new_mouse_pos.x, new_mouse_pos.y);
+				mouse_position_in_button = new_mouse_pos.x;
 
-		Mouse_Is_Moving();
-		App->audio->Change_Volume_Music(get_valors());
+			}
+			
+			Mouse_Is_Moving();
+			App->audio->Change_Volume_Music(get_valors());
+
+		}
+		
 	}
+
 	else {
 
 		mouse_position_in_button = -1;
 
-		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN) {
-			
-			if (actual_pos > 100) {
-				
-				App->audio->Change_Volume(0.3, 0);
-				actual_pos -= 10;
-			}
+	}
+	
+	//LOG("%i", App->gui->volume_up);
+
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || App->gui->volume_up == 1) {
+
+		if (actual_pos > 100) {
+
+			App->audio->Change_Volume(0.1, 0);
+			actual_pos -= 10;
 			
 		}
+	
+	}
 
-		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN) {
+	else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->gui->volume_up==2) {
+
+		if (actual_pos < 278) {
+
+			actual_pos += 10;
+			App->audio->Change_Volume(0.1, 1);
 			
-			if (actual_pos < 278) {
-				
-				actual_pos += 10;
-				App->audio->Change_Volume(0.3, 1);
-
-			}
-
 		}
 
 	}
-	
-	
-	
-	
+
 	//LOG("%f", current_point);
 		
 	return true;
@@ -82,7 +88,7 @@ bool UI_Slider::Mouse_Is_Moving() {
 
 	App->input->GetMousePosition(new_mouse_pos.x, new_mouse_pos.y);
 
-	if (new_mouse_pos.x < actual_pos) {
+	/*if (new_mouse_pos.x < actual_pos) {
 		actual_pos = initial;
 		return false;
 	}
@@ -91,12 +97,12 @@ bool UI_Slider::Mouse_Is_Moving() {
 
 		actual_pos = max;
 		return false;
-	}
+	}*/
 
 	actual_pos = new_mouse_pos.x;
 	App->input->GetMouseMotion(last_mouse_pos.x, last_mouse_pos.y);
 
-
+	return true;
 }
 
 bool UI_Slider::Draw() {
@@ -105,7 +111,6 @@ bool UI_Slider::Draw() {
 
 	App->render->Blit(texture, pos.x, pos.y, &Scrollbar, SDL_FLIP_NONE, 1.0f);
 	App->render->Blit(texture, actual_pos, pos.y-4, &Button_Scrollbar, SDL_FLIP_NONE, 1.0f);
-	App->render->Blit(texture, pos.x-30, pos.y - 4, &L_Button, SDL_FLIP_NONE, 1.0f);
 	return true;
 
 }
@@ -125,5 +130,3 @@ float UI_Slider::get_valors()
 	return ret;
 
 }
-
-
