@@ -59,13 +59,8 @@ bool UI_Button::Update(float dt)
 			//rect is button pressed
 			dimensions = Button_click;
 			
+			//only plays fx once
 			App->audio->PlayFx(click_fx, 0);
-
-			if (t == Button_slider_music_left) {
-
-				App->audio->Change_Volume(0.5, 0);
-
-			}
 
 			if (observer) {
 				observer->Callback(this);
@@ -77,11 +72,6 @@ bool UI_Button::Update(float dt)
 	else {
 		dimensions = Button_idle;
 		counter = 0;
-	}
-
-	if (IsIntersection()==true && App->input->GetMouseButtonDown(1) && t == Button_slider_music_right) {
-
-		App->audio->Change_Volume(0.5, 1);
 	}
 
 	return true;

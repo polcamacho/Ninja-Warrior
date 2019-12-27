@@ -14,7 +14,7 @@ class UI_Slider : public UI_element
 public:
 
 
-	UI_Slider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect button, float width, UI_element* parent, j1Module* Observer);
+	UI_Slider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect button, SDL_Rect left_button, float width, UI_element* parent, j1Module* Observer);
 
 	~UI_Slider();
 
@@ -22,11 +22,11 @@ public:
 
 	bool Update(float dt);
 
-	bool SetSliderLimitValues();
-
 	bool Mouse_Is_Moving();
 
 	float get_value();
+
+	void Slider_volume_buttons();
 
 public:
 
@@ -40,6 +40,9 @@ private:
 	
 	SDL_Rect Button_Scrollbar;
 	SDL_Rect Scrollbar;
+	SDL_Rect L_Button;
+	SDL_Rect R_Button;
+
 	float initial_point, max_point, current_point;
 };
 
