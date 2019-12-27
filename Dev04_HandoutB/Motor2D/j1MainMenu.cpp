@@ -92,11 +92,11 @@ bool j1MainMenu::Update(float dt)
 	App->render->Blit(App->main_menu->introTexture, 0, 0);
 
 	// TODO 2: make so pressing SPACE the KEN stage is loaded
-	if (App->input->GetKey(SDL_SCANCODE_LEFT)==KEY_DOWN)
+	/*if (App->input->GetKey(SDL_SCANCODE_LEFT)==KEY_DOWN)
 	{
 		App->fade->FadeToBlack(App->main_menu, App->scene, 2);
 
-	}
+	}*/
 
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		return false;

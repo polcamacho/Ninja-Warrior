@@ -46,8 +46,31 @@ bool UI_Slider::Update(float dt)
 	else {
 
 		mouse_position_in_button = -1;
-		Slider_volume_buttons();
+
+		if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN) {
+			
+			if (actual_pos > 100) {
+				
+				App->audio->Change_Volume(0.3, 0);
+				actual_pos -= 10;
+			}
+			
+		}
+
+		else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN) {
+			
+			if (actual_pos < 278) {
+				
+				actual_pos += 10;
+				App->audio->Change_Volume(0.3, 1);
+
+			}
+
+		}
+
 	}
+	
+	
 	
 	
 	//LOG("%f", current_point);
@@ -103,15 +126,4 @@ float UI_Slider::get_valors()
 
 }
 
-void UI_Slider::Slider_volume_buttons()
-{
-
-	UI_Button* left = (UI_Button*)(pos.x, pos.y, Button_slider_music_left, L_Button, L_Button, L_Button, NULL, this);
-
-	if (left->t==Button_slider_music_left && IsIntersection() == true && App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_DOWN) {
-		LOG("%s", left->t);
-		App->audio->Change_Volume(0.5, 0);
-	}
-
-}
 

@@ -26,7 +26,6 @@ public:
 
 	float get_valors();
 
-	void Slider_volume_buttons();
 
 public:
 
