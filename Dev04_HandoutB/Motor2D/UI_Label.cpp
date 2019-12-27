@@ -28,12 +28,8 @@ bool UI_Label::CleanUp()
 bool UI_Label::SetLabelText(const char * text_input)
 {
 	bool ret = false;
-	//texture = App->gui->GetAtlas();
-	if (texture != nullptr)
-	{
-		App->tex->UnLoad(texture);
-	}
-	text_texture = App->fonts->Print(text_input, { 0,0,0,0 }, App->fonts->fonts.start->data);
+
+	text_texture = App->fonts->Print(text_input, { 255,255,255,0 }, App->fonts->fonts.start->data);
 	
 	if (text_texture != nullptr)
 	{

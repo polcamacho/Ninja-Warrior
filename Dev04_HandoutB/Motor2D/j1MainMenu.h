@@ -17,13 +17,15 @@ public:
 	bool Start();
 	bool Awake(pugi::xml_node&);
 	bool Update(float dt);
+	bool PostUpdate(float dt);
 	bool CleanUp();
+	
 	void CreateMenu();
 	void CreateSettings();
-
+	
 	bool ret_m = true;
 	bool is_menu = true;
-	bool is_settings = true;
+	bool is_settings = false;
 	bool continue_lvl = false;
 	int cont = 0;
 
@@ -33,7 +35,6 @@ public:
 	SDL_Texture* introTexture = nullptr;
 	UI_Type t;
 
-	j1Image* window;
 
 private:
 	p2SString background_image;

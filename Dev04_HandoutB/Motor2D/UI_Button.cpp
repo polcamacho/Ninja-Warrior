@@ -87,21 +87,21 @@ bool UI_Button::Update(float dt)
 				//App->scene->ret_s = false;
 				if (App->main_menu->is_menu == true) {
 					App->main_menu->ret_m = false;
-					//App->main_menu->is_settings = false;
+					App->main_menu->is_settings = false;
 				}
 				if (App->main_menu->is_settings == true) {
+					
+					LOG("HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 					App->main_menu->is_settings = false;
 					App->main_menu->is_menu = true;
-					App->gui->CleanUp();
-					App->main_menu->CreateMenu();
 					App->main_menu->cont = 0;
+
 				}
 				
 			}
 
 			if (t == Button_info) {
-				char url[100] = "https://polcamacho.github.io/Ninja-Warrior";
-				ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
+				ShellExecuteA(NULL, "open", "https://polcamacho.github.io/Ninja-Warrior", NULL, NULL, SW_SHOWNORMAL);
 			}
 
 			if (t == Button_restart) {
@@ -119,12 +119,9 @@ bool UI_Button::Update(float dt)
 
 			if (t == Button_settings) {
 
-				App->main_menu->is_menu=false;
+				App->main_menu->is_menu = false;
 				App->main_menu->is_settings = true;
-				App->gui->CleanUp();
-				App->main_menu->CreateSettings();
 				App->main_menu->cont = 0;
-
 
 			}
 

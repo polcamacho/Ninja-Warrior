@@ -59,7 +59,7 @@ bool UI_Slider::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || App->gui->volume_up == 1) {
 
-		if (actual_pos > 100) {
+		if (actual_pos > 600) {
 
 			App->audio->Change_Volume(0.1, 0);
 			actual_pos -= 10;
@@ -70,7 +70,7 @@ bool UI_Slider::Update(float dt)
 
 	else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->gui->volume_up==2) {
 
-		if (actual_pos < 278) {
+		if (actual_pos < 778) {
 
 			actual_pos += 10;
 			App->audio->Change_Volume(0.1, 1);
