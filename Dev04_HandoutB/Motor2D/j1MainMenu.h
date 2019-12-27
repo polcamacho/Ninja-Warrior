@@ -34,7 +34,7 @@ public:
 	SDL_Texture* graphics = nullptr;
 	SDL_Texture* introTexture = nullptr;
 	UI_Type t;
-
+	j1Image* window;
 
 private:
 	p2SString background_image;

@@ -52,21 +52,11 @@ bool j1MainMenu::Start()
 	App->render->camera.x = 0;
 	App->render->camera.y = 0;
 
+	
+		
+
 	LOG("MAIN MENU");
 
-	/*if (cont == 0) {
-
-		if (is_menu == true) {
-			CreateMenu();
-			cont++;
-		}
-
-		if (is_settings == true) {
-			CreateSettings();
-			cont++;
-		}
-
-	}*/
 
 	return ret;
 }
@@ -105,6 +95,10 @@ bool j1MainMenu::Update(float dt)
 	if (ret_m == false) {
 		return false;
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN) {
+		App->gui->Delete_Element(window);
+	}
 	
 	return true;
 }
@@ -119,6 +113,7 @@ bool j1MainMenu::PostUpdate(float dt)
 
 void j1MainMenu::CreateMenu() {
 	
+	
 	LOG("MENU CREATED");
 	App->gui->CreateImage(525, 225, Image, { 796, 9, 399, 488 }, NULL, this);
 	App->gui->CreateButton(625, 350, Button_play, { 819,514,92,92 }, { 692,513,92,92 }, { 692, 395, 92, 92 }, NULL, this);
@@ -127,7 +122,7 @@ void j1MainMenu::CreateMenu() {
 	App->gui->CreateButton(725, 450, Button_restart, { 0,60,92,92 }, { 115,58,91,91 }, { 228, 58, 91, 91 }, NULL, this);
 	App->gui->CreateButton(775, 300, Button_close, { 0,0,44,44 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);
 
-	
+	window = (j1Image*)App->gui->CreateImage(610, 225, Image, { 2, 278, 202, 58 }, NULL, this);
 
 }
 

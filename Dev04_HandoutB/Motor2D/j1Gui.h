@@ -42,6 +42,8 @@ public:
 
 	SDL_Texture* GetAtlas() const;
 
+	bool Delete_Element(UI_element* element);
+
 	// TODO 2: Create the factory methods
 
 	// Gui creation functions
