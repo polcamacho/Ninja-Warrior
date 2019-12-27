@@ -49,7 +49,7 @@ D+LSHIFT+SPACE: Jump while running forward.
 
 A+LSHIFT+SPACE: Jump while running backward.
 
-P: Kill enemie.
+P: Kill enemy.
 
 ### Double jump!
 
