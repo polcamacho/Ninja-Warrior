@@ -22,25 +22,22 @@ public:
 
 	bool Update(float dt);
 
-	bool SetSliderLimitValues();
-
 	bool Mouse_Is_Moving();
 
-	float get_value();
+	float get_valors();
 
 public:
 
 	iPoint new_mouse_pos;
 	float mouse_position_in_button;
-	iPoint last_mouse_pos;
-	int min, max;
-	int movement;
 
 private:
 	
+	iPoint last_mouse_pos;
 	SDL_Rect Button_Scrollbar;
 	SDL_Rect Scrollbar;
-	float initial_point, max_point, current_point;
+	float initial, max, actual_pos;
+
 };
 
 #endif //_!_UI_SLIDER_

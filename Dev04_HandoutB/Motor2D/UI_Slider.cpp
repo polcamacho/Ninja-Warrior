@@ -9,18 +9,17 @@ UI_Slider::UI_Slider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect bu
 {
 	texture = App->gui->GetAtlas();
 	
-	initial_point = x;
+	initial = x;
 	Scrollbar = scrollbar;
-	max_point = initial_point + (Scrollbar.w+34);
-	current_point = x + 89;
+	max = initial + (Scrollbar.w+34);
+	actual_pos = x + 89;
 	
 	Button_Scrollbar = button;
 	mouse_position_in_button = -1;
 	dimensions.w = button.w + 150;
 	dimensions.h = button.h + 150;
 
-	App->audio->Change_Volume_Music(get_value());
-
+	App->audio->Change_Volume_Music(get_valors());
 
 }
 
@@ -39,7 +38,7 @@ bool UI_Slider::Update(float dt)
 		}
 
 		Mouse_Is_Moving();
-		App->audio->Change_Volume_Music(get_value());
+		App->audio->Change_Volume_Music(get_valors());
 	}
 	else {
 
@@ -56,33 +55,19 @@ bool UI_Slider::Mouse_Is_Moving() {
 
 	App->input->GetMousePosition(new_mouse_pos.x, new_mouse_pos.y);
 
-	if (new_mouse_pos.x < initial_point) {
-		current_point = initial_point;
+	if (new_mouse_pos.x < actual_pos) {
+		actual_pos = initial;
 		return false;
 	}
 
-	if (new_mouse_pos.x > max_point) {
+	if (new_mouse_pos.x > max) {
 
-		current_point = max_point;
+		actual_pos = max;
 		return false;
 	}
 
-	current_point = new_mouse_pos.x;
+	actual_pos = new_mouse_pos.x;
 	App->input->GetMouseMotion(last_mouse_pos.x, last_mouse_pos.y);
-
-	if (current_point < last_mouse_pos.x) {
-
-		//current_point = last_mouse_pos.x;
-		
-	}
-	if (current_point > last_mouse_pos.x) {
-
-		//current_point = last_mouse_pos.x;
-		App->audio->Change_Volume(get_value(), 1);
-	}
-
-
-
 
 }
 
@@ -91,21 +76,21 @@ bool UI_Slider::Draw() {
 	texture = App->gui->GetAtlas();
 
 	App->render->Blit(texture, pos.x, pos.y, &Scrollbar, SDL_FLIP_NONE, 1.0f);
-	App->render->Blit(texture, current_point, pos.y-4, &Button_Scrollbar, SDL_FLIP_NONE, 1.0f);
+	App->render->Blit(texture, actual_pos, pos.y-4, &Button_Scrollbar, SDL_FLIP_NONE, 1.0f);
 
 	return true;
 
 }
 
-float UI_Slider::get_value()
+float UI_Slider::get_valors()
 {
-	int _100 = max_point - initial_point;
-	float _1 = _100 / 100.0f;
+	int max_valor = max - initial;
+	float min_valor = max_valor / 100.0f;
 	float current;
 
-	current = current_point - initial_point;
+	current = actual_pos - initial;
 
-	float ret = current / _1;
+	float ret = current / min_valor;
 
 	//LOG("%f", ret);
 
