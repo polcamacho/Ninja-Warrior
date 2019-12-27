@@ -10,13 +10,12 @@ UI_Slider::UI_Slider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect bu
 	texture = App->gui->GetAtlas();
 	
 	initial_point = x;
-	max_point = initial_point + width;
+	Scrollbar = scrollbar;
+	max_point = initial_point + (Scrollbar.w-34);
 	current_point = x;
 
-	Scrollbar = scrollbar;
 	Button_Scrollbar = button;
 	mouse_position_in_button = -1;
-	dimensions = button;
 }
 
 UI_Slider::~UI_Slider() {}
@@ -24,12 +23,11 @@ UI_Slider::~UI_Slider() {}
 bool UI_Slider::Update(float dt)
 {
 
-	if (IsIntersection() == true && App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT) {
+	if (IsIntersection() == true && App->input->GetMouseButtonDown(1)) {
 
 		if (mouse_position_in_button == -1) {
-			iPoint posi;
-			App->input->GetMousePosition(posi.x, posi.y);
-			mouse_position_in_button = posi.x;
+			App->input->GetMousePosition(new_mouse_pos.x, new_mouse_pos.y);
+			mouse_position_in_button = new_mouse_pos.x;
 		}
 
 		Mouse_Is_Moving();
@@ -60,22 +58,32 @@ bool UI_Slider::SetSliderLimitValues()
 
 bool UI_Slider::Mouse_Is_Moving() {
 
-	iPoint posi;
-	App->input->GetMousePosition(posi.x, posi.y);
+	App->input->GetMousePosition(new_mouse_pos.x, new_mouse_pos.y);
 
-	if (posi.x < initial_point) {
+	if (new_mouse_pos.x < initial_point) {
 		current_point = initial_point;
 		return false;
 	}
 
-	if (posi.x > max_point) {
+	if (new_mouse_pos.x > max_point) {
 
 		current_point = max_point;
 		return false;
 	}
 
-	current_point = posi.x;
+	current_point = new_mouse_pos.x;
+	App->input->GetMouseMotion(last_mouse_pos.x, last_mouse_pos.y);
 
+	if (current_point < last_mouse_pos.x) {
+
+		//current_point = last_mouse_pos.x;
+		App->audio->Change_Volume(0.05, 0);
+	}
+	if (current_point > last_mouse_pos.x) {
+
+		//current_point = last_mouse_pos.x;
+		App->audio->Change_Volume(0.05, 1);
+	}
 }
 
 bool UI_Slider::Draw() {
@@ -83,7 +91,7 @@ bool UI_Slider::Draw() {
 	texture = App->gui->GetAtlas();
 
 	App->render->Blit(texture, pos.x, pos.y, &Scrollbar, SDL_FLIP_NONE, 1.0f);
-	App->render->Blit(texture, current_point, pos.y, &Button_Scrollbar, SDL_FLIP_NONE, 1.0f);
+	App->render->Blit(texture, current_point, pos.y-4, &Button_Scrollbar, SDL_FLIP_NONE, 1.0f);
 
 	return true;
 

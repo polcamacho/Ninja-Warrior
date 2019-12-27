@@ -13,6 +13,8 @@ UI_Button::UI_Button(int x, int y, UI_Type type, SDL_Rect idle, SDL_Rect hover, 
 	this->Button_hover = hover;
 	this->Button_click = click;
 
+	t = type;
+
 	dimensions = idle;
 	click_fx = App->audio->LoadFx("audio/fx/Button_click.wav");
 	hover_fx = App->audio->LoadFx("audio/fx/Button_hover.wav");
@@ -46,7 +48,7 @@ bool UI_Button::Update(float dt)
 		
 		if (counter == 1) {
 
-			App->audio->PlayFx(hover_fx, 0);
+			//App->audio->PlayFx(hover_fx, 0);
 		}
 
 		if (App->input->GetMouseButtonDown(1)) {
@@ -67,6 +69,15 @@ bool UI_Button::Update(float dt)
 
 	else {
 		dimensions = Button_idle;
+	}
+
+	if (IsIntersection()==true && App->input->GetMouseButtonDown(1) && t == Button_slider_music_left) {
+
+		App->audio->Change_Volume(0.05, 0);
+	}
+	if (IsIntersection()==true && App->input->GetMouseButtonDown(1) && t == Button_slider_music_right) {
+
+		App->audio->Change_Volume(0.05, 1);
 	}
 
 

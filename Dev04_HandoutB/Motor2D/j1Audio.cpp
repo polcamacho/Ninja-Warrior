@@ -187,7 +187,7 @@ void j1Audio::Change_Volume(float change_volume, bool up) {
 		Music_Volume += change_volume;
 	}
 	
-	else if(up==0){
+	if(up==0){
 
 		Music_Volume -= change_volume;
 	}

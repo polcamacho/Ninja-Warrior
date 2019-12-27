@@ -30,7 +30,7 @@ public:
 
 	iPoint new_mouse_pos;
 	float mouse_position_in_button;
-	iPoint Slider_pos;
+	iPoint last_mouse_pos;
 	int min, max;
 	int movement;
 

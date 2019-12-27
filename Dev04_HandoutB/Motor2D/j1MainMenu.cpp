@@ -60,10 +60,10 @@ bool j1MainMenu::Start()
 	App->gui->CreateButton(725, 450, Button_restart, { 0,60,92,92 }, { 115,58,91,91 }, { 228, 58, 91, 91 }, NULL, this);
 	App->gui->CreateButton(775, 300, Button_close, { 0,0,44,44 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);
 
-	App->gui->CreateLabel(100, 100, Label, "ADIOS", NULL, this);
+	App->gui->CreateButton(60, 145, Button_slider_music_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
+	App->gui->CreateButton(330, 145, Button_slider_music_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
 
-	//App->gui->CreateButton(250, 500, { 337, 0, 79, 77 }, { 236, 0, 79, 77 }, { 431, 0, 79, 77 }, NULL, this);
-	//App->gui->CreateSlider(100, 500, { 136,55,113,85 }, NULL, this);
+	App->gui->CreateLabel(100, 100, Label, "ADIOS", NULL, this);
 
 	App->gui->CreateSlider(100, 150, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
 
