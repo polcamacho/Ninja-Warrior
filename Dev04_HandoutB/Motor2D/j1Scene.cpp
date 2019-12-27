@@ -14,6 +14,7 @@
 #include "j1Entity.h"
 #include "j1Pathfinding.h"
 #include "j1Fonts.h"
+#include "j1Player.h"
 #include "j1FadeToBlack.h"
 #include "j1Gui.h"
 #include "UI_Button.h"
@@ -309,8 +310,21 @@ bool j1Scene::PostUpdate(float dt)
 
 		if (cont2 == 0) {
 			App->gui->Start();
-			App->gui->CreateImage(300, 250, Image, { 796, 9, 399, 488 }, NULL, this);
+
+			if (App->entity->GetPlayer()->position.x < App->win->width/2) {
+				App->gui->CreateImage(300, 250, Image, { 796, 9, 399, 488 }, NULL, this);
+			}
+			else if (App->entity->GetPlayer()->position.y < App->win->height / 2) {
+				App->gui->CreateImage(App->entity->GetPlayer()->position.x - 200, 150, Image, { 796, 9, 399, 488 }, NULL, this);
+			}
+			else if (App->entity->GetPlayer()->position.y < 600) {
+				App->gui->CreateImage(App->entity->GetPlayer()->position.x - 200, 150, Image, { 796, 9, 399, 488 }, NULL, this);
+			}
+			else {
+				App->gui->CreateImage(App->entity->GetPlayer()->position.x - 200, App->entity->GetPlayer()->position.y - 400, Image, { 796, 9, 399, 488 }, NULL, this);
+			}
 			cont2++;
+
 		}
 		
 	}

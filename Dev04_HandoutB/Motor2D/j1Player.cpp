@@ -834,6 +834,7 @@ void j1Player::Camera() {
 
 		App->render->camera.x = -(position.x) + (App->win->width / 2);
 		App->render->camera.y = -(position.y) + (App->win->height / 1.40);
+
 	}
 	else {
 

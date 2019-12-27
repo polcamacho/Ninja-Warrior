@@ -11,15 +11,15 @@
 	<:anonymous />
 	<pathfinding />
 	<entitymanager>
-		<playerposition x="100" y="641" />
+		<playerposition x="3269" y="1109" />
 		<golem1position x="5250" y="638" />
-		<batposition x="700" y="200" />
+		<batposition x="2135" y="475" />
 	</entitymanager>
 	<fonts />
 	<gui />
 	<gui />
 	<:anonymous />
 	<renderer>
-		<camera x="0" y="-92" />
+		<camera x="-2744" y="-560" />
 	</renderer>
 </game_state>

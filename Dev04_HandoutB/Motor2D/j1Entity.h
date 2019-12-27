@@ -53,6 +53,7 @@ public:
 	iPoint				position;	//Position of the player (x,y)
 	iPoint				preposition;
 	iPoint				v;	//Velocity of the player (x,y)
+
 	int					gravity;
 
 	Animation* current_animation = nullptr;

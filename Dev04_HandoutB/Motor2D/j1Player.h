@@ -58,7 +58,7 @@ struct PlayerData
 	bool checkpoint = false;
 
 	iPoint		ipos;
-		
+
 	float velrun;			//velocity while running
 };
 
@@ -115,6 +115,7 @@ public:
 	int count = 0;
 
 	p2SString			name;
+	
 
 private:
 
