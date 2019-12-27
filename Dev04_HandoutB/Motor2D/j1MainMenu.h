@@ -5,7 +5,7 @@
 #include "j1Module.h"
 #include "p2Point.h"
 struct SDL_Texture;
-
+enum UI_Type;
 
 class j1MainMenu : public j1Module
 {
@@ -22,6 +22,7 @@ public:
 
 	SDL_Texture* graphics = nullptr;
 	SDL_Texture* introTexture = nullptr;
+	UI_Type t;
 
 private:
 	p2SString background_image;

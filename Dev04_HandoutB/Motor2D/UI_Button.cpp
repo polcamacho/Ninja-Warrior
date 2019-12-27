@@ -39,47 +39,50 @@ bool UI_Button::Draw()
 
 bool UI_Button::Update(float dt)
 {
-	counter = 0;
-
+	//if cursor is inside button rectangle
 	if (IsIntersection() == true) {
-
-		counter++;
-		dimensions = Button_hover;
 		
+		counter++;
+
+		//rect is button hover
+		dimensions = Button_hover;
+		LOG("%i", counter);
+
+		//only plays fx once
 		if (counter == 1) {
 
-			//App->audio->PlayFx(hover_fx, 0);
+			App->audio->PlayFx(hover_fx, 0);
 		}
 
-		if (App->input->GetMouseButtonDown(1)) {
+		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT)==KEY_DOWN) {
 
+			//rect is button pressed
 			dimensions = Button_click;
 			
-			LOG("%i", counter);
-			if (counter == 1) {
-				App->audio->PlayFx(click_fx, 0);
+			App->audio->PlayFx(click_fx, 0);
+
+			if (t == Button_slider_music_left) {
+
+				App->audio->Change_Volume(0.5, 0);
+
 			}
 
 			if (observer) {
 				observer->Callback(this);
 			}
 		}
-		counter = 0;
+		
 	}
 
 	else {
 		dimensions = Button_idle;
+		counter = 0;
 	}
 
-	if (IsIntersection()==true && App->input->GetMouseButtonDown(1) && t == Button_slider_music_left) {
-
-		App->audio->Change_Volume(0.05, 0);
-	}
 	if (IsIntersection()==true && App->input->GetMouseButtonDown(1) && t == Button_slider_music_right) {
 
-		App->audio->Change_Volume(0.05, 1);
+		App->audio->Change_Volume(0.5, 1);
 	}
-
 
 	return true;
 

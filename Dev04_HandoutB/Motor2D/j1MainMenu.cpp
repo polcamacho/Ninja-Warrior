@@ -87,6 +87,8 @@ bool j1MainMenu::CleanUp()
 bool j1MainMenu::Update(float dt)
 {
 
+	
+
 	App->render->Blit(App->main_menu->introTexture, 0, 0);
 
 	// TODO 2: make so pressing SPACE the KEN stage is loaded
