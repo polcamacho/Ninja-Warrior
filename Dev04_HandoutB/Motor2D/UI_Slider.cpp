@@ -12,17 +12,20 @@ UI_Slider::UI_Slider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect bu
 	initial_point = x;
 	Scrollbar = scrollbar;
 	max_point = initial_point + (Scrollbar.w+34);
-	current_point = x;
-
+	current_point = x + 89;
+	
 	Button_Scrollbar = button;
 	mouse_position_in_button = -1;
 	dimensions.w = button.w + 150;
 	dimensions.h = button.h + 150;
-	dimensions.x = button.x + 150;
-	dimensions.y = button.y + 150;
+
+	App->audio->Change_Volume_Music(get_value());
+
+
 }
 
-UI_Slider::~UI_Slider() {}
+UI_Slider::~UI_Slider() {
+}
 
 bool UI_Slider::Update(float dt)
 {
@@ -32,33 +35,20 @@ bool UI_Slider::Update(float dt)
 		if (mouse_position_in_button == -1) {
 			App->input->GetMousePosition(new_mouse_pos.x, new_mouse_pos.y);
 			mouse_position_in_button = new_mouse_pos.x;
+			
 		}
 
 		Mouse_Is_Moving();
+		App->audio->Change_Volume_Music(get_value());
 	}
 	else {
 
 		mouse_position_in_button = -1;
-	
-	}
-
-	LOG("%f", current_point);
 		
-	return true;
-}
-
-bool UI_Slider::SetSliderLimitValues()
-{
-
-	/*min = Scrollbar.x + 3;
-	max = Scrollbar.w - 3;
-
-	/*UI_Button* left_button = new UI_Button(x,y, { 0,163,33,37 }, { 0,163,33,37 },{ 0,163,33,37 },&left_button,this);
-	ui_element.add(left_button);
-	if (IsIntersection() == true) {
-		App->audio->Change_Volume(0.1, 0);
-	}*/
-
+	}
+	
+	//LOG("%f", current_point);
+		
 	return true;
 }
 
@@ -83,12 +73,12 @@ bool UI_Slider::Mouse_Is_Moving() {
 	if (current_point < last_mouse_pos.x) {
 
 		//current_point = last_mouse_pos.x;
-		App->audio->Change_Volume(0.05, 0);
+		
 	}
 	if (current_point > last_mouse_pos.x) {
 
 		//current_point = last_mouse_pos.x;
-		App->audio->Change_Volume(0.05, 1);
+		App->audio->Change_Volume(get_value(), 1);
 	}
 
 
@@ -104,5 +94,21 @@ bool UI_Slider::Draw() {
 	App->render->Blit(texture, current_point, pos.y-4, &Button_Scrollbar, SDL_FLIP_NONE, 1.0f);
 
 	return true;
+
+}
+
+float UI_Slider::get_value()
+{
+	int _100 = max_point - initial_point;
+	float _1 = _100 / 100.0f;
+	float current;
+
+	current = current_point - initial_point;
+
+	float ret = current / _1;
+
+	//LOG("%f", ret);
+
+	return ret;
 
 }

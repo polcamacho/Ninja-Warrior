@@ -26,6 +26,8 @@ public:
 
 	bool Mouse_Is_Moving();
 
+	float get_value();
+
 public:
 
 	iPoint new_mouse_pos;

@@ -36,9 +36,15 @@ public:
 
 	void Change_Volume(float change_volume, bool up);
 	
+	void Change_Volume_Music(float value);
+	void Change_Volume_FX(float value);
+
 	float Music_Volume;
 
 private:
+
+	float				music_volume;
+	float				fx_volume;
 
 	_Mix_Music*			music = nullptr;
 
