@@ -4,6 +4,9 @@
 #include "UI_element.h"
 #include "j1Render.h"
 #include "j1Audio.h"
+#include "j1FadeToBlack.h"
+#include "j1MainMenu.h"
+#include "j1Scene.h"
 
 UI_Button::UI_Button(int x, int y, UI_Type type, SDL_Rect idle, SDL_Rect hover, SDL_Rect click, UI_element * parent, j1Module * Observer) : UI_element(x, y, type, parent, Observer)
 {
@@ -72,6 +75,57 @@ bool UI_Button::Update(float dt)
 
 			else if (t == Button_slider_music_right) {
 				App->gui->volume_up = 2;
+			}
+
+			if (t == Button_play) {
+				App->fade->FadeToBlack(App->main_menu, App->scene, 2);
+			}
+
+			if (t == Button_close) {
+				LOG("HOLA");
+				
+				//App->scene->ret_s = false;
+				if (App->main_menu->is_menu == true) {
+					App->main_menu->ret_m = false;
+					//App->main_menu->is_settings = false;
+				}
+				if (App->main_menu->is_settings == true) {
+					App->main_menu->is_settings = false;
+					App->main_menu->is_menu = true;
+					App->gui->CleanUp();
+					App->main_menu->CreateMenu();
+					App->main_menu->cont = 0;
+				}
+				
+			}
+
+			if (t == Button_info) {
+				char url[100] = "https://polcamacho.github.io/Ninja-Warrior";
+				ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
+			}
+
+			if (t == Button_restart) {
+				
+				if (App->main_menu->is_menu == true) {
+					App->fade->FadeToBlack(App->main_menu, App->scene, 2);
+					App->main_menu->continue_lvl = true;
+				}
+
+				if (App->scene->is_pause) {
+
+				}
+
+			}
+
+			if (t == Button_settings) {
+
+				App->main_menu->is_menu=false;
+				App->main_menu->is_settings = true;
+				App->gui->CleanUp();
+				App->main_menu->CreateSettings();
+				App->main_menu->cont = 0;
+
+
 			}
 
 			//LOG("%i", App->gui->volume_up);

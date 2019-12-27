@@ -5,6 +5,7 @@
 
 struct SDL_Texture;
 class j1Entity;
+enum UI_Type;
 
 class j1Scene : public j1Module
 {
@@ -55,12 +56,9 @@ public:
 	p2SString current_map;
 
 	int cont = 0;
-	
-	
-	
-	
-
-	
+	int cont2 = 0;
+	bool ret_s = true;
+	bool is_pause = false;
 
 private:
 

@@ -261,7 +261,7 @@ void j1App::FinishUpdate()
 		if (last_frame_ms < 1000 / framerate_cap) SDL_Delay(delay);
 	}
 
-	if (pause) {
+	if (App->scene->is_pause) {
 		dt = 0;
 	}
 	else {

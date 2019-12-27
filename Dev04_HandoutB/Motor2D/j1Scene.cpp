@@ -16,6 +16,10 @@
 #include "j1Fonts.h"
 #include "j1FadeToBlack.h"
 #include "j1Gui.h"
+#include "UI_Button.h"
+#include "UI_Slider.h"
+#include "UI_Label.h"
+#include "j1Image.h"
 #include "j1MainMenu.h"
 #include "p2SString.h"
 
@@ -59,6 +63,11 @@ bool j1Scene::Start()
 	if (App->map->active==true) {
 
 		LOG("LOADING MAP");
+		if (App->main_menu->continue_lvl == true) {
+			App->LoadGame();
+			App->main_menu->continue_lvl = false;
+		}
+
 		current_map = map_list.start->data;
 	
 		App->map->Load(current_map.GetString());
@@ -119,7 +128,12 @@ bool j1Scene::PreUpdate(float dt)
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
+		
+		cont2 = 0;
+		is_pause = !is_pause;
+		App->gui->CleanUp();
+	}
 
 
 	int w, h;
@@ -287,8 +301,19 @@ bool j1Scene::PostUpdate(float dt)
 
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+	if(ret_s==false){
+		return false;
+	}
+
+	if (is_pause) {
+
+		if (cont2 == 0) {
+			App->gui->Start();
+			App->gui->CreateImage(300, 250, Image, { 796, 9, 399, 488 }, NULL, this);
+			cont2++;
+		}
+		
+	}
 
 	return ret;
 }
