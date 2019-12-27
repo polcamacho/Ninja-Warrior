@@ -13,6 +13,7 @@
 
 struct SDL_Texture;
 class j1Player;
+enum entity_type;
 class j1EntityManager :public j1Module {
 
 public:
@@ -26,7 +27,7 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 	bool CleanEntity();
-	void DeleteEntity();
+	void DeleteEntity(j1Entity* entity);
 
 
 	// Called each loop iteration

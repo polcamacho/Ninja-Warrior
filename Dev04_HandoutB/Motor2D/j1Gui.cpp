@@ -89,7 +89,7 @@ bool j1Gui::CleanUp()
 
 bool j1Gui::Delete_Element(UI_element* element) {
 	
-	int index = ui_element.find(element);
+	ui_element.find(element);
 	p2List_item<UI_element*>* item = nullptr;
 	for (item = ui_element.start; item; item = item->next)
 	{

@@ -69,7 +69,7 @@ public:
 	SDL_Texture* debug_tex;
 	int jump_FX;
 	int death_FX;
-
+	j1Entity* coin;
 	
 
 };

@@ -52,7 +52,7 @@ bool j1Coin::Start() {
 	c.w = 28;
 	c.h = 28;
 
-	entity_colliders = App->collider->AddCollider(&c, COLLIDER_COIN, this);	//Sets The Collider Type and Dimensions to Player
+	entity_colliders = App->collider->AddCollider(&c, COLLIDER_COIN, this);	//Sets The Collider Type and Dimensions to Coin
 
 	return	true;
 
@@ -60,7 +60,7 @@ bool j1Coin::Start() {
 
 bool j1Coin::PreUpdate(float dt) {
 
-	BROFILER_CATEGORY("PreUpdateHeart", Profiler::Color::Coral);
+	BROFILER_CATEGORY("PreUpdate Coin", Profiler::Color::Coral);
 
 	return true;
 
@@ -72,11 +72,11 @@ bool j1Coin::Update(float dt) {
 
 	preposition = position;
 
-	State(dt);	//Set the animation relationed with the state that he is
+	State(dt);	//Set the animation relationed with the state that it is
 
 	DrawCollider();
 
-	//Heart Draw
+	//Coin Draw
 	if (flip) {
 		App->render->Blit(App->entity->Tex_Coin, position.x, position.y, &(current_animation->GetCurrentFrame()), SDL_FLIP_HORIZONTAL, 1.0, 2);	//Draw Player Flipped
 	}
@@ -156,21 +156,17 @@ void j1Coin::State(float dt) {
 
 }
 
-void j1Coin::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player collides with something
+void j1Coin::OnCollision(Collider* c1, Collider* c2) {	//Check if the Coin collides with something
 
-	if (c1->type == ColliderType::COLLIDER_HEART && c2->type == ColliderType::COLLIDER_PLAYER) {		//Checks that player collides with something that he can die
+	if (c1->type == ColliderType::COLLIDER_COIN && c2->type == ColliderType::COLLIDER_PLAYER) {		//Checks that Coin collides with something that it can be collected
 
-		if (preposition.y < (c2->rect.y + c2->rect.h) && App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {	//Checks that player collider from above
-
-			pretimer = SDL_GetTicks();	//Sets the PreTime to death timer
-
-		}
+		App->entity->DeleteEntity(App->scene->coin);
 
 	}
 
 }
 
-void j1Coin::Reset() {	//Reset All Player Animations
+void j1Coin::Reset() {	//Reset All Coin Animations
 
 	idle.Reset();
 

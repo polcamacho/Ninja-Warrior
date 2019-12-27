@@ -521,7 +521,7 @@ void j1Scene::Map1Entities() {
 	App->entity->DrawEntity(4000, 200, j1Entity::entity_type::BAT_ENEMY);
 	App->entity->DrawEntity(700, 200, j1Entity::entity_type::BAT_ENEMY);
 	App->entity->DrawEntity(200, 500, j1Entity::entity_type::HEART);
-	App->entity->DrawEntity(200, 600, j1Entity::entity_type::COIN);
+	coin = (j1Entity*)App->entity->DrawEntity(200, 600, j1Entity::entity_type::COIN);
 	App->collider->Start();
 }
 

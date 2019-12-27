@@ -24,7 +24,6 @@
 #include "j1Map.h"
 
 
-
 j1EntityManager::j1EntityManager()
 {
 	name.create("entitymanager");
@@ -71,7 +70,7 @@ bool j1EntityManager::PreUpdate(float dt)
 
 bool j1EntityManager::Update(float dt)
 {
-	//BROFILER_CATEGORY("PreUpdate Entity Manager", Profiler::Color::Coral);
+	BROFILER_CATEGORY("PreUpdate Entity Manager", Profiler::Color::Coral);
 	p2List_item<j1Entity*>* item = entities.start;
 
 	while (item != nullptr)
@@ -219,16 +218,20 @@ bool j1EntityManager::Save(pugi::xml_node& data) const {
 	return true;
 }
 
-void j1EntityManager::DeleteEntity() {
+void j1EntityManager::DeleteEntity(j1Entity* entity) {
 	
-	p2List_item<j1Entity*>* item = entities.start;
-	while (item != nullptr) {
-		if (item->data->destroy == true) {
-			delete item->data;
+	entities.find(entity);
+	p2List_item<j1Entity*>* item = nullptr;
+	for (item = entities.start; item; item = item->next)
+	{
+		if (item->data == entity)
+		{
+
+			item->data->destroy;
 			entities.del(item);
 		}
-		item = item->next;
 	}
+
 }
 
 j1Entity* j1EntityManager::GetPlayer() {
