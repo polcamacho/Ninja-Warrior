@@ -55,6 +55,8 @@ bool j1MainMenu::Start()
 	//is_menu = true;
 	
 	CreateMenu();
+
+	window = (j1Image*)App->gui->CreateImage(610, 225, Image, { 2, 278, 202, 58 }, NULL, this);
 		
 	LOG("MAIN MENU");
 
@@ -79,6 +81,10 @@ bool j1MainMenu::Update(float dt)
 
 	if (ret_m == false) {
 		return false;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN) {
+		App->gui->Delete_Element(window);
 	}
 	
 	return true;

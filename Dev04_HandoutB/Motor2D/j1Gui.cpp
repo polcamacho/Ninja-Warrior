@@ -87,6 +87,21 @@ bool j1Gui::CleanUp()
 	return true;
 }
 
+bool j1Gui::Delete_Element(UI_element* element) {
+	
+	int index = ui_element.find(element);
+	p2List_item<UI_element*>* item = nullptr;
+	for (item = ui_element.start; item; item = item->next)
+	{
+		if (item->data == element)
+		{
+			ui_element.del(item);
+		}
+	}
+	
+	return true;
+}
+
 // const getter for atlas
 SDL_Texture* j1Gui::GetAtlas() const { return texture; }
 
