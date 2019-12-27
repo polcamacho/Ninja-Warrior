@@ -11,11 +11,15 @@ UI_Slider::UI_Slider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect bu
 	
 	initial_point = x;
 	Scrollbar = scrollbar;
-	max_point = initial_point + (Scrollbar.w-34);
+	max_point = initial_point + (Scrollbar.w+34);
 	current_point = x;
 
 	Button_Scrollbar = button;
 	mouse_position_in_button = -1;
+	dimensions.w = button.w + 150;
+	dimensions.h = button.h + 150;
+	dimensions.x = button.x + 150;
+	dimensions.y = button.y + 150;
 }
 
 UI_Slider::~UI_Slider() {}
@@ -37,6 +41,8 @@ bool UI_Slider::Update(float dt)
 		mouse_position_in_button = -1;
 	
 	}
+
+	LOG("%f", current_point);
 		
 	return true;
 }
@@ -84,6 +90,10 @@ bool UI_Slider::Mouse_Is_Moving() {
 		//current_point = last_mouse_pos.x;
 		App->audio->Change_Volume(0.05, 1);
 	}
+
+
+
+
 }
 
 bool UI_Slider::Draw() {
