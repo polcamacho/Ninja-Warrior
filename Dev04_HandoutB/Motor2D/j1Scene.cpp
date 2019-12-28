@@ -91,7 +91,13 @@ bool j1Scene::Start()
 			jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 			death_FX = App->audio->LoadFx("audio/fx/Death.wav");
 		}
-	
+
+		App->gui->CreateImage(10, 15, Image, { 451,75,57,55 }, NULL, this);
+		App->gui->CreateImage(14, 100, Image, { 541,77,51,54 }, NULL, this);
+
+		App->gui->CreateLabel(400, 15, Image, "Score: ", NULL, this);
+		App->gui->CreateLabel(800, 15, Image, "Time: ", NULL, this);
+
 	}
 
 	return true;

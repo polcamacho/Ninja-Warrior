@@ -59,8 +59,6 @@ public:
 	
 	SDL_Texture* texture;
 
-	SDL_Texture* texture_element;
-
 	iPoint mouse_pos;
 
 	j1Module* observer = nullptr;
