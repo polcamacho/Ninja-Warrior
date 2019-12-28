@@ -12,8 +12,6 @@ UI_Slider::UI_Slider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect bu
 {
 	texture = App->gui->GetAtlas();
 	
-	
-
 	//mouse_position_in_button = -1;
 	dimensions.w = button.w + 150;
 	dimensions.h = button.h + 25;
@@ -144,8 +142,6 @@ bool UI_Slider::Update(float dt)
 
 	}
 	
-	
-
 	//LOG("%f", current_point);
 		
 	return true;
