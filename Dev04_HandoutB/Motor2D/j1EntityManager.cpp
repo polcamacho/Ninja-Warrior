@@ -79,6 +79,8 @@ bool j1EntityManager::Update(float dt)
 		item = item->next;
 	}
 
+	DeleteEntity();
+
 	return true;
 }
 
@@ -218,20 +220,18 @@ bool j1EntityManager::Save(pugi::xml_node& data) const {
 	return true;
 }
 
-void j1EntityManager::DeleteEntity(j1Entity* entity) {
+void j1EntityManager::DeleteEntity() {
 	
-	entities.find(entity);
-	p2List_item<j1Entity*>* item = nullptr;
-	for (item = entities.start; item; item = item->next)
-	{
-		if (item->data == entity)
-		{
+	p2List_item<j1Entity*>* e = entities.start;
+	
+	while (e!=nullptr) {
+		
+		if (e->data->destroy==true) {
 
-			item->data->destroy;
-			entities.del(item);
+			entities.del(e);
 		}
+			e = e->next;
 	}
-
 }
 
 j1Entity* j1EntityManager::GetPlayer() {

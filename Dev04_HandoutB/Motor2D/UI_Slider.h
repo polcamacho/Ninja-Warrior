@@ -30,11 +30,10 @@ public:
 public:
 
 	iPoint new_mouse_pos;
-	float mouse_position_in_button;
+	//float mouse_position_in_button;
 
 private:
 	
-	iPoint last_mouse_pos;
 	SDL_Rect Button_Scrollbar;
 	SDL_Rect Scrollbar;
 	float initial, max, actual_pos;

@@ -160,8 +160,8 @@ void j1Coin::OnCollision(Collider* c1, Collider* c2) {	//Check if the Coin colli
 
 	if (c1->type == ColliderType::COLLIDER_COIN && c2->type == ColliderType::COLLIDER_PLAYER) {		//Checks that Coin collides with something that it can be collected
 
-		App->entity->DeleteEntity(App->scene->coin);
-
+		this->destroy = true;
+		this->entity_colliders->to_delete = true;
 	}
 
 }

@@ -17,7 +17,7 @@ UI_Slider::UI_Slider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect bu
 	
 	Button_Scrollbar = button;
 
-	mouse_position_in_button = -1;
+	//mouse_position_in_button = -1;
 	dimensions.w = button.w + 150;
 	dimensions.h = button.h + 150;
 
@@ -35,12 +35,12 @@ bool UI_Slider::Update(float dt)
 
 		if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT) {
 			
-			if (mouse_position_in_button == -1) {
+			/*if (mouse_position_in_button == -1) {
 				
 				App->input->GetMousePosition(new_mouse_pos.x, new_mouse_pos.y);
 				mouse_position_in_button = new_mouse_pos.x;
 
-			}
+			}*/
 			
 			Mouse_Is_Moving();
 			App->audio->Change_Volume_Music(get_valors());
@@ -49,11 +49,11 @@ bool UI_Slider::Update(float dt)
 		
 	}
 
-	else {
+	/*else {
 
 		mouse_position_in_button = -1;
 
-	}
+	}*/
 	
 	//LOG("%i", App->gui->volume_up);
 
@@ -100,7 +100,6 @@ bool UI_Slider::Mouse_Is_Moving() {
 	}*/
 
 	actual_pos = new_mouse_pos.x;
-	App->input->GetMouseMotion(last_mouse_pos.x, last_mouse_pos.y);
 
 	return true;
 }

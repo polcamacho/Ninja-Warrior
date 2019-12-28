@@ -27,7 +27,7 @@ public:
 	bool Update(float dt);
 	bool CleanUp();
 	bool CleanEntity();
-	void DeleteEntity(j1Entity* entity);
+	void DeleteEntity();
 
 
 	// Called each loop iteration

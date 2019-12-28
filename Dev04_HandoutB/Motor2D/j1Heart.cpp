@@ -160,11 +160,8 @@ void j1Heart::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player co
 
 	if (c1->type == ColliderType::COLLIDER_HEART && c2->type == ColliderType::COLLIDER_PLAYER) {		//Checks that player collides with something that he can die
 
-		if (preposition.y < (c2->rect.y + c2->rect.h) && App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN) {	//Checks that player collider from above
-
-			pretimer = SDL_GetTicks();	//Sets the PreTime to death timer
-
-		}
+		this->destroy = true;
+		this->entity_colliders->to_delete = true;
 
 	}
 

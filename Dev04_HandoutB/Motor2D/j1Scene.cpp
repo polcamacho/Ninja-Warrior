@@ -527,7 +527,6 @@ void j1Scene::CreateEntities() {
 
 void j1Scene::Map1Entities() {
 
-
 	App->entity->CleanEntity();
 	App->entity->DrawEntity(100, 500, j1Entity::entity_type::PLAYER);
 	App->entity->DrawEntity(2550, 200, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
