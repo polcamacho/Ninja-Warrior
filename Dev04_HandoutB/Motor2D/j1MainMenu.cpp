@@ -138,7 +138,7 @@ void j1MainMenu::CreateMenu() {
 void j1MainMenu::CreateSettings() {
 
 	LOG("SETTINGS CREATED");
-	App->gui->CreateImage(525, 300, Image, { 2, 394, 381, 255 }, NULL, this);
+	App->gui->CreateImage(525, 300, Image, { 0, 351, 384, 268 }, NULL, this);
 	App->gui->CreateImage(610, 225, Image, { 2, 278, 202, 58 }, NULL, this);
 
 	App->gui->CreateButton(845, 316, Button_close, { 0,0,44,44 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);

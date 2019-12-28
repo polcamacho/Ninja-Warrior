@@ -149,10 +149,15 @@ bool j1Scene::Update(float dt)
 		App->gui->Delete_Element(window);
 		App->gui->Delete_Element(title_win);
 		App->gui->Delete_Element(title);
-		App->gui->Delete_Element(slider);
-		App->gui->Delete_Element(slider_left);
-		App->gui->Delete_Element(slider_right);
+		App->gui->Delete_Element(slider_volume);
+		App->gui->Delete_Element(slider_left_volume);
+		App->gui->Delete_Element(slider_right_volume);
+		App->gui->Delete_Element(slider_fx);
+		App->gui->Delete_Element(slider_left_fx);
+		App->gui->Delete_Element(slider_right_fx);
+		App->gui->Delete_Element(fx_volume);
 		App->gui->Delete_Element(music_volume);
+	
 		App->gui->Delete_Element(close);
 		App->gui->Delete_Element(close_game);
 		App->gui->Delete_Element(menu);
@@ -164,9 +169,13 @@ bool j1Scene::Update(float dt)
 		App->gui->Delete_Element(window);
 		App->gui->Delete_Element(title_win);
 		App->gui->Delete_Element(title);
-		App->gui->Delete_Element(slider);
-		App->gui->Delete_Element(slider_left);
-		App->gui->Delete_Element(slider_right);
+		App->gui->Delete_Element(slider_fx);
+		App->gui->Delete_Element(slider_left_fx);
+		App->gui->Delete_Element(slider_right_fx);
+		App->gui->Delete_Element(fx_volume);
+		App->gui->Delete_Element(slider_volume);
+		App->gui->Delete_Element(slider_left_volume);
+		App->gui->Delete_Element(slider_right_volume);
 		App->gui->Delete_Element(music_volume);
 		App->gui->Delete_Element(close);
 		App->gui->Delete_Element(close_game);
@@ -586,22 +595,24 @@ void j1Scene::CreateSettings() {
 
 	LOG("SETTINGS CREATED");
 
-	window = (j1Image*)App->gui->CreateImage(325, 280, Image, { 2, 394, 381, 255 }, NULL, this);
+	window = (j1Image*)App->gui->CreateImage(325, 280, Image, { 0, 351, 384, 268 }, NULL, this);
 	title_win = (j1Image*)App->gui->CreateImage(410, 205, Image, { 2, 278, 202, 58 }, NULL, this);
 
 	close = (UI_Button*)App->gui->CreateButton(645, 296, Button_close, { 0,0,44,44 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);
 	
+	slider_left_volume = (UI_Button*)App->gui->CreateButton(360, 335, Button_slider_music_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
+	slider_right_volume = (UI_Button*)App->gui->CreateButton(630, 335, Button_slider_music_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
+	slider_volume = (UI_Slider*)App->gui->CreateSlider(400, 340, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
 
+	slider_left_fx = (UI_Button*)App->gui->CreateButton(360, 435, Button_slider_music_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
+	slider_right_fx = (UI_Button*)App->gui->CreateButton(630, 435, Button_slider_music_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
+	slider_fx = (UI_Slider*)App->gui->CreateSlider(400, 440, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
 
-	slider_left = (UI_Button*)App->gui->CreateButton(360, 365, Button_slider_music_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
-	slider_right = (UI_Button*)App->gui->CreateButton(630, 365, Button_slider_music_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
-	slider = (UI_Slider*)App->gui->CreateSlider(400, 370, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
+	music_volume = (UI_Label*)App->gui->CreateLabel(402, 300, Label, "Music Volume", NULL, this);
+	fx_volume = (UI_Label*)App->gui->CreateLabel(425, 400, Label, "FX Volume", NULL, this);
+	title = (UI_Label*)App->gui->CreateLabel(415, 220, Label, "Pause Menu", NULL, this);
 
-	music_volume = (UI_Label*)App->gui->CreateLabel(402, 320, Label, "Music Volume", NULL, this);
-	//App->gui->CreateLabel(602, 340, Label, "FX Volume", NULL, this);
-	title = (UI_Label*)App->gui->CreateLabel(450, 220, Label, "Settings", NULL, this);
-
-	close_game = (UI_Button*)App->gui->CreateButton(485, 455, Button_close_game, { 471,272,50,50 }, { 594,272,50,50 }, { 712, 272, 50,50 }, NULL, this);
-	menu = (UI_Button*)App->gui->CreateButton(350, 460, Button_menu, { 466,333,61,61 }, { 591,333,61,61 }, { 708, 333,61,61 }, NULL, this);
+	close_game = (UI_Button*)App->gui->CreateButton(485, 490, Button_close_game, { 475,286,43,43 }, { 599,286,43,43 }, { 718, 286,43,43 }, NULL, this);
+	menu = (UI_Button*)App->gui->CreateButton(350, 480, Button_menu, { 472,337,51,51 }, { 596,337,51,51 }, { 714, 337,51,51 }, NULL, this);
 
 }

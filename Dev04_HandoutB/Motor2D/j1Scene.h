@@ -79,15 +79,18 @@ public:
 
 	j1Image* window;
 	j1Image* title_win;
-	UI_Button* slider_left;
-	UI_Button* slider_right;
+	UI_Button* slider_left_volume;
+	UI_Button* slider_right_volume;
+	UI_Button* slider_left_fx;
+	UI_Button* slider_right_fx;
 	UI_Button* menu;
 	UI_Button* close_game;
-	UI_Slider* slider;
+	UI_Slider* slider_fx;
+	UI_Slider* slider_volume;
 	UI_Button* close;
 	UI_Label* title;
 	UI_Label* music_volume;
-	
+	UI_Label* fx_volume;
 
 };
 
