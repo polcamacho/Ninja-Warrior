@@ -13,7 +13,7 @@ bool j1Image::Draw() {
 
 	if (texture != nullptr)
 	{
-		App->render->Blit(texture, pos.x, pos.y, &dimensions, SDL_FLIP_NONE, 1.0f);
+		App->render->Blit_UI(texture, pos.x, pos.y, &dimensions, SDL_FLIP_NONE, 0.0f);
 	}
 
 	if (App->gui->debug_UI == true) {

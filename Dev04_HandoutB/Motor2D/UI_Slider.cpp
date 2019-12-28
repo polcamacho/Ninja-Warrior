@@ -4,6 +4,7 @@
 #include "UI_Button.h"
 #include "UI_Slider.h"
 #include "j1Render.h"
+#include "j1Map.h"
 
 #include "..//Brofiler/Brofiler.h"
 
@@ -15,6 +16,7 @@ UI_Slider::UI_Slider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect bu
 	Scrollbar = scrollbar;
 
 	max = initial + (Scrollbar.w+34);
+	
 	actual_pos = x + 89;
 	
 	Button_Scrollbar = button;
@@ -59,10 +61,9 @@ bool UI_Slider::Update(float dt)
 	}*/
 	
 	//LOG("%i", App->gui->volume_up);
-
 	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || App->gui->volume_up == 1) {
 
-		if (actual_pos > 600) {
+		if (actual_pos > initial) {
 
 			App->audio->Change_Volume(0.1, 0);
 			actual_pos -= 10;
@@ -73,7 +74,7 @@ bool UI_Slider::Update(float dt)
 
 	else if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->gui->volume_up==2) {
 
-		if (actual_pos < 778) {
+		if (actual_pos < initial+178) {
 
 			actual_pos += 10;
 			App->audio->Change_Volume(0.1, 1);
@@ -111,8 +112,8 @@ bool UI_Slider::Draw() {
 
 	texture = App->gui->GetAtlas();
 
-	App->render->Blit(texture, pos.x, pos.y, &Scrollbar, SDL_FLIP_NONE, 1.0f);
-	App->render->Blit(texture, actual_pos, pos.y-4, &Button_Scrollbar, SDL_FLIP_NONE, 1.0f);
+	App->render->Blit_UI(texture, pos.x, pos.y, &Scrollbar, SDL_FLIP_NONE, 0.0f);
+	App->render->Blit_UI(texture, actual_pos, pos.y-4, &Button_Scrollbar, SDL_FLIP_NONE, 0.0f);
 
 	//F8 debug
 

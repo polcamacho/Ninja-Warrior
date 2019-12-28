@@ -12,6 +12,10 @@
 #include "UI_Label.h"
 #include "j1Image.h"
 #include "p2Log.h"
+#include "j1Entity.h"
+#include "j1EntityManager.h"
+#include "j1Pathfinding.h"
+#include "j1Collider.h"
 #include "..//Brofiler/Brofiler.h"
 
 j1MainMenu::j1MainMenu()
@@ -77,7 +81,7 @@ bool j1MainMenu::Update(float dt)
 {
 	BROFILER_CATEGORY("Update Main Menu", Profiler::Color::Pink);
 
-	App->render->Blit(App->main_menu->introTexture, 0, 0);
+	App->render->Blit(App->main_menu->introTexture, App->render->camera.x, App->render->camera.y);
 	if (cont == 0) {
 
 		if (is_menu == true) {
@@ -108,7 +112,9 @@ bool j1MainMenu::Update(float dt)
 bool j1MainMenu::PostUpdate(float dt)
 {
 	BROFILER_CATEGORY("Update Main Menu", Profiler::Color::HotPink);
-
+	App->entity->Disable();
+	App->pathfinding->Disable();
+	App->collider->Disable();
 	return true;
 }
 

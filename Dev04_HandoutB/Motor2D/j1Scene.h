@@ -81,6 +81,8 @@ public:
 	j1Image* title_win;
 	UI_Button* slider_left;
 	UI_Button* slider_right;
+	UI_Button* menu;
+	UI_Button* close_game;
 	UI_Slider* slider;
 	UI_Button* close;
 	UI_Label* title;

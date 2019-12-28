@@ -6,6 +6,10 @@
 #include "j1Audio.h"
 #include "j1FadeToBlack.h"
 #include "j1MainMenu.h"
+#include "j1EntityManager.h"
+#include "j1Entity.h"
+#include "j1Pathfinding.h"
+#include "j1Collider.h"
 #include "j1Scene.h"
 
 #include "..//Brofiler/Brofiler.h"
@@ -36,7 +40,7 @@ bool UI_Button::Draw()
 
 	if (texture != nullptr)
 	{
-		App->render->Blit(texture, pos.x, pos.y, &dimensions, SDL_FLIP_NONE, 1.0f);
+		App->render->Blit_UI(texture, pos.x, pos.y, &dimensions, SDL_FLIP_NONE, 0.0f);
 	}
 
 	if (App->gui->debug_UI == true) {
@@ -95,7 +99,6 @@ bool UI_Button::Update(float dt)
 			if (t == Button_close) {
 				LOG("HOLA");
 				
-				//App->scene->ret_s = false;
 				if (App->main_menu->is_menu == true) {
 					App->main_menu->ret_m = false;
 					App->main_menu->is_settings = false;
@@ -108,7 +111,29 @@ bool UI_Button::Update(float dt)
 					App->main_menu->cont = 0;
 
 				}
+				if (App->scene->is_pause == true) {
+					App->scene->is_pause = false;
+				}
 				
+			}
+
+			if (t == Button_menu) {
+				
+				//App->SaveGame();
+				
+				App->scene->is_pause = false;
+				App->main_menu->is_menu = true;
+				App->main_menu->cont = 0;
+				
+				App->fade->FadeToBlack(App->scene, App->main_menu, 2);
+
+				
+
+			}
+
+			if (t == Button_close_game) {
+				App->scene->is_pause = false;
+				App->scene->ret_s = false;
 			}
 
 			if (t == Button_info) {

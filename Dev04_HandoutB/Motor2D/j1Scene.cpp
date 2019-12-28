@@ -137,7 +137,7 @@ bool j1Scene::Update(float dt)
 	BROFILER_CATEGORY("Update scene", Profiler::Color::Salmon);
 
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
-		
+
 		cont2 = 0;
 		is_pause = !is_pause;
 		App->gui->Delete_Element(window);
@@ -148,6 +148,24 @@ bool j1Scene::Update(float dt)
 		App->gui->Delete_Element(slider_right);
 		App->gui->Delete_Element(music_volume);
 		App->gui->Delete_Element(close);
+		App->gui->Delete_Element(close_game);
+		App->gui->Delete_Element(menu);
+	}
+
+	if (is_pause == false) {
+
+		cont2 = 0;
+		App->gui->Delete_Element(window);
+		App->gui->Delete_Element(title_win);
+		App->gui->Delete_Element(title);
+		App->gui->Delete_Element(slider);
+		App->gui->Delete_Element(slider_left);
+		App->gui->Delete_Element(slider_right);
+		App->gui->Delete_Element(music_volume);
+		App->gui->Delete_Element(close);
+		App->gui->Delete_Element(close_game);
+		App->gui->Delete_Element(menu);
+
 	}
 
 	int w, h;
@@ -292,10 +310,7 @@ bool j1Scene::PostUpdate(float dt)
 
 	bool ret = true;
 
-	App->entity->Enable();
-	App->audio->Enable();
-	App->collider->Enable();
-	App->pathfinding->Enable();
+	
 
 	if (cont==0){
 		
@@ -312,6 +327,11 @@ bool j1Scene::PostUpdate(float dt)
 			App->scene->jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 			App->scene->death_FX = App->audio->LoadFx("audio/fx/Death.wav");
 		}
+
+		App->entity->Enable();
+		App->audio->Enable();
+		App->collider->Enable();
+		App->pathfinding->Enable();
 		
 		cont++;
 
@@ -558,73 +578,24 @@ void j1Scene::Map2Entities() {
 
 void j1Scene::CreateSettings() {
 
-	if (App->entity->GetPlayer()->position.x < App->win->width / 2) {
-		
-		LOG("SETTINGS CREATED");
+	LOG("SETTINGS CREATED");
 
-		window = (j1Image*)App->gui->CreateImage(525, 300, Image, { 2, 394, 381, 255 }, NULL, this);
-		title_win = (j1Image*)App->gui->CreateImage(610, 225, Image, { 2, 278, 202, 58 }, NULL, this);
+	window = (j1Image*)App->gui->CreateImage(325, 280, Image, { 2, 394, 381, 255 }, NULL, this);
+	title_win = (j1Image*)App->gui->CreateImage(410, 205, Image, { 2, 278, 202, 58 }, NULL, this);
 
-		close = (UI_Button*)App->gui->CreateButton(845, 316, Button_close, { 0,0,44,44 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);
+	close = (UI_Button*)App->gui->CreateButton(645, 296, Button_close, { 0,0,44,44 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);
+	
 
-		slider_left = (UI_Button*)App->gui->CreateButton(560, 385, Button_slider_music_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
-		slider_right = (UI_Button*)App->gui->CreateButton(830, 385, Button_slider_music_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
-		slider = (UI_Slider*)App->gui->CreateSlider(600, 390, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
 
-		music_volume = (UI_Label*)App->gui->CreateLabel(602, 340, Label, "Music Volume", NULL, this);
-		//App->gui->CreateLabel(602, 340, Label, "FX Volume", NULL, this);
-		title = (UI_Label*)App->gui->CreateLabel(650, 240, Label, "Settings", NULL, this);
-	}
-	else if (App->entity->GetPlayer()->position.y < App->win->height / 2) {
-		
-		LOG("SETTINGS CREATED");
-		
-		window = (j1Image*)App->gui->CreateImage(525, 300, Image, { 2, 394, 381, 255 }, NULL, this);
-		title_win = (j1Image*)App->gui->CreateImage(610, 225, Image, { 2, 278, 202, 58 }, NULL, this);
+	slider_left = (UI_Button*)App->gui->CreateButton(360, 365, Button_slider_music_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
+	slider_right = (UI_Button*)App->gui->CreateButton(630, 365, Button_slider_music_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
+	slider = (UI_Slider*)App->gui->CreateSlider(400, 370, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
 
-		close = (UI_Button*)App->gui->CreateButton(845, 316, Button_close, { 0,0,44,44 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);
+	music_volume = (UI_Label*)App->gui->CreateLabel(402, 320, Label, "Music Volume", NULL, this);
+	//App->gui->CreateLabel(602, 340, Label, "FX Volume", NULL, this);
+	title = (UI_Label*)App->gui->CreateLabel(450, 220, Label, "Settings", NULL, this);
 
-		slider_left = (UI_Button*)App->gui->CreateButton(560, 385, Button_slider_music_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
-		slider_right = (UI_Button*)App->gui->CreateButton(830, 385, Button_slider_music_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
-		slider = (UI_Slider*)App->gui->CreateSlider(600, 390, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
-
-		music_volume = (UI_Label*)App->gui->CreateLabel(602, 340, Label, "Music Volume", NULL, this);
-		//App->gui->CreateLabel(602, 340, Label, "FX Volume", NULL, this);
-		title = (UI_Label*)App->gui->CreateLabel(650, 240, Label, "Settings", NULL, this);
-	}
-	else if (App->entity->GetPlayer()->position.y < 600) {
-		
-		LOG("SETTINGS CREATED");
-		
-		window = (j1Image*)App->gui->CreateImage(525, 300, Image, { 2, 394, 381, 255 }, NULL, this);
-		title_win = (j1Image*)App->gui->CreateImage(610, 225, Image, { 2, 278, 202, 58 }, NULL, this);
-
-		close = (UI_Button*)App->gui->CreateButton(845, 316, Button_close, { 0,0,44,44 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);
-
-		slider_left = (UI_Button*)App->gui->CreateButton(560, 385, Button_slider_music_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
-		slider_right = (UI_Button*)App->gui->CreateButton(830, 385, Button_slider_music_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
-		slider = (UI_Slider*)App->gui->CreateSlider(600, 390, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
-
-		music_volume = (UI_Label*)App->gui->CreateLabel(602, 340, Label, "Music Volume", NULL, this);
-		//App->gui->CreateLabel(602, 340, Label, "FX Volume", NULL, this);
-		title = (UI_Label*)App->gui->CreateLabel(650, 240, Label, "Settings", NULL, this);
-	}
-	else {
-		
-		LOG("SETTINGS CREATED");
-		
-		window = (j1Image*)App->gui->CreateImage(525, 300, Image, { 2, 394, 381, 255 }, NULL, this);
-		title_win = (j1Image*)App->gui->CreateImage(610, 225, Image, { 2, 278, 202, 58 }, NULL, this);
-
-		close = (UI_Button*)App->gui->CreateButton(845, 316, Button_close, { 0,0,44,44 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);
-
-		slider_left = (UI_Button*)App->gui->CreateButton(560, 385, Button_slider_music_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
-		slider_right = (UI_Button*)App->gui->CreateButton(830, 385, Button_slider_music_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
-		slider = (UI_Slider*)App->gui->CreateSlider(600, 390, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
-
-		music_volume = (UI_Label*)App->gui->CreateLabel(602, 340, Label, "Music Volume", NULL, this);
-		//App->gui->CreateLabel(602, 340, Label, "FX Volume", NULL, this);
-		title = (UI_Label*)App->gui->CreateLabel(650, 240, Label, "Settings", NULL, this);
-	}
+	close_game = (UI_Button*)App->gui->CreateButton(485, 455, Button_close_game, { 471,272,50,50 }, { 594,272,50,50 }, { 712, 272, 50,50 }, NULL, this);
+	menu = (UI_Button*)App->gui->CreateButton(350, 460, Button_menu, { 466,333,61,61 }, { 591,333,61,61 }, { 708, 333,61,61 }, NULL, this);
 
 }

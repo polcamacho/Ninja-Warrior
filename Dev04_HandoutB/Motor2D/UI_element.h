@@ -15,6 +15,8 @@ enum UI_Type {
 	Button_restart,
 	Button_info,
 	Button_close,
+	Button_close_game,
+	Button_menu,
 	Button_slider_music_left,
 	Button_slider_music_right,
 	Button_slider_fx_left,
@@ -23,6 +25,9 @@ enum UI_Type {
 	Image,
 	Slider_music,
 	Slider_fx,
+	Heart,
+	Timer,
+	Coin,
 };
 
 class UI_element 
