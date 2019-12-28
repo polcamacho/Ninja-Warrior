@@ -51,8 +51,8 @@ bool j1EntityManager::Start()
 	Tex_Golems_Grass = App->tex->Load(PATH(folder.GetString(), texture2.GetString()));	//Load The Texture of golems grass
 	Tex_Bat = App->tex->Load(PATH(folder.GetString(), texture3.GetString()));	//Load The Texture of bat
 	Tex_Golems_Rock = App->tex->Load(PATH(folder.GetString(), texture2.GetString()));	//Load The Texture of golems rocks
-	Tex_Coin = App->tex->Load(PATH(folder.GetString(), texture4.GetString()));	//Load The Texture of golems rocks
-	Tex_Heart = App->tex->Load(PATH(folder.GetString(), texture4.GetString()));	//Load The Texture of golems rocks
+	Tex_Coin = App->tex->Load(PATH(folder.GetString(), texture4.GetString()));	//Load The Texture of coin
+	Tex_Heart = App->tex->Load(PATH(folder.GetString(), texture4.GetString()));	//Load The Texture of heart
 
 	return true;
 }

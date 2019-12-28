@@ -143,9 +143,9 @@ bool j1Coin::Save(pugi::xml_node& node) const {
 void j1Coin::Pushbacks() {
 
 	//Sets the Idle Animation
-	idle.PushBack({ 0, 31,28,28 }, 0.5, 0, 0);
-	idle.PushBack({ 30,31,28,28 }, 0.5, 0, 0);
-	idle.PushBack({ 61,31,28,28 }, 0.5, 0, 0);
+	idle.PushBack({ 0, 30,35,35 }, 0.5, 0, 0);
+	idle.PushBack({ 39,30,35,35 }, 0.5, 0, 0);
+	idle.PushBack({ 79,30,35,35 }, 0.5, 0, 0);
 	idle.loop = true;
 
 }
