@@ -116,15 +116,17 @@ void j1MainMenu::CreateMenu() {
 	
 	
 	LOG("MENU CREATED");
-	App->gui->CreateImage(525, 225, Image, { 796, 9, 399, 488 }, NULL, this);
-	App->gui->CreateButton(625, 350, Button_play, { 819,514,92,92 }, { 692,513,92,92 }, { 692, 395, 92, 92 }, NULL, this);
-	App->gui->CreateButton(725, 350, Button_settings, { 935,512,96,98 }, { 576,513,96,97 }, { 572, 395, 97, 98 }, NULL, this);
-	App->gui->CreateButton(625, 450, Button_info, { 1049,516,92,92 }, { 455,513,92,93 }, { 452, 397, 92, 92 }, NULL, this);
-	App->gui->CreateButton(725, 450, Button_restart, { 0,60,92,92 }, { 115,58,91,91 }, { 228, 58, 91, 91 }, NULL, this);
-	App->gui->CreateButton(775, 300, Button_close, { 0,0,44,44 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);
+	App->gui->CreateImage(565, 225, Image, { 824, 109, 323, 394 }, NULL, this);
+	App->gui->CreateImage(945, 10, Image, { 240, 274, 66, 66 }, NULL, this);
 
-	window = (j1Image*)App->gui->CreateImage(610, 225, Image, { 2, 278, 202, 58 }, NULL, this);
-
+	App->gui->CreateButton(600, 350, Button_play, { 819,514,92,92 }, { 692,513,92,92 }, { 692, 395, 92, 92 }, NULL, this);
+	App->gui->CreateButton(600, 475, Button_settings, { 935,512,96,98 }, { 576,513,96,97 }, { 572, 395, 97, 98 }, NULL, this);
+	App->gui->CreateButton(750, 350, Button_info, { 1049,516,92,92 }, { 455,513,92,93 }, { 452, 397, 92, 92 }, NULL, this);
+	App->gui->CreateButton(750, 475, Button_restart, { 0,60,92,92 }, { 115,58,91,91 }, { 228, 58, 91, 91 }, NULL, this);
+	App->gui->CreateButton(957, 22, Button_close, { 0,0,44,44 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);
+	
+	App->gui->CreateImage(625, 250, Image, { 2, 278, 202, 58 }, NULL, this);
+	App->gui->CreateLabel(682, 265, Label, "Menu", NULL, this);
 }
 
 void j1MainMenu::CreateSettings() {
@@ -132,13 +134,15 @@ void j1MainMenu::CreateSettings() {
 	LOG("SETTINGS CREATED");
 	App->gui->CreateImage(525, 300, Image, { 2, 394, 381, 255 }, NULL, this);
 	App->gui->CreateImage(610, 225, Image, { 2, 278, 202, 58 }, NULL, this);
+
 	App->gui->CreateButton(845, 316, Button_close, { 0,0,44,44 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);
 	
 	App->gui->CreateButton(560, 385, Button_slider_music_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
 	App->gui->CreateButton(830, 385, Button_slider_music_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
 	App->gui->CreateSlider(600, 390, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
 
-	
 	App->gui->CreateLabel(602, 340, Label, "Music Volume", NULL, this);
+	//App->gui->CreateLabel(602, 340, Label, "FX Volume", NULL, this);
+	App->gui->CreateLabel(650, 240, Label, "Settings", NULL, this);
 
 }

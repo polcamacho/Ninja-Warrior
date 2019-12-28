@@ -21,7 +21,7 @@ UI_Slider::UI_Slider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect bu
 
 	//mouse_position_in_button = -1;
 	dimensions.w = button.w + 150;
-	dimensions.h = button.h + 150;
+	dimensions.h = button.h + 25;
 
 	App->audio->Change_Volume_Music(get_valors());
 

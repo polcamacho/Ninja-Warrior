@@ -6,6 +6,10 @@
 struct SDL_Texture;
 class j1Entity;
 enum UI_Type;
+class j1Image;
+class UI_Slider;
+class UI_Button;
+class UI_Label;
 
 class j1Scene : public j1Module
 {
@@ -33,6 +37,9 @@ public:
 
 	// Called before quitting
 	bool CleanUp();
+
+	//Create the menu settings from pause menu
+	void CreateSettings();
 
 	//Debug
 	void SecondMap();
@@ -69,6 +76,15 @@ public:
 	SDL_Texture* debug_tex;
 	int jump_FX;
 	int death_FX;
+
+	j1Image* window;
+	j1Image* title_win;
+	UI_Button* slider_left;
+	UI_Button* slider_right;
+	UI_Slider* slider;
+	UI_Button* close;
+	UI_Label* title;
+	UI_Label* music_volume;
 	
 
 };

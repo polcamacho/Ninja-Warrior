@@ -21,6 +21,7 @@
 #include "UI_Slider.h"
 #include "UI_Label.h"
 #include "j1Image.h"
+
 #include "j1MainMenu.h"
 #include "p2SString.h"
 
@@ -139,9 +140,15 @@ bool j1Scene::Update(float dt)
 		
 		cont2 = 0;
 		is_pause = !is_pause;
-		App->gui->CleanUp();
+		App->gui->Delete_Element(window);
+		App->gui->Delete_Element(title_win);
+		App->gui->Delete_Element(title);
+		App->gui->Delete_Element(slider);
+		App->gui->Delete_Element(slider_left);
+		App->gui->Delete_Element(slider_right);
+		App->gui->Delete_Element(music_volume);
+		App->gui->Delete_Element(close);
 	}
-
 
 	int w, h;
 	uchar* data = NULL;
@@ -185,8 +192,6 @@ bool j1Scene::Update(float dt)
 		RestartCurrentLevel();
 
 	}
-
-	
 
 	/*p2List_item<p2SString>* i = maps.start;
 
@@ -319,20 +324,11 @@ bool j1Scene::PostUpdate(float dt)
 	if (is_pause) {
 
 		if (cont2 == 0) {
+			
 			App->gui->Start();
-
-			if (App->entity->GetPlayer()->position.x < App->win->width/2) {
-				App->gui->CreateImage(300, 250, Image, { 796, 9, 399, 488 }, NULL, this);
-			}
-			else if (App->entity->GetPlayer()->position.y < App->win->height / 2) {
-				App->gui->CreateImage(App->entity->GetPlayer()->position.x - 200, 150, Image, { 796, 9, 399, 488 }, NULL, this);
-			}
-			else if (App->entity->GetPlayer()->position.y < 600) {
-				App->gui->CreateImage(App->entity->GetPlayer()->position.x - 200, 150, Image, { 796, 9, 399, 488 }, NULL, this);
-			}
-			else {
-				App->gui->CreateImage(App->entity->GetPlayer()->position.x - 200, App->entity->GetPlayer()->position.y - 400, Image, { 796, 9, 399, 488 }, NULL, this);
-			}
+			
+			CreateSettings();
+			
 			cont2++;
 
 		}
@@ -558,4 +554,77 @@ void j1Scene::Map2Entities() {
 	App->entity->DrawEntity(700, 100, j1Entity::entity_type::BAT_ENEMY);
 	App->entity->DrawEntity(2000, 1000, j1Entity::entity_type::BAT_ENEMY);
 	App->collider->Start();
+}
+
+void j1Scene::CreateSettings() {
+
+	if (App->entity->GetPlayer()->position.x < App->win->width / 2) {
+		
+		LOG("SETTINGS CREATED");
+
+		window = (j1Image*)App->gui->CreateImage(525, 300, Image, { 2, 394, 381, 255 }, NULL, this);
+		title_win = (j1Image*)App->gui->CreateImage(610, 225, Image, { 2, 278, 202, 58 }, NULL, this);
+
+		close = (UI_Button*)App->gui->CreateButton(845, 316, Button_close, { 0,0,44,44 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);
+
+		slider_left = (UI_Button*)App->gui->CreateButton(560, 385, Button_slider_music_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
+		slider_right = (UI_Button*)App->gui->CreateButton(830, 385, Button_slider_music_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
+		slider = (UI_Slider*)App->gui->CreateSlider(600, 390, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
+
+		music_volume = (UI_Label*)App->gui->CreateLabel(602, 340, Label, "Music Volume", NULL, this);
+		//App->gui->CreateLabel(602, 340, Label, "FX Volume", NULL, this);
+		title = (UI_Label*)App->gui->CreateLabel(650, 240, Label, "Settings", NULL, this);
+	}
+	else if (App->entity->GetPlayer()->position.y < App->win->height / 2) {
+		
+		LOG("SETTINGS CREATED");
+		
+		window = (j1Image*)App->gui->CreateImage(525, 300, Image, { 2, 394, 381, 255 }, NULL, this);
+		title_win = (j1Image*)App->gui->CreateImage(610, 225, Image, { 2, 278, 202, 58 }, NULL, this);
+
+		close = (UI_Button*)App->gui->CreateButton(845, 316, Button_close, { 0,0,44,44 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);
+
+		slider_left = (UI_Button*)App->gui->CreateButton(560, 385, Button_slider_music_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
+		slider_right = (UI_Button*)App->gui->CreateButton(830, 385, Button_slider_music_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
+		slider = (UI_Slider*)App->gui->CreateSlider(600, 390, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
+
+		music_volume = (UI_Label*)App->gui->CreateLabel(602, 340, Label, "Music Volume", NULL, this);
+		//App->gui->CreateLabel(602, 340, Label, "FX Volume", NULL, this);
+		title = (UI_Label*)App->gui->CreateLabel(650, 240, Label, "Settings", NULL, this);
+	}
+	else if (App->entity->GetPlayer()->position.y < 600) {
+		
+		LOG("SETTINGS CREATED");
+		
+		window = (j1Image*)App->gui->CreateImage(525, 300, Image, { 2, 394, 381, 255 }, NULL, this);
+		title_win = (j1Image*)App->gui->CreateImage(610, 225, Image, { 2, 278, 202, 58 }, NULL, this);
+
+		close = (UI_Button*)App->gui->CreateButton(845, 316, Button_close, { 0,0,44,44 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);
+
+		slider_left = (UI_Button*)App->gui->CreateButton(560, 385, Button_slider_music_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
+		slider_right = (UI_Button*)App->gui->CreateButton(830, 385, Button_slider_music_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
+		slider = (UI_Slider*)App->gui->CreateSlider(600, 390, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
+
+		music_volume = (UI_Label*)App->gui->CreateLabel(602, 340, Label, "Music Volume", NULL, this);
+		//App->gui->CreateLabel(602, 340, Label, "FX Volume", NULL, this);
+		title = (UI_Label*)App->gui->CreateLabel(650, 240, Label, "Settings", NULL, this);
+	}
+	else {
+		
+		LOG("SETTINGS CREATED");
+		
+		window = (j1Image*)App->gui->CreateImage(525, 300, Image, { 2, 394, 381, 255 }, NULL, this);
+		title_win = (j1Image*)App->gui->CreateImage(610, 225, Image, { 2, 278, 202, 58 }, NULL, this);
+
+		close = (UI_Button*)App->gui->CreateButton(845, 316, Button_close, { 0,0,44,44 }, { 69,0,44,44 }, { 141, 0, 44, 44 }, NULL, this);
+
+		slider_left = (UI_Button*)App->gui->CreateButton(560, 385, Button_slider_music_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
+		slider_right = (UI_Button*)App->gui->CreateButton(830, 385, Button_slider_music_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
+		slider = (UI_Slider*)App->gui->CreateSlider(600, 390, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
+
+		music_volume = (UI_Label*)App->gui->CreateLabel(602, 340, Label, "Music Volume", NULL, this);
+		//App->gui->CreateLabel(602, 340, Label, "FX Volume", NULL, this);
+		title = (UI_Label*)App->gui->CreateLabel(650, 240, Label, "Settings", NULL, this);
+	}
+
 }
