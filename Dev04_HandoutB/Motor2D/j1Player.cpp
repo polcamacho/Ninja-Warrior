@@ -75,7 +75,7 @@ bool j1Player::Start() {
 
 bool j1Player::PreUpdate(float dt) {
 
-	BROFILER_CATEGORY("PreUpdatePlayer", Profiler::Color::Gray);
+	BROFILER_CATEGORY("PreUpdate Player", Profiler::Color::Gray);
 
 	return true;
 
@@ -83,7 +83,7 @@ bool j1Player::PreUpdate(float dt) {
 
 bool j1Player::Update(float dt) {
 
-	BROFILER_CATEGORY("Update player", Profiler::Color::Red);
+	BROFILER_CATEGORY("Update player", Profiler::Color::DarkGray);
 	
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 
@@ -145,6 +145,8 @@ bool j1Player::Update(float dt) {
 }
 
 bool j1Player::PostUpdate(float dt) {
+
+	BROFILER_CATEGORY("Update player", Profiler::Color::LightGray);
 
 	return true;
 }

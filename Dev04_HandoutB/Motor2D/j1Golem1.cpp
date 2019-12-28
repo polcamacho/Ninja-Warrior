@@ -76,7 +76,7 @@ bool j1Golem1::Start() {
 
 bool j1Golem1::PreUpdate(float dt) {
 
-	BROFILER_CATEGORY("PreUpdateGolem", Profiler::Color::Aquamarine);
+	BROFILER_CATEGORY("PreUpdate Golem1", Profiler::Color::Yellow);
 
 	return true;
 
@@ -84,7 +84,7 @@ bool j1Golem1::PreUpdate(float dt) {
 
 bool j1Golem1::Update(float dt) {
 
-	BROFILER_CATEGORY("UPDATEGOLEM", Profiler::Color::DarkGray);
+	BROFILER_CATEGORY("Update Golem1", Profiler::Color::LightYellow);
 
 	current_animation = &idle;
 
@@ -164,6 +164,7 @@ bool j1Golem1::Update(float dt) {
 
 bool j1Golem1::PostUpdate(float dt) {
 
+	BROFILER_CATEGORY("PostUpdate Golem1", Profiler::Color::YellowGreen);
 	return true;
 }
 

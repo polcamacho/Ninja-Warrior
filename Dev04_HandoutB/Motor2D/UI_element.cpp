@@ -2,6 +2,7 @@
 #include "j1App.h"
 #include "j1Render.h"
 #include "j1Gui.h"
+#include "..//Brofiler/Brofiler.h"
 
 
 UI_element::UI_element(int x, int y, UI_Type type, UI_element * parent, j1Module * Observer) : pos(x, y)
@@ -14,6 +15,7 @@ UI_element::UI_element(int x, int y, UI_Type type, UI_element * parent, j1Module
 
 bool UI_element::Update(float dt)
 {
+	BROFILER_CATEGORY("Update UI_element", Profiler::Color::OrangeRed);
 	return true;
 }
 

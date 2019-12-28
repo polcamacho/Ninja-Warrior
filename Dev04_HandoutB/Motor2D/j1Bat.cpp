@@ -71,7 +71,7 @@ bool j1Bat::Start() {
 
 bool j1Bat::PreUpdate(float dt) {
 
-	BROFILER_CATEGORY("PreUpdateGolem", Profiler::Color::Aquamarine);
+	BROFILER_CATEGORY("PreUpdate Bat", Profiler::Color::Aquamarine);
 
 	return true;
 
@@ -79,6 +79,7 @@ bool j1Bat::PreUpdate(float dt) {
 
 bool j1Bat::Update(float dt) {
 
+	BROFILER_CATEGORY("Update Bat", Profiler::Color::Cyan);
 	current_animation = &idle;
 
 	preposition = position;
@@ -168,6 +169,7 @@ bool j1Bat::Update(float dt) {
 
 bool j1Bat::PostUpdate(float dt) {
 
+	BROFILER_CATEGORY("PostUpdate Bat", Profiler::Color::Blue);
 	return true;
 }
 // Called before quitting

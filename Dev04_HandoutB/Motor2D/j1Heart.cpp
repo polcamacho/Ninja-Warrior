@@ -60,13 +60,15 @@ bool j1Heart::Start() {
 
 bool j1Heart::PreUpdate(float dt) {
 
-	BROFILER_CATEGORY("PreUpdateHeart", Profiler::Color::Coral);
+	BROFILER_CATEGORY("PreUpdate Heart", Profiler::Color::Orange);
 
 	return true;
 
 }
 
 bool j1Heart::Update(float dt) {
+
+	BROFILER_CATEGORY("Update Heart", Profiler::Color::Orange);
 
 	current_animation = &idle;
 
@@ -89,6 +91,8 @@ bool j1Heart::Update(float dt) {
 }
 
 bool j1Heart::PostUpdate(float dt) {
+
+	BROFILER_CATEGORY("PostUpdate Heart", Profiler::Color::Coral);
 
 	return true;
 }

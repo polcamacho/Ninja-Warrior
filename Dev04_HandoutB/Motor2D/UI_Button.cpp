@@ -8,6 +8,8 @@
 #include "j1MainMenu.h"
 #include "j1Scene.h"
 
+#include "..//Brofiler/Brofiler.h"
+
 UI_Button::UI_Button(int x, int y, UI_Type type, SDL_Rect idle, SDL_Rect hover, SDL_Rect click, UI_element * parent, j1Module * Observer) : UI_element(x, y, type, parent, Observer)
 {
 	this->pos.x = x;
@@ -49,6 +51,8 @@ bool UI_Button::Draw()
 
 bool UI_Button::Update(float dt)
 {
+	BROFILER_CATEGORY("PreUpdate UI_element", Profiler::Color::Black);
+
 	//if cursor is inside button rectangle
 	if (IsIntersection() == true) {
 		

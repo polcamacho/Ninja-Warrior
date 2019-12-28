@@ -79,7 +79,7 @@ bool j1Render::PreUpdate(float dt)
 
 bool j1Render::Update(float dt)
 {
-	BROFILER_CATEGORY("Update Render", Profiler::Color::Yellow);
+	BROFILER_CATEGORY("Update Render", Profiler::Color::Peru);
 
 	
 
@@ -90,7 +90,7 @@ bool j1Render::Update(float dt)
 
 bool j1Render::PostUpdate(float dt)
 {
-	BROFILER_CATEGORY("Update Render", Profiler::Color::BlanchedAlmond);
+	BROFILER_CATEGORY("PostUpdate Render", Profiler::Color::BlanchedAlmond);
 
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
 	SDL_RenderPresent(renderer);

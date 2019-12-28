@@ -24,6 +24,8 @@
 #include "j1MainMenu.h"
 #include "p2SString.h"
 
+#include "..//Brofiler/Brofiler.h"
+
 j1Scene::j1Scene() : j1Module()
 {
 	name.create("scene");
@@ -97,6 +99,8 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::PreUpdate(float dt)
 {
+	BROFILER_CATEGORY("PreUpdate scene", Profiler::Color::DarkSalmon);
+
 	// debug pathfing ------------------
 	//static iPoint origin;
 	//static bool origin_selected = false;
@@ -129,6 +133,8 @@ bool j1Scene::PreUpdate(float dt)
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
+	BROFILER_CATEGORY("Update scene", Profiler::Color::Salmon);
+
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
 		
 		cont2 = 0;
@@ -277,6 +283,8 @@ bool j1Scene::Update(float dt)
 // Called each loop iteration
 bool j1Scene::PostUpdate(float dt)
 {
+	BROFILER_CATEGORY("PreUpdate scene", Profiler::Color::LightSalmon);
+
 	bool ret = true;
 
 	App->entity->Enable();

@@ -60,13 +60,15 @@ bool j1Coin::Start() {
 
 bool j1Coin::PreUpdate(float dt) {
 
-	BROFILER_CATEGORY("PreUpdate Coin", Profiler::Color::Coral);
+	BROFILER_CATEGORY("PreUpdate Coin", Profiler::Color::Red);
 
 	return true;
 
 }
 
 bool j1Coin::Update(float dt) {
+
+	BROFILER_CATEGORY("Update Coin", Profiler::Color::DarkRed);
 
 	current_animation = &idle;
 
@@ -89,6 +91,8 @@ bool j1Coin::Update(float dt) {
 }
 
 bool j1Coin::PostUpdate(float dt) {
+
+	BROFILER_CATEGORY("PostUpdate Coin", Profiler::Color::IndianRed);
 
 	return true;
 }

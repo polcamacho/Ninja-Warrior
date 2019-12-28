@@ -5,6 +5,8 @@
 #include "UI_Slider.h"
 #include "j1Render.h"
 
+#include "..//Brofiler/Brofiler.h"
+
 UI_Slider::UI_Slider(int x, int y, UI_Type type, SDL_Rect scrollbar, SDL_Rect button, float width, UI_element* parent, j1Module* Observer) : UI_element(x, y, type, parent, Observer)
 {
 	texture = App->gui->GetAtlas();
@@ -30,6 +32,7 @@ UI_Slider::~UI_Slider() {
 
 bool UI_Slider::Update(float dt)
 {
+	BROFILER_CATEGORY("PreUpdate UI_element", Profiler::Color::DarkKhaki);
 
 	if (IsIntersection() == true) {
 

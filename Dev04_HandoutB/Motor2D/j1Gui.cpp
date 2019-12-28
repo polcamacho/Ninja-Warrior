@@ -11,6 +11,7 @@
 #include "UI_element.h"
 #include "UI_Button.h"
 #include "UI_Label.h"
+#include "..//Brofiler/Brofiler.h"
 
 j1Gui::j1Gui() : j1Module()
 {
@@ -44,10 +45,13 @@ bool j1Gui::Start()
 // Update all guis
 bool j1Gui::PreUpdate(float dt)
 {
+	BROFILER_CATEGORY("PreUpdate GUI", Profiler::Color::DarkMagenta);
 	return true;
 }
 
 bool j1Gui::Update(float dt) {
+
+	BROFILER_CATEGORY("Update GUI", Profiler::Color::Magenta);
 
 	for (int i = 0; i < ui_element.count(); i++) {
 
@@ -71,7 +75,8 @@ bool j1Gui::Update(float dt) {
 // Called after all Updates
 bool j1Gui::PostUpdate(float dt)
 {
-	
+	BROFILER_CATEGORY("PostUpdate GUI", Profiler::Color::Maroon);
+
 	return true;
 }
 
