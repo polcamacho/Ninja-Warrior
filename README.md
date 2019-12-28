@@ -75,6 +75,8 @@ F5: Save current state (player and enemies).
 
 F6: Load current state (player and enemies).
 
+F8: Debug UI.
+
 F9: View colliders and logic.
 
 F10: God mode.
