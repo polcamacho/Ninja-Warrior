@@ -47,6 +47,15 @@ public:
 	SDL_Texture*	Tex_Coin = nullptr;
 	SDL_Texture*	Tex_Heart = nullptr;
 
+	//bool for coins collected, and lives collected / removed
+	bool is_coin = false;
+	bool is_live_plus = false;
+	bool is_live_minus = false;
+
+	//counters for coins and lives
+	int coins;
+	int lives;
+
 	pugi::xml_node node;
 
 	p2SString		folder;

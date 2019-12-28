@@ -166,7 +166,7 @@ void j1Heart::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player co
 
 		this->destroy = true;
 		this->entity_colliders->to_delete = true;
-
+		App->entity->is_live_plus = true;
 	}
 
 }

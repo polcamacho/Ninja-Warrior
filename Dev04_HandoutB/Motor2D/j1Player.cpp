@@ -45,7 +45,10 @@ bool j1Player::Awake(pugi::xml_node& config) {
 	
 	gravity = config.child("gravity").attribute("grav").as_int();
 
-	LOG("%i %i %f %i %i %i", data_player.jumpvel, v.x, data_player.velrun, data_player.colOffset.x, data_player.colOffset.y, gravity);
+	App->entity->coins = config.child("coins").attribute("num").as_int();
+	App->entity->lives = config.child("lives").attribute("num").as_int();
+
+	//LOG("%i %i %f %i %i %i", data_player.jumpvel, v.x, data_player.velrun, data_player.colOffset.x, data_player.colOffset.y, gravity);
 
 	return true;
 
@@ -576,9 +579,11 @@ void j1Player::State(float dt) {
 				current_stateP = JUMP_FALL1;	//Sets the Animation when he reapears
 				count = 0;
 				data_player.D_Timer = 0;
+				
 
 			}
-				
+			App->entity->is_live_minus = true;
+
 			
 			death.Reset();
 			
@@ -634,7 +639,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 
 				}
 			}
-
+			
 		}
 
 		if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_PLATFORM) {		//Checks that player collides with platform
@@ -696,7 +701,6 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 				data_player.D_Timer = SDL_GetTicks();
 
 			}
-
 		}
 
 		if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_NEXT) {
@@ -790,6 +794,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 					data_player.D_Timer = SDL_GetTicks();
 				}
 			}
+			App->entity->is_live_minus = true;
 		}
 
 	}

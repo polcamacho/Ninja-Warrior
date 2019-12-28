@@ -166,7 +166,9 @@ void j1Coin::OnCollision(Collider* c1, Collider* c2) {	//Check if the Coin colli
 
 		this->destroy = true;
 		this->entity_colliders->to_delete = true;
+		App->entity->is_coin = true;
 	}
+	
 
 }
 

@@ -45,6 +45,7 @@ bool j1Scene::Awake(pugi::xml_node& config)
 {
 	LOG("Loading Scene");
 	pugi::xml_node map;
+	pugi::xml_document n;
 
 	for (map= config.child("map"); map; map = map.next_sibling("map"))
 	{
@@ -141,6 +142,40 @@ bool j1Scene::PreUpdate(float dt)
 bool j1Scene::Update(float dt)
 {
 	BROFILER_CATEGORY("Update scene", Profiler::Color::Salmon);
+
+	//if coin is colliding with player, it adds 1 in coin collector
+	if (App->entity->is_coin == true) {
+		App->entity->coins++;
+		App->entity->is_coin = false;
+	}
+	LOG("%i", App->entity->coins);
+
+	//if heart is colliding with player, it adds 1 in live collector
+	if (App->entity->is_live_plus == true) {
+		App->entity->lives++;
+		App->entity->is_live_plus = false;
+
+		if (App->entity->lives >= 3) {
+			App->entity->lives = 3;
+		}
+	}
+	//if enemy is colliding with player, it removes 1 in live collector
+	else if (App->entity->is_live_minus == true) {
+
+		App->entity->lives--;
+		App->entity->is_live_minus = false;
+
+		if (App->entity->lives == 0) {
+
+			App->gui->CleanUp();
+			App->fade->FadeToBlack(App->scene, App->main_menu);
+
+			App->main_menu->is_menu = true;
+			App->main_menu->cont = 0;
+		}
+	}
+
+	LOG("%i", App->entity->lives);
 
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
 
@@ -437,6 +472,8 @@ void j1Scene::RestartCurrentLevel() {
 			App->map->Load("map2.tmx");
 		}
 		App->collider->Start();
+		App->entity->coins = 0;
+		App->entity->lives = 3;
 	}
 
 	else if (current_map == "map2.tmx") {
@@ -453,6 +490,8 @@ void j1Scene::RestartCurrentLevel() {
 			App->map->Load("map2.tmx");
 		}
 		App->collider->Start();
+		App->entity->coins = 0;
+		App->entity->lives = 3;
 	}
 	
 }
@@ -467,6 +506,10 @@ void j1Scene::FirstLevel() {
 		App->collider->Start();
 		App->entity->CleanEntity();
 		CreateEntities();
+
+		App->entity->coins = 0;
+		App->entity->lives = 3;
+
 		scene_change = false;
 		first_level = false;
 
@@ -498,6 +541,9 @@ void j1Scene::FirstLevel() {
 			App->entity->CleanEntity();
 			App->collider->Start();
 			CreateEntities();
+
+			App->entity->coins = 0;
+			App->entity->lives = 3;
 			scene_change = false;
 			scene_change_timer = false;
 			cont = 0;
@@ -514,12 +560,16 @@ void j1Scene::FirstLevel() {
 
 void j1Scene::SecondLevel() {
 
+	
 	App->map->CleanUp();
 	current_map.create("map2.tmx");
 	App->map->Load(current_map.GetString());
 	App->entity->CleanEntity();
 	App->collider->Start();
 	CreateEntities();
+
+	App->entity->coins = 0;
+	App->entity->lives = 3;
 	scene_change = true;
 
 	int w, h;
@@ -535,13 +585,14 @@ void j1Scene::CreateEntities() {
 	if (current_map == "Map.tmx") {
 
 		App->entity->DrawEntity(100, 500, j1Entity::entity_type::PLAYER);
-		App->entity->DrawEntity(2550, 200, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
+		/*App->entity->DrawEntity(2550, 200, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
 		App->entity->DrawEntity(5250, 400, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
 		App->entity->DrawEntity(4000, 200, j1Entity::entity_type::BAT_ENEMY);
-		App->entity->DrawEntity(700, 200, j1Entity::entity_type::BAT_ENEMY);
+		App->entity->DrawEntity(700, 200, j1Entity::entity_type::BAT_ENEMY);*/
 		App->entity->DrawEntity(200, 500, j1Entity::entity_type::HEART);
 		App->entity->DrawEntity(200, 600, j1Entity::entity_type::COIN);
-
+		App->entity->DrawEntity(250, 600, j1Entity::entity_type::COIN);
+		App->entity->DrawEntity(300, 600, j1Entity::entity_type::COIN);
 
 	}
 
@@ -567,6 +618,7 @@ void j1Scene::Map1Entities() {
 	App->entity->DrawEntity(700, 200, j1Entity::entity_type::BAT_ENEMY);
 	App->entity->DrawEntity(200, 500, j1Entity::entity_type::HEART);
 	App->entity->DrawEntity(200, 600, j1Entity::entity_type::COIN);
+
 	App->collider->Start();
 }
 

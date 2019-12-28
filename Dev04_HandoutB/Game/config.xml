@@ -33,6 +33,7 @@
   <scene>
     <map name="Map.tmx" />
     <map name="map2.tmx" />
+
   </scene>
 	
   <entitymanager>
@@ -49,6 +50,8 @@
     <velrun x="3"/>
     <gravity grav="20" />
     <colOffset x="11" y="8" />
+    <coins num="0"/>
+    <lives num="3"/>
   
   </player>
 
