@@ -55,5 +55,13 @@ bool UI_Label::Draw()
 	if (texture != nullptr) {
 		App->render->Blit(texture, pos.x, pos.y, &dimensions, SDL_FLIP_NONE, 1.0f);
 	}
+
+	if (App->gui->debug_UI == true) {
+
+		SDL_Rect lbl{ pos.x, pos.y, dimensions.w, dimensions.h };
+
+		App->render->DrawQuad(lbl, 255, 0, 0, 255, false);
+	}
+
 	return true;
 }

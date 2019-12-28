@@ -62,6 +62,8 @@ public:
 
 	p2List<UI_element*> ui_element;
 
+	bool debug_UI = false;
+
 private:
 	pugi::xml_node node;
 	p2SString folder;

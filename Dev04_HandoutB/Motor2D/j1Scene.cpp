@@ -180,6 +180,8 @@ bool j1Scene::Update(float dt)
 
 	}
 
+	
+
 	/*p2List_item<p2SString>* i = maps.start;
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
@@ -534,7 +536,7 @@ void j1Scene::Map1Entities() {
 	App->entity->DrawEntity(4000, 200, j1Entity::entity_type::BAT_ENEMY);
 	App->entity->DrawEntity(700, 200, j1Entity::entity_type::BAT_ENEMY);
 	App->entity->DrawEntity(200, 500, j1Entity::entity_type::HEART);
-	coin = (j1Entity*)App->entity->DrawEntity(200, 600, j1Entity::entity_type::COIN);
+	App->entity->DrawEntity(200, 600, j1Entity::entity_type::COIN);
 	App->collider->Start();
 }
 

@@ -110,6 +110,20 @@ bool UI_Slider::Draw() {
 
 	App->render->Blit(texture, pos.x, pos.y, &Scrollbar, SDL_FLIP_NONE, 1.0f);
 	App->render->Blit(texture, actual_pos, pos.y-4, &Button_Scrollbar, SDL_FLIP_NONE, 1.0f);
+
+	//F8 debug
+
+	if (App->gui->debug_UI == true) {
+
+		SDL_Rect bar{ pos.x, pos.y, Scrollbar.w, Scrollbar.h };
+
+		App->render->DrawQuad(bar, 255, 0, 0, 255, false);
+
+		SDL_Rect button_scrollbar{ actual_pos, pos.y - 4, Button_Scrollbar.w, Button_Scrollbar.h };
+
+		App->render->DrawQuad(button_scrollbar, 255, 0, 0, 255, false);
+	}
+	
 	return true;
 
 }
