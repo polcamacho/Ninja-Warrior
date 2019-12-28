@@ -185,15 +185,21 @@ void j1Audio::Change_Volume(float change_volume, bool up) {
 	if (up==1){
 
 		Music_Volume += change_volume;
+		fx_volume += change_volume;
+
 	}
 	
 	if(up==0){
 
 		Music_Volume -= change_volume;
+		fx_volume -= change_volume;
 	}
 
 	float total_volume = 128 * Music_Volume;
+	float fx_volume_total = 128 * Music_Volume;
 	Mix_VolumeMusic(total_volume);
+	Mix_Volume(-1, fx_volume_total);
+
 	//LOG("%f", total_volume);
 }
 
@@ -236,7 +242,16 @@ void j1Audio::Change_Volume_FX(float value)
 		fx_volume = 1;
 
 	}
+	float fx_volume_total = 128 * fx_volume;
+	Mix_Volume(-1, fx_volume_total);
+}
 
+float j1Audio::Get_Music_Volume(){
+	return music_volume;
+}
+
+float j1Audio::Get_FX_Volume() {
+	return fx_volume;
 }
 
 

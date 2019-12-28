@@ -26,17 +26,23 @@ public:
 
 	float get_valors();
 
+	void Debug();
+
 
 public:
 
-	iPoint new_mouse_pos;
+	iPoint new_mouse_pos_music;
+	iPoint new_mouse_pos_fx;
 	//float mouse_position_in_button;
 
 private:
 	
-	SDL_Rect Button_Scrollbar;
-	SDL_Rect Scrollbar;
-	float initial, max, actual_pos;
+	SDL_Rect Button_Scrollbar_volume, Button_Scrollbar_fx;
+	SDL_Rect Scrollbar_volume, Scrollbar_fx;
+
+	UI_Type t;
+	float initial_v, max_v, actual_pos_v;
+	float initial_f, max_f, actual_pos_f;
 
 };
 

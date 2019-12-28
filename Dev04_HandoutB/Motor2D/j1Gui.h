@@ -53,6 +53,7 @@ public:
 	UI_element* CreateLabel(int x, int y, UI_Type type, char* text_input, UI_element* parent, j1Module* Observer);
 
 	int volume_up = 0;
+	int fx_up = 0;
 	/*void CreateImage(SDL_Rect& dimensions);
 	void CreateText(SDL_Rect& dimensions);
 	void CreateSlider(SDL_Rect& dimensions);*/

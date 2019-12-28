@@ -40,6 +40,8 @@ public:
 	void Change_Volume_FX(float value);
 
 	float Music_Volume;
+	float Get_Music_Volume();
+	float Get_FX_Volume();
 
 private:
 

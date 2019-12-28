@@ -147,8 +147,12 @@ void j1MainMenu::CreateSettings() {
 	App->gui->CreateButton(830, 385, Button_slider_music_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
 	App->gui->CreateSlider(600, 390, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
 
+	App->gui->CreateButton(560, 485, Button_slider_fx_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
+	App->gui->CreateButton(830, 485, Button_slider_fx_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
+	App->gui->CreateSlider(600, 490, Slider_fx, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
+
 	App->gui->CreateLabel(602, 340, Label, "Music Volume", NULL, this);
-	//App->gui->CreateLabel(602, 340, Label, "FX Volume", NULL, this);
+	App->gui->CreateLabel(632, 440, Label, "FX Volume", NULL, this);
 	App->gui->CreateLabel(650, 240, Label, "Settings", NULL, this);
 
 }

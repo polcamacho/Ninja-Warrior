@@ -92,6 +92,14 @@ bool UI_Button::Update(float dt)
 				App->gui->volume_up = 2;
 			}
 
+			if (t == Button_slider_fx_left) {
+				App->gui->fx_up = 1;
+			}
+
+			else if (t == Button_slider_fx_right) {
+				App->gui->fx_up = 2;
+			}
+
 			if (t == Button_play) {
 				App->fade->FadeToBlack(App->main_menu, App->scene, 2);
 			}
@@ -167,7 +175,7 @@ bool UI_Button::Update(float dt)
 		else {
 			
 			App->gui->volume_up = 0;
-
+			App->gui->fx_up = 0;
 		}
 
 	}
