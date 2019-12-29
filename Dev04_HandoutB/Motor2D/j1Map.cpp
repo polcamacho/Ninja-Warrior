@@ -555,6 +555,9 @@ bool j1Map::LoadObject(pugi::xml_node& objectnode, ObjectGroup* objectgroup) {
 			{
 				App->collider->AddCollider(&objectgroup->object[i], COLLIDER_CHECKPOINT);
 			}
+			if (type == "timer_collider") {
+				App->collider->AddCollider(&objectgroup->object[i], COLLIDER_TIMER);
+			}
 			
 			objectid = objectid.next_sibling("object");
 

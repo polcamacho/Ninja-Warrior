@@ -20,6 +20,7 @@ enum ColliderType	//Set Type of Colliders
 	COLLIDER_CHECKPOINT,
 	COLLIDER_HEART,
 	COLLIDER_COIN,
+	COLLIDER_TIMER,
 	COLLIDER_MAX
 
 };

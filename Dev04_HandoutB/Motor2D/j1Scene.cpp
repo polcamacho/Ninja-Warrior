@@ -96,8 +96,8 @@ bool j1Scene::Start()
 		App->gui->CreateImage(10, 15, Image, { 451,75,57,55 }, NULL, this);
 		App->gui->CreateImage(14, 100, Image, { 541,77,51,54 }, NULL, this);
 
-		App->gui->CreateLabel(400, 15, Image, "Score: ", NULL, this);
-		App->gui->CreateLabel(800, 15, Image, "Time: ", NULL, this);
+		Player_lives=(UI_Label*)App->gui->CreateLabel(400, 15, Label, "Score: ", NULL, this);
+		App->gui->CreateLabel(800, 15, Label, "Time: ", NULL, this);
 
 	}
 
@@ -143,12 +143,19 @@ bool j1Scene::Update(float dt)
 {
 	BROFILER_CATEGORY("Update scene", Profiler::Color::Salmon);
 
+	if (App->entity->start_timer == true) {
+		time++;
+	}
+	//LOG("%i", time);
+
 	//if coin is colliding with player, it adds 1 in coin collector
 	if (App->entity->is_coin == true) {
 		App->entity->coins++;
 		App->entity->is_coin = false;
 	}
-	LOG("%i", App->entity->coins);
+
+	
+	//LOG("%i", App->entity->coins);
 
 	//if heart is colliding with player, it adds 1 in live collector
 	if (App->entity->is_live_plus == true) {
@@ -159,8 +166,9 @@ bool j1Scene::Update(float dt)
 			App->entity->lives = 3;
 		}
 	}
+	
 	//if enemy is colliding with player, it removes 1 in live collector
-	else if (App->entity->is_live_minus == true) {
+	if (App->entity->is_live_minus == true) {
 
 		App->entity->lives--;
 		App->entity->is_live_minus = false;
@@ -174,8 +182,10 @@ bool j1Scene::Update(float dt)
 			App->main_menu->cont = 0;
 		}
 	}
+	
+	//Player_lives->SetTextFromNum(App->entity->lives);
 
-	LOG("%i", App->entity->lives);
+	//LOG("%i", App->entity->lives);
 
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
 
@@ -656,8 +666,8 @@ void j1Scene::CreateSettings() {
 	slider_right_volume = (UI_Button*)App->gui->CreateButton(630, 335, Button_slider_music_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
 	slider_volume = (UI_Slider*)App->gui->CreateSlider(400, 340, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
 
-	slider_left_fx = (UI_Button*)App->gui->CreateButton(360, 435, Button_slider_music_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
-	slider_right_fx = (UI_Button*)App->gui->CreateButton(630, 435, Button_slider_music_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
+	slider_left_fx = (UI_Button*)App->gui->CreateButton(360, 435, Button_slider_fx_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
+	slider_right_fx = (UI_Button*)App->gui->CreateButton(630, 435, Button_slider_fx_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
 	slider_fx = (UI_Slider*)App->gui->CreateSlider(400, 440, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
 
 	music_volume = (UI_Label*)App->gui->CreateLabel(402, 300, Label, "Music Volume", NULL, this);

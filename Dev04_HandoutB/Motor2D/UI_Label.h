@@ -17,6 +17,7 @@ public:
 	bool CleanUp();
 
 	bool SetLabelText(const char* text_input);
+	void SetTextFromNum(int value);
 
 	bool Draw();
 

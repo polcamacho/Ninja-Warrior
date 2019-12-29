@@ -32,6 +32,8 @@ j1Collider::j1Collider()
 	matrix[COLLIDER_PLAYER][COLLIDER_CHECKPOINT] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_COIN] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_HEART] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_TIMER] = true;
+
 
 	//Set the Collider Events of Enemy
 	matrix[COLLIDER_ENEMY][COLLIDER_ENEMY] = false;
@@ -216,6 +218,9 @@ void j1Collider::DebugDraw()
 			break;
 		case COLLIDER_COIN: // Set Collider Color violet
 			App->render->DrawQuad(colliders[i]->rect, 100, 100, 100, alpha);
+			break;
+		case COLLIDER_TIMER:
+			App->render->DrawQuad(colliders[i]->rect, 255, 200, 0, alpha);
 			break;
 		
 		default:

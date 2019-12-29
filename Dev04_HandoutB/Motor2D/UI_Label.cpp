@@ -4,6 +4,7 @@
 #include "j1Gui.h"
 #include "j1Fonts.h"
 #include "UI_element.h"
+#include <string.h>
 
 UI_Label::UI_Label(int x, int y, UI_Type type, char* text_input, UI_element * parent, j1Module * Observer) : UI_element(x, y, type, parent, Observer)
 {
@@ -48,6 +49,22 @@ bool UI_Label::SetLabelText(const char * text_input)
 	}
 
 	return ret;
+}
+
+void UI_Label::SetTextFromNum(int value)
+{
+	std::string s = std::to_string(value);
+
+	text = s.c_str();
+
+	App->tex->UnLoad(text_texture);
+
+	text_texture = App->fonts->Print(text.GetString(), { 255,255,255,0 }, App->fonts->default);
+
+	int width = 0, height = 0;
+	App->fonts->CalcSize(this->text.GetString(), width, height, App->fonts->default);
+	dimensions.w = width;
+	dimensions.h = height;
 }
 
 bool UI_Label::Draw()

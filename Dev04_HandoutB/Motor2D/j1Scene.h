@@ -66,6 +66,9 @@ public:
 	int cont2 = 0;
 	bool ret_s = true;
 	bool is_pause = false;
+	int time = 0;
+
+	p2SString lives_char;
 
 private:
 
@@ -91,6 +94,7 @@ public:
 	UI_Label* title;
 	UI_Label* music_volume;
 	UI_Label* fx_volume;
+	UI_Label* Player_lives;
 
 };
 
