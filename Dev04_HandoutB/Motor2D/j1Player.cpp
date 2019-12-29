@@ -90,8 +90,6 @@ bool j1Player::Update(float dt) {
 
 	BROFILER_CATEGORY("Update player", Profiler::Color::DarkGray);
 
-	App->entity->in_game_time += dt;
-	
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 
 		if (godmode == false)	//If godmode is false sets None Collider to player for he can fly around map and not collide
@@ -146,7 +144,9 @@ bool j1Player::Update(float dt) {
 		current_stateP = JUMP_FALL1;
 
 	}
-		
+	
+	App->entity->timer += dt;
+
 	return true;
 
 }

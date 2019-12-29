@@ -9,7 +9,9 @@
 UI_Label::UI_Label(int x, int y, UI_Type type, char* text_input, UI_element * parent, j1Module * Observer, int* counter) : UI_element(x, y, type, parent, Observer)
 {
 	t = type;
-	counter_path = counter;
+	timer_out = counter;
+	
+
 }
 
 UI_Label::~UI_Label()
@@ -18,17 +20,26 @@ UI_Label::~UI_Label()
 
 bool UI_Label::Update(float dt)
 {
+	
 	if (t == Label_timer) {
-		char text[15] = "Time:         ";
-		int aux_path = *counter_path;
-		int divisor = 100000;
-		for (int i = 7; i < 13; i++) {
-			text[i] = (char)(aux_path / divisor + '0');
-			aux_path = aux_path % divisor;
-			divisor = divisor / 10;
+		
+		timer_count = *timer_out;
+		d = 100000;
+
+		for (int i = 0; i < 6; i++) {
+			
+			timer[i] = (char)(timer_count/d);
+			
+			timer_count = timer_count%d;
+			
+			d = d / 10;
+		
 		}
-		SetTextTimer(text);
+		
+		SetTextTimer(timer);
+
 	}
+
 	return true;
 }
 
@@ -67,9 +78,11 @@ bool UI_Label::SetLabelText(const char* text_input)
 
 void UI_Label::SetTextTimer(const char* text)
 {
+	
 	App->tex->UnLoad(texture);
 	texture = App->fonts->Print(text, { 255,255,255,255 }, App->fonts->fonts.start->data);
 	App->fonts->CalcSize(text, dimensions.w, dimensions.h);
+
 }
 
 bool UI_Label::Draw()

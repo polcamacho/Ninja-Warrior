@@ -25,10 +25,13 @@ public:
 
 	p2SString text;
 	SDL_Texture* text_texture=nullptr;
-	Uint32 row_w;
 	UI_Type t;
-	int* counter_path;
-
+	
+	//Timer
+	int d;
+	char timer[7] = "";
+	int* timer_out;
+	int timer_count;
 
 };
 

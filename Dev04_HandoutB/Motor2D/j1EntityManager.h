@@ -61,7 +61,7 @@ public:
 	int seconds = 0;
 	int minutes = 0;
 
-	int in_game_time = 0;
+	int timer = 0;
 
 	pugi::xml_node node;
 

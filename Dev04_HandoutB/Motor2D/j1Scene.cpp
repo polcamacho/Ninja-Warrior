@@ -106,10 +106,9 @@ bool j1Scene::Start()
 		App->gui->CreateLabel(400, 15, Label, "Score: ", NULL, this, NULL);
 		App->gui->CreateLabel(800, 15, Label, "Time: ", NULL, this, NULL);
 
-		
-		
-		Player_time = (UI_Label*)App->gui->CreateLabel(600, 20, Label_timer, "Time: 000000", NULL, this, &App->entity->in_game_time);
+		Player_time = (UI_Label*)App->gui->CreateLabel(900, 15, Label_timer, "", NULL, this, &App->entity->timer);
 		Timer_t.Start();
+
 	}
 
 	return true;
@@ -141,7 +140,7 @@ bool j1Scene::PreUpdate(float dt)
 		else
 		{
 			origin = p;
-		
+		..
 			origin_selected = true;
 		}
 	}*/
@@ -153,11 +152,11 @@ bool j1Scene::PreUpdate(float dt)
 bool j1Scene::Update(float dt)
 {
 	BROFILER_CATEGORY("Update scene", Profiler::Color::Salmon);
-/*
+
 	static char score_timer[6];
 	timer_game = start_time + ((uint)Timer_t.ReadSec());
 	sprintf(score_timer, "%02i:%02i", timer_game / 60, timer_game % 60);
-	Player_time->SetLabelText(score_timer);*/
+	Player_time->SetLabelText(score_timer);
 
 	//if coin is colliding with player, it adds 1 in coin collector
 	if (App->entity->is_coin == true) {
@@ -429,8 +428,12 @@ bool j1Scene::PostUpdate(float dt)
 		App->audio->Enable();
 		App->collider->Enable();
 		
+		
+		Player_time = (UI_Label*)App->gui->CreateLabel(900, 15, Label_timer, "", NULL, this, &App->entity->timer);
+
 		App->gui->CreateLabel(400, 15, Label, "Score: ", NULL, this, NULL);
 		App->gui->CreateLabel(800, 15, Label, "Time: ", NULL, this, NULL);
+	
 		
 		cont++;
 
