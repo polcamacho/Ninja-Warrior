@@ -87,6 +87,7 @@ bool j1MainMenu::Update(float dt)
 		if (is_menu == true) {
 			App->gui->CleanUp();
 			CreateMenu();
+			App->scene->cont = 0;
 			cont++;
 		}
 

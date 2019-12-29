@@ -424,19 +424,17 @@ bool j1Scene::PostUpdate(float dt)
 		coins_earned = false;
 
 	}
-	
+
 	if (cont==0){
 		
 		//load audio from map 1
 		if (App->scene->current_map == "Map.tmx") {
-			App->audio->PlayMusic("audio/music/map1_music.ogg");
 			App->scene->jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 			App->scene->death_FX = App->audio->LoadFx("audio/fx/Death.wav");
 		}
 
 		//load audio from map 2
 		else if (App->scene->current_map == "map2.tmx") {
-			App->audio->PlayMusic("audio/music/map2_music.ogg");
 			App->scene->jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 			App->scene->death_FX = App->audio->LoadFx("audio/fx/Death.wav");
 		}
@@ -444,7 +442,7 @@ bool j1Scene::PostUpdate(float dt)
 		App->entity->Enable();
 		App->audio->Enable();
 		App->collider->Enable();
-		App->pathfinding->Enable();
+		//App->pathfinding->Enable();
 		
 		cont++;
 
@@ -732,7 +730,7 @@ void j1Scene::CreateSettings() {
 
 	slider_left_fx = (UI_Button*)App->gui->CreateButton(360, 435, Button_slider_fx_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
 	slider_right_fx = (UI_Button*)App->gui->CreateButton(630, 435, Button_slider_fx_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
-	slider_fx = (UI_Slider*)App->gui->CreateSlider(400, 440, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
+	slider_fx = (UI_Slider*)App->gui->CreateSlider(400, 440, Slider_fx, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
 
 	music_volume = (UI_Label*)App->gui->CreateLabel(402, 300, Label, "Music Volume", NULL, this);
 	fx_volume = (UI_Label*)App->gui->CreateLabel(425, 400, Label, "FX Volume", NULL, this);

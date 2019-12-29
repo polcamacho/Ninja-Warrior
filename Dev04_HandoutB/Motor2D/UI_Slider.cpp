@@ -237,11 +237,11 @@ void UI_Slider::Debug() {
 
 			SDL_Rect bar{ pos.x, pos.y, Scrollbar_volume.w, Scrollbar_volume.h };
 
-			App->render->DrawQuad(bar, 255, 0, 0, 255, false);
+			App->render->DrawQuad(bar, 255, 0, 0, 255, false, 0.0f);
 
 			SDL_Rect button_scrollbar{ actual_pos_v, pos.y - 4, Button_Scrollbar_volume.w, Button_Scrollbar_volume.h };
 
-			App->render->DrawQuad(button_scrollbar, 255, 0, 0, 255, false);
+			App->render->DrawQuad(button_scrollbar, 255, 0, 0, 255, false, 0.0f);
 		}
 
 	}
@@ -252,11 +252,11 @@ void UI_Slider::Debug() {
 
 			SDL_Rect bar{ pos.x, pos.y, Scrollbar_fx.w, Scrollbar_fx.h };
 
-			App->render->DrawQuad(bar, 255, 0, 0, 255, false);
+			App->render->DrawQuad(bar, 255, 0, 0, 255, false, 0.0f);
 
-			SDL_Rect button_scrollbar{ actual_pos_f, pos.y - 4, Button_Scrollbar_fx.w, Button_Scrollbar_fx.h };
+			SDL_Rect button_scrollbar2{ actual_pos_f, pos.y - 4, Button_Scrollbar_fx.w, Button_Scrollbar_fx.h };
 
-			App->render->DrawQuad(button_scrollbar, 255, 0, 0, 255, false);
+			App->render->DrawQuad(button_scrollbar2, 255, 0, 0, 255, false, 0.0f);
 		}
 	}
 

@@ -11,15 +11,13 @@
 	<:anonymous />
 	<pathfinding />
 	<entitymanager>
-		<playerposition x="3894" y="1331" />
-		<heartposition x="200" y="600" />
-		<heartposition x="250" y="600" />
+		<playerposition x="871" y="480" />
 	</entitymanager>
 	<fonts />
 	<gui />
 	<gui />
 	<:anonymous />
 	<renderer>
-		<camera x="-3382" y="-782" />
+		<camera x="-359" y="0" />
 	</renderer>
 </game_state>
