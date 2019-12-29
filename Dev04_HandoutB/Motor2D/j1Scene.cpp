@@ -591,6 +591,15 @@ void j1Scene::FirstLevel() {
 			App->pathfinding->SetMap(w, h, data);
 		RELEASE_ARRAY(data);
 
+		if (current_map == "Map.tmx") {
+			App->audio->PlayMusic("audio/music/map1_music.ogg");
+			jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
+			death_FX = App->audio->LoadFx("audio/fx/Death.wav");
+			coin_FX = App->audio->LoadFx("audio/fx/Coin.wav");
+			heart_FX = App->audio->LoadFx("audio/fx/Heart.wav");
+			save_FX = App->audio->LoadFx("audio/fx/Save.wav");
+		}
+
 		cont = 0;
 
 	}
@@ -621,6 +630,15 @@ void j1Scene::FirstLevel() {
 			cont = 0;
 		}
 
+		if (current_map == "Map.tmx") {
+			App->audio->PlayMusic("audio/music/map1_music.ogg");
+			jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
+			death_FX = App->audio->LoadFx("audio/fx/Death.wav");
+			coin_FX = App->audio->LoadFx("audio/fx/Coin.wav");
+			heart_FX = App->audio->LoadFx("audio/fx/Heart.wav");
+			save_FX = App->audio->LoadFx("audio/fx/Save.wav");
+		}
+
 		int w, h;
 		uchar* data = NULL;
 		if (App->map->CreateWalkabilityMap(w, h, &data))
@@ -639,6 +657,16 @@ void j1Scene::SecondLevel() {
 	App->entity->CleanEntity();
 	App->collider->Start();
 	CreateEntities();
+
+	//load audio from map 2
+	if (current_map == "map2.tmx") {
+		App->audio->PlayMusic("audio/music/map2_music.ogg");
+		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
+		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
+		coin_FX = App->audio->LoadFx("audio/fx/Coin.wav");
+		heart_FX = App->audio->LoadFx("audio/fx/Heart.wav");
+		save_FX = App->audio->LoadFx("audio/fx/Save.wav");
+	}
 
 	App->entity->coins = 0;
 	App->entity->lives = 3;

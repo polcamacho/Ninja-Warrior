@@ -6,7 +6,7 @@
 	<audio />
 	<map />
 	<scene>
-		<scene name="Map.tmx" />
+		<scene name="map2.tmx" />
 	</scene>
 	<:anonymous />
 	<pathfinding />
@@ -16,6 +16,6 @@
 	<gui />
 	<:anonymous />
 	<renderer>
-		<camera x="0" y="-92" />
+		<camera x="0" y="0" />
 	</renderer>
 </game_state>
