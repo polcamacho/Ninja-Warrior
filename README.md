@@ -90,9 +90,15 @@ F10: God mode.
 
 F11: Framerate cap ON/OFF.
 
-### Advertisement
+### Clarifications
 
-There are no enemies in map 1, because we had many problems to deal with them and UI.
+There are no enemies, because we had many problems to deal with them and UI.
+
+At the beggining of the map, it doesn't appear UI lives and coins on top left corner. Press ESC key to view them.
+
+The music and fx volume are reseted when settings is opened.
+
+Timer sometimes is bugged. Close the game and reopen exe file until it works well.
 
 ## Credits
 
