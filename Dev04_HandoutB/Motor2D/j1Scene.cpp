@@ -97,9 +97,13 @@ bool j1Scene::Start()
 		App->gui->CreateImage(10, 15, Image, { 451,75,57,55 }, NULL, this);
 		App->gui->CreateImage(14, 100, Image, { 541,77,51,54 }, NULL, this);
 
-		App->gui->CreateLabel(400, 15, Label, "Score: ", NULL, this);
-		App->gui->CreateLabel(800, 15, Label, "Time: ", NULL, this);
+		App->gui->CreateLabel(400, 15, Label, "Score: ", NULL, this, NULL);
+		App->gui->CreateLabel(800, 15, Label, "Time: ", NULL, this, NULL);
 
+		
+		
+		Player_time = (UI_Label*)App->gui->CreateLabel(600, 20, Label_timer, "Time: 000000", NULL, this, &App->entity->in_game_time);
+		Timer_t.Start();
 	}
 
 	return true;
@@ -143,11 +147,11 @@ bool j1Scene::PreUpdate(float dt)
 bool j1Scene::Update(float dt)
 {
 	BROFILER_CATEGORY("Update scene", Profiler::Color::Salmon);
-
-	if (App->entity->start_timer == true) {
-		time++;
-	}
-	//LOG("%i", time);
+/*
+	static char score_timer[6];
+	timer_game = start_time + ((uint)Timer_t.ReadSec());
+	sprintf(score_timer, "%02i:%02i", timer_game / 60, timer_game % 60);
+	Player_time->SetLabelText(score_timer);*/
 
 	//if coin is colliding with player, it adds 1 in coin collector
 	if (App->entity->is_coin == true) {
@@ -293,75 +297,6 @@ bool j1Scene::Update(float dt)
 		RestartCurrentLevel();
 
 	}
-
-	/*p2List_item<p2SString>* i = maps.start;
-
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
-
-
-		App->map->CleanUp();
-		App->map->Load("Map.tmx");
-
-		/*App->audio->PlayMusic("audio/music/map1_music.ogg");
-		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
-		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-
-		/*int w, h;
-		uchar* data = NULL;
-		if (App->map->CreateWalkabilityMap(w, h, &data))
-			App->pathfinding->SetMap(w, h, data);
-		RELEASE_ARRAY(data);
-
-		App->entity->CleanEntity();
-		CreateEntities();
-		
-	}
-
-	i = i->next;
-
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
-
-
-		App->map->CleanUp();
-		App->map->Load("map2.tmx");
-
-		/*App->audio->PlayMusic("audio/music/map2_music.ogg");						//load audio from map 1
-		jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
-		death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-
-		/*int w, h;
-		uchar* data = NULL;
-		if (App->map->CreateWalkabilityMap(w, h, &data))
-			App->pathfinding->SetMap(w, h, data);
-		RELEASE_ARRAY(data);
-
-		App->entity->CleanEntity();
-		CreateEntities();
-		
-		//App->map->Draw();
-
-	}
-
-	else {
-
-		
-		App->map->Draw();		//draws the correspondant map
-
-
-	}
-
-	//restart map and puts the player at the beginning of it
-	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
-	{
-		App->entity->CleanEntity();
-		CreateEntities();
-		if (current_map == "Map.tmx") {
-			App->map->Load("Map.tmx");
-		}
-		else if (current_map == "map2.tmx") {
-			App->map->Load("map2.tmx");
-		}
-	}*/
 	
 	/*// Debug pathfinding ------------------------------
 	int x = 0, y = 0;
@@ -398,12 +333,12 @@ bool j1Scene::PostUpdate(float dt)
 		int i = App->entity->lives;
 		LOG("%i", i);
 		App->gui->Delete_Element(Player_lives);
-		Player_lives= (UI_Label*)App->gui->CreateLabel(85, 30, Label, cad[i], NULL, this);
+		Player_lives= (UI_Label*)App->gui->CreateLabel(85, 30, Label, cad[i], NULL, this, NULL);
 
 		int m = App->entity->score;
 		LOG("%i", m);
 		App->gui->Delete_Element(Player_score);
-		Player_score = (UI_Label*)App->gui->CreateLabel(510, 15, Label, score_cad[m], NULL, this);
+		Player_score = (UI_Label*)App->gui->CreateLabel(510, 15, Label, score_cad[m], NULL, this, NULL);
 
 		lives_earned = false;
 
@@ -414,16 +349,54 @@ bool j1Scene::PostUpdate(float dt)
 		int i = App->entity->coins;
 		LOG("%i", i);
 		App->gui->Delete_Element(Player_coins);
-		Player_coins = (UI_Label*)App->gui->CreateLabel(85, 115, Label, cad[i], NULL, this);
+		Player_coins = (UI_Label*)App->gui->CreateLabel(85, 115, Label, cad[i], NULL, this, NULL);
 
 		int j = App->entity->score;
 		LOG("%i", j);
 		App->gui->Delete_Element(Player_score);
-		Player_score = (UI_Label*)App->gui->CreateLabel(510, 15, Label, score_cad[j], NULL, this);
+		Player_score = (UI_Label*)App->gui->CreateLabel(510, 15, Label, score_cad[j], NULL, this, NULL);
 
 		coins_earned = false;
 
 	}
+
+	/*if (App->entity->is_timer == true) {
+
+		if (Timer_t.Read() > 1000){
+			Timer_t.Start();
+		}
+		
+		App->entity->is_timer = false;
+		time_start = true;
+	}
+	
+	if (time_start == true) {
+
+		App->entity->seconds = Timer_t.ReadSec();
+		int a = App->entity->seconds;
+		App->gui->Delete_Element(Player_time);
+		Player_time = (UI_Label*)App->gui->CreateLabel(610, 15, Label, cad[a], NULL, this);
+
+		if (App->entity->seconds == 60)
+		{
+			App->entity->seconds = 0;
+			App->entity->minutes ++;
+		}
+
+		if (App->entity->seconds < 10)
+		{
+
+			cad[2] = cad[1];
+			cad[1] = cad[0];
+			cad[0] = "0";
+					   			
+			int b = App->entity->minutes;
+			App->gui->Delete_Element(Player_time2);
+			Player_time2 = (UI_Label*)App->gui->CreateLabel(603, 15, Label, cad2[b], NULL, this);
+		}
+		
+	}*/
+	
 	
 	if (cont==0){
 		
@@ -734,9 +707,9 @@ void j1Scene::CreateSettings() {
 	slider_right_fx = (UI_Button*)App->gui->CreateButton(630, 435, Button_slider_fx_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
 	slider_fx = (UI_Slider*)App->gui->CreateSlider(400, 440, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
 
-	music_volume = (UI_Label*)App->gui->CreateLabel(402, 300, Label, "Music Volume", NULL, this);
-	fx_volume = (UI_Label*)App->gui->CreateLabel(425, 400, Label, "FX Volume", NULL, this);
-	title = (UI_Label*)App->gui->CreateLabel(415, 220, Label, "Pause Menu", NULL, this);
+	music_volume = (UI_Label*)App->gui->CreateLabel(402, 300, Label, "Music Volume", NULL, this, NULL);
+	fx_volume = (UI_Label*)App->gui->CreateLabel(425, 400, Label, "FX Volume", NULL, this, NULL);
+	title = (UI_Label*)App->gui->CreateLabel(415, 220, Label, "Pause Menu", NULL, this, NULL);
 
 	close_game = (UI_Button*)App->gui->CreateButton(485, 490, Button_close_game, { 475,286,43,43 }, { 599,286,43,43 }, { 718, 286,43,43 }, NULL, this);
 	menu = (UI_Button*)App->gui->CreateButton(350, 480, Button_menu, { 472,337,51,51 }, { 596,337,51,51 }, { 714, 337,51,51 }, NULL, this);

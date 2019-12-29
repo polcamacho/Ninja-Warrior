@@ -6,9 +6,10 @@
 #include "UI_element.h"
 #include <string.h>
 
-UI_Label::UI_Label(int x, int y, UI_Type type, char* text_input, UI_element * parent, j1Module * Observer) : UI_element(x, y, type, parent, Observer)
+UI_Label::UI_Label(int x, int y, UI_Type type, char* text_input, UI_element * parent, j1Module * Observer, int* counter) : UI_element(x, y, type, parent, Observer)
 {
-
+	t = type;
+	counter_path = counter;
 }
 
 UI_Label::~UI_Label()
@@ -17,6 +18,17 @@ UI_Label::~UI_Label()
 
 bool UI_Label::Update(float dt)
 {
+	if (t == Label_timer) {
+		char text[15] = "Time:         ";
+		int aux_path = *counter_path;
+		int divisor = 100000;
+		for (int i = 7; i < 13; i++) {
+			text[i] = (char)(aux_path / divisor + '0');
+			aux_path = aux_path % divisor;
+			divisor = divisor / 10;
+		}
+		SetTextTimer(text);
+	}
 	return true;
 }
 
@@ -26,11 +38,11 @@ bool UI_Label::CleanUp()
 	return true;
 }
 
-bool UI_Label::SetLabelText(const char * text_input)
+bool UI_Label::SetLabelText(const char* text_input)
 {
 	bool ret = false;
 
-	text_texture = App->fonts->Print(text_input, { 255,255,255,0 }, App->fonts->fonts.start->data);
+	text_texture = App->fonts->Print(text_input, { 255,255,255,255 }, App->fonts->fonts.start->data);
 	
 	if (text_texture != nullptr)
 	{
@@ -46,25 +58,18 @@ bool UI_Label::SetLabelText(const char * text_input)
 		this->dimensions = rect;
 
 		ret = true;
+		
 	}
+
 
 	return ret;
 }
 
-void UI_Label::SetTextFromNum(int value)
+void UI_Label::SetTextTimer(const char* text)
 {
-	std::string s = std::to_string(value);
-
-	text = s.c_str();
-
-	App->tex->UnLoad(text_texture);
-
-	text_texture = App->fonts->Print(text.GetString(), { 255,255,255,0 }, App->fonts->default);
-
-	int width = 0, height = 0;
-	App->fonts->CalcSize(this->text.GetString(), width, height, App->fonts->default);
-	dimensions.w = width;
-	dimensions.h = height;
+	App->tex->UnLoad(texture);
+	texture = App->fonts->Print(text, { 255,255,255,255 }, App->fonts->fonts.start->data);
+	App->fonts->CalcSize(text, dimensions.w, dimensions.h);
 }
 
 bool UI_Label::Draw()

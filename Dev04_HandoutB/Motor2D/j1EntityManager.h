@@ -47,17 +47,21 @@ public:
 	SDL_Texture*	Tex_Coin = nullptr;
 	SDL_Texture*	Tex_Heart = nullptr;
 
-	//bool for coins collected, and lives collected / removed
+	//bool for coins collected, lives collected / removed, score and timer
 	bool is_coin = false;
 	bool is_live_plus = false;
 	bool is_live_minus = false;
 	bool is_score = false;
+	bool is_timer = false;
 
 	//counters for coins and lives
 	int coins;
 	int lives;
 	int score = 0;
-	bool start_timer;
+	int seconds = 0;
+	int minutes = 0;
+
+	int in_game_time = 0;
 
 	pugi::xml_node node;
 

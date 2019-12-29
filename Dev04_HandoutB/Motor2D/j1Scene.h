@@ -2,6 +2,7 @@
 #define __j1SCENE_H__
 
 #include "j1Module.h"
+#include "j1Timer.h"
 
 struct SDL_Texture;
 class j1Entity;
@@ -70,12 +71,14 @@ public:
 	int cont3 = 0;
 	char* score_cad[19] = { "000", "050","100","150","200","250","300","350","400","450", "500","550","600","650","700","750","800","850","900" };
 	char* cad[10] = { "0", "1","2","3","4","5","6","7","8","9" };
+	char* cad2[10] = { "0", "1","2","3","4","5","6","7","8","9" };
 	bool ret_s = true;
 	bool is_pause = false;
 	bool is_console = false;
-	int time = 0;
 	bool coins_earned = true;
 	bool lives_earned = true;
+	bool time_start = false;
+
 	p2SString lives_char;
 
 private:
@@ -108,7 +111,14 @@ public:
 	UI_Label* Player_lives;
 	UI_Label* Player_coins;
 	UI_Label* Player_score;
+	UI_Label* Player_time;
+	UI_Label* Player_time2;
 
+
+	j1Timer Timer_t;
+
+	uint timer_game;
+	int start_time;
 
 };
 

@@ -89,6 +89,8 @@ bool j1Player::PreUpdate(float dt) {
 bool j1Player::Update(float dt) {
 
 	BROFILER_CATEGORY("Update player", Profiler::Color::DarkGray);
+
+	App->entity->in_game_time += dt;
 	
 	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 
@@ -800,7 +802,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 
 		if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_TIMER) {
 
-			App->entity->start_timer = true;
+			App->entity->is_timer = true;
 
 		}
 

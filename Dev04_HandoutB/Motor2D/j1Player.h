@@ -113,7 +113,6 @@ public:
 	
 	bool godmode = false;
 	int count = 0;
-
 	p2SString			name;
 	
 

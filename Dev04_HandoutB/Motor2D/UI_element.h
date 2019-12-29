@@ -22,6 +22,7 @@ enum UI_Type {
 	Button_slider_fx_left,
 	Button_slider_fx_right,
 	Label,
+	Label_timer,
 	Image,
 	Slider_music,
 	Slider_fx,
