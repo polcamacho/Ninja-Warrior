@@ -550,7 +550,7 @@ void j1Player::State(float dt) {
 		current_animation = &death;	//Current Animation is Death
 			
 		data_player.D2_Timer = SDL_GetTicks();
-		if (data_player.D2_Timer > (data_player.D_Timer + 20)) {
+		if (data_player.D2_Timer > (data_player.D_Timer)) {
 				
 			if (data_player.checkpoint == true) {
 
