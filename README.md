@@ -40,7 +40,7 @@ Double jump and run mechanics implemented.
 
 Check point autosave.
 
-Sliders move with arrows and button arrows, and with clicks in scrollbar.
+Sliders move with arrows and button arrows, and with clicks in scrollbar. One more check point added in map 2, and has a fx when player pass.
 
 ## Controls
 
