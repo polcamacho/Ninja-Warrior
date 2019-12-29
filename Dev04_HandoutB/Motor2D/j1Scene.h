@@ -67,7 +67,8 @@ public:
 	bool ret_s = true;
 	bool is_pause = false;
 	int time = 0;
-
+	bool coins_earned = true;
+	bool lives_earned = true;
 	p2SString lives_char;
 
 private:
@@ -95,6 +96,7 @@ public:
 	UI_Label* music_volume;
 	UI_Label* fx_volume;
 	UI_Label* Player_lives;
+	UI_Label* Player_coins;
 
 };
 

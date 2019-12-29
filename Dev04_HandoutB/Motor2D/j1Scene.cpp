@@ -17,6 +17,7 @@
 #include "j1Player.h"
 #include "j1FadeToBlack.h"
 #include "j1Gui.h"
+
 #include "UI_Button.h"
 #include "UI_Slider.h"
 #include "UI_Label.h"
@@ -96,7 +97,7 @@ bool j1Scene::Start()
 		App->gui->CreateImage(10, 15, Image, { 451,75,57,55 }, NULL, this);
 		App->gui->CreateImage(14, 100, Image, { 541,77,51,54 }, NULL, this);
 
-		Player_lives=(UI_Label*)App->gui->CreateLabel(400, 15, Label, "Score: ", NULL, this);
+		App->gui->CreateLabel(400, 15, Label, "Score: ", NULL, this);
 		App->gui->CreateLabel(800, 15, Label, "Time: ", NULL, this);
 
 	}
@@ -151,6 +152,7 @@ bool j1Scene::Update(float dt)
 	//if coin is colliding with player, it adds 1 in coin collector
 	if (App->entity->is_coin == true) {
 		App->entity->coins++;
+		coins_earned = true;
 		App->entity->is_coin = false;
 	}
 
@@ -160,10 +162,12 @@ bool j1Scene::Update(float dt)
 	//if heart is colliding with player, it adds 1 in live collector
 	if (App->entity->is_live_plus == true) {
 		App->entity->lives++;
+		lives_earned = true;
 		App->entity->is_live_plus = false;
 
 		if (App->entity->lives >= 3) {
 			App->entity->lives = 3;
+			lives_earned = true;
 		}
 	}
 	
@@ -172,6 +176,7 @@ bool j1Scene::Update(float dt)
 
 		App->entity->lives--;
 		App->entity->is_live_minus = false;
+		lives_earned = true;
 
 		if (App->entity->lives == 0) {
 
@@ -370,8 +375,30 @@ bool j1Scene::PostUpdate(float dt)
 
 	bool ret = true;
 
-	
+	if (lives_earned == true) {
 
+		int i = App->entity->lives;
+		LOG("%i", i);
+		char* cad[] = { "0", "1","2","3","4","5","6","7","8","9" };
+		App->gui->Delete_Element(Player_lives);
+		Player_lives= (UI_Label*)App->gui->CreateLabel(85, 30, Label, cad[i], NULL, this);
+
+		lives_earned = false;
+
+	}
+
+	if (coins_earned == true) {
+
+		int i = App->entity->coins;
+		LOG("%i", i);
+		char* cad[] = { "0", "1","2","3","4","5","6","7","8","9" };
+		App->gui->Delete_Element(Player_coins);
+		Player_coins = (UI_Label*)App->gui->CreateLabel(85, 115, Label, cad[i], NULL, this);
+
+		coins_earned = false;
+
+	}
+	
 	if (cont==0){
 		
 		//load audio from map 1
@@ -618,10 +645,10 @@ void j1Scene::CreateEntities() {
 	else if (current_map == "map2.tmx") {
 
 		App->entity->DrawEntity(55, 100, j1Entity::entity_type::PLAYER);
-		App->entity->DrawEntity(1500, 500, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
+		/*App->entity->DrawEntity(1500, 500, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
 		App->entity->DrawEntity(500, 100, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
 		App->entity->DrawEntity(700, 100, j1Entity::entity_type::BAT_ENEMY);
-		App->entity->DrawEntity(2000, 1000, j1Entity::entity_type::BAT_ENEMY);
+		App->entity->DrawEntity(2000, 1000, j1Entity::entity_type::BAT_ENEMY);*/
 		
 	}
 
@@ -631,10 +658,10 @@ void j1Scene::Map1Entities() {
 
 	App->entity->CleanEntity();
 	App->entity->DrawEntity(100, 500, j1Entity::entity_type::PLAYER);
-	App->entity->DrawEntity(2550, 200, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
+	/*App->entity->DrawEntity(2550, 200, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
 	App->entity->DrawEntity(5250, 400, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
 	App->entity->DrawEntity(4000, 200, j1Entity::entity_type::BAT_ENEMY);
-	App->entity->DrawEntity(700, 200, j1Entity::entity_type::BAT_ENEMY);
+	App->entity->DrawEntity(700, 200, j1Entity::entity_type::BAT_ENEMY);*/
 	App->entity->DrawEntity(200, 500, j1Entity::entity_type::HEART);
 	App->entity->DrawEntity(200, 600, j1Entity::entity_type::COIN);
 
@@ -646,10 +673,10 @@ void j1Scene::Map2Entities() {
 
 	App->entity->CleanEntity();
 	App->entity->DrawEntity(55, 100, j1Entity::entity_type::PLAYER);
-	App->entity->DrawEntity(1500, 500, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
+	/*App->entity->DrawEntity(1500, 500, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
 	App->entity->DrawEntity(500, 100, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
 	App->entity->DrawEntity(700, 100, j1Entity::entity_type::BAT_ENEMY);
-	App->entity->DrawEntity(2000, 1000, j1Entity::entity_type::BAT_ENEMY);
+	App->entity->DrawEntity(2000, 1000, j1Entity::entity_type::BAT_ENEMY);*/
 	App->collider->Start();
 }
 

@@ -45,12 +45,9 @@ bool j1Player::Awake(pugi::xml_node& config) {
 	
 	gravity = config.child("gravity").attribute("grav").as_int();
 
-	if (App->scene->current_map == "Map.tmx") {
-
-		App->entity->coins = config.child("coins").attribute("num").as_int();
-		App->entity->lives = config.child("lives").attribute("num").as_int();
-
-	}
+	App->entity->coins = config.child("coins").attribute("num").as_int();
+	App->entity->lives = config.child("lives").attribute("num").as_int();
+	
 
 	//LOG("%i %i %f %i %i %i", data_player.jumpvel, v.x, data_player.velrun, data_player.colOffset.x, data_player.colOffset.y, gravity);
 
@@ -594,8 +591,6 @@ void j1Player::State(float dt) {
 	}
 
 }
-	
-
 
 void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player collides with something
 
