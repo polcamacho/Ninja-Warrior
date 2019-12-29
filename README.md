@@ -15,14 +15,20 @@ https://github.com/polcamacho/Platformer2D
 Github link: https://github.com/polcamacho
 
 Responsability: Map 2 creation, colliders creation in Tiled, animations, state machine, audio, cleaning code, and readme.
+
 Also enemies spritesheet, golems animations, UMLfor entities, module entities, load and save reimplementation for enemies and player and F11 debug.
+
+And finally, UI structure, button, label, coins, hearts and score implementation, UI UML, WebPage.
 
 ### Christian Piña López
 
 Github link: https://github.com/christianpi4
 
 Responsability: Map 1 creation and Map 2 improved, collider implementor, load and save map, god mode, restart, change map, death animation and cleaning code.
+
 Also pathfindig, framerate cap, module entities, checkpoint collider, player jump redo, death state for player and enemies, bat animations, parallax and kill enemy system.
+
+And finally, UI spritesheet, image, slider, menus creation, transitions, timer, audio volume, console.
 
 ## How to play
 
@@ -31,7 +37,10 @@ The main goal is simple: arrive to the end of the map! But be carefull, some par
 ## Innovation
 
 Double jump and run mechanics implemented.
+
 Check point autosave.
+
+Sliders move with arrows and button arrows, and with clicks in scrollbar.
 
 ## Controls
 
@@ -48,8 +57,6 @@ A+LSHIFT: Run backward.
 D+LSHIFT+SPACE: Jump while running forward.
 
 A+LSHIFT+SPACE: Jump while running backward.
-
-P: Kill enemy.
 
 ### Double jump!
 
@@ -71,9 +78,9 @@ F2: Change to map 2.
 
 F3: Start from the beginning of the current level.
 
-F5: Save current state (player and enemies).
+F5: Save current state (player, enemies and UI).
 
-F6: Load current state (player and enemies).
+F6: Load current state (player, enemies and UI).
 
 F8: Debug UI.
 
@@ -85,7 +92,7 @@ F11: Framerate cap ON/OFF.
 
 ### Advertisement
 
-When you press P for killing an enemy, you mustn't touch it when it dies or you will die too. Also, enemies can suicide themselves if you attract them to spikes using platforms.
+There are no enemies in map 1, because we had many problems to deal with them and UI.
 
 ## Credits
 
