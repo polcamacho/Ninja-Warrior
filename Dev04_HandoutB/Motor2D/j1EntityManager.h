@@ -51,10 +51,12 @@ public:
 	bool is_coin = false;
 	bool is_live_plus = false;
 	bool is_live_minus = false;
+	bool is_score = false;
 
 	//counters for coins and lives
 	int coins;
 	int lives;
+	int score;
 	bool start_timer;
 
 	pugi::xml_node node;

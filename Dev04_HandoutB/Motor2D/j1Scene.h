@@ -97,6 +97,8 @@ public:
 	UI_Label* fx_volume;
 	UI_Label* Player_lives;
 	UI_Label* Player_coins;
+	UI_Label* Player_score;
+
 
 };
 
