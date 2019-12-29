@@ -708,11 +708,11 @@ void j1Scene::CreateEntities() {
 		App->entity->DrawEntity(704, 384, j1Entity::entity_type::COIN);
 		App->entity->DrawEntity(1376, 1984, j1Entity::entity_type::COIN);
 		App->entity->DrawEntity(2752, 1152, j1Entity::entity_type::COIN);
-		App->entity->DrawEntity(5504, 1440, j1Entity::entity_type::COIN);
-		App->entity->DrawEntity(6080, 1376, j1Entity::entity_type::COIN);
+		App->entity->DrawEntity(5700, 1440, j1Entity::entity_type::COIN);
+		App->entity->DrawEntity(5900, 1376, j1Entity::entity_type::COIN);
 
-		App->entity->DrawEntity(4256, 2400, j1Entity::entity_type::HEART);
-		App->entity->DrawEntity(3360, 1312, j1Entity::entity_type::HEART);
+		App->entity->DrawEntity(4544, 2280, j1Entity::entity_type::HEART);
+		App->entity->DrawEntity(3360, 1100, j1Entity::entity_type::HEART);
 		
 	}
 
@@ -748,13 +748,14 @@ void j1Scene::Map2Entities() {
 	App->entity->DrawEntity(704, 384, j1Entity::entity_type::COIN);
 	App->entity->DrawEntity(1376, 1984, j1Entity::entity_type::COIN);
 	App->entity->DrawEntity(2752, 1152, j1Entity::entity_type::COIN);
-	App->entity->DrawEntity(5504, 1440, j1Entity::entity_type::COIN);
-	App->entity->DrawEntity(6080, 1376, j1Entity::entity_type::COIN);
+	App->entity->DrawEntity(5700, 1440, j1Entity::entity_type::COIN);
+	App->entity->DrawEntity(5900, 1376, j1Entity::entity_type::COIN);
 
-	App->entity->DrawEntity(4256, 2400, j1Entity::entity_type::HEART);
-	App->entity->DrawEntity(3360, 1312, j1Entity::entity_type::HEART);
+	App->entity->DrawEntity(4544, 2280, j1Entity::entity_type::HEART);
+	App->entity->DrawEntity(3360, 1100, j1Entity::entity_type::HEART);
 	
 	App->collider->Start();
+
 }
 
 void j1Scene::CreateSettings() {
