@@ -94,6 +94,7 @@ bool j1MainMenu::Update(float dt)
 		if (is_settings == true) {
 			App->gui->CleanUp();
 			CreateSettings();
+			App->scene->cont = 0;
 			cont++;
 		}
 
@@ -116,6 +117,10 @@ bool j1MainMenu::PostUpdate(float dt)
 	App->entity->Disable();
 	App->pathfinding->Disable();
 	App->collider->Disable();
+	App->scene->cont = 0;
+	App->scene->coins_earned = true;
+	App->scene->lives_earned = true;
+
 	return true;
 }
 

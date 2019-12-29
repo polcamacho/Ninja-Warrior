@@ -184,11 +184,25 @@ bool j1Scene::Update(float dt)
 
 		if (App->entity->lives == 0) {
 
-			App->gui->CleanUp();
-			App->fade->FadeToBlack(App->scene, App->main_menu);
+			
+			App->main_menu->cont = 0;
 
 			App->main_menu->is_menu = true;
-			App->main_menu->cont = 0;
+			App->scene->coins_earned = true;
+			App->scene->lives_earned = true;
+
+			App->entity->coins = 0;
+			App->entity->lives = 3;
+			App->entity->score = 0;
+
+			App->entity->CleanEntity();
+			App->collider->CleanUp();
+			
+
+			App->fade->FadeToBlack(App->scene, App->main_menu);
+
+			App->scene->is_pause = false;
+
 		}
 	}
 	
@@ -427,22 +441,15 @@ bool j1Scene::PostUpdate(float dt)
 
 	if (cont==0){
 		
-		//load audio from map 1
-		if (App->scene->current_map == "Map.tmx") {
-			App->scene->jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
-			App->scene->death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-		}
-
-		//load audio from map 2
-		else if (App->scene->current_map == "map2.tmx") {
-			App->scene->jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
-			App->scene->death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-		}
+		App->scene->jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
+		App->scene->death_FX = App->audio->LoadFx("audio/fx/Death.wav");
 
 		App->entity->Enable();
 		App->audio->Enable();
 		App->collider->Enable();
-		//App->pathfinding->Enable();
+		
+		App->gui->CreateLabel(400, 15, Label, "Score: ", NULL, this);
+		App->gui->CreateLabel(800, 15, Label, "Time: ", NULL, this);
 		
 		cont++;
 
