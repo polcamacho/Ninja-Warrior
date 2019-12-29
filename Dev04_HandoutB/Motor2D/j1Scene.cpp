@@ -85,6 +85,9 @@ bool j1Scene::Start()
 			App->audio->PlayMusic("audio/music/map1_music.ogg");
 			jump_FX= App->audio->LoadFx("audio/fx/Jump.wav");
 			death_FX = App->audio->LoadFx("audio/fx/Death.wav");
+			coin_FX = App->audio->LoadFx("audio/fx/Coin.wav");
+			heart_FX = App->audio->LoadFx("audio/fx/Heart.wav");
+			save_FX = App->audio->LoadFx("audio/fx/Save.wav");
 		}
 
 		//load audio from map 2
@@ -92,6 +95,9 @@ bool j1Scene::Start()
 			App->audio->PlayMusic("audio/music/map2_music.ogg");
 			jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 			death_FX = App->audio->LoadFx("audio/fx/Death.wav");
+			coin_FX = App->audio->LoadFx("audio/fx/Coin.wav");
+			heart_FX = App->audio->LoadFx("audio/fx/Heart.wav");
+			save_FX = App->audio->LoadFx("audio/fx/Save.wav");
 		}
 
 		App->gui->CreateImage(10, 15, Image, { 451,75,57,55 }, NULL, this);
@@ -443,6 +449,9 @@ bool j1Scene::PostUpdate(float dt)
 		
 		App->scene->jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 		App->scene->death_FX = App->audio->LoadFx("audio/fx/Death.wav");
+		coin_FX = App->audio->LoadFx("audio/fx/Coin.wav");
+		heart_FX = App->audio->LoadFx("audio/fx/Heart.wav");
+		save_FX = App->audio->LoadFx("audio/fx/Save.wav");
 
 		App->entity->Enable();
 		App->audio->Enable();

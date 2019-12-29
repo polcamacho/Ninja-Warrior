@@ -10,12 +10,14 @@
 	</scene>
 	<:anonymous />
 	<pathfinding />
-	<entitymanager />
+	<entitymanager>
+		<playerposition x="3269" y="1109" />
+	</entitymanager>
 	<fonts />
 	<gui />
 	<gui />
 	<:anonymous />
 	<renderer>
-		<camera x="-5415" y="-89" />
+		<camera x="-2744" y="-560" />
 	</renderer>
 </game_state>

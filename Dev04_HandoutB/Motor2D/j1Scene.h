@@ -87,6 +87,9 @@ public:
 	SDL_Texture* debug_tex;
 	int jump_FX;
 	int death_FX;
+	int coin_FX;
+	int heart_FX;
+	int save_FX;
 
 	j1Image* window;
 	j1Image* title_win;

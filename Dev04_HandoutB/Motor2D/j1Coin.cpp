@@ -168,6 +168,7 @@ void j1Coin::OnCollision(Collider* c1, Collider* c2) {	//Check if the Coin colli
 		this->entity_colliders->to_delete = true;
 		App->entity->is_coin = true;
 		App->entity->is_score = true;
+		App->audio->PlayFx(App->scene->coin_FX);
 	}
 	
 
