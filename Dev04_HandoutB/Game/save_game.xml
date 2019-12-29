@@ -10,12 +10,21 @@
 	</scene>
 	<:anonymous />
 	<pathfinding />
-	<entitymanager />
+	<entitymanager>
+		<playerposition x="585" y="141" />
+		<heartposition x="704" y="384" />
+		<heartposition x="704" y="384" />
+		<heartposition x="704" y="384" />
+		<heartposition x="704" y="384" />
+		<heartposition x="704" y="384" />
+		<heartposition x="704" y="384" />
+		<heartposition x="704" y="384" />
+	</entitymanager>
 	<fonts />
 	<gui />
 	<gui />
 	<:anonymous />
 	<renderer>
-		<camera x="0" y="0" />
+		<camera x="-82" y="0" />
 	</renderer>
 </game_state>

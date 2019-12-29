@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="220" height="90" tilewidth="30" tileheight="30" nextobjectid="312">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="220" height="90" tilewidth="30" tileheight="30" nextobjectid="313">
  <tileset firstgid="1" name="Assets2" tilewidth="32" tileheight="32" tilecount="2304" columns="48">
   <image source="Assets2.png" width="1536" height="1536"/>
  </tileset>
@@ -1135,7 +1135,7 @@
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
-   <tile gid="0"/>
+   <tile gid="1215"/>
    <tile gid="0"/>
    <tile gid="0"/>
    <tile gid="0"/>
@@ -39784,5 +39784,6 @@
   <object id="308" name="platform" x="2850.33" y="2389.33" width="91.3333" height="69.3333"/>
   <object id="309" name="platform" x="4679.67" y="890.667" width="91.3333" height="69.3333"/>
   <object id="310" name="platform" x="4981" y="772" width="91.3333" height="69.3333"/>
+  <object id="312" name="checkpoint" x="630.667" y="146.051" width="32" height="35.8977"/>
  </objectgroup>
 </map>
