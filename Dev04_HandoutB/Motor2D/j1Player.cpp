@@ -20,6 +20,7 @@ j1Player::j1Player(int x, int y) : j1Entity(entity_type::PLAYER)
 	data_player.ipos.x = x;
 	data_player.ipos.y = y;
 	name.create("player");
+	
 }
 
 // Destructor
@@ -180,6 +181,7 @@ bool j1Player::Load(pugi::xml_node& node) {
 	return true;
 
 }
+
 bool j1Player::Save(pugi::xml_node& node) const {
 
 	if (node.child("playerposition").empty())	//Save The Position Valors in the save_config file
@@ -417,6 +419,7 @@ void j1Player::CheckState(float dt)
 			current_stateP = IDLE1;
 			
 		}
+	
 	}
 
 }
@@ -439,6 +442,7 @@ void j1Player::State(float dt) {
 
 
 	}
+
 	if (current_stateP == JUMP_WALK1) {
 
 		current_stateP = JUMP_UP1;

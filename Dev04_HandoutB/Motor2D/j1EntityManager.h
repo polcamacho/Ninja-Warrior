@@ -56,7 +56,7 @@ public:
 	//counters for coins and lives
 	int coins;
 	int lives;
-	int score;
+	int score = 0;
 	bool start_timer;
 
 	pugi::xml_node node;

@@ -41,6 +41,9 @@ public:
 	//Create the menu settings from pause menu
 	void CreateSettings();
 
+	//Create the console from pause menu
+	void CreateConsole();
+
 	//Debug
 	void SecondMap();
 	void FirstLevel();
@@ -64,8 +67,12 @@ public:
 
 	int cont = 0;
 	int cont2 = 0;
+	int cont3 = 0;
+	char* score_cad[19] = { "000", "050","100","150","200","250","300","350","400","450", "500","550","600","650","700","750","800","850","900" };
+	char* cad[10] = { "0", "1","2","3","4","5","6","7","8","9" };
 	bool ret_s = true;
 	bool is_pause = false;
+	bool is_console = false;
 	int time = 0;
 	bool coins_earned = true;
 	bool lives_earned = true;
@@ -83,6 +90,9 @@ public:
 
 	j1Image* window;
 	j1Image* title_win;
+	j1Image* win_console;
+	j1Image* win_tex_console;
+
 	UI_Button* slider_left_volume;
 	UI_Button* slider_right_volume;
 	UI_Button* slider_left_fx;

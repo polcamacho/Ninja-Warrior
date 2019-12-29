@@ -109,6 +109,7 @@ bool j1Gui::Delete_Element(UI_element* element) {
 			ui_element.del(item);
 		}
 	}
+
 	
 	return true;
 }

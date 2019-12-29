@@ -152,7 +152,7 @@ bool j1Scene::Update(float dt)
 	//if coin is colliding with player, it adds 1 in coin collector
 	if (App->entity->is_coin == true) {
 		App->entity->coins++;
-		App->entity->score++;
+		App->entity->score += 2;
 		coins_earned = true;
 		App->entity->is_coin = false;
 		App->entity->is_score = false;
@@ -164,6 +164,8 @@ bool j1Scene::Update(float dt)
 	//if heart is colliding with player, it adds 1 in live collector
 	if (App->entity->is_live_plus == true) {
 		App->entity->lives++;
+		App->entity->score++;
+
 		lives_earned = true;
 		App->entity->is_live_plus = false;
 
@@ -215,6 +217,20 @@ bool j1Scene::Update(float dt)
 		App->gui->Delete_Element(menu);
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_GRAVE) == KEY_DOWN) {
+
+		cont3 = 0;
+		is_console = !is_console;
+		App->gui->Delete_Element(win_console);
+		App->gui->Delete_Element(win_tex_console);
+		
+	}
+
+	if (is_console == false) {
+		cont3 = 0;
+		App->gui->Delete_Element(win_console);
+		App->gui->Delete_Element(win_tex_console);
+	}
 	if (is_pause == false) {
 
 		cont2 = 0;
@@ -381,9 +397,13 @@ bool j1Scene::PostUpdate(float dt)
 
 		int i = App->entity->lives;
 		LOG("%i", i);
-		char* cad[] = { "0", "1","2","3","4","5","6","7","8","9" };
 		App->gui->Delete_Element(Player_lives);
 		Player_lives= (UI_Label*)App->gui->CreateLabel(85, 30, Label, cad[i], NULL, this);
+
+		int m = App->entity->score;
+		LOG("%i", m);
+		App->gui->Delete_Element(Player_score);
+		Player_score = (UI_Label*)App->gui->CreateLabel(510, 15, Label, score_cad[m], NULL, this);
 
 		lives_earned = false;
 
@@ -393,13 +413,11 @@ bool j1Scene::PostUpdate(float dt)
 
 		int i = App->entity->coins;
 		LOG("%i", i);
-		char* cad[] = { "0", "1","2","3","4","5","6","7","8","9" };
 		App->gui->Delete_Element(Player_coins);
 		Player_coins = (UI_Label*)App->gui->CreateLabel(85, 115, Label, cad[i], NULL, this);
 
 		int j = App->entity->score;
 		LOG("%i", j);
-		char* score_cad[] = { "000", "100","200","300","400","500","600","700","800","900" };
 		App->gui->Delete_Element(Player_score);
 		Player_score = (UI_Label*)App->gui->CreateLabel(510, 15, Label, score_cad[j], NULL, this);
 
@@ -448,6 +466,17 @@ bool j1Scene::PostUpdate(float dt)
 
 		}
 		
+	}
+
+	if (is_console) {
+
+		if (cont3 == 0) {
+
+			CreateConsole();
+
+			cont3++;
+
+		}
 	}
 
 	return ret;
@@ -711,5 +740,14 @@ void j1Scene::CreateSettings() {
 
 	close_game = (UI_Button*)App->gui->CreateButton(485, 490, Button_close_game, { 475,286,43,43 }, { 599,286,43,43 }, { 718, 286,43,43 }, NULL, this);
 	menu = (UI_Button*)App->gui->CreateButton(350, 480, Button_menu, { 472,337,51,51 }, { 596,337,51,51 }, { 714, 337,51,51 }, NULL, this);
+
+}
+
+void j1Scene::CreateConsole() {
+
+	LOG("SETTINGS CREATED");
+
+	win_console = (j1Image*)App->gui->CreateImage(0, 0, Image, { 0, 675, 679, 223 }, NULL, this);
+	win_tex_console = (j1Image*)App->gui->CreateImage(0, 240, Image, { 0, 624, 682, 50 }, NULL, this);
 
 }

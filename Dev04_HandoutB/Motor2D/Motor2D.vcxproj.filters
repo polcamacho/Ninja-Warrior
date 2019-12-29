@@ -97,6 +97,9 @@
     <ClCompile Include="UI_Label.cpp">
       <Filter>Desenvolupament  ========\Modules\UI\UI_Elements</Filter>
     </ClCompile>
+    <ClCompile Include="UI_Console.cpp">
+      <Filter>Desenvolupament  ========\Modules\UI\UI_Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h">
@@ -214,6 +217,9 @@
       <Filter>Desenvolupament  ========\Modules\UI\UI_Elements</Filter>
     </ClInclude>
     <ClInclude Include="UI_Label.h">
+      <Filter>Desenvolupament  ========\Modules\UI\UI_Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Console.h">
       <Filter>Desenvolupament  ========\Modules\UI\UI_Elements</Filter>
     </ClInclude>
   </ItemGroup>
