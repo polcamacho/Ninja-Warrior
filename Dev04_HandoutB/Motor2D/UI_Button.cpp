@@ -47,7 +47,7 @@ bool UI_Button::Draw()
 
 		SDL_Rect b{ pos.x, pos.y, Button_click.w, Button_click.h };
 
-		App->render->DrawQuad(b, 255, 0, 0, 255, false);
+		App->render->DrawQuad(b, 255, 0, 0, 255, false, 0.0f);
 	}
 
 	return true;
@@ -127,16 +127,21 @@ bool UI_Button::Update(float dt)
 
 			if (t == Button_menu) {
 				
-				//App->SaveGame();
-				
-				App->scene->is_pause = false;
-				App->main_menu->is_menu = true;
+				App->SaveGame();
 				App->main_menu->cont = 0;
 				
+				App->main_menu->is_menu = true;
+				App->scene->coins_earned = true;
+				App->scene->lives_earned = true;
+
+				App->entity->coins = 0;
+				App->entity->lives = 3;
+				App->entity->score = 0;
+
+				App->entity->CleanEntity();
+				App->collider->CleanUp();
 				App->fade->FadeToBlack(App->scene, App->main_menu, 2);
-
-				
-
+				App->scene->is_pause = false;
 			}
 
 			if (t == Button_close_game) {

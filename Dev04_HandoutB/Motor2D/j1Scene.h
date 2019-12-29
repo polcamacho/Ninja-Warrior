@@ -69,8 +69,8 @@ public:
 	int cont = 0;
 	int cont2 = 0;
 	int cont3 = 0;
-	char* score_cad[19] = { "000", "050","100","150","200","250","300","350","400","450", "500","550","600","650","700","750","800","850","900" };
-	char* cad[10] = { "0", "1","2","3","4","5","6","7","8","9" };
+	char* score_cad[19] = { "x 000", "x 050","x 100","x 150","x 200","x 250","x 300","x 350","x 400","x 450", "x 500","x 550","x 600","x 650","x 700","x 750","x 800","x 850","x 900" };
+	char* cad[10] = { "x 0", "x 1","x 2","x 3","x 4","x 5","x 6","x 7","x 8","x 9" };
 	char* cad2[10] = { "0", "1","2","3","4","5","6","7","8","9" };
 	bool ret_s = true;
 	bool is_pause = false;
@@ -90,6 +90,9 @@ public:
 	SDL_Texture* debug_tex;
 	int jump_FX;
 	int death_FX;
+	int coin_FX;
+	int heart_FX;
+	int save_FX;
 
 	j1Image* window;
 	j1Image* title_win;

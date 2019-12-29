@@ -82,7 +82,7 @@ bool UI_Label::Draw()
 
 		SDL_Rect lbl{ pos.x, pos.y, dimensions.w, dimensions.h };
 
-		App->render->DrawQuad(lbl, 255, 0, 0, 255, false);
+		App->render->DrawQuad(lbl, 255, 0, 0, 255, false, 0.0f);
 	}
 
 	return true;

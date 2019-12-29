@@ -85,6 +85,9 @@ bool j1Scene::Start()
 			App->audio->PlayMusic("audio/music/map1_music.ogg");
 			jump_FX= App->audio->LoadFx("audio/fx/Jump.wav");
 			death_FX = App->audio->LoadFx("audio/fx/Death.wav");
+			coin_FX = App->audio->LoadFx("audio/fx/Coin.wav");
+			heart_FX = App->audio->LoadFx("audio/fx/Heart.wav");
+			save_FX = App->audio->LoadFx("audio/fx/Save.wav");
 		}
 
 		//load audio from map 2
@@ -92,6 +95,9 @@ bool j1Scene::Start()
 			App->audio->PlayMusic("audio/music/map2_music.ogg");
 			jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
 			death_FX = App->audio->LoadFx("audio/fx/Death.wav");
+			coin_FX = App->audio->LoadFx("audio/fx/Coin.wav");
+			heart_FX = App->audio->LoadFx("audio/fx/Heart.wav");
+			save_FX = App->audio->LoadFx("audio/fx/Save.wav");
 		}
 
 		App->gui->CreateImage(10, 15, Image, { 451,75,57,55 }, NULL, this);
@@ -188,11 +194,25 @@ bool j1Scene::Update(float dt)
 
 		if (App->entity->lives == 0) {
 
-			App->gui->CleanUp();
-			App->fade->FadeToBlack(App->scene, App->main_menu);
+			
+			App->main_menu->cont = 0;
 
 			App->main_menu->is_menu = true;
-			App->main_menu->cont = 0;
+			App->scene->coins_earned = true;
+			App->scene->lives_earned = true;
+
+			App->entity->coins = 0;
+			App->entity->lives = 3;
+			App->entity->score = 0;
+
+			App->entity->CleanEntity();
+			App->collider->CleanUp();
+			
+
+			App->fade->FadeToBlack(App->scene, App->main_menu);
+
+			App->scene->is_pause = false;
+
 		}
 	}
 	
@@ -397,27 +417,20 @@ bool j1Scene::PostUpdate(float dt)
 		
 	}*/
 	
-	
 	if (cont==0){
 		
-		//load audio from map 1
-		if (App->scene->current_map == "Map.tmx") {
-			App->audio->PlayMusic("audio/music/map1_music.ogg");
-			App->scene->jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
-			App->scene->death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-		}
-
-		//load audio from map 2
-		else if (App->scene->current_map == "map2.tmx") {
-			App->audio->PlayMusic("audio/music/map2_music.ogg");
-			App->scene->jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
-			App->scene->death_FX = App->audio->LoadFx("audio/fx/Death.wav");
-		}
+		App->scene->jump_FX = App->audio->LoadFx("audio/fx/Jump.wav");
+		App->scene->death_FX = App->audio->LoadFx("audio/fx/Death.wav");
+		coin_FX = App->audio->LoadFx("audio/fx/Coin.wav");
+		heart_FX = App->audio->LoadFx("audio/fx/Heart.wav");
+		save_FX = App->audio->LoadFx("audio/fx/Save.wav");
 
 		App->entity->Enable();
 		App->audio->Enable();
 		App->collider->Enable();
-		App->pathfinding->Enable();
+		
+		App->gui->CreateLabel(400, 15, Label, "Score: ", NULL, this, NULL);
+		App->gui->CreateLabel(800, 15, Label, "Time: ", NULL, this, NULL);
 		
 		cont++;
 
@@ -705,7 +718,7 @@ void j1Scene::CreateSettings() {
 
 	slider_left_fx = (UI_Button*)App->gui->CreateButton(360, 435, Button_slider_fx_left, { 0,165,28,35 }, { 0,165,28,35 }, { 0,165,28,35 }, NULL, this);
 	slider_right_fx = (UI_Button*)App->gui->CreateButton(630, 435, Button_slider_fx_right, { 262,165,30,36 }, { 262,165,30,36 }, { 262,165,30,36 }, NULL, this);
-	slider_fx = (UI_Slider*)App->gui->CreateSlider(400, 440, Slider_music, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
+	slider_fx = (UI_Slider*)App->gui->CreateSlider(400, 440, Slider_fx, { 38,169,214,24 }, { 125,221,34,36 }, 200, NULL, this);
 
 	music_volume = (UI_Label*)App->gui->CreateLabel(402, 300, Label, "Music Volume", NULL, this, NULL);
 	fx_volume = (UI_Label*)App->gui->CreateLabel(425, 400, Label, "FX Volume", NULL, this, NULL);

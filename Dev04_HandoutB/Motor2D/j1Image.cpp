@@ -20,7 +20,7 @@ bool j1Image::Draw() {
 
 		SDL_Rect img{ pos.x, pos.y, dimensions.w, dimensions.h };
 
-		App->render->DrawQuad(img, 255, 0, 0, 255, false);
+		App->render->DrawQuad(img, 255, 0, 0, 255, false, 0.0f);
 	}
 
 	return true;

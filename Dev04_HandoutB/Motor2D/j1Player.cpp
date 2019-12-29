@@ -560,6 +560,8 @@ void j1Player::State(float dt) {
 				
 			if (data_player.checkpoint == true) {
 
+				App->entity->is_live_minus = true;
+
 				App->LoadGame();
 				LOG("%i %i", position.x, position.y);
 				count = 0;
@@ -593,7 +595,9 @@ void j1Player::State(float dt) {
 			death.Reset();
 			
 		}
+		
 		App->entity->is_live_minus = true;
+
 	}
 
 }
@@ -734,6 +738,7 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 			if (preposition.y < c2->rect.y || position.y == c2->rect.y - entity_colliders->rect.h) {	//Checks that player collider from above	
 				
 				App->SaveGame();
+				
 			}
 
 			else if ((position.x < c2->rect.x + c2->rect.w && position.x > c2->rect.x) || (position.x + entity_colliders->rect.w < c2->rect.x + c2->rect.w && position.x + entity_colliders->rect.w > c2->rect.x)) {	//Checks that player collider from sides
@@ -747,6 +752,8 @@ void j1Player::OnCollision(Collider* c1, Collider* c2) {	//Check if the Player c
 					App->SaveGame();
 				}
 			}
+
+			App->audio->PlayFx(App->scene->save_FX);
 		}
 
 		if (c1->type == ColliderType::COLLIDER_PLAYER && c2->type == ColliderType::COLLIDER_ENEMY) {
