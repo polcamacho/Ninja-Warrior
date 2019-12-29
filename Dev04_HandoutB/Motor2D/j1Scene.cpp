@@ -689,10 +689,12 @@ void j1Scene::CreateEntities() {
 		App->entity->DrawEntity(5250, 400, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
 		App->entity->DrawEntity(4000, 200, j1Entity::entity_type::BAT_ENEMY);
 		App->entity->DrawEntity(700, 200, j1Entity::entity_type::BAT_ENEMY);*/
-		App->entity->DrawEntity(200, 500, j1Entity::entity_type::HEART);
-		App->entity->DrawEntity(200, 600, j1Entity::entity_type::COIN);
-		App->entity->DrawEntity(250, 600, j1Entity::entity_type::COIN);
-		App->entity->DrawEntity(300, 600, j1Entity::entity_type::COIN);
+		App->entity->DrawEntity(4110, 256, j1Entity::entity_type::HEART);
+		App->entity->DrawEntity(4192, 1088, j1Entity::entity_type::HEART);
+		App->entity->DrawEntity(1472, 256, j1Entity::entity_type::COIN);
+		App->entity->DrawEntity(2336, 640, j1Entity::entity_type::COIN);
+		App->entity->DrawEntity(5504, 1088, j1Entity::entity_type::COIN);
+		App->entity->DrawEntity(4800, 1088, j1Entity::entity_type::COIN);
 
 	}
 
@@ -703,6 +705,14 @@ void j1Scene::CreateEntities() {
 		App->entity->DrawEntity(500, 100, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
 		App->entity->DrawEntity(700, 100, j1Entity::entity_type::BAT_ENEMY);
 		App->entity->DrawEntity(2000, 1000, j1Entity::entity_type::BAT_ENEMY);*/
+		App->entity->DrawEntity(704, 384, j1Entity::entity_type::COIN);
+		App->entity->DrawEntity(1376, 1984, j1Entity::entity_type::COIN);
+		App->entity->DrawEntity(2752, 1152, j1Entity::entity_type::COIN);
+		App->entity->DrawEntity(5504, 1440, j1Entity::entity_type::COIN);
+		App->entity->DrawEntity(6080, 1376, j1Entity::entity_type::COIN);
+
+		App->entity->DrawEntity(4256, 2400, j1Entity::entity_type::HEART);
+		App->entity->DrawEntity(3360, 1312, j1Entity::entity_type::HEART);
 		
 	}
 
@@ -716,8 +726,12 @@ void j1Scene::Map1Entities() {
 	App->entity->DrawEntity(5250, 400, j1Entity::entity_type::GOLEM_GRASS_ENEMY);
 	App->entity->DrawEntity(4000, 200, j1Entity::entity_type::BAT_ENEMY);
 	App->entity->DrawEntity(700, 200, j1Entity::entity_type::BAT_ENEMY);*/
-	App->entity->DrawEntity(200, 500, j1Entity::entity_type::HEART);
-	App->entity->DrawEntity(200, 600, j1Entity::entity_type::COIN);
+	App->entity->DrawEntity(4110, 256, j1Entity::entity_type::HEART);
+	App->entity->DrawEntity(4192, 1088, j1Entity::entity_type::HEART);
+	App->entity->DrawEntity(1472, 256, j1Entity::entity_type::COIN);
+	App->entity->DrawEntity(2336, 640, j1Entity::entity_type::COIN);
+	App->entity->DrawEntity(5504, 1088, j1Entity::entity_type::COIN);
+	App->entity->DrawEntity(4800, 1088, j1Entity::entity_type::COIN);
 
 	App->collider->Start();
 }
@@ -731,6 +745,15 @@ void j1Scene::Map2Entities() {
 	App->entity->DrawEntity(500, 100, j1Entity::entity_type::GOLEM_ROCK_ENEMY);
 	App->entity->DrawEntity(700, 100, j1Entity::entity_type::BAT_ENEMY);
 	App->entity->DrawEntity(2000, 1000, j1Entity::entity_type::BAT_ENEMY);*/
+	App->entity->DrawEntity(704, 384, j1Entity::entity_type::COIN);
+	App->entity->DrawEntity(1376, 1984, j1Entity::entity_type::COIN);
+	App->entity->DrawEntity(2752, 1152, j1Entity::entity_type::COIN);
+	App->entity->DrawEntity(5504, 1440, j1Entity::entity_type::COIN);
+	App->entity->DrawEntity(6080, 1376, j1Entity::entity_type::COIN);
+
+	App->entity->DrawEntity(4256, 2400, j1Entity::entity_type::HEART);
+	App->entity->DrawEntity(3360, 1312, j1Entity::entity_type::HEART);
+	
 	App->collider->Start();
 }
 
